@@ -1,5 +1,6 @@
-import { type SchemaTypeDefinition } from 'sanity'
+import { blockContentType } from './blockContentType';
+import { lawyerType, lawyerCategoryType } from './lawyers';
 
-export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [],
-}
+const schemaTypes = [blockContentType, lawyerType, lawyerCategoryType];
+
+export default schemaTypes;
