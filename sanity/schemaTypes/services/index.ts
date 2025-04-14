@@ -1,0 +1,1 @@
+export { serviceType } from './serviceType';

@@ -2,9 +2,12 @@ import { client } from '@/sanity/lib/client';
 import PortableText from '../components/PortableText';
 import { Lawyer } from '@/sanity.types';
 import type { PortableTextBlock } from '@portabletext/types';
+import { LAWYERS_QUERY, SERVICES_QUERY } from '@/sanity/lib/queries';
 
 export default async function Home() {
-  const lawyers: Lawyer[] = await client.fetch(`*[_type == "lawyer"]`);
+  const lawyers: Lawyer[] = await client.fetch(LAWYERS_QUERY);
+  const services = await client.fetch(SERVICES_QUERY);
+  console.log(services);
 
   return (
     <main>
@@ -17,7 +20,9 @@ export default async function Home() {
             <p>{lawyer.title}</p>
             <p>{lawyer.contactInfo?.email}</p>
             <p>{lawyer.contactInfo?.phone}</p>
-            {lawyer.bio && <PortableText value={lawyer.bio as PortableTextBlock[]} />}
+            {lawyer.bio && (
+              <PortableText value={lawyer.bio as PortableTextBlock[]} />
+            )}
             <h3>Testimonials</h3>
             <ul>
               {lawyer.testimonials?.map((testimonial: any) => (
@@ -27,6 +32,28 @@ export default async function Home() {
                 </li>
               ))}
             </ul>
+          </li>
+        ))}
+      </ul>
+
+      <h1>Services</h1>
+      <ul>
+        {services.map((service) => (
+          <li key={service._id}>
+            <h2>{service.title}</h2>
+            {service.lawyer && (
+              <div>
+                <h3>
+                  Assigned to: {service.lawyer?.firstName}{' '}
+                  {service.lawyer?.lastName}
+                </h3>
+
+                <p>{service.lawyer.contactInfo?.email}</p>
+                <p>{service.lawyer.contactInfo?.phone}</p>
+              </div>
+            )}
+
+            <PortableText value={service.description as PortableTextBlock[]} />
           </li>
         ))}
       </ul>
