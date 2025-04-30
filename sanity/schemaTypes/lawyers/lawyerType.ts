@@ -10,14 +10,8 @@ export const lawyerType = defineType({
   groups: lawyerConfig.groups,
   fields: [
     defineField({
-      name: 'firstName',
-      title: 'First Name',
-      type: 'string',
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: 'lastName',
-      title: 'Last Name',
+      name: 'name',
+      title: 'Name',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
@@ -124,14 +118,14 @@ export const lawyerType = defineType({
   ],
   preview: {
     select: {
-      firstName: 'firstName',
-      lastName: 'lastName',
+      name: 'name',
       picture: 'picture',
+      title: 'title',
     },
     prepare(selection) {
       return {
-        title: `${selection.firstName} ${selection.lastName}`,
-        subtitle: 'Person',
+        title: selection.name,
+        subtitle: selection.title,
         media: selection.picture,
       };
     },

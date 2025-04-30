@@ -79,7 +79,7 @@ export const serviceType = defineType({
   preview: {
     select: {
       title: 'title',
-      lawyer: 'lawyer.firstName',
+      lawyer: 'lawyer.name',
     },
     prepare({ title, lawyer }) {
       return {

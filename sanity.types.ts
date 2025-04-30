@@ -39,6 +39,136 @@ export type SanityImageDimensions = {
   aspectRatio?: number;
 };
 
+export type Geopoint = {
+  _type: "geopoint";
+  lat?: number;
+  lng?: number;
+  alt?: number;
+};
+
+export type ExternalImage = {
+  _type: "externalImage";
+  url?: string;
+};
+
+export type PortableText = Array<{
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: "span";
+    _key: string;
+  }>;
+  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+  listItem?: "bullet" | "number";
+  markDefs?: Array<{
+    href?: string;
+    _type: "link";
+    _key: string;
+  }>;
+  level?: number;
+  _type: "block";
+  _key: string;
+} | {
+  asset?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+  };
+  media?: unknown;
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+  _key: string;
+} | {
+  _key: string;
+} & ExternalImage>;
+
+export type Author = {
+  _id: string;
+  _type: "author";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  type?: "lawyer" | "custom";
+  lawyer?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "lawyer";
+  };
+  customAuthor?: {
+    name?: string;
+    slug?: Slug;
+    url?: string;
+  };
+};
+
+export type Category = {
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+};
+
+export type Post = {
+  _id: string;
+  _type: "post";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  date?: string;
+  modified?: string;
+  status?: "publish" | "future" | "draft" | "pending" | "private" | "trash" | "auto-draft" | "inherit";
+  content?: PortableText;
+  excerpt?: PortableText;
+  featuredMedia?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  sticky?: boolean;
+  authors?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "author";
+  }>;
+  categories?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "category";
+  }>;
+  publications?: {
+    url?: string;
+    download?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+      };
+      media?: unknown;
+      _type: "file";
+    };
+  };
+};
+
 export type SanityFileAsset = {
   _id: string;
   _type: "sanity.fileAsset";
@@ -59,13 +189,6 @@ export type SanityFileAsset = {
   path?: string;
   url?: string;
   source?: SanityAssetSourceData;
-};
-
-export type Geopoint = {
-  _type: "geopoint";
-  lat?: number;
-  lng?: number;
-  alt?: number;
 };
 
 export type Service = {
@@ -127,8 +250,7 @@ export type Lawyer = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  firstName?: string;
-  lastName?: string;
+  name?: string;
   title?: string;
   category?: {
     _ref: string;
@@ -299,7 +421,7 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Service | Lawyer | LawyerCategory | Slug | BlockContent | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | ExternalImage | PortableText | Author | Category | Post | SanityFileAsset | Service | Lawyer | LawyerCategory | Slug | BlockContent | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: sanity/lib/queries.ts
 // Variable: LAWYERS_QUERY
@@ -310,8 +432,7 @@ export type LAWYERS_QUERYResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  firstName?: string;
-  lastName?: string;
+  name?: string;
   title?: string;
   category?: {
     _ref: string;
@@ -375,7 +496,7 @@ export type LAWYERS_QUERYResult = Array<{
   }>;
 }>;
 // Variable: SERVICES_QUERY
-// Query: *[_type == "service"]{  ...,  lawyer->{    _id,    firstName,    lastName,    title,    picture,    bio,    contactInfo  }}
+// Query: *[_type == "service"]{  ...,  lawyer->{    _id,    name,    title,    picture,    bio,    contactInfo  }}
 export type SERVICES_QUERYResult = Array<{
   _id: string;
   _type: "service";
@@ -423,8 +544,7 @@ export type SERVICES_QUERYResult = Array<{
   }>;
   lawyer: {
     _id: string;
-    firstName: string | null;
-    lastName: string | null;
+    name: string | null;
     title: string | null;
     picture: {
       asset?: {
@@ -476,12 +596,34 @@ export type SERVICES_QUERYResult = Array<{
     } | null;
   } | null;
 }>;
+// Variable: AUTHORS_QUERY
+// Query: *[_type == "author"]
+export type AUTHORS_QUERYResult = Array<{
+  _id: string;
+  _type: "author";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  type?: "custom" | "lawyer";
+  lawyer?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "lawyer";
+  };
+  customAuthor?: {
+    name?: string;
+    slug?: Slug;
+    url?: string;
+  };
+}>;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"lawyer\"]": LAWYERS_QUERYResult;
-    "*[_type == \"service\"]{\n  ...,\n  lawyer->{\n    _id,\n    firstName,\n    lastName,\n    title,\n    picture,\n    bio,\n    contactInfo\n  }\n}": SERVICES_QUERYResult;
+    "*[_type == \"service\"]{\n  ...,\n  lawyer->{\n    _id,\n    name,\n    title,\n    picture,\n    bio,\n    contactInfo\n  }\n}": SERVICES_QUERYResult;
+    "*[_type == \"author\"]": AUTHORS_QUERYResult;
   }
 }

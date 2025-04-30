@@ -1,13 +1,4 @@
-/**
- * This component uses Portable Text to render a post body.
- *
- * You can learn more about Portable Text on:
- * https://www.sanity.io/docs/block-content
- * https://github.com/portabletext/react-portabletext
- * https://portabletext.org/
- *
- */
-
+import { urlFor } from '@/sanity/lib/image';
 import {
   PortableText,
   type PortableTextComponents,
@@ -82,6 +73,25 @@ export default function CustomPortableText({
     marks: {
       link: ({ children, value: link }) => {
         return <Link href={link.href}>{children}</Link>;
+      },
+    },
+    types: {
+      image: ({ value }: any) => {
+        if (!value?.asset?._ref) {
+          return null;
+        }
+        return (
+          <div className='my-8'>
+            <img
+              src={urlFor(value).url()}
+              alt={value.alt || 'Image'}
+              className='w-full h-auto rounded-lg'
+            />
+            {value.alt && (
+              <p className='text-sm text-gray-500 mt-2'>{value.alt}</p>
+            )}
+          </div>
+        );
       },
     },
   };

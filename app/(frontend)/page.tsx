@@ -1,13 +1,13 @@
 import { client } from '@/sanity/lib/client';
 import PortableText from '../components/PortableText';
-import { Lawyer } from '@/sanity.types';
+import { Author, Lawyer } from '@/sanity.types';
 import type { PortableTextBlock } from '@portabletext/types';
-import { LAWYERS_QUERY, SERVICES_QUERY } from '@/sanity/lib/queries';
+import { AUTHORS_QUERY, LAWYERS_QUERY, SERVICES_QUERY } from '@/sanity/lib/queries';
 
 export default async function Home() {
   const lawyers: Lawyer[] = await client.fetch(LAWYERS_QUERY);
   const services = await client.fetch(SERVICES_QUERY);
-  console.log(services);
+  const authors: Author[] = await client.fetch(AUTHORS_QUERY);
 
   return (
     <main>
@@ -15,8 +15,7 @@ export default async function Home() {
       <ul>
         {lawyers.map((lawyer: Lawyer) => (
           <li key={lawyer._id}>
-            <h2>{lawyer.firstName}</h2>
-            <p>{lawyer.lastName}</p>
+            <h2>{lawyer.name}</h2>
             <p>{lawyer.title}</p>
             <p>{lawyer.contactInfo?.email}</p>
             <p>{lawyer.contactInfo?.phone}</p>
@@ -43,10 +42,7 @@ export default async function Home() {
             <h2>{service.title}</h2>
             {service.lawyer && (
               <div>
-                <h3>
-                  Assigned to: {service.lawyer?.firstName}{' '}
-                  {service.lawyer?.lastName}
-                </h3>
+                <h3>Assigned to: {service.lawyer?.name}</h3>
 
                 <p>{service.lawyer.contactInfo?.email}</p>
                 <p>{service.lawyer.contactInfo?.phone}</p>
@@ -54,6 +50,19 @@ export default async function Home() {
             )}
 
             <PortableText value={service.description as PortableTextBlock[]} />
+          </li>
+        ))}
+      </ul>
+      <div>BROJ AUTORA: {authors.length}</div>
+      <ul>
+        {authors.map((author) => (
+          <li key={author._id}>
+            {author.type === 'custom' && (
+              <h2>{author.customAuthor?.name}</h2>
+            )}
+            {/* {author.type === 'lawyer' && (
+              <h2>{author.lawyer?.name}</h2>
+            )} */}
           </li>
         ))}
       </ul>

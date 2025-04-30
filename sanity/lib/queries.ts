@@ -5,11 +5,12 @@ export const SERVICES_QUERY = defineQuery(`*[_type == "service"]{
   ...,
   lawyer->{
     _id,
-    firstName,
-    lastName,
+    name,
     title,
     picture,
     bio,
     contactInfo
   }
 }`);
+
+export const AUTHORS_QUERY = defineQuery(`*[_type == "author"]`);
