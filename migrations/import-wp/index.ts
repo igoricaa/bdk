@@ -12,6 +12,7 @@ import { sanityFetchImages } from './lib/sanityFetchImages';
 import { transformToPost } from './lib/transformToPost';
 import { wpDataTypeFetch } from './lib/wpDataTypeFetch';
 import { transformToAuthor } from './lib/transformToAuthor';
+import { transformToCategory } from './lib/transformToCategory';
 
 const limit = pLimit(5);
 
@@ -48,6 +49,8 @@ export default defineMigration({
                   return doc;
                 } else if (wpType === 'categories') {
                   wpDoc = wpDoc as WP_REST_API_Term;
+                  const doc = await transformToCategory(wpDoc);
+                  return doc;
                 } else if (wpType === 'users') {
                   wpDoc = wpDoc as WP_REST_API_User;
                   const doc = await transformToAuthor(wpDoc);

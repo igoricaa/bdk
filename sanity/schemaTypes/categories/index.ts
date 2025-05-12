@@ -9,11 +9,31 @@ export const categoryType = defineType({
   fields: [
     defineField({ name: 'name', type: 'string' }),
     defineField({ name: 'slug', type: 'slug' }),
+    defineField({
+      name: 'parent',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'category' }] }],
+      description: 'Parent category (if any)',
+    }),
+    defineField({
+      name: 'count',
+      type: 'number',
+      readOnly: true,
+      description: 'Number of posts in the category (auto-updated)',
+    }),
   ],
   preview: {
     select: {
       title: 'name',
       subtitle: 'slug.current',
+      count: 'count',
+    },
+    prepare({ title, subtitle, count }) {
+      return {
+        title,
+        subtitle:
+          count !== undefined ? `${subtitle} (${count} posts)` : subtitle,
+      };
     },
   },
 });

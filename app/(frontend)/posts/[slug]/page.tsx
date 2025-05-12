@@ -1,9 +1,12 @@
 import { client } from '@/sanity/lib/client';
 import { urlFor } from '@/sanity/lib/image';
+import React from 'react';
 
 import type { Post } from '@/sanity.types';
 import type { PortableTextBlock } from '@portabletext/types';
 import PortableText from '@/app/components/PortableText';
+import Link from 'next/link';
+import { POST_QUERY } from '@/sanity/lib/queries';
 
 interface Props {
   params: {
@@ -30,6 +33,7 @@ interface Category {
   slug: {
     current: string;
   };
+  parentCategories?: Category[];
 }
 
 interface PostWithExpandedReferences
@@ -41,37 +45,7 @@ interface PostWithExpandedReferences
 async function getPost(
   slug: string
 ): Promise<PostWithExpandedReferences | null> {
-  return client.fetch(
-    `*[_type == "post" && slug.current == $slug][0]{
-      _id,
-      title,
-      slug,
-      date,
-      modified,
-      status,
-      content,
-      excerpt,
-      featuredMedia,
-      authors[]->{
-        _id,
-        name,
-        type,
-        lawyer->{
-          name,
-          title
-        },
-        customAuthor{
-          name
-        }
-      },
-      categories[]->{
-        _id,
-        name,
-        slug
-      }
-    }`,
-    { slug }
-  );
+  return client.fetch(POST_QUERY, { slug });
 }
 
 export default async function PostPage({ params }: Props) {
@@ -88,6 +62,10 @@ export default async function PostPage({ params }: Props) {
     }
     return author.customAuthor?.name || author.name;
   };
+
+  // const deepestPath = getDeepestCategoryPath(post.categories);
+
+  const uniqueCategories = collectUniqueCategories(post.categories);
 
   return (
     <article className='container mx-auto px-4 py-8'>
@@ -107,30 +85,44 @@ export default async function PostPage({ params }: Props) {
         {post.authors && post.authors.length > 0 && (
           <div className='mb-2'>
             By{' '}
-            {post.authors.map((author, index) => (
-              <span key={author._id}>
-                {getAuthorName(author)}
-                {index < post.authors!.length - 1 ? ', ' : ''}
-              </span>
-            ))}
+            {post.authors.map((author, index) => {
+              const authorName = getAuthorName(author);
+              const isLastAuthor = index === post.authors!.length - 1;
+
+              return (
+                <React.Fragment key={author._id}>
+                  {author.type === 'lawyer' && author.lawyer ? (
+                    <Link
+                      href={`/lawyers/${author._id}`}
+                      className='text-blue-600 hover:underline'
+                    >
+                      {authorName}
+                    </Link>
+                  ) : (
+                    <span>{authorName}</span>
+                  )}
+                  {!isLastAuthor && ', '}
+                </React.Fragment>
+              );
+            })}
           </div>
         )}
         {post.date && (
           <div>Published on {new Date(post.date).toLocaleDateString()}</div>
         )}
       </div>
-
-      {post.categories && post.categories.length > 0 && (
+      {uniqueCategories.length > 0 && (
         <div className='mb-8'>
           <h2 className='text-xl font-semibold mb-2'>Categories</h2>
-          <div className='flex gap-2'>
-            {post.categories.map((category) => (
-              <span
+          <div className='flex flex-wrap gap-2'>
+            {uniqueCategories.map((category) => (
+              <Link
                 key={category._id}
-                className='bg-gray-100 px-3 py-1 rounded-full text-sm'
+                href={`/categories/${category.slug.current}`}
+                className='bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full text-sm transition-colors'
               >
                 {category.name}
-              </span>
+              </Link>
             ))}
           </div>
         </div>
@@ -143,4 +135,39 @@ export default async function PostPage({ params }: Props) {
       )}
     </article>
   );
+}
+
+// function buildCategoryPaths(category: Category): Category[][] {
+//   if (!category.parentCategories || category.parentCategories.length === 0)
+//     return [[category]];
+
+//   return category.parentCategories.flatMap((parent) =>
+//     buildCategoryPaths(parent).map((path) => [...path, category])
+//   );
+// }
+
+// function getDeepestCategoryPath(categories: Category[] = []): Category[] {
+//   let longestPath: Category[] = [];
+
+//   categories.forEach((category) => {
+//     buildCategoryPaths(category).forEach((path) => {
+//       if (path.length > longestPath.length) longestPath = path;
+//     });
+//   });
+
+//   return longestPath;
+// }
+
+function collectUniqueCategories(categories: Category[] = []): Category[] {
+  const map = new Map<string, Category>();
+
+  function traverse(category: Category | undefined) {
+    if (!category || map.has(category._id)) return;
+    map.set(category._id, category);
+    category.parentCategories?.forEach(traverse);
+  }
+
+  categories.forEach(traverse);
+
+  return Array.from(map.values());
 }

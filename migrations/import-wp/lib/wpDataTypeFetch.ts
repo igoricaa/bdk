@@ -12,11 +12,14 @@ export async function wpDataTypeFetch<T extends WordPressDataType>(
   wpApiUrl.searchParams.set('page', page.toString());
   wpApiUrl.searchParams.set('per_page', PER_PAGE.toString());
 
-  console.log('username', username);
-  console.log('password', password);
-
   if (type === 'posts') {
-    wpApiUrl.searchParams.set('after', '2025-01-01T00:00:00');
+    wpApiUrl.searchParams.set('after', '2020-03-01T00:00:00');
+    wpApiUrl.searchParams.set('before', '2020-03-29T23:59:59');
+    wpApiUrl.searchParams.set('lang', 'en');
+  }
+
+  if (type === 'categories') {
+    wpApiUrl.searchParams.set('lang', 'en');
   }
 
   const headers = new Headers();

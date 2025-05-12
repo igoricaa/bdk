@@ -25,7 +25,7 @@ export async function transformToPost(
   doc.title = decode(wpDoc.title.rendered).trim();
 
   if (wpDoc.slug) {
-    doc.slug = { _type: 'slug', current: wpDoc.slug };
+    doc.slug = { _type: 'slug', current: decode(wpDoc.slug) };
   }
 
   if (Array.isArray(wpDoc.categories) && wpDoc.categories.length) {

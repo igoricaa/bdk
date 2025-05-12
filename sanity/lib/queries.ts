@@ -14,3 +14,45 @@ export const SERVICES_QUERY = defineQuery(`*[_type == "service"]{
 }`);
 
 export const AUTHORS_QUERY = defineQuery(`*[_type == "author"]`);
+
+export const POSTS_QUERY = defineQuery(`*[_type == "post"]`);
+
+export const POST_QUERY =
+  defineQuery(`*[_type == "post" && slug.current == $slug][0]{
+      _id,
+      title,
+      slug,
+      date,
+      modified,
+      status,
+      content,
+      excerpt,
+      featuredMedia,
+      authors[]->{
+        _id,
+        name,
+        type,
+        lawyer->{
+          name,
+          title
+        },
+        customAuthor{
+          name
+        }
+      },
+      categories[]->{
+        _id,
+        name,
+        slug,
+        "parentCategories": parent[]->{
+          _id,
+          name,
+          slug,
+          "parentCategories": parent[]->{
+            _id,
+            name,
+            slug
+          }
+        }
+      }
+    }`);
