@@ -2,7 +2,7 @@ import { client } from '@/sanity/lib/client';
 import { urlFor } from '@/sanity/lib/image';
 import React from 'react';
 
-import type { Post } from '@/sanity.types';
+import type { Slug, POST_QUERYResult } from '@/sanity.types';
 import type { PortableTextBlock } from '@portabletext/types';
 import PortableText from '@/app/components/PortableText';
 import Link from 'next/link';
@@ -16,35 +16,25 @@ interface Props {
 
 interface Author {
   _id: string;
-  name: string;
-  type?: 'lawyer' | 'custom';
+  name: string | null;
+  type?: 'lawyer' | 'custom' | null;
   lawyer?: {
-    name: string;
-    title: string;
-  };
+    name: string | null;
+    title: string | null;
+  } | null;
   customAuthor?: {
-    name: string;
-  };
+    name: string | null;
+  } | null;
 }
 
-interface Category {
+interface CategoryWithExpandedReferences {
   _id: string;
-  name: string;
-  slug: {
-    current: string;
-  };
-  parentCategories?: Category[];
+  name: string | null;
+  slug: Slug | null;
+  parentCategories?: CategoryWithExpandedReferences[] | null;
 }
 
-interface PostWithExpandedReferences
-  extends Omit<Post, 'authors' | 'categories'> {
-  authors?: Author[];
-  categories?: Category[];
-}
-
-async function getPost(
-  slug: string
-): Promise<PostWithExpandedReferences | null> {
+async function getPost(slug: string): Promise<POST_QUERYResult | null> {
   return client.fetch(POST_QUERY, { slug });
 }
 
@@ -55,7 +45,7 @@ export default async function PostPage({ params }: Props) {
     return <div>Post not found</div>;
   }
 
-  const getAuthorName = (author?: Author) => {
+  const getAuthorName = (author?: Author | null) => {
     if (!author) return null;
     if (author.type === 'lawyer' && author.lawyer) {
       return `${author.lawyer.name}, ${author.lawyer.title}`;
@@ -65,7 +55,7 @@ export default async function PostPage({ params }: Props) {
 
   // const deepestPath = getDeepestCategoryPath(post.categories);
 
-  const uniqueCategories = collectUniqueCategories(post.categories);
+  const uniqueCategories = collectUniqueCategories(post.categories || []);
 
   return (
     <article className='container mx-auto px-4 py-8'>
@@ -118,7 +108,7 @@ export default async function PostPage({ params }: Props) {
             {uniqueCategories.map((category) => (
               <Link
                 key={category._id}
-                href={`/categories/${category.slug.current}`}
+                href={`/categories/${category.slug?.current || ''}`}
                 className='bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full text-sm transition-colors'
               >
                 {category.name}
@@ -158,13 +148,17 @@ export default async function PostPage({ params }: Props) {
 //   return longestPath;
 // }
 
-function collectUniqueCategories(categories: Category[] = []): Category[] {
-  const map = new Map<string, Category>();
+function collectUniqueCategories(
+  categories: CategoryWithExpandedReferences[]
+): CategoryWithExpandedReferences[] {
+  const map = new Map<string, CategoryWithExpandedReferences>();
 
-  function traverse(category: Category | undefined) {
+  function traverse(category: CategoryWithExpandedReferences | undefined | null) {
     if (!category || map.has(category._id)) return;
     map.set(category._id, category);
-    category.parentCategories?.forEach(traverse);
+    if (category.parentCategories) {
+      category.parentCategories.forEach(traverse);
+    }
   }
 
   categories.forEach(traverse);

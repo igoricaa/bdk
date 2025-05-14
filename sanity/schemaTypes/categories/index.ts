@@ -7,13 +7,22 @@ export const categoryType = defineType({
   type: 'document',
   icon: FilterIcon,
   fields: [
-    defineField({ name: 'name', type: 'string' }),
-    defineField({ name: 'slug', type: 'slug' }),
+    defineField({
+      name: 'name',
+      type: 'string',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      type: 'slug',
+      validation: (rule) => rule.required(),
+    }),
     defineField({
       name: 'parent',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'category' }] }],
       description: 'Parent category (if any)',
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'count',

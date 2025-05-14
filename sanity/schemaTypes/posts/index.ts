@@ -7,10 +7,26 @@ export const postType = defineType({
   type: 'document',
   //   icon: ComposeIcon,
   fields: [
-    defineField({ name: 'title', type: 'string' }),
-    defineField({ name: 'slug', type: 'slug' }),
-    defineField({ name: 'date', type: 'datetime' }),
-    defineField({ name: 'modified', type: 'datetime' }),
+    defineField({
+      name: 'title',
+      type: 'string',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      type: 'slug',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'date',
+      type: 'datetime',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'modified',
+      type: 'datetime',
+      validation: (rule) => rule.required(),
+    }),
     defineField({
       name: 'status',
       type: 'string',
@@ -26,27 +42,34 @@ export const postType = defineType({
           { title: 'Inherit', value: 'inherit' },
         ],
       },
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'content',
       type: 'portableText',
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'excerpt',
       type: 'portableText',
     }),
-    defineField({ name: 'featuredMedia', type: 'image' }),
+    defineField({
+      name: 'featuredMedia',
+      type: 'image',
+      validation: (rule) => rule.required(),
+    }),
     defineField({ name: 'sticky', type: 'boolean' }),
     defineField({
       name: 'authors',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'author' }] }],
-      validation: (Rule) => Rule.required().min(1),
+      validation: (rule) => rule.required().min(1),
     }),
     defineField({
       name: 'categories',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'category' }] }],
+      validation: (rule) => rule.required().min(1),
     }),
     defineField({
       name: 'publications',
@@ -70,20 +93,8 @@ export const postType = defineType({
       media: 'featuredMedia',
     },
     prepare({ title, authors, media }) {
-      // const authorNames =
-      //   authors
-      //     ?.map((author: any) => {
-      //       if (author.type === 'lawyer') {
-      //         return author.lawyer?.name || 'No name advokat';
-      //       }
-      //       return author.customAuthor?.name || 'No name autor';
-      //     })
-      //     .filter(Boolean)
-      //     .join(', ') || 'No authors';
-
       return {
         title,
-        // subtitle: authorNames,
         media,
       };
     },

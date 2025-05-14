@@ -31,8 +31,16 @@ export const authorType = defineType({
       title: 'Custom Author Details',
       type: 'object',
       fields: [
-        defineField({ name: 'name', type: 'string' }),
-        defineField({ name: 'slug', type: 'slug' }),
+        defineField({
+          name: 'name',
+          type: 'string',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'slug',
+          type: 'slug',
+          validation: (rule) => rule.required(),
+        }),
         defineField({ name: 'url', title: 'URL', type: 'url' }),
       ],
       hidden: ({ document }) => document?.type !== 'custom',
