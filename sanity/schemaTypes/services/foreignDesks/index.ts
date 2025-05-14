@@ -1,0 +1,1 @@
+export { foreignDeskType } from './foreignDeskType';

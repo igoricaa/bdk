@@ -1,23 +1,28 @@
 import { client } from '@/sanity/lib/client';
 import PortableText from '../components/PortableText';
-import { Author, Lawyer, Post } from '@/sanity.types';
+import {
+  AUTHORS_QUERYResult,
+  LAWYERS_QUERYResult,
+  POSTS_QUERYResult,
+  PRACTICES_QUERYResult,
+} from '@/sanity.types';
 import type { PortableTextBlock } from '@portabletext/types';
 import {
   AUTHORS_QUERY,
   LAWYERS_QUERY,
   POSTS_QUERY,
-  SERVICES_QUERY,
+  PRACTICES_QUERY,
 } from '@/sanity/lib/queries';
 
 export default async function Home() {
-  const lawyers: Lawyer[] = await client.fetch(LAWYERS_QUERY);
-  const services = await client.fetch(SERVICES_QUERY);
-  const authors: Author[] = await client.fetch(AUTHORS_QUERY);
-  const posts = await client.fetch(POSTS_QUERY);
+  const lawyers: LAWYERS_QUERYResult = await client.fetch(LAWYERS_QUERY);
+  const practices: PRACTICES_QUERYResult = await client.fetch(PRACTICES_QUERY);
+  const authors: AUTHORS_QUERYResult = await client.fetch(AUTHORS_QUERY);
+  const posts: POSTS_QUERYResult = await client.fetch(POSTS_QUERY);
 
   return (
     <main>
-      <h1>Lawyers</h1>
+      {/* <h1>Lawyers</h1>
       <ul>
         {lawyers.map((lawyer: Lawyer) => (
           <li key={lawyer._id}>
@@ -39,34 +44,34 @@ export default async function Home() {
             </ul>
           </li>
         ))}
-      </ul>
+      </ul> */}
 
-      <h1>Services</h1>
+      <h1>Practices</h1>
       <ul>
-        {services.map((service) => (
-          <li key={service._id}>
-            <h2>{service.title}</h2>
-            {service.lawyer && (
-              <div>
-                <h3>Assigned to: {service.lawyer?.name}</h3>
+        {practices.map((practice) => (
+          <li key={practice._id}>
+            <h2>{practice.title}</h2>
+            {practice.lawyers &&
+              practice.lawyers.length > 0 &&
+              practice.lawyers.map((lawyer, index) => (
+                <div key={lawyer._id}>
+                  <h3>Assigned to: {lawyer.name}</h3>
 
-                <p>{service.lawyer.contactInfo?.email}</p>
-                <p>{service.lawyer.contactInfo?.phone}</p>
-              </div>
-            )}
-
-            <PortableText value={service.description as PortableTextBlock[]} />
+                  <p>{lawyer.contactInfo?.email}</p>
+                  <p>{lawyer.contactInfo?.phone}</p>
+                  <PortableText value={lawyer.bio as PortableTextBlock[]} />
+                </div>
+              ))}
+            ¡
+            <PortableText value={practice.description as PortableTextBlock[]} />
           </li>
         ))}
       </ul>
-      <div>BROJ AUTORA: {authors.length}</div>
-      <ul>
+      {/* <div>BROJ AUTORA: {authors.length}</div> */}
+      {/* <ul>
         {authors.map((author) => (
           <li key={author._id}>
             {author.type === 'custom' && <h2>{author.customAuthor?.name}</h2>}
-            {/* {author.type === 'lawyer' && (
-              <h2>{author.lawyer?.name}</h2>
-            )} */}
           </li>
         ))}
       </ul>
@@ -81,7 +86,7 @@ export default async function Home() {
             </li>
           ))}
         </ul>
-      </section>
+      </section> */}
     </main>
   );
 }

@@ -1,0 +1,1 @@
+export { practiceType } from './practiceType';

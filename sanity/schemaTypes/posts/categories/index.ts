@@ -22,7 +22,6 @@ export const categoryType = defineType({
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'category' }] }],
       description: 'Parent category (if any)',
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'count',

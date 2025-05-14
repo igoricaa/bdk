@@ -1,9 +1,9 @@
 import { defineQuery } from 'next-sanity';
 
 export const LAWYERS_QUERY = defineQuery(`*[_type == "lawyer"]`);
-export const SERVICES_QUERY = defineQuery(`*[_type == "service"]{
+export const PRACTICES_QUERY = defineQuery(`*[_type == "practice"]{
   ...,
-  lawyer->{
+  lawyers[]->{
     _id,
     name,
     title,

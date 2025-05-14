@@ -1,0 +1,1 @@
+export { industryType } from './industryType';

@@ -1,1 +1,0 @@
-export { serviceType } from './serviceType';
