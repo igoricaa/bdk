@@ -1,5 +1,16 @@
 import { defineQuery } from 'next-sanity';
 
+export const HOME_PAGE_QUERY = defineQuery(`{
+  "homePage": *[_type == "homePage"][0],
+  "industries": *[_type == "industry"]{
+    title,
+    slug
+  },
+  "practices": *[_type == "practice"]{
+    title,
+    slug
+  }
+}`);
 export const LAWYERS_QUERY = defineQuery(`*[_type == "lawyer"]`);
 export const PRACTICES_QUERY = defineQuery(`*[_type == "practice"]{
   ...,

@@ -67,6 +67,21 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
                 ),
             ])
         ),
+      S.listItem()
+        .title('Pages')
+        .icon(() => '📝')
+        .child(
+          S.list()
+            .title('Pages')
+            .items([
+              S.listItem()
+                .title('Home Page')
+                .icon(() => '🏠')
+                .child(
+                  S.document().schemaType('homePage').documentId('homePage')
+                ),
+            ])
+        ),
       ...S.documentTypeListItems().filter(
         (listItem) =>
           ![
@@ -78,6 +93,7 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             'industry',
             'author',
             'foreignDesk',
+            'homePage',
           ].includes(listItem.getId()!)
       ),
     ]);

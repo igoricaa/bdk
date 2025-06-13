@@ -46,16 +46,233 @@ export type Geopoint = {
   alt?: number;
 };
 
+export type HomePage = {
+  _id: string;
+  _type: "homePage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  hero: HeroSection;
+  about: AboutSection;
+  services: {
+    practicesIllustration: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    industriesIllustration: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+  };
+  team: TeamSection;
+  newsroom: NewsroomSection;
+  latestPosts: LatestPostsSection;
+  blinkdraft: BlinkdraftSection;
+};
+
+export type BlinkdraftSection = {
+  _type: "blinkdraftSection";
+  heading: string;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }>;
+};
+
+export type LatestPostsSection = {
+  _type: "latestPostsSection";
+  heading: string;
+  subtitle: string;
+  description: string;
+  illustrations?: {
+    blogIllustration?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    digitalWatchIllustration?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    insightsIllustration?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    publicationsIllustration?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+  };
+};
+
+export type NewsroomSection = {
+  _type: "newsroomSection";
+  heading: string;
+  subtitle: string;
+  description: string;
+  buttonText: string;
+};
+
+export type TeamSection = {
+  _type: "teamSection";
+  heading: string;
+  description: string;
+};
+
+export type AboutSection = {
+  _type: "aboutSection";
+  subtitle: string;
+  animatedText: string;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }>;
+  buttonText: string;
+  backgroundIllustration: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+};
+
+export type HeroSection = {
+  _type: "heroSection";
+  backgroundImage: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: "image";
+  };
+  heading: string;
+  description: string;
+};
+
 export type ForeignDesk = {
   _id: string;
   _type: "foreignDesk";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  slug?: Slug;
+  title: string;
+  slug: Slug;
   description?: {
-    nativeDescription?: Array<{
+    nativeDescription: Array<{
       children?: Array<{
         marks?: Array<string>;
         text?: string;
@@ -86,7 +303,7 @@ export type ForeignDesk = {
       _type: "image";
       _key: string;
     }>;
-    englishDescription?: Array<{
+    englishDescription: Array<{
       children?: Array<{
         marks?: Array<string>;
         text?: string;
@@ -118,7 +335,7 @@ export type ForeignDesk = {
       _key: string;
     }>;
   };
-  lawyers?: Array<{
+  lawyers: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
@@ -199,7 +416,7 @@ export type Author = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  type?: "lawyer" | "custom";
+  type: "lawyer" | "custom";
   lawyer?: {
     _ref: string;
     _type: "reference";
@@ -207,8 +424,8 @@ export type Author = {
     [internalGroqTypeReferenceTo]?: "lawyer";
   };
   customAuthor?: {
-    name?: string;
-    slug?: Slug;
+    name: string;
+    slug: Slug;
     url?: string;
   };
 };
@@ -219,8 +436,8 @@ export type Category = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: string;
-  slug?: Slug;
+  name: string;
+  slug: Slug;
   parent?: Array<{
     _ref: string;
     _type: "reference";
@@ -237,14 +454,14 @@ export type Post = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  slug?: Slug;
-  date?: string;
-  modified?: string;
-  status?: "publish" | "future" | "draft" | "pending" | "private" | "trash" | "auto-draft" | "inherit";
-  content?: PortableText;
+  title: string;
+  slug: Slug;
+  date: string;
+  modified: string;
+  status: "publish" | "future" | "draft" | "pending" | "private" | "trash" | "auto-draft" | "inherit";
+  content: PortableText;
   excerpt?: PortableText;
-  featuredMedia?: {
+  featuredMedia: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -257,14 +474,14 @@ export type Post = {
     _type: "image";
   };
   sticky?: boolean;
-  authors?: Array<{
+  authors: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
     _key: string;
     [internalGroqTypeReferenceTo]?: "author";
   }>;
-  categories?: Array<{
+  categories: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
@@ -314,9 +531,9 @@ export type Industry = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  slug?: Slug;
-  description?: Array<{
+  title: string;
+  slug: Slug;
+  description: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -348,12 +565,12 @@ export type Industry = {
     _key: string;
   }>;
   testimonials?: Array<{
-    text?: string;
-    author?: string;
+    text: string;
+    author: string;
     _type: "testimonial";
     _key: string;
   }>;
-  lawyers?: Array<{
+  lawyers: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
@@ -396,9 +613,9 @@ export type Practice = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  slug?: Slug;
-  description?: Array<{
+  title: string;
+  slug: Slug;
+  description: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -430,12 +647,12 @@ export type Practice = {
     _key: string;
   }>;
   testimonials?: Array<{
-    text?: string;
-    author?: string;
+    text: string;
+    author: string;
     _type: "testimonial";
     _key: string;
   }>;
-  lawyers?: Array<{
+  lawyers: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
@@ -478,15 +695,15 @@ export type Lawyer = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: string;
-  title?: string;
-  category?: {
+  name: string;
+  title: string;
+  category: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "lawyerCategory";
   };
-  picture?: {
+  picture: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -500,10 +717,10 @@ export type Lawyer = {
     _type: "image";
   };
   contactInfo?: {
-    email?: string;
-    phone?: string;
+    email: string;
+    phone: string;
   };
-  bio?: Array<{
+  bio: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -535,8 +752,8 @@ export type Lawyer = {
     _key: string;
   }>;
   testimonials?: Array<{
-    text?: string;
-    author?: string;
+    text: string;
+    author: string;
     _type: "testimonial";
     _key: string;
   }>;
@@ -548,15 +765,15 @@ export type LawyerCategory = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  slug?: Slug;
+  title: string;
+  slug: Slug;
   description?: string;
   order?: number;
 };
 
 export type Slug = {
   _type: "slug";
-  current?: string;
+  current: string;
   source?: string;
 };
 
@@ -649,9 +866,61 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | ForeignDesk | ExternalImage | PortableText | Author | Category | Post | SanityFileAsset | Industry | Practice | Lawyer | LawyerCategory | Slug | BlockContent | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | PortableText | Author | Category | Post | SanityFileAsset | Industry | Practice | Lawyer | LawyerCategory | Slug | BlockContent | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: sanity/lib/queries.ts
+// Variable: HOME_PAGE_QUERY
+// Query: {  "homePage": *[_type == "homePage"][0],  "industries": *[_type == "industry"]{    title,    slug  },  "practices": *[_type == "practice"]{    title,    slug  }}
+export type HOME_PAGE_QUERYResult = {
+  homePage: {
+    _id: string;
+    _type: "homePage";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    hero: HeroSection;
+    about: AboutSection;
+    services: {
+      practicesIllustration: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
+      industriesIllustration: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
+    };
+    team: TeamSection;
+    newsroom: NewsroomSection;
+    latestPosts: LatestPostsSection;
+    blinkdraft: BlinkdraftSection;
+  } | null;
+  industries: Array<{
+    title: string;
+    slug: Slug;
+  }>;
+  practices: Array<{
+    title: string;
+    slug: Slug;
+  }>;
+};
 // Variable: LAWYERS_QUERY
 // Query: *[_type == "lawyer"]
 export type LAWYERS_QUERYResult = Array<{
@@ -660,15 +929,15 @@ export type LAWYERS_QUERYResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: string;
-  title?: string;
-  category?: {
+  name: string;
+  title: string;
+  category: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "lawyerCategory";
   };
-  picture?: {
+  picture: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -682,10 +951,10 @@ export type LAWYERS_QUERYResult = Array<{
     _type: "image";
   };
   contactInfo?: {
-    email?: string;
-    phone?: string;
+    email: string;
+    phone: string;
   };
-  bio?: Array<{
+  bio: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -717,8 +986,8 @@ export type LAWYERS_QUERYResult = Array<{
     _key: string;
   }>;
   testimonials?: Array<{
-    text?: string;
-    author?: string;
+    text: string;
+    author: string;
     _type: "testimonial";
     _key: string;
   }>;
@@ -731,9 +1000,9 @@ export type PRACTICES_QUERYResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  slug?: Slug;
-  description?: Array<{
+  title: string;
+  slug: Slug;
+  description: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -765,15 +1034,15 @@ export type PRACTICES_QUERYResult = Array<{
     _key: string;
   }>;
   testimonials?: Array<{
-    text?: string;
-    author?: string;
+    text: string;
+    author: string;
     _type: "testimonial";
     _key: string;
   }>;
   lawyers: Array<{
     _id: string;
-    name: string | null;
-    title: string | null;
+    name: string;
+    title: string;
     picture: {
       asset?: {
         _ref: string;
@@ -786,7 +1055,7 @@ export type PRACTICES_QUERYResult = Array<{
       crop?: SanityImageCrop;
       alt?: string;
       _type: "image";
-    } | null;
+    };
     bio: Array<{
       children?: Array<{
         marks?: Array<string>;
@@ -817,12 +1086,12 @@ export type PRACTICES_QUERYResult = Array<{
       alt?: string;
       _type: "image";
       _key: string;
-    }> | null;
+    }>;
     contactInfo: {
-      email?: string;
-      phone?: string;
+      email: string;
+      phone: string;
     } | null;
-  }> | null;
+  }>;
   publications?: Array<{
     _ref: string;
     _type: "reference";
@@ -860,7 +1129,7 @@ export type AUTHORS_QUERYResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  type?: "custom" | "lawyer";
+  type: "custom" | "lawyer";
   lawyer?: {
     _ref: string;
     _type: "reference";
@@ -868,8 +1137,8 @@ export type AUTHORS_QUERYResult = Array<{
     [internalGroqTypeReferenceTo]?: "lawyer";
   };
   customAuthor?: {
-    name?: string;
-    slug?: Slug;
+    name: string;
+    slug: Slug;
     url?: string;
   };
 }>;
@@ -881,14 +1150,14 @@ export type POSTS_QUERYResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  slug?: Slug;
-  date?: string;
-  modified?: string;
-  status?: "auto-draft" | "draft" | "future" | "inherit" | "pending" | "private" | "publish" | "trash";
-  content?: PortableText;
+  title: string;
+  slug: Slug;
+  date: string;
+  modified: string;
+  status: "auto-draft" | "draft" | "future" | "inherit" | "pending" | "private" | "publish" | "trash";
+  content: PortableText;
   excerpt?: PortableText;
-  featuredMedia?: {
+  featuredMedia: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -901,14 +1170,14 @@ export type POSTS_QUERYResult = Array<{
     _type: "image";
   };
   sticky?: boolean;
-  authors?: Array<{
+  authors: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
     _key: string;
     [internalGroqTypeReferenceTo]?: "author";
   }>;
-  categories?: Array<{
+  categories: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
@@ -933,12 +1202,12 @@ export type POSTS_QUERYResult = Array<{
 // Query: *[_type == "post" && slug.current == $slug][0]{      _id,      title,      slug,      date,      modified,      status,      content,      excerpt,      featuredMedia,      authors[]->{        _id,        name,        type,        lawyer->{          name,          title        },        customAuthor{          name        }      },      categories[]->{        _id,        name,        slug,        "parentCategories": parent[]->{          _id,          name,          slug,          "parentCategories": parent[]->{            _id,            name,            slug          }        }      }    }
 export type POST_QUERYResult = {
   _id: string;
-  title: string | null;
-  slug: Slug | null;
-  date: string | null;
-  modified: string | null;
-  status: "auto-draft" | "draft" | "future" | "inherit" | "pending" | "private" | "publish" | "trash" | null;
-  content: PortableText | null;
+  title: string;
+  slug: Slug;
+  date: string;
+  modified: string;
+  status: "auto-draft" | "draft" | "future" | "inherit" | "pending" | "private" | "publish" | "trash";
+  content: PortableText;
   excerpt: PortableText | null;
   featuredMedia: {
     asset?: {
@@ -951,40 +1220,41 @@ export type POST_QUERYResult = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
-  } | null;
+  };
   authors: Array<{
     _id: string;
     name: null;
-    type: "custom" | "lawyer" | null;
+    type: "custom" | "lawyer";
     lawyer: {
-      name: string | null;
-      title: string | null;
+      name: string;
+      title: string;
     } | null;
     customAuthor: {
-      name: string | null;
+      name: string;
     } | null;
-  }> | null;
+  }>;
   categories: Array<{
     _id: string;
-    name: string | null;
-    slug: Slug | null;
+    name: string;
+    slug: Slug;
     parentCategories: Array<{
       _id: string;
-      name: string | null;
-      slug: Slug | null;
+      name: string;
+      slug: Slug;
       parentCategories: Array<{
         _id: string;
-        name: string | null;
-        slug: Slug | null;
+        name: string;
+        slug: Slug;
       }> | null;
     }> | null;
-  }> | null;
+  }>;
 } | null;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
+    "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug\n  }\n}": HOME_PAGE_QUERYResult;
     "*[_type == \"lawyer\"]": LAWYERS_QUERYResult;
     "*[_type == \"practice\"]{\n  ...,\n  lawyers[]->{\n    _id,\n    name,\n    title,\n    picture,\n    bio,\n    contactInfo\n  }\n}": PRACTICES_QUERYResult;
     "*[_type == \"author\"]": AUTHORS_QUERYResult;
