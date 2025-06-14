@@ -6,7 +6,7 @@
   --font-helvetica: var(--font-helvetica);
   --padding-side: var(--padding-side);
 
-  --text-xxs: 11px;
+  --text-xxs: 10px;
   --breakpoint-3xl: 120rem;
 
   --color-light-blue: hsl(var(--light-blue));
@@ -167,19 +167,19 @@
     @apply text-h1 tracking-tight leading-tight;
   }
   h2 {
-    @apply text-h2 font-semibold tracking-tight leading-tight;
+    @apply text-h2 tracking-tight leading-tight;
   }
   h3 {
-    @apply text-h3 font-semibold tracking-tight leading-snug;
+    @apply text-h3 tracking-tight leading-snug;
   }
   h4 {
-    @apply text-h4 font-medium tracking-tight leading-snug;
+    @apply text-h4 tracking-tight leading-snug;
   }
   h5 {
-    @apply text-h5 font-medium leading-snug;
+    @apply text-h5 leading-snug;
   }
   h6 {
-    @apply text-h6 font-medium leading-normal;
+    @apply text-h6 leading-normal;
   }
 
   p,

@@ -9,3 +9,49 @@ const builder = createImageUrlBuilder({ projectId, dataset });
 export const urlFor = (source: SanityImageSource) => {
   return builder.image(source);
 };
+
+// Alternative urlFor functions for different use cases
+export const urlForUncropped = (source: SanityImageSource) => {
+  return builder.image(source).fit('max').auto('format');
+};
+
+export const urlForFill = (
+  source: SanityImageSource,
+  width: number,
+  height: number
+) => {
+  return builder
+    .image(source)
+    .width(width)
+    .height(height)
+    .fit('fill')
+    .auto('format');
+};
+
+export const urlForClip = (
+  source: SanityImageSource,
+  width: number,
+  height: number
+) => {
+  return builder
+    .image(source)
+    .width(width)
+    .height(height)
+    .fit('clip')
+    .auto('format');
+};
+
+// remove object-cover from the image
+export const urlForWithHotspot = (
+  source: SanityImageSource,
+  width: number,
+  height: number
+) => {
+  return builder
+    .image(source)
+    .width(width)
+    .height(height)
+    .fit('crop')
+    .crop('focalpoint')
+    .auto('format');
+};

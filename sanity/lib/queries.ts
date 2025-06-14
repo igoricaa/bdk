@@ -9,9 +9,23 @@ export const HOME_PAGE_QUERY = defineQuery(`{
   "practices": *[_type == "practice"]{
     title,
     slug
+  },
+  "partners": *[_type == "lawyer" && category->title == "Partner"]{
+    name,
+    title,
+    picture
   }
 }`);
+
 export const LAWYERS_QUERY = defineQuery(`*[_type == "lawyer"]`);
+
+export const PARTNERS_LAWYERS_QUERY =
+  defineQuery(`*[_type == "lawyer" && category->title == "Partner"]{
+  name,
+  title,
+  picture
+}`);
+
 export const PRACTICES_QUERY = defineQuery(`*[_type == "practice"]{
   ...,
   lawyers[]->{

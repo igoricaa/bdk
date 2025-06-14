@@ -1,5 +1,10 @@
 import { client } from '@/sanity/lib/client';
-import { HOME_PAGE_QUERYResult, Industry, Practice } from '@/sanity.types';
+import {
+  HOME_PAGE_QUERYResult,
+  Industry,
+  Lawyer,
+  Practice,
+} from '@/sanity.types';
 import { HOME_PAGE_QUERY } from '@/sanity/lib/queries';
 import { Image } from 'next-sanity/image';
 import { urlFor } from '@/sanity/lib/image';
@@ -9,12 +14,15 @@ import Subtitle from '@/components/ui/subtitle';
 import Link from 'next/link';
 import { TextGradientScroll } from '@/components/ui/text-gradient-scroll';
 import ServicesAccordion from '@/components/services-accordion';
+import LawyersCarousel from '@/components/lawyers/lawyers-carousel';
+import LawyersGrid from '@/components/lawyers/lawyers-grid';
 
 export default async function Home() {
   const {
     homePage: homePageData,
     industries,
     practices,
+    partners,
   }: HOME_PAGE_QUERYResult = await client.fetch(HOME_PAGE_QUERY);
 
   if (!homePageData) {
@@ -65,8 +73,8 @@ export default async function Home() {
           />
         </div>
       </section>
-      {/* Services */}
 
+      {/* Services */}
       <section className='rounded-t-[2.5rem] pt-4 pb-25 md:pt-20 md:pb-37 xl:py-37 2xl:py-43 px-side flex md:gap-4 xl:gap-18 2xl:gap-24'>
         <ServicesAccordion
           className='w-7/12'
@@ -88,6 +96,21 @@ export default async function Home() {
       </section>
 
       {/* Team */}
+      <section className='pb-22 md:pb-40 xl:pb-38 2xl:pb-42'>
+        <div className='px-side flex flex-col md:flex-row gap-4 md:gap-14 md:items-center md:justify-between'>
+          <h2 className='text-dark-blue text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
+            {homePageData.team.heading}
+          </h2>
+          <p className='text-[#666666] md:text-end xl:text-lg 2xl:text-2xl'>
+            {homePageData.team.description}
+          </p>
+        </div>
+
+        <LawyersGrid
+          lawyers={partners as Lawyer[]}
+          className='mt-4 md:mt-5 xl:mt-8 2xl:mt-16'
+        />
+      </section>
 
       {/* Newsroom */}
 

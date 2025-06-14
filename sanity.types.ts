@@ -870,7 +870,7 @@ export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: sanity/lib/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: {  "homePage": *[_type == "homePage"][0],  "industries": *[_type == "industry"]{    title,    slug  },  "practices": *[_type == "practice"]{    title,    slug  }}
+// Query: {  "homePage": *[_type == "homePage"][0],  "industries": *[_type == "industry"]{    title,    slug  },  "practices": *[_type == "practice"]{    title,    slug  },  "partners": *[_type == "lawyer" && category->title == "Partner"]{    name,    title,    picture  }}
 export type HOME_PAGE_QUERYResult = {
   homePage: {
     _id: string;
@@ -919,6 +919,23 @@ export type HOME_PAGE_QUERYResult = {
   practices: Array<{
     title: string;
     slug: Slug;
+  }>;
+  partners: Array<{
+    name: string;
+    title: string;
+    picture: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
   }>;
 };
 // Variable: LAWYERS_QUERY
@@ -991,6 +1008,25 @@ export type LAWYERS_QUERYResult = Array<{
     _type: "testimonial";
     _key: string;
   }>;
+}>;
+// Variable: PARTNERS_LAWYERS_QUERY
+// Query: *[_type == "lawyer" && category->title == "Partner"]{  name,  title,  picture}
+export type PARTNERS_LAWYERS_QUERYResult = Array<{
+  name: string;
+  title: string;
+  picture: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
 }>;
 // Variable: PRACTICES_QUERY
 // Query: *[_type == "practice"]{  ...,  lawyers[]->{    _id,    name,    title,    picture,    bio,    contactInfo  }}
@@ -1254,8 +1290,9 @@ export type POST_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug\n  }\n}": HOME_PAGE_QUERYResult;
+    "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug\n  },\n  \"partners\": *[_type == \"lawyer\" && category->title == \"Partner\"]{\n    name,\n    title,\n    picture\n  }\n}": HOME_PAGE_QUERYResult;
     "*[_type == \"lawyer\"]": LAWYERS_QUERYResult;
+    "*[_type == \"lawyer\" && category->title == \"Partner\"]{\n  name,\n  title,\n  picture\n}": PARTNERS_LAWYERS_QUERYResult;
     "*[_type == \"practice\"]{\n  ...,\n  lawyers[]->{\n    _id,\n    name,\n    title,\n    picture,\n    bio,\n    contactInfo\n  }\n}": PRACTICES_QUERYResult;
     "*[_type == \"author\"]": AUTHORS_QUERYResult;
     "*[_type == \"post\"]": POSTS_QUERYResult;

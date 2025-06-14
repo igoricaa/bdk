@@ -67,9 +67,8 @@ const ServicesAccordionItem = ({
       <AccordionContent className='text-balance md:mt-6 xl:mt-5'>
         <ul className='grid grid-cols-1 xl:grid-cols-2 xl:gap-x-12 2xl:gap-x-16 gap-y-2 md:gap-y-0 xl:gap-y-8 2xl:gap-y-5'>
           {data.map((item, index) => (
-            <li>
+            <li key={item.title}>
               <Link
-                key={item._id}
                 href={`/${slug}/${item.slug.current}`}
                 className='text-dark-blue text-lg 2xl:text-2xl flex gap-10 justify-between pt-[10px] h-14 md:h-16 xl:h-14 2xl:h-17 border-t border-t-[rgba(137, 138, 141, 0.5)]'
               >
