@@ -3,6 +3,7 @@ import {
   HOME_PAGE_QUERYResult,
   Industry,
   Lawyer,
+  Post,
   Practice,
 } from '@/sanity.types';
 import { HOME_PAGE_QUERY } from '@/sanity/lib/queries';
@@ -14,8 +15,11 @@ import Subtitle from '@/components/ui/subtitle';
 import Link from 'next/link';
 import { TextGradientScroll } from '@/components/ui/text-gradient-scroll';
 import ServicesAccordion from '@/components/services-accordion';
-import LawyersCarousel from '@/components/lawyers/lawyers-carousel';
 import LawyersGrid from '@/components/lawyers/lawyers-grid';
+import SectionHeading from '@/components/ui/section-heading';
+import SectionParagraph from '@/components/ui/section-paragraph';
+import { ArrowUpRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export default async function Home() {
   const {
@@ -23,6 +27,7 @@ export default async function Home() {
     industries,
     practices,
     partners,
+    newsroom: newsroomPosts,
   }: HOME_PAGE_QUERYResult = await client.fetch(HOME_PAGE_QUERY);
 
   if (!homePageData) {
@@ -98,12 +103,12 @@ export default async function Home() {
       {/* Team */}
       <section className='pb-22 md:pb-40 xl:pb-38 2xl:pb-42'>
         <div className='px-side flex flex-col md:flex-row gap-4 md:gap-14 md:items-center md:justify-between'>
-          <h2 className='text-dark-blue text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
+          <SectionHeading colorVariant='dark' className='xl:max-w-1/2'>
             {homePageData.team.heading}
-          </h2>
-          <p className='text-[#666666] md:text-end xl:text-lg 2xl:text-2xl'>
+          </SectionHeading>
+          <SectionParagraph colorVariant='dark' className='xl:max-w-1/3'>
             {homePageData.team.description}
-          </p>
+          </SectionParagraph>
         </div>
 
         <LawyersGrid
@@ -113,6 +118,59 @@ export default async function Home() {
       </section>
 
       {/* Newsroom */}
+      <section className='bg-dark-blue text-white py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43 px-side'>
+        <div className='flex flex-col md:flex-row gap-6 md:justify-between md:items-center md:gap-14'>
+          <div>
+            <Subtitle>{homePageData.newsroom.subtitle}</Subtitle>
+            <SectionHeading className='mt-6 md:mt-5 xl:mt-6 2xl:mt-12'>
+              {homePageData.newsroom.heading}
+            </SectionHeading>
+          </div>
+          <SectionParagraph className='xl:max-w-1/3'>
+            {homePageData.newsroom.description}
+          </SectionParagraph>
+        </div>
+
+        <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 xl:gap-9 mt-8'>
+          {newsroomPosts.map((post, index) => (
+            <article
+              key={index}
+              className={cn(
+                'bg-white/5 rounded-br-[3rem] h-77 md:h-88 xl:h-77 2xl:h-103',
+                index === 3 && 'hidden sm:max-xl:block'
+              )}
+            >
+              <a
+                href={`/newsroom/${post.slug.current}`}
+                className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18'
+              >
+                <div className='flex flex-col justify-between h-full'>
+                  <div>
+                    <p className='text-sm 2xl:text-base text-light-blue'>
+                      {post.date}
+                    </p>
+                    <h3 className='text-2xl 2xl:text-[2rem] mt-5'>
+                      {post.title}
+                    </h3>
+                  </div>
+                  <div className='bg-light-blue text-white rounded-full flex items-center justify-center w-9 h-9'>
+                    <ArrowUpRight size={32} strokeWidth={1} />
+                  </div>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+
+        <div className='text-center mt-12 md:mt-17 xl:mt-12 2xl:mt-35'>
+          <a
+            href='#'
+            className='text-sky-400 hover:text-sky-300 transition-colors text-lg'
+          >
+            View All News
+          </a>
+        </div>
+      </section>
 
       {/* Latest posts */}
 

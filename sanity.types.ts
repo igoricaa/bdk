@@ -870,7 +870,7 @@ export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: sanity/lib/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: {  "homePage": *[_type == "homePage"][0],  "industries": *[_type == "industry"]{    title,    slug  },  "practices": *[_type == "practice"]{    title,    slug  },  "partners": *[_type == "lawyer" && category->title == "Partner"]{    name,    title,    picture  }}
+// Query: {  "homePage": *[_type == "homePage"][0],  "industries": *[_type == "industry"]{    title,    slug  },  "practices": *[_type == "practice"]{    title,    slug  },  "partners": *[_type == "lawyer" && category->title == "Partner"]{    name,    title,    picture  },  "newsroom": *[_type == "post" && count(categories[_ref in *[_type=="category" && name=="Newsroom"]._id]) > 0] | order(date desc)[0...4]{    title,    slug,    date,  }}
 export type HOME_PAGE_QUERYResult = {
   homePage: {
     _id: string;
@@ -936,6 +936,11 @@ export type HOME_PAGE_QUERYResult = {
       alt?: string;
       _type: "image";
     };
+  }>;
+  newsroom: Array<{
+    title: string;
+    slug: Slug;
+    date: string;
   }>;
 };
 // Variable: LAWYERS_QUERY
@@ -1290,7 +1295,7 @@ export type POST_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug\n  },\n  \"partners\": *[_type == \"lawyer\" && category->title == \"Partner\"]{\n    name,\n    title,\n    picture\n  }\n}": HOME_PAGE_QUERYResult;
+    "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug\n  },\n  \"partners\": *[_type == \"lawyer\" && category->title == \"Partner\"]{\n    name,\n    title,\n    picture\n  },\n  \"newsroom\": *[_type == \"post\" && count(categories[_ref in *[_type==\"category\" && name==\"Newsroom\"]._id]) > 0] | order(date desc)[0...4]{\n    title,\n    slug,\n    date,\n  }\n}": HOME_PAGE_QUERYResult;
     "*[_type == \"lawyer\"]": LAWYERS_QUERYResult;
     "*[_type == \"lawyer\" && category->title == \"Partner\"]{\n  name,\n  title,\n  picture\n}": PARTNERS_LAWYERS_QUERYResult;
     "*[_type == \"practice\"]{\n  ...,\n  lawyers[]->{\n    _id,\n    name,\n    title,\n    picture,\n    bio,\n    contactInfo\n  }\n}": PRACTICES_QUERYResult;

@@ -14,6 +14,11 @@ export const HOME_PAGE_QUERY = defineQuery(`{
     name,
     title,
     picture
+  },
+  "newsroom": *[_type == "post" && count(categories[_ref in *[_type=="category" && name=="Newsroom"]._id]) > 0] | order(date desc)[0...4]{
+    title,
+    slug,
+    date,
   }
 }`);
 
