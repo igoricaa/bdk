@@ -9,9 +9,9 @@ import Link from 'next/link';
 import { POST_QUERY } from '@/sanity/lib/queries';
 
 interface Props {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 interface Author {
@@ -39,7 +39,8 @@ async function getPost(slug: string): Promise<POST_QUERYResult | null> {
 }
 
 export default async function PostPage({ params }: Props) {
-  const post = await getPost(params.slug);
+  const resolvedParams = await params;
+  const post = await getPost(resolvedParams.slug);
 
   if (!post) {
     return <div>Post not found</div>;
@@ -153,7 +154,9 @@ function collectUniqueCategories(
 ): CategoryWithExpandedReferences[] {
   const map = new Map<string, CategoryWithExpandedReferences>();
 
-  function traverse(category: CategoryWithExpandedReferences | undefined | null) {
+  function traverse(
+    category: CategoryWithExpandedReferences | undefined | null
+  ) {
     if (!category || map.has(category._id)) return;
     map.set(category._id, category);
     if (category.parentCategories) {

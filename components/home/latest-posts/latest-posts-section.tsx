@@ -80,7 +80,7 @@ const LatestPostsSection = ({
           return (
             <article
               key={item.title}
-              className={`relative bg-dark-blue ${borderRadius} overflow-hidden p-8 2xl:p-10 h-62 2xl:h-77 flex flex-col justify-between`}
+              className={`relative bg-dark-blue ${borderRadius} overflow-hidden p-8 2xl:p-10 h-62 2xl:h-77 flex flex-col justify-between cursor-pointer`}
             >
               <img
                 src={urlFor(item.imageUrl).url()}
