@@ -16,7 +16,10 @@ const LawyersCarousel = ({
   className?: string;
 }) => {
   return (
-    <Carousel className={className} opts={{ dragFree: true }}>
+    <Carousel
+      className={className}
+      opts={{ dragFree: true }}
+    >
       <CarouselContent className='-ml-side'>
         {lawyers.map((lawyer) => (
           <CarouselItem key={lawyer.name} className='basis-[23%] pl-5 2xl:pl-8'>

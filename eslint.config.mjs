@@ -25,7 +25,7 @@ import typescriptParser from '@typescript-eslint/parser';
 export default [
   ...studio,
   {
-    ignores: ['dist', 'node_modules', '.sanity'],
+    ignores: ['dist', 'node_modules', '.sanity', 'scripts', 'migrations'],
     files: ['**/*.ts', '**/*.tsx'],
     plugins: {
       prettier,

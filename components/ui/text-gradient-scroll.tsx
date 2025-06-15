@@ -124,7 +124,7 @@ const Char = ({ children, progress, range }: CharType) => {
   return (
     <span>
       <span
-        className={cn('absolute', {
+        className={cn('absolute text-light-blue', {
           'opacity-0': textOpacity == 'none',
           'opacity-10': textOpacity == 'soft',
           'opacity-30': textOpacity == 'medium',
@@ -134,6 +134,7 @@ const Char = ({ children, progress, range }: CharType) => {
       </span>
       <motion.span
         style={{
+          color: 'var(--color-light-blue)',
           transition: 'all .5s',
           opacity: opacity,
         }}

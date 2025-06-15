@@ -64,7 +64,7 @@ export default async function Home() {
           />
         </div>
         <PortableText
-          className='text-lightest-blue text-lg mt-8 xl:mt-12 2xl:mt-12 2xl:text-2xl 2xl:max-w-1/2'
+          className='text-lightest-blue text-lg mt-8 xl:mt-12 2xl:mt-12 2xl:text-2xl xl:max-w-1/2'
           value={homePageData.about.description as PortableTextBlock[]}
         />
         <Link href='/about' className='text-white mt-10 2xl:mt-15'>
@@ -186,7 +186,7 @@ export default async function Home() {
           />
         </div>
 
-        <h2 className='mt-5 md:mt-10 xl:mt-12.5 2xl:mt-15 text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
+        <h2 className='text-center mt-5 md:mt-10 xl:mt-12.5 2xl:mt-15 text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
           {homePageData.blinkdraft.heading}
         </h2>
         <PortableText
@@ -196,13 +196,13 @@ export default async function Home() {
         <div className='flex gap-3 mt-4 md:mt-9 xl:mt-11 2xl:mt-18'>
           <Link
             href='/blinkdraft'
-            className='text-lg text-light-blue border border-light-blue rounded-full flex gap-4 items-center pl-5 pr-1.5 py-1.25'
+            className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
           >
             English <ArrowUpRight className='bg-light-blue' />
           </Link>
           <Link
             href='/blinkdraft/sr'
-            className='text-lg md:text-2xl text-light-blue border border-light-blue rounded-full flex gap-4 items-center pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
+            className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
           >
             Serbian <ArrowUpRight className='bg-light-blue' />
           </Link>

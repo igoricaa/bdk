@@ -1,25 +1,10 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { DM_Sans } from 'next/font/google';
 import './globals.css';
 
-const helveticaOblique = localFont({
-  src: [
-    {
-      path: '../fonts/HelveticaLTStd-Obl.woff',
-      weight: '400',
-    },
-  ],
-  variable: '--font-helvetica-oblique',
-});
-
-const helvetica = localFont({
-  src: [
-    {
-      path: '../fonts/HelveticaLTStd-Roman.woff',
-      weight: '400',
-    },
-  ],
-  variable: '--font-helvetica',
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dm-sans',
 });
 
 export const metadata: Metadata = {
@@ -34,11 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body
-        className={`${helveticaOblique.variable} ${helvetica.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${dmSans.variable} antialiased`}>{children}</body>
     </html>
   );
 }
