@@ -21,6 +21,13 @@ export const blinkdraftSectionType = defineType({
       description: 'Description content for the blinkdraft section',
       validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: 'logo',
+      title: 'Logo',
+      type: 'image',
+      description: 'Blinkdraft logo',
+      validation: (rule) => rule.required(),
+    }),
   ],
   preview: {
     select: {

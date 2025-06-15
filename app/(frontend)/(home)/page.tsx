@@ -177,6 +177,37 @@ export default async function Home() {
       />
 
       {/* Blinkdraft */}
+      <section className='flex flex-col items-center px-side bg-light-blue-bg rounded-t-[2.5rem] py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43'>
+        <div className='w-28 md:w-34 2xl:w-45'>
+          <img
+            src={urlFor(homePageData.blinkdraft.logo).url()}
+            alt='BDK - Blinkdraft'
+            className='w-full h-full object-cover'
+          />
+        </div>
+
+        <h2 className='mt-5 md:mt-10 xl:mt-12.5 2xl:mt-15 text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
+          {homePageData.blinkdraft.heading}
+        </h2>
+        <PortableText
+          value={homePageData.blinkdraft.description as PortableTextBlock[]}
+          className='mt-4 text-center md:text-xl xl:text-2xl 2xl:text-3xl md:mt-7.5 xl:max-w-1/2'
+        />
+        <div className='flex gap-3 mt-4 md:mt-9 xl:mt-11 2xl:mt-18'>
+          <Link
+            href='/blinkdraft'
+            className='text-lg text-light-blue border border-light-blue rounded-full flex gap-4 items-center pl-5 pr-1.5 py-1.25'
+          >
+            English <ArrowUpRight className='bg-light-blue' />
+          </Link>
+          <Link
+            href='/blinkdraft/sr'
+            className='text-lg md:text-2xl text-light-blue border border-light-blue rounded-full flex gap-4 items-center pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
+          >
+            Serbian <ArrowUpRight className='bg-light-blue' />
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }
