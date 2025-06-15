@@ -3,7 +3,6 @@ import {
   HOME_PAGE_QUERYResult,
   Industry,
   Lawyer,
-  Post,
   Practice,
 } from '@/sanity.types';
 import { HOME_PAGE_QUERY } from '@/sanity/lib/queries';
@@ -14,12 +13,13 @@ import { PortableTextBlock } from 'next-sanity';
 import Subtitle from '@/components/ui/subtitle';
 import Link from 'next/link';
 import { TextGradientScroll } from '@/components/ui/text-gradient-scroll';
-import ServicesAccordion from '@/components/services-accordion';
 import LawyersGrid from '@/components/lawyers/lawyers-grid';
 import SectionHeading from '@/components/ui/section-heading';
 import SectionParagraph from '@/components/ui/section-paragraph';
-import { ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import ArrowUpRight from '@/components/ui/arrow-up-right';
+import LatestPostsSection from '@/components/home/latest-posts/latest-posts-section';
+import ServicesSection from '@/components/home/services/services-section';
 
 export default async function Home() {
   const {
@@ -80,25 +80,12 @@ export default async function Home() {
       </section>
 
       {/* Services */}
-      <section className='rounded-t-[2.5rem] pt-4 pb-25 md:pt-20 md:pb-37 xl:py-37 2xl:py-43 px-side flex md:gap-4 xl:gap-18 2xl:gap-24'>
-        <ServicesAccordion
-          className='w-7/12'
-          industries={industries as Industry[]}
-          practices={practices as Practice[]}
-        />
-        <div className='hidden md:block w-auto bg-dark-blue rounded-bl-[150px]'>
-          <img
-            src={urlFor(homePageData.services.practicesIllustration).url()}
-            alt='Practices Illustration'
-            className='object-cover w-full h-full'
-          />
-          <img
-            src={urlFor(homePageData.services.industriesIllustration).url()}
-            alt='Industries Illustration'
-            className='hidden object-cover w-full h-full'
-          />
-        </div>
-      </section>
+      <ServicesSection
+        industries={industries as Industry[]}
+        practices={practices as Practice[]}
+        practicesIllustration={homePageData.services.practicesIllustration}
+        industriesIllustration={homePageData.services.industriesIllustration}
+      />
 
       {/* Team */}
       <section className='pb-22 md:pb-40 xl:pb-38 2xl:pb-42'>
@@ -118,7 +105,7 @@ export default async function Home() {
       </section>
 
       {/* Newsroom */}
-      <section className='bg-dark-blue text-white py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43 px-side'>
+      <section className='rounded-t-[2.5rem] bg-dark-blue text-white py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43 px-side'>
         <div className='flex flex-col md:flex-row gap-6 md:justify-between md:items-center md:gap-14'>
           <div>
             <Subtitle>{homePageData.newsroom.subtitle}</Subtitle>
@@ -153,9 +140,7 @@ export default async function Home() {
                       {post.title}
                     </h3>
                   </div>
-                  <div className='bg-light-blue text-white rounded-full flex items-center justify-center w-9 h-9'>
-                    <ArrowUpRight size={32} strokeWidth={1} />
-                  </div>
+                  <ArrowUpRight />
                 </div>
               </a>
             </article>
@@ -173,6 +158,23 @@ export default async function Home() {
       </section>
 
       {/* Latest posts */}
+      <LatestPostsSection
+        subtitle={homePageData.latestPosts.subtitle}
+        heading={homePageData.latestPosts.heading}
+        description={homePageData.latestPosts.description}
+        blogIllustrationUrl={
+          homePageData.latestPosts.illustrations.blogIllustration
+        }
+        digitalWatchIllustrationUrl={
+          homePageData.latestPosts.illustrations.digitalWatchIllustration
+        }
+        insightsIllustrationUrl={
+          homePageData.latestPosts.illustrations.insightsIllustration
+        }
+        publicationsIllustrationUrl={
+          homePageData.latestPosts.illustrations.publicationsIllustration
+        }
+      />
 
       {/* Blinkdraft */}
     </main>

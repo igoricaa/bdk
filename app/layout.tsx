@@ -15,7 +15,7 @@ const helveticaOblique = localFont({
 const helvetica = localFont({
   src: [
     {
-      path: '../fonts/HelveticaNeueLTCom-Roman.woff',
+      path: '../fonts/HelveticaLTStd-Roman.woff',
       weight: '400',
     },
   ],

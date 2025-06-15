@@ -816,7 +816,7 @@
                     }
                   }
                 },
-                "optional": true
+                "optional": false
               },
               "digitalWatchIllustration": {
                 "type": "objectAttribute",
@@ -885,7 +885,7 @@
                     }
                   }
                 },
-                "optional": true
+                "optional": false
               },
               "insightsIllustration": {
                 "type": "objectAttribute",
@@ -954,7 +954,7 @@
                     }
                   }
                 },
-                "optional": true
+                "optional": false
               },
               "publicationsIllustration": {
                 "type": "objectAttribute",
@@ -1023,11 +1023,11 @@
                     }
                   }
                 },
-                "optional": true
+                "optional": false
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }

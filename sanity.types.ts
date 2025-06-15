@@ -128,8 +128,8 @@ export type LatestPostsSection = {
   heading: string;
   subtitle: string;
   description: string;
-  illustrations?: {
-    blogIllustration?: {
+  illustrations: {
+    blogIllustration: {
       asset?: {
         _ref: string;
         _type: "reference";
@@ -141,7 +141,7 @@ export type LatestPostsSection = {
       crop?: SanityImageCrop;
       _type: "image";
     };
-    digitalWatchIllustration?: {
+    digitalWatchIllustration: {
       asset?: {
         _ref: string;
         _type: "reference";
@@ -153,7 +153,7 @@ export type LatestPostsSection = {
       crop?: SanityImageCrop;
       _type: "image";
     };
-    insightsIllustration?: {
+    insightsIllustration: {
       asset?: {
         _ref: string;
         _type: "reference";
@@ -165,7 +165,7 @@ export type LatestPostsSection = {
       crop?: SanityImageCrop;
       _type: "image";
     };
-    publicationsIllustration?: {
+    publicationsIllustration: {
       asset?: {
         _ref: string;
         _type: "reference";

@@ -11,6 +11,7 @@
 
   --color-light-blue: hsl(var(--light-blue));
   --color-lightest-blue: hsl(var(--lightest-blue));
+  --color-light-blue-bg: hsl(var(--light-blue-bg));
   --color-dark-blue: hsl(var(--dark-blue));
   --color-gradient-start: var(--gradient-start);
   --color-gradient-end: var(--gradient-end);
@@ -73,6 +74,7 @@
 
   --light-blue: 207 72% 63%;
   --lightest-blue: 213 54% 88%;
+  --light-blue-bg: 210 50% 97%;
   --dark-blue: 216 43% 12%;
   --dark-blue-gradient: #0c182a;
   --gradient-start: #121d2d;

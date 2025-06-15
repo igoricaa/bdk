@@ -4,7 +4,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from './ui/accordion';
+} from '../../ui/accordion';
 import Link from 'next/link';
 import { Industry, Practice } from '@/sanity.types';
 
@@ -59,7 +59,7 @@ const ServicesAccordionItem = ({
       className='bg-lightest-blue/25 rounded-2xl p-5'
     >
       <AccordionTrigger
-        className='text-dark-blue text-3xl xl:text-[2.5rem] p-0 relative'
+        className='text-dark-blue text-3xl xl:text-[2.5rem] p-0 relative cursor-pointer'
         iconClassName='absolute right-0 top-1/2 -translate-y-1/2'
       >
         {title}
