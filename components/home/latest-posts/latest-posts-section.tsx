@@ -48,7 +48,7 @@ const LatestPostsSection = ({
   ];
 
   return (
-    <section className='px-side rounded-t-[2.5rem] py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43 xl:grid xl:grid-cols-12 xl:gap-4'>
+    <section className='px-side bg-white rounded-t-main py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43 xl:grid xl:grid-cols-12 xl:gap-4'>
       <SectionHeader
         heading={heading}
         description={description}
@@ -62,8 +62,8 @@ const LatestPostsSection = ({
         {posts.map((item, index) => {
           const borderRadius =
             index === 0 || index === 3
-              ? 'rounded-bl-[3rem] rounded-tr-[3rem]'
-              : 'rounded-tl-[3rem] rounded-br-[3rem]';
+              ? 'rounded-bl-[2.5rem] md:rounded-bl-[30px] xl:rounded-bl-[50px] rounded-tr-[2.5rem] md:rounded-tr-[30px] xl:rounded-tr-[50px]'
+              : 'rounded-tl-[2.5rem] md:rounded-tl-[30px] xl:rounded-tl-[50px] rounded-br-[2.5rem] md:rounded-br-[30px] xl:rounded-br-[50px]';
 
           const bgImgClasses =
             index === 0

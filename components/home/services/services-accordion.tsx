@@ -7,15 +7,21 @@ import {
 } from '../../ui/accordion';
 import Link from 'next/link';
 import { Industry, Practice } from '@/sanity.types';
+import { Plus } from 'lucide-react';
+import { urlFor } from '@/sanity/lib/image';
 
 const ServicesAccordion = ({
   className,
   industries,
   practices,
+  practicesIllustration,
+  industriesIllustration,
 }: {
   className?: string;
   industries: Industry[];
   practices: Practice[];
+  practicesIllustration: any;
+  industriesIllustration: any;
 }) => {
   return (
     <Accordion
@@ -26,12 +32,14 @@ const ServicesAccordion = ({
     >
       <ServicesAccordionItem
         data={practices}
+        illustration={practicesIllustration}
         title='Practices'
         slug='practices'
         index={1}
       />
       <ServicesAccordionItem
         data={industries}
+        illustration={industriesIllustration}
         title='Industries'
         slug='industries'
         index={2}
@@ -44,11 +52,13 @@ export default ServicesAccordion;
 
 const ServicesAccordionItem = ({
   data,
+  illustration,
   title,
   slug,
   index,
 }: {
   data: Practice[] | Industry[];
+  illustration: any;
   title: string;
   slug: string;
   index: number;
@@ -56,16 +66,23 @@ const ServicesAccordionItem = ({
   return (
     <AccordionItem
       value={`item-${index}`}
-      className='bg-lightest-blue/25 rounded-2xl p-5'
+      className='bg-lightest-blue/25 rounded-2xl'
     >
       <AccordionTrigger
-        className='text-dark-blue text-3xl xl:text-[2.5rem] p-0 relative cursor-pointer'
-        iconClassName='absolute right-0 top-1/2 -translate-y-1/2'
+        className='text-dark-blue text-3xl xl:text-[2.5rem] relative cursor-pointer p-5'
+        icon={<PlusIcon />}
       >
         {title}
       </AccordionTrigger>
-      <AccordionContent className='text-balance md:mt-6 xl:mt-5'>
-        <ul className='grid grid-cols-1 xl:grid-cols-2 xl:gap-x-12 2xl:gap-x-16 gap-y-2 md:gap-y-0 xl:gap-y-8 2xl:gap-y-5'>
+      <AccordionContent className='text-balance'>
+        <div className='md:hidden w-100% bg-dark-blue rounded-bl-[100px] md:rounded-bl-[120px] xl:rounded-bl-[150px] overflow-hidden mt-5 md:mt-7'>
+          <img
+            src={urlFor(illustration).url()}
+            alt='Practices Illustration'
+            className='object-cover w-full h-full'
+          />
+        </div>
+        <ul className='grid grid-cols-1 xl:grid-cols-2 xl:gap-x-12 2xl:gap-x-16 gap-y-2 md:gap-y-0 xl:gap-y-8 2xl:gap-y-5 mt-12 md:mt-0 p-5 md:pt-0'>
           {data.map((item, index) => (
             <li key={item.title}>
               <Link
@@ -80,5 +97,16 @@ const ServicesAccordionItem = ({
         </ul>
       </AccordionContent>
     </AccordionItem>
+  );
+};
+
+const PlusIcon = () => {
+  return (
+    <Plus
+      className={cn(
+        'absolute right-2 xl:right-1.5 top-1/2 -translate-y-1/2 text-light-blue pointer-events-none size-11 xl:size-14 shrink-0 transition-transform duration-200'
+      )}
+      strokeWidth={0.5}
+    />
   );
 };

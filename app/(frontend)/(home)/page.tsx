@@ -35,19 +35,19 @@ export default async function Home() {
   }
 
   return (
-    <main>
+    <main className='bg-dark-blue'>
       {/* Hero */}
       <section className='relative h-screen w-full px-side pt-22 md:pt-20 2xl:pt-37'>
         <Image
           src={urlFor(homePageData.hero.backgroundImage).url()}
           alt={homePageData.hero.backgroundImage.alt}
           fill
-          className='object-cover -z-10'
+          className='object-cover'
           priority
           sizes='(max-width: 640px) 640px, (max-width: 1280px) 1280px, 2560px'
         />
 
-        <h1 className='md:line-clamp-3 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl max-w-5xl'>
+        <h1 className='md:line-clamp-3 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl max-w-5xl relative'>
           {homePageData.hero.heading}
         </h1>
         <p className='mt-5 md:mt-0 md:line-clamp-4 md:absolute top-[50vh] right-1/5 sm:text-lg 2xl:text-2xl leading-tight sm:max-w-md 2xl:max-w-2xl border-l-4 border-light-blue pl-4 sm:pl-5 xl:pl-8 2xl:pl-10 py-4'>
@@ -56,23 +56,24 @@ export default async function Home() {
       </section>
 
       {/* About us */}
-      <section className='px-side pt-12 pb-72 md:pt-24 md:pb-[28rem] xl:py-30 2xl:py-43 bg-dark-blue rounded-t-[2.5rem] -mt-10 relative overflow-hidden'>
+      <section className='px-side pt-12 pb-72 md:pt-24 md:pb-[28rem] xl:py-30 2xl:py-43 bg-dark-blue rounded-t-main -mt-10 relative overflow-hidden'>
         <Subtitle>{homePageData.about.subtitle}</Subtitle>
 
-        <div className='flex xl:text-[53px] 2xl:text-6xl flex-col items-start justify-end pointer-events-auto mt-6 xl:mt-10 2xl:mt-15 2xl:max-w-[1330px]'>
+        <div className='flex flex-col items-start justify-end pointer-events-auto mt-6 xl:mt-10 2xl:mt-15 2xl:max-w-[1330px]'>
           <TextGradientScroll
             text={homePageData.about.animatedText}
             className='text-white'
           />
         </div>
         <PortableText
-          className='text-lightest-blue mt-8 xl:mt-12 2xl:mt-12 xl:max-w-1/2 text-justify'
+          className='text-lightest-blue mt-8 xl:mt-12 2xl:mt-12 xl:max-w-1/2'
+          paragraphClassName='md:text-lg 2xl:text-2xl text-justify mt-4 md:mt-4.5 2xl:mt-6'
           value={homePageData.about.description as PortableTextBlock[]}
         />
         <Link href='/about' className='text-white mt-10 2xl:mt-15 flex'>
           {homePageData.about.buttonText}
         </Link>
-        <div className='absolute -bottom-8 md:-bottom-40 xl:bottom-20 2xl:bottom-12 -right-[20vw] sm:right-0 2xl:-right-6 aspect-[936/622] w-[calc(120vw)] sm:w-screen xl:max-w-1/2'>
+        <div className='absolute -bottom-8 sm:-bottom-40 xl:bottom-10 2xl:bottom-15 -right-[20vw] sm:right-0 2xl:-right-6 aspect-[936/622] w-[calc(120vw)] sm:w-screen xl:w-2/5 2xl:w-[45%]'>
           <img
             src={urlFor(homePageData.about.backgroundIllustration).url()}
             alt='Background Illustration'
@@ -90,7 +91,7 @@ export default async function Home() {
       />
 
       {/* Team */}
-      <section className='pb-22 md:pb-40 xl:pb-38 2xl:pb-42'>
+      <section className='pb-22 md:pb-40 xl:pb-38 2xl:pb-42 bg-white'>
         <SectionHeader
           heading={homePageData.team.heading}
           description={homePageData.team.description}
@@ -107,51 +108,53 @@ export default async function Home() {
       </section>
 
       {/* Newsroom */}
-      <section className='rounded-t-[2.5rem] bg-dark-blue text-white py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43 px-side'>
-        <SectionHeader
-          heading={homePageData.newsroom.heading}
-          description={homePageData.newsroom.description}
-          subtitle={homePageData.newsroom.subtitle}
-          descriptionClassName='xl:max-w-1/3'
-          colorVariant='light'
-        />
+      <section className='bg-white'>
+        <div className='rounded-t-main bg-dark-blue text-white py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43 px-side'>
+          <SectionHeader
+            heading={homePageData.newsroom.heading}
+            description={homePageData.newsroom.description}
+            subtitle={homePageData.newsroom.subtitle}
+            descriptionClassName='xl:max-w-1/3'
+            colorVariant='light'
+          />
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 xl:gap-9 mt-8'>
-          {newsroomPosts.map((post, index) => (
-            <article
-              key={index}
-              className={cn(
-                'bg-white/5 rounded-br-[3rem] h-77 md:h-88 xl:h-77 2xl:h-103',
-                index === 3 && 'hidden sm:max-xl:block'
-              )}
-            >
-              <a
-                href={`/newsroom/${post.slug.current}`}
-                className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18'
+          <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 xl:gap-9 mt-8'>
+            {newsroomPosts.map((post, index) => (
+              <article
+                key={index}
+                className={cn(
+                  'bg-white/5 rounded-br-[2.5rem] md:rounded-br-[50px] h-77 md:h-88 xl:h-77 2xl:h-103',
+                  index === 3 && 'hidden sm:max-xl:block'
+                )}
               >
-                <div className='flex flex-col justify-between h-full'>
-                  <div>
-                    <p className='text-sm 2xl:text-base text-light-blue'>
-                      {post.date}
-                    </p>
-                    <h3 className='text-2xl 2xl:text-[2rem] mt-5'>
-                      {post.title}
-                    </h3>
+                <a
+                  href={`/newsroom/${post.slug.current}`}
+                  className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18'
+                >
+                  <div className='flex flex-col justify-between h-full'>
+                    <div>
+                      <p className='text-sm 2xl:text-base text-light-blue'>
+                        {post.date}
+                      </p>
+                      <h3 className='text-2xl 2xl:text-[2rem] mt-5'>
+                        {post.title}
+                      </h3>
+                    </div>
+                    <ArrowUpRight />
                   </div>
-                  <ArrowUpRight />
-                </div>
-              </a>
-            </article>
-          ))}
-        </div>
+                </a>
+              </article>
+            ))}
+          </div>
 
-        <div className='text-center mt-12 md:mt-17 xl:mt-12 2xl:mt-35'>
-          <a
-            href='#'
-            className='text-sky-400 hover:text-sky-300 transition-colors text-lg'
-          >
-            View All News
-          </a>
+          <div className='text-center mt-12 md:mt-17 xl:mt-12 2xl:mt-35'>
+            <a
+              href='#'
+              className='text-sky-400 hover:text-sky-300 transition-colors text-lg'
+            >
+              View All News
+            </a>
+          </div>
         </div>
       </section>
 
@@ -175,37 +178,39 @@ export default async function Home() {
       />
 
       {/* Blinkdraft */}
-      <section className='flex flex-col items-center px-side bg-light-blue-bg rounded-t-[2.5rem] py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43'>
-        {blinkdraftData && (
-          <div className='w-28 md:w-34 2xl:w-45'>
-            <img
-              src={urlFor(blinkdraftData.logo).url()}
-              alt='BDK - Blinkdraft'
-              className='w-full h-full object-cover'
-            />
-          </div>
-        )}
+      <section className='bg-white'>
+        <div className='flex flex-col items-center px-side bg-light-blue-bg rounded-t-main py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43'>
+          {blinkdraftData && (
+            <div className='w-28 md:w-34 2xl:w-45'>
+              <img
+                src={urlFor(blinkdraftData.logo).url()}
+                alt='BDK - Blinkdraft'
+                className='w-full h-full object-cover'
+              />
+            </div>
+          )}
 
-        <h2 className='text-center mt-5 md:mt-10 xl:mt-12.5 2xl:mt-15 text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
-          {homePageData.blinkdraft.heading}
-        </h2>
-        <PortableText
-          value={homePageData.blinkdraft.description as PortableTextBlock[]}
-          className='mt-4 text-center text-grey-text md:text-xl xl:text-2xl 2xl:text-3xl md:mt-7.5 xl:max-w-1/2'
-        />
-        <div className='flex gap-3 mt-4 md:mt-9 xl:mt-11 2xl:mt-18'>
-          <Link
-            href='/blinkdraft'
-            className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
-          >
-            English <ArrowUpRight className='bg-light-blue' />
-          </Link>
-          <Link
-            href='/blinkdraft/sr'
-            className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
-          >
-            Serbian <ArrowUpRight className='bg-light-blue' />
-          </Link>
+          <h2 className='text-center mt-5 md:mt-10 xl:mt-12.5 2xl:mt-15 text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
+            {homePageData.blinkdraft.heading}
+          </h2>
+          <PortableText
+            value={homePageData.blinkdraft.description as PortableTextBlock[]}
+            className='mt-4 text-center text-grey-text md:text-xl xl:text-2xl 2xl:text-3xl md:mt-7.5 xl:max-w-1/2'
+          />
+          <div className='flex gap-3 mt-4 md:mt-9 xl:mt-11 2xl:mt-18'>
+            <Link
+              href='/blinkdraft'
+              className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
+            >
+              English <ArrowUpRight className='bg-light-blue' />
+            </Link>
+            <Link
+              href='/blinkdraft/sr'
+              className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
+            >
+              Serbian <ArrowUpRight className='bg-light-blue' />
+            </Link>
+          </div>
         </div>
       </section>
     </main>

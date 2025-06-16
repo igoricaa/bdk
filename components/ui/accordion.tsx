@@ -25,10 +25,12 @@ function AccordionItem({
 function AccordionTrigger({
   className,
   iconClassName,
+  icon,
   children,
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Trigger> & {
   iconClassName?: string;
+  icon?: React.ReactNode;
 }) {
   return (
     <AccordionPrimitive.Header className='flex'>
@@ -41,13 +43,7 @@ function AccordionTrigger({
         {...props}
       >
         {children}
-        <Plus
-          className={cn(
-            'text-light-blue pointer-events-none size-14 shrink-0 translate-y-0.5 transition-transform duration-200',
-            iconClassName
-          )}
-          strokeWidth={0.5}
-        />
+        {icon && icon}
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );

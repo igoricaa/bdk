@@ -4,15 +4,18 @@ import {
   PortableTextComponents,
 } from 'next-sanity';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import { urlFor } from '@/sanity/lib/image';
 
 interface PortableTextCustomProps {
   value: PortableTextBlock[];
   className?: string;
+  paragraphClassName?: string;
 }
 
-const PortableText = ({ value, className }: PortableTextCustomProps) => {
+const PortableText = ({
+  value,
+  className,
+  paragraphClassName,
+}: PortableTextCustomProps) => {
   const components: PortableTextComponents = {
     block: {
       // h1: ({ children, value }) => (
@@ -68,10 +71,7 @@ const PortableText = ({ value, className }: PortableTextCustomProps) => {
       //   );
       // },
       normal: ({ value, children }) => (
-        <p
-          className='mt-4 md:mt-4.5 2xl:mt-6 md:text-lg 2xl:text-2xl'
-          id={value?._key}
-        >
+        <p className={paragraphClassName} id={value?._key}>
           {children}
         </p>
       ),
