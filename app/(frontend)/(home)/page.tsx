@@ -24,6 +24,7 @@ import ServicesSection from '@/components/home/services/services-section';
 export default async function Home() {
   const {
     homePage: homePageData,
+    blinkdraft: blinkdraftData,
     industries,
     practices,
     partners,
@@ -178,13 +179,15 @@ export default async function Home() {
 
       {/* Blinkdraft */}
       <section className='flex flex-col items-center px-side bg-light-blue-bg rounded-t-[2.5rem] py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43'>
-        <div className='w-28 md:w-34 2xl:w-45'>
-          <img
-            src={urlFor(homePageData.blinkdraft.logo).url()}
-            alt='BDK - Blinkdraft'
-            className='w-full h-full object-cover'
-          />
-        </div>
+        {blinkdraftData && (
+          <div className='w-28 md:w-34 2xl:w-45'>
+            <img
+              src={urlFor(blinkdraftData.logo).url()}
+              alt='BDK - Blinkdraft'
+              className='w-full h-full object-cover'
+            />
+          </div>
+        )}
 
         <h2 className='text-center mt-5 md:mt-10 xl:mt-12.5 2xl:mt-15 text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
           {homePageData.blinkdraft.heading}

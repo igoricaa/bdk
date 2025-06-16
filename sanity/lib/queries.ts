@@ -2,6 +2,9 @@ import { defineQuery } from 'next-sanity';
 
 export const HOME_PAGE_QUERY = defineQuery(`{
   "homePage": *[_type == "homePage"][0],
+  "blinkdraft": *[_type == "blinkdraft"][0]{
+    logo
+  },
   "industries": *[_type == "industry"]{
     title,
     slug
@@ -86,3 +89,10 @@ export const POST_QUERY =
         }
       }
     }`);
+
+export const GENERAL_INFO_QUERY = defineQuery(`{
+  "generalInfo": *[_type == "generalInfo"][0],
+  "blinkdraft": *[_type == "blinkdraft"][0]{
+    logo
+  }
+}`);

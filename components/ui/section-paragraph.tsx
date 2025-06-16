@@ -13,7 +13,7 @@ const SectionParagraph = ({
     <p
       className={cn(
         'md:text-end xl:text-lg 2xl:text-2xl',
-        colorVariant === 'light' ? 'text-lightest-blue' : 'text-[#666666]',
+        colorVariant === 'light' ? 'text-lightest-blue' : 'text-grey-text',
         className
       )}
     >

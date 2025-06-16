@@ -17,6 +17,10 @@ import {
   homePageType,
   heroSectionType,
 } from './pages/home';
+import { generalInfoType } from './general';
+import { socialType } from './general/socialType';
+import { countryType } from './general/countryType';
+import { blinkdraftType } from './blinkdraft';
 
 const schemaTypes = [
   blockContentType,
@@ -37,6 +41,10 @@ const schemaTypes = [
   latestPostsSectionType,
   blinkdraftSectionType,
   heroSectionType,
+  generalInfoType,
+  socialType,
+  countryType,
+  blinkdraftType,
 ];
 
 export default schemaTypes;

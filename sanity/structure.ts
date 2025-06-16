@@ -82,6 +82,18 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
                 ),
             ])
         ),
+      S.divider(),
+      S.listItem()
+        .title('Blinkdraft')
+        .icon(() => '🌐')
+        .child(S.document().schemaType('blinkdraft').documentId('blinkdraft')),
+      S.divider(),
+      S.listItem()
+        .title('General')
+        .icon(() => '🌐')
+        .child(
+          S.document().schemaType('generalInfo').documentId('generalInfo')
+        ),
       ...S.documentTypeListItems().filter(
         (listItem) =>
           ![
@@ -94,6 +106,8 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             'author',
             'foreignDesk',
             'homePage',
+            'generalInfo',
+            'blinkdraft',
           ].includes(listItem.getId()!)
       ),
     ]);
