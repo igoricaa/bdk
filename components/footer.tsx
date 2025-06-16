@@ -29,7 +29,7 @@ const Footer = ({
           blinkdraftLogo={blinkdraftLogo}
           generalInfo={generalInfo}
         />
-        <section className='mt-8'>
+        <section className='mt-8 xl:mt-20'>
           <ul
             className={
               'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[repeat(auto-fit,minmax(0,1fr))] gap-4 xl:gap-2.5 2xl:gap-5'

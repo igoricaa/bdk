@@ -16,12 +16,12 @@ const Header = ({
       </div>
 
       <div className='flex items-center gap-8'>
-        <div className='hidden xl:flex'>Navigation</div>
+        {/* <div className='hidden xl:flex'>Navigation</div> */}
 
         <div className='hidden sm:block w-27'>
           <img src={urlFor(blinkdraftLogo).url()} alt='BDK Blinkdraft Logo' />
         </div>
-        <Search />
+        {/* <Search /> */}
         <Burger />
       </div>
     </header>
