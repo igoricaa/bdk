@@ -10,6 +10,8 @@ import { GENERAL_INFO_QUERYResult } from '@/sanity.types';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
+  weight: ['300', '400'],
+  style: ['normal', 'italic'],
   variable: '--font-dm-sans',
 });
 

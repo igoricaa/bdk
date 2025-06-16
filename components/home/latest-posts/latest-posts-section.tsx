@@ -1,6 +1,7 @@
 import ArrowUpRight from '@/components/ui/arrow-up-right';
-import SectionHeading from '@/components/ui/section-heading';
-import SectionParagraph from '@/components/ui/section-paragraph';
+import SectionHeader from '@/components/ui/section-header/section-header';
+import SectionHeading from '@/components/ui/section-header/section-heading';
+import SectionParagraph from '@/components/ui/section-header/section-paragraph';
 import Subtitle from '@/components/ui/subtitle';
 import { urlFor } from '@/sanity/lib/image';
 
@@ -48,18 +49,14 @@ const LatestPostsSection = ({
 
   return (
     <section className='px-side rounded-t-[2.5rem] py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43 xl:grid xl:grid-cols-12 xl:gap-4'>
-      <div className='flex flex-col md:flex-row gap-4 md:justify-between md:items-center md:gap-14 xl:col-span-4 xl:flex-col xl:gap-8 xl:justify-normal'>
-        <div className='flex flex-col gap-6 md:gap-5 xl:gap-8 2xl:gap-10'>
-          <Subtitle variation='dark'>{subtitle}</Subtitle>
-          <SectionHeading colorVariant='dark'>{heading}</SectionHeading>
-        </div>
-        <SectionParagraph
-          colorVariant='dark'
-          className='text-start md:text-end xl:text-start'
-        >
-          {description}
-        </SectionParagraph>
-      </div>
+      <SectionHeader
+        heading={heading}
+        description={description}
+        subtitle={subtitle}
+        className='xl:col-span-4 xl:flex-col xl:gap-8 xl:justify-normal xl:items-start'
+        descriptionClassName='xl:text-start'
+        colorVariant='dark'
+      />
 
       <div className='mt-6 md:mt-8 xl:col-span-7 xl:col-start-6 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 xl:gap-8'>
         {posts.map((item, index) => {

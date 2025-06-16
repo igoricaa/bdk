@@ -14,12 +14,11 @@ import Subtitle from '@/components/ui/subtitle';
 import Link from 'next/link';
 import { TextGradientScroll } from '@/components/ui/text-gradient-scroll';
 import LawyersGrid from '@/components/lawyers/lawyers-grid';
-import SectionHeading from '@/components/ui/section-heading';
-import SectionParagraph from '@/components/ui/section-paragraph';
 import { cn } from '@/lib/utils';
 import ArrowUpRight from '@/components/ui/arrow-up-right';
 import LatestPostsSection from '@/components/home/latest-posts/latest-posts-section';
 import ServicesSection from '@/components/home/services/services-section';
+import SectionHeader from '@/components/ui/section-header/section-header';
 
 export default async function Home() {
   const {
@@ -48,8 +47,10 @@ export default async function Home() {
           sizes='(max-width: 640px) 640px, (max-width: 1280px) 1280px, 2560px'
         />
 
-        <h1 className='max-w-4xl'>{homePageData.hero.heading}</h1>
-        <p className='absolute top-[50vh] right-1/5 sm:text-lg 2xl:text-2xl leading-tight sm:max-w-md 2xl:max-w-2xl border-l-4 border-light-blue pl-4 sm:pl-5 xl:pl-8 2xl:pl-10 py-4'>
+        <h1 className='md:line-clamp-3 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl max-w-5xl'>
+          {homePageData.hero.heading}
+        </h1>
+        <p className='mt-5 md:mt-0 md:line-clamp-4 md:absolute top-[50vh] right-1/5 sm:text-lg 2xl:text-2xl leading-tight sm:max-w-md 2xl:max-w-2xl border-l-4 border-light-blue pl-4 sm:pl-5 xl:pl-8 2xl:pl-10 py-4'>
           {homePageData.hero.description}
         </p>
       </section>
@@ -65,10 +66,10 @@ export default async function Home() {
           />
         </div>
         <PortableText
-          className='text-lightest-blue text-lg mt-8 xl:mt-12 2xl:mt-12 2xl:text-2xl xl:max-w-1/2'
+          className='text-lightest-blue mt-8 xl:mt-12 2xl:mt-12 xl:max-w-1/2 text-justify'
           value={homePageData.about.description as PortableTextBlock[]}
         />
-        <Link href='/about' className='text-white mt-10 2xl:mt-15'>
+        <Link href='/about' className='text-white mt-10 2xl:mt-15 flex'>
           {homePageData.about.buttonText}
         </Link>
         <div className='absolute -bottom-8 md:-bottom-40 xl:bottom-20 2xl:bottom-12 -right-[20vw] sm:right-0 2xl:-right-6 aspect-[936/622] w-[calc(120vw)] sm:w-screen xl:max-w-1/2'>
@@ -90,14 +91,14 @@ export default async function Home() {
 
       {/* Team */}
       <section className='pb-22 md:pb-40 xl:pb-38 2xl:pb-42'>
-        <div className='px-side flex flex-col md:flex-row gap-4 md:gap-14 md:items-center md:justify-between'>
-          <SectionHeading colorVariant='dark' className='xl:max-w-1/2'>
-            {homePageData.team.heading}
-          </SectionHeading>
-          <SectionParagraph colorVariant='dark' className='xl:max-w-1/3'>
-            {homePageData.team.description}
-          </SectionParagraph>
-        </div>
+        <SectionHeader
+          heading={homePageData.team.heading}
+          description={homePageData.team.description}
+          className='px-side'
+          headingClassName='xl:max-w-1/2'
+          descriptionClassName='xl:max-w-1/3'
+          colorVariant='dark'
+        />
 
         <LawyersGrid
           lawyers={partners as Lawyer[]}
@@ -107,17 +108,13 @@ export default async function Home() {
 
       {/* Newsroom */}
       <section className='rounded-t-[2.5rem] bg-dark-blue text-white py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43 px-side'>
-        <div className='flex flex-col md:flex-row gap-6 md:justify-between md:items-center md:gap-14'>
-          <div>
-            <Subtitle>{homePageData.newsroom.subtitle}</Subtitle>
-            <SectionHeading className='mt-6 md:mt-5 xl:mt-6 2xl:mt-12'>
-              {homePageData.newsroom.heading}
-            </SectionHeading>
-          </div>
-          <SectionParagraph className='xl:max-w-1/3'>
-            {homePageData.newsroom.description}
-          </SectionParagraph>
-        </div>
+        <SectionHeader
+          heading={homePageData.newsroom.heading}
+          description={homePageData.newsroom.description}
+          subtitle={homePageData.newsroom.subtitle}
+          descriptionClassName='xl:max-w-1/3'
+          colorVariant='light'
+        />
 
         <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 xl:gap-9 mt-8'>
           {newsroomPosts.map((post, index) => (
