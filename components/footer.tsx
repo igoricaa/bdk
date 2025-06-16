@@ -1,15 +1,16 @@
 import Link from 'next/link';
-import { GENERAL_INFO_QUERY } from '@/sanity/lib/queries';
-import { client } from '@/sanity/lib/client';
-import { Country, GENERAL_INFO_QUERYResult, Social } from '@/sanity.types';
+import { Country, GeneralInfo, Social } from '@/sanity.types';
 import { urlFor } from '@/sanity/lib/image';
 import PortableText from './ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
 
-const Footer = async () => {
-  const { generalInfo, blinkdraft }: GENERAL_INFO_QUERYResult =
-    await client.fetch(GENERAL_INFO_QUERY);
-
+const Footer = ({
+  generalInfo,
+  blinkdraftLogo,
+}: {
+  generalInfo: GeneralInfo;
+  blinkdraftLogo: any;
+}) => {
   return (
     <footer className='px-side pt-12 pb-8 md:pt-18 md:pb-10 xl:pt-22 xl:pb-20 2xl:pt-36 2xl:pb-34'>
       <section className='grid grid-cols-1 md:grid-cols-5 gap-x-5 xl:gap-x-8'>
@@ -42,17 +43,17 @@ const Footer = async () => {
           </ul>
         </div>
         <div className='flex justify-between md:flex-col md:justify-normal gap-4 md:gap-10 mt-11 md:mt-0'>
-          {blinkdraft && (
+          {blinkdraftLogo && (
             <div className='w-27'>
               <img
-                src={urlFor(blinkdraft.logo).url()}
+                src={urlFor(blinkdraftLogo).url()}
                 alt='BDK - Blinkdraft'
                 className='w-full h-full object-cover'
               />
             </div>
           )}
           <ul className='flex md:flex-col gap-4 md:gap-6 '>
-            {generalInfo?.socials.map((social) => (
+            {generalInfo?.socials.map((social: Social) => (
               <FooterSocial key={social.name} social={social} />
             ))}
           </ul>
