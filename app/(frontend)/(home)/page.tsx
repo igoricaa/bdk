@@ -191,7 +191,7 @@ export default async function Home() {
         </h2>
         <PortableText
           value={homePageData.blinkdraft.description as PortableTextBlock[]}
-          className='mt-4 text-center md:text-xl xl:text-2xl 2xl:text-3xl md:mt-7.5 xl:max-w-1/2'
+          className='mt-4 text-center text-grey-text md:text-xl xl:text-2xl 2xl:text-3xl md:mt-7.5 xl:max-w-1/2'
         />
         <div className='flex gap-3 mt-4 md:mt-9 xl:mt-11 2xl:mt-18'>
           <Link

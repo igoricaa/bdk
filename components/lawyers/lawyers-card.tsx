@@ -13,7 +13,7 @@ const LawyerCard = ({ lawyer }: { lawyer: Lawyer }) => {
         className='w-full object-cover object-top rounded-2xl aspect-[383/394]'
         quality={100}
       />
-      <h3 className='text-dark-blue text-lg 2xl:text-xl mt-5 md:mt-3 xl:mt-5 2xl:mt-8'>
+      <h3 className='text-dark-blue text-lg xl:text-2xl mt-5 md:mt-3 xl:mt-5 2xl:mt-8'>
         {lawyer.name}
       </h3>
       <p className='text-[#898A8D] text-xxs md:text-sm 2xl:text-base mt-2 md:mt-[10px]'>
