@@ -3,6 +3,13 @@ import { Country, GeneralInfo, Social } from '@/sanity.types';
 import { urlFor } from '@/sanity/lib/image';
 import PortableText from './ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from './ui/accordion';
+import { ChevronDown } from 'lucide-react';
 
 const Footer = ({
   generalInfo,
@@ -13,53 +20,15 @@ const Footer = ({
 }) => {
   return (
     <footer className='bg-light-blue-bg'>
-      <div className='bg-white rounded-t-main px-side pt-12 pb-8 md:pt-18 md:pb-10 xl:pt-22 xl:pb-20 2xl:pt-36 2xl:pb-34 '>
-        <section className='grid grid-cols-1 md:grid-cols-5 gap-x-5 xl:gap-x-8'>
-          <div>
-            <FooterHeading>Company</FooterHeading>
-            <ul className='flex flex-col gap-y-6 mt-6'>
-              <FooterLink href='/'>About us</FooterLink>
-              <FooterLink href='/'>Independent reviews</FooterLink>
-            </ul>
-          </div>
-          <div>
-            <FooterHeading>Company</FooterHeading>
-            <ul className='flex flex-col gap-y-6 mt-6'>
-              <FooterLink href='/'>About us</FooterLink>
-              <FooterLink href='/'>Independent reviews</FooterLink>
-            </ul>
-          </div>
-          <div>
-            <FooterHeading>Company</FooterHeading>
-            <ul className='flex flex-col gap-y-6 mt-6'>
-              <FooterLink href='/'>About us</FooterLink>
-              <FooterLink href='/'>Independent reviews</FooterLink>
-            </ul>
-          </div>
-          <div>
-            <FooterHeading>Company</FooterHeading>
-            <ul className='flex flex-col gap-y-6 mt-6'>
-              <FooterLink href='/'>About us</FooterLink>
-              <FooterLink href='/'>Independent reviews</FooterLink>
-            </ul>
-          </div>
-          <div className='flex justify-between md:flex-col md:justify-normal gap-4 md:gap-10 mt-11 md:mt-0'>
-            {blinkdraftLogo && (
-              <div className='w-27'>
-                <img
-                  src={urlFor(blinkdraftLogo).url()}
-                  alt='BDK - Blinkdraft'
-                  className='w-full h-full object-cover'
-                />
-              </div>
-            )}
-            <ul className='flex md:flex-col gap-4 md:gap-6 '>
-              {generalInfo?.socials.map((social: Social) => (
-                <FooterSocial key={social.name} social={social} />
-              ))}
-            </ul>
-          </div>
-        </section>
+      <div className='bg-white rounded-t-main px-side pt-8 pb-8 md:pt-18 md:pb-10 xl:pt-22 xl:pb-20 2xl:pt-36 2xl:pb-34 '>
+        <MobileLinks
+          blinkdraftLogo={blinkdraftLogo}
+          generalInfo={generalInfo}
+        />
+        <DesktopLinks
+          blinkdraftLogo={blinkdraftLogo}
+          generalInfo={generalInfo}
+        />
         <section className='mt-8'>
           <ul
             className={
@@ -163,5 +132,149 @@ const CountryCard = ({
         </p>
       )}
     </article>
+  );
+};
+
+const MobileLinks = ({
+  blinkdraftLogo,
+  generalInfo,
+}: {
+  blinkdraftLogo: any;
+  generalInfo: GeneralInfo;
+}) => {
+  return (
+    <section className='grid grid-cols-1 md:hidden'>
+      <Accordion type='single' collapsible>
+        <MobileAccordionItem title='Company'>
+          <FooterLink href='/'>About us</FooterLink>
+          <FooterLink href='/'>Independent reviews</FooterLink>
+        </MobileAccordionItem>
+        <MobileAccordionItem title='People'>
+          <FooterLink href='/'>Partners & Counsels</FooterLink>
+          <FooterLink href='/'>Attroneys at Law</FooterLink>
+          <FooterLink href='/'>Consultants</FooterLink>
+          <FooterLink href='/'>Junior Associates</FooterLink>
+          <FooterLink href='/'>Careers</FooterLink>
+        </MobileAccordionItem>
+        <MobileAccordionItem title='Services'>
+          <FooterLink href='/'>Practices</FooterLink>
+          <FooterLink href='/'>Industries</FooterLink>
+          <FooterLink href='/'>Countries</FooterLink>
+        </MobileAccordionItem>
+        <MobileAccordionItem title='Newsroom'>
+          <FooterLink href='/'>BDKnowledge</FooterLink>
+          <FooterLink href='/'>Blog</FooterLink>
+          <FooterLink href='/'>Digital Watch</FooterLink>
+          <FooterLink href='/'>Insight</FooterLink>
+          <FooterLink href='/'>Publications</FooterLink>
+        </MobileAccordionItem>
+      </Accordion>
+
+      <div className='flex justify-between md:flex-col md:justify-normal gap-4 md:gap-10 mt-11 md:mt-0'>
+        {blinkdraftLogo && (
+          <div className='w-27'>
+            <img
+              src={urlFor(blinkdraftLogo).url()}
+              alt='BDK - Blinkdraft'
+              className='w-full h-full object-cover'
+            />
+          </div>
+        )}
+        <ul className='flex md:flex-col gap-4 md:gap-6 '>
+          {generalInfo?.socials.map((social: Social) => (
+            <FooterSocial key={social.name} social={social} />
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+};
+
+const MobileAccordionItem = ({
+  children,
+  title,
+}: {
+  children: React.ReactNode;
+  title: string;
+}) => {
+  return (
+    <AccordionItem
+      value={title}
+      className='border-b border-lightest-blue rounded-none pb-4'
+    >
+      <AccordionTrigger
+        className='text-base font-medium pb-0 [&[data-state=open]>svg]:rotate-180'
+        icon={<ChevronDown className='text-light-blue' strokeWidth={1} />}
+      >
+        {title}
+      </AccordionTrigger>
+      <AccordionContent>
+        <ul className='flex flex-col gap-y-3 mt-3'>{children}</ul>
+      </AccordionContent>
+    </AccordionItem>
+  );
+};
+
+const DesktopLinks = ({
+  blinkdraftLogo,
+  generalInfo,
+}: {
+  blinkdraftLogo: any;
+  generalInfo: GeneralInfo;
+}) => {
+  return (
+    <section className='hidden md:grid grid-cols-5 gap-x-5 xl:gap-x-8'>
+      <div>
+        <FooterHeading>Company</FooterHeading>
+        <ul className='flex flex-col gap-y-6 mt-6'>
+          <FooterLink href='/'>About us</FooterLink>
+          <FooterLink href='/'>Independent reviews</FooterLink>
+        </ul>
+      </div>
+      <div>
+        <FooterHeading>People</FooterHeading>
+        <ul className='flex flex-col gap-y-6 mt-6'>
+          <FooterLink href='/'>Partners & Counsels</FooterLink>
+          <FooterLink href='/'>Attroneys at Law</FooterLink>
+          <FooterLink href='/'>Consultants</FooterLink>
+          <FooterLink href='/'>Junior Associates</FooterLink>
+          <FooterLink href='/'>Careers</FooterLink>
+        </ul>
+      </div>
+      <div>
+        <FooterHeading>Services</FooterHeading>
+        <ul className='flex flex-col gap-y-6 mt-6'>
+          <FooterLink href='/'>Practices</FooterLink>
+          <FooterLink href='/'>Industries</FooterLink>
+          <FooterLink href='/'>Countries</FooterLink>
+        </ul>
+      </div>
+      <div>
+        <FooterHeading>Newsroom</FooterHeading>
+        <ul className='flex flex-col gap-y-6 mt-6'>
+          <FooterLink href='/'>BDKnowledge</FooterLink>
+          <FooterLink href='/'>Blog</FooterLink>
+          <FooterLink href='/'>Digital Watch</FooterLink>
+          <FooterLink href='/'>Insight</FooterLink>
+          <FooterLink href='/'>Publications</FooterLink>
+        </ul>
+      </div>
+      <div className='flex justify-between md:flex-col md:justify-normal gap-4 md:gap-10 mt-11 md:mt-0'>
+        {blinkdraftLogo && (
+          <div className='w-27'>
+            <img
+              src={urlFor(blinkdraftLogo).url()}
+              alt='BDK - Blinkdraft'
+              className='w-full h-full object-cover'
+            />
+          </div>
+        )}
+        <ul className='flex md:flex-col gap-4 md:gap-6 '>
+          {generalInfo?.socials.map((social: Social) => (
+            <FooterSocial key={social.name} social={social} />
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 };
