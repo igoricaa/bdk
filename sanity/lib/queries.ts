@@ -42,7 +42,7 @@ export const PRACTICE_QUERY = defineQuery(`{
       name,
       title,
       picture,
-      bio,
+      slug,
       contactInfo
     }
   },

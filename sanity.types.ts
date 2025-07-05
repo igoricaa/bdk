@@ -758,6 +758,7 @@ export type Lawyer = {
   _updatedAt: string;
   _rev: string;
   name: string;
+  slug: Slug;
   title: string;
   category: {
     _ref: string;
@@ -1083,6 +1084,7 @@ export type LAWYERS_QUERYResult = Array<{
   _updatedAt: string;
   _rev: string;
   name: string;
+  slug: Slug;
   title: string;
   category: {
     _ref: string;
@@ -1165,7 +1167,7 @@ export type PARTNERS_LAWYERS_QUERYResult = Array<{
   };
 }>;
 // Variable: PRACTICE_QUERY
-// Query: {  "currentPractice": *[_type == "practice" && slug.current == $slug][0]{    ...,    lawyers[]->{      _id,      name,      title,      picture,      bio,      contactInfo    }  },  "otherPractices": *[_type == "practice" && slug.current != $slug]{    title,    slug  },  "industries": *[_type == "industry"]{title, slug},  "foreignDesks": *[_type == "foreignDesk"]{title, slug}}
+// Query: {  "currentPractice": *[_type == "practice" && slug.current == $slug][0]{    ...,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo    }  },  "otherPractices": *[_type == "practice" && slug.current != $slug]{    title,    slug  },  "industries": *[_type == "industry"]{title, slug},  "foreignDesks": *[_type == "foreignDesk"]{title, slug}}
 export type PRACTICE_QUERYResult = {
   currentPractice: {
     _id: string;
@@ -1241,37 +1243,7 @@ export type PRACTICE_QUERYResult = {
         alt?: string;
         _type: "image";
       };
-      bio: Array<{
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      } | {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }>;
+      slug: Slug;
       contactInfo: {
         email: string;
         phone: string;
@@ -1640,7 +1612,7 @@ declare module "@sanity/client" {
     "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  },\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug\n  },\n  \"partners\": *[_type == \"lawyer\" && category->title == \"Partner\"]{\n    name,\n    title,\n    picture\n  },\n  \"newsroom\": *[_type == \"post\" && count(categories[_ref in *[_type==\"category\" && name==\"Newsroom\"]._id]) > 0] | order(date desc)[0...4]{\n    title,\n    slug,\n    date,\n  }\n}": HOME_PAGE_QUERYResult;
     "*[_type == \"lawyer\"]": LAWYERS_QUERYResult;
     "*[_type == \"lawyer\" && category->title == \"Partner\"]{\n  name,\n  title,\n  picture\n}": PARTNERS_LAWYERS_QUERYResult;
-    "{\n  \"currentPractice\": *[_type == \"practice\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      bio,\n      contactInfo\n    }\n  },\n  \"otherPractices\": *[_type == \"practice\" && slug.current != $slug]{\n    title,\n    slug\n  },\n  \"industries\": *[_type == \"industry\"]{title, slug},\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{title, slug}\n}": PRACTICE_QUERYResult;
+    "{\n  \"currentPractice\": *[_type == \"practice\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    }\n  },\n  \"otherPractices\": *[_type == \"practice\" && slug.current != $slug]{\n    title,\n    slug\n  },\n  \"industries\": *[_type == \"industry\"]{title, slug},\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{title, slug}\n}": PRACTICE_QUERYResult;
     "*[_type == \"practice\"]{\n  ...,\n  lawyers[]->{\n    _id,\n    name,\n    title,\n    picture,\n    bio,\n    contactInfo\n  }\n}": PRACTICES_QUERYResult;
     "*[_type == \"author\"]": AUTHORS_QUERYResult;
     "*[_type == \"post\"]": POSTS_QUERYResult;
