@@ -4,6 +4,7 @@
 @theme inline {
   --font-dm-sans: var(--font-dm-sans);
   --padding-side: var(--padding-side);
+  --margin-side: var(--padding-side);
 
   --text-xxs: 10px;
   --breakpoint-3xl: 120rem;

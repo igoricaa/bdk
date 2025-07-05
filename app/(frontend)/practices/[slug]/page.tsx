@@ -5,6 +5,13 @@ import { urlFor } from '@/sanity/lib/image';
 import PortableText from '@/components/ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
 import AccordionList from '@/components/practices/accordion-list';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { ChevronDown } from 'lucide-react';
 
 export default async function Page({
   params,
@@ -40,13 +47,12 @@ export default async function Page({
       </section>
 
       <section className='px-side pt-12 pb-28 md:pt-25 md:pb-39 xl:pt-38 xl:pb-21 2xl:pt-44 2xl:pb-40 relative xl:flex xl:gap-x-18 2xl:gap-x-34'>
-        <div className='sticky xl:static bg-light-blue-bg rounded-[10px] p-6 xl:p-4 2xl:px-5 2xl:py-7 xl:min-w-xs 2xl:min-w-[26rem]'>
-          <AccordionList
-            services={otherPractices}
-            industries={industries}
-            foreignDesks={foreignDesks}
-          />
-        </div>
+        <Sidebar
+          currentPractice={currentPractice}
+          otherPractices={otherPractices}
+          industries={industries}
+          foreignDesks={foreignDesks}
+        />
         <div>
           <PortableText
             value={currentPractice.description as PortableTextBlock[]}
@@ -58,3 +64,51 @@ export default async function Page({
     </main>
   );
 }
+
+const Sidebar = ({
+  currentPractice,
+  otherPractices,
+  industries,
+  foreignDesks,
+}: {
+  currentPractice: PRACTICE_QUERYResult['currentPractice'];
+  otherPractices: PRACTICE_QUERYResult['otherPractices'];
+  industries: PRACTICE_QUERYResult['industries'];
+  foreignDesks: PRACTICE_QUERYResult['foreignDesks'];
+}) => {
+  return (
+    <div className='sticky top-0 xl:static bg-light-blue-bg rounded-[10px] py-3 md:py-5 px-side xl:p-4 2xl:px-5 2xl:py-7 xl:min-w-xs 2xl:min-w-[26rem] w-screen xl:w-auto -ml-side xl:ml-0'>
+      <Accordion type='single' collapsible className='xl:hidden'>
+        <AccordionItem value='sidebar-content'>
+          <AccordionTrigger
+            className='flex items-center justify-between text-sm py-0 [&[data-state=open]>svg]:rotate-180'
+            icon={
+              <ChevronDown
+                strokeWidth={1}
+                stroke='#666666'
+                className='size-6 md:size-8 transition-transform duration-200'
+              />
+            }
+          >
+            {currentPractice?.title}
+          </AccordionTrigger>
+          <AccordionContent className='pt-5 pb-2 md:pt-6 md:pb-0'>
+            <AccordionList
+              services={otherPractices}
+              industries={industries}
+              foreignDesks={foreignDesks}
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
+      <div className='hidden xl:block'>
+        <AccordionList
+          services={otherPractices}
+          industries={industries}
+          foreignDesks={foreignDesks}
+        />
+      </div>
+    </div>
+  );
+};
