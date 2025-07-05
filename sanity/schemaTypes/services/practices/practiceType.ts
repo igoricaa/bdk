@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity';
 import { Book, BriefcaseIcon } from 'lucide-react';
+import { testimonialsArrayField } from '../testimonialTypes';
 
 export const practiceType = defineType({
   name: 'practice',
@@ -42,45 +43,7 @@ export const practiceType = defineType({
       type: 'image',
       validation: (rule) => rule.required(),
     }),
-    defineField({
-      name: 'testimonials',
-      title: 'Testimonials',
-      type: 'array',
-      of: [
-        defineField({
-          name: 'testimonial',
-          title: 'Testimonial',
-          type: 'object',
-          fields: [
-            defineField({
-              name: 'text',
-              title: 'Text',
-              type: 'text',
-              rows: 4,
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: 'author',
-              title: 'Author',
-              type: 'string',
-              validation: (rule) => rule.required(),
-            }),
-          ],
-          preview: {
-            select: {
-              title: 'author',
-              subtitle: 'text',
-            },
-            prepare({ title, subtitle }) {
-              return {
-                title,
-                subtitle: subtitle?.slice(0, 50) + '...',
-              };
-            },
-          },
-        }),
-      ],
-    }),
+    testimonialsArrayField,
     defineField({
       name: 'lawyers',
       title: 'Lawyers',
