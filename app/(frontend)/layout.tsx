@@ -35,9 +35,14 @@ export default async function RootLayout({
   return (
     <html lang='en'>
       <body className={`${dmSans.variable} antialiased`}>
-        <Header bdkLogo={generalInfo?.logo} blinkdraftLogo={blinkdraft.logo} />
-        <Lenis>{children}</Lenis>
-        <Footer generalInfo={generalInfo} blinkdraftLogo={blinkdraft.logo} />
+        <Lenis>
+          <Header
+            bdkLogo={generalInfo?.logo}
+            blinkdraftLogo={blinkdraft.logo}
+          />
+          {children}
+          <Footer generalInfo={generalInfo} blinkdraftLogo={blinkdraft.logo} />
+        </Lenis>
       </body>
     </html>
   );

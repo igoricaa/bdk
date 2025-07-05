@@ -34,6 +34,26 @@ export const PARTNERS_LAWYERS_QUERY =
   picture
 }`);
 
+export const PRACTICE_QUERY = defineQuery(`{
+  "currentPractice": *[_type == "practice" && slug.current == $slug][0]{
+    ...,
+    lawyers[]->{
+      _id,
+      name,
+      title,
+      picture,
+      bio,
+      contactInfo
+    }
+  },
+  "otherPractices": *[_type == "practice" && slug.current != $slug]{
+    title,
+    slug
+  },
+  "industries": *[_type == "industry"]{title, slug},
+  "foreignDesks": *[_type == "foreignDesk"]{title, slug}
+}`);
+
 export const PRACTICES_QUERY = defineQuery(`*[_type == "practice"]{
   ...,
   lawyers[]->{

@@ -37,6 +37,12 @@ export const practiceType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'illustration',
+      title: 'Illustration',
+      type: 'image',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: 'testimonials',
       title: 'Testimonials',
       type: 'array',
