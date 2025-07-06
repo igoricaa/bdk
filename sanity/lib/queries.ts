@@ -115,8 +115,8 @@ export const POSTS_QUERY = defineQuery(
   }`
 );
 
-export const POST_QUERY =
-  defineQuery(`*[_type == "post" && slug.current == $slug][0]{
+export const POST_QUERY = defineQuery(`{
+    "currentPost": *[_type == "post" && slug.current == $slug][0]{
       _id,
       title,
       slug,
@@ -128,14 +128,16 @@ export const POST_QUERY =
       featuredMedia,
       authors[]->{
         _id,
-        name,
         type,
         lawyer->{
           name,
-          title
+          title,
+          picture,
+          slug
         },
         customAuthor{
-          name
+          name,
+          slug
         }
       },
       categories[]->{
@@ -153,7 +155,39 @@ export const POST_QUERY =
           }
         }
       }
-    }`);
+    },
+    "previousPost": *[
+      _type == "post" 
+      && status == "publish" 
+      && date < *[_type == "post" && slug.current == $slug][0].date
+      && references(*[_type=="category" && _id in *[_type == "post" && slug.current == $slug][0].categories[]._ref]._id)
+    ] | order(date desc)[0]{
+      slug
+    },
+    "nextPost": *[
+      _type == "post" 
+      && status == "publish" 
+      && date > *[_type == "post" && slug.current == $slug][0].date
+      && references(*[_type=="category" && _id in *[_type == "post" && slug.current == $slug][0].categories[]._ref]._id)
+    ] | order(date asc)[0]{
+      slug
+    },
+    "relatedPosts": *[
+      _type == "post" 
+      && status == "publish" 
+      && slug.current != $slug
+      && references(*[_type=="category" && _id in *[_type == "post" && slug.current == $slug][0].categories[]._ref]._id)
+    ] | order(date desc)[0...12]{
+      title,
+      slug,
+      date,
+      categories[]->{
+        _id,
+        name,
+        slug
+      }
+    }
+  }`);
 
 export const GENERAL_INFO_QUERY = defineQuery(`{
   "generalInfo": *[_type == "generalInfo"][0],

@@ -15,9 +15,9 @@ interface RelatedPost {
 }
 
 interface PostsSwitcherProps {
-  newsroomPosts: RelatedPost[];
-  blogPosts: RelatedPost[];
-  insightsPosts: RelatedPost[];
+  newsroomPosts?: RelatedPost[];
+  blogPosts?: RelatedPost[];
+  insightsPosts?: RelatedPost[];
 }
 
 export default function PostsSwitcher({
@@ -25,16 +25,24 @@ export default function PostsSwitcher({
   blogPosts,
   insightsPosts,
 }: PostsSwitcherProps) {
+  if (!newsroomPosts && !blogPosts && !insightsPosts) {
+    return null;
+  }
+
   const categories = [
-    { id: 'newsroom', label: 'Newsroom', count: newsroomPosts.length },
-    { id: 'blog', label: 'Blog Posts', count: blogPosts.length },
-    { id: 'insights', label: 'BDK Insights', count: insightsPosts.length },
+    { id: 'newsroom', label: 'Newsroom', count: newsroomPosts?.length || 0 },
+    { id: 'blog', label: 'Blog Posts', count: blogPosts?.length || 0 },
+    {
+      id: 'insights',
+      label: 'BDK Insights',
+      count: insightsPosts?.length || 0,
+    },
   ];
 
   const getDefaultCategory = () => {
-    if (newsroomPosts.length > 0) return 'newsroom';
-    if (blogPosts.length > 0) return 'blog';
-    if (insightsPosts.length > 0) return 'insights';
+    if (newsroomPosts && newsroomPosts.length > 0) return 'newsroom';
+    if (blogPosts && blogPosts.length > 0) return 'blog';
+    if (insightsPosts && insightsPosts.length > 0) return 'insights';
     return null;
   };
 
@@ -53,7 +61,7 @@ export default function PostsSwitcher({
     }
   }, [activeCategory, newsroomPosts, blogPosts, insightsPosts]);
 
-  if (!activeCategory || currentPosts.length === 0) {
+  if (!activeCategory || !currentPosts || currentPosts.length === 0) {
     return null;
   }
 

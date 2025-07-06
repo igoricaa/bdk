@@ -1,170 +1,273 @@
-import { client } from '@/sanity/lib/client';
-import { urlFor } from '@/sanity/lib/image';
-import React from 'react';
-
-import type { Slug, POST_QUERYResult } from '@/sanity.types';
-import type { PortableTextBlock } from '@portabletext/types';
-import PortableText from '@/app/components/bamPortabletext';
-import Link from 'next/link';
 import { POST_QUERY } from '@/sanity/lib/queries';
+import { client } from '@/sanity/lib/client';
+import { POST_QUERYResult } from '@/sanity.types';
+import { ArrowLeftIcon, ArrowRightIcon, Calendar } from 'lucide-react';
+import { Image } from 'next-sanity/image';
+import { urlFor, urlForUncropped } from '@/sanity/lib/image';
+import Link from 'next/link';
+import PortableText from '@/components/ui/portable-text';
+import { PortableTextBlock } from 'next-sanity';
+import { cn } from '@/lib/utils';
+import RelatedPostsSection from '@/components/services/related-posts-section';
 
-interface Props {
-  params: Promise<{
-    slug: string;
-  }>;
-}
+const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const { slug } = await params;
+  const {
+    currentPost,
+    previousPost,
+    nextPost,
+    relatedPosts,
+  }: POST_QUERYResult = await client.fetch(POST_QUERY, {
+    slug,
+  });
 
-interface Author {
-  _id: string;
-  name: string | null;
-  type?: 'lawyer' | 'custom' | null;
-  lawyer?: {
-    name: string | null;
-    title: string | null;
-  } | null;
-  customAuthor?: {
-    name: string | null;
-  } | null;
-}
-
-interface CategoryWithExpandedReferences {
-  _id: string;
-  name: string | null;
-  slug: Slug | null;
-  parentCategories?: CategoryWithExpandedReferences[] | null;
-}
-
-async function getPost(slug: string): Promise<POST_QUERYResult | null> {
-  return client.fetch(POST_QUERY, { slug });
-}
-
-export default async function PostPage({ params }: Props) {
-  const resolvedParams = await params;
-  const post = await getPost(resolvedParams.slug);
-
-  if (!post) {
+  if (!currentPost) {
     return <div>Post not found</div>;
   }
 
-  const getAuthorName = (author?: Author | null) => {
-    if (!author) return null;
-    if (author.type === 'lawyer' && author.lawyer) {
-      return `${author.lawyer.name}, ${author.lawyer.title}`;
-    }
-    return author.customAuthor?.name || author.name;
-  };
+  // Process related posts by category type
+  const newsroomPosts =
+    relatedPosts
+      ?.filter((post) =>
+        post.categories?.some((cat) =>
+          cat.name?.toLowerCase().includes('newsroom')
+        )
+      )
+      .slice(0, 4) || [];
 
-  // const deepestPath = getDeepestCategoryPath(post.categories);
+  const blogPosts =
+    relatedPosts
+      ?.filter((post) =>
+        post.categories?.some(
+          (cat) =>
+            cat.name?.toLowerCase().includes('blog') ||
+            cat.name?.toLowerCase().includes('latest')
+        )
+      )
+      .slice(0, 4) || [];
 
-  const uniqueCategories = collectUniqueCategories(post.categories || []);
+  const insightsPosts =
+    relatedPosts
+      ?.filter((post) =>
+        post.categories?.some(
+          (cat) =>
+            cat.name?.toLowerCase().includes('insight') ||
+            cat.name?.toLowerCase().includes('bdk')
+        )
+      )
+      .slice(0, 4) || [];
 
   return (
-    <article className='container mx-auto px-4 py-8'>
-      {post.featuredMedia && (
-        <div className='mb-8'>
-          <img
-            src={urlFor(post.featuredMedia).url()}
-            alt={post.title || 'Featured image'}
-            className='w-full h-auto rounded-lg'
+    <main className='pt-7.5 pb-20 md:pt-11 md:pb-22 xl:pt-18 xl:pb-42 2xl:pt-35 2xl:pb-47'>
+      <div className='px-side'>
+        <article className='xl:max-w-2xl 2xl:max-w-5xl xl:mx-auto w-full'>
+          <PostHeader
+            title={currentPost.title}
+            date={currentPost.date}
+            authors={currentPost.authors}
+            categories={currentPost.categories}
+            featuredMedia={currentPost.featuredMedia}
           />
-        </div>
-      )}
 
-      <h1 className='text-4xl font-bold mb-4'>{post.title}</h1>
-
-      <div className='mb-8 text-gray-600'>
-        {post.authors && post.authors.length > 0 && (
-          <div className='mb-2'>
-            By{' '}
-            {post.authors.map((author, index) => {
-              const authorName = getAuthorName(author);
-              const isLastAuthor = index === post.authors!.length - 1;
-
-              return (
-                <React.Fragment key={author._id}>
-                  {author.type === 'lawyer' && author.lawyer ? (
-                    <Link
-                      href={`/lawyers/${author._id}`}
-                      className='text-blue-600 hover:underline'
-                    >
-                      {authorName}
-                    </Link>
-                  ) : (
-                    <span>{authorName}</span>
-                  )}
-                  {!isLastAuthor && ', '}
-                </React.Fragment>
-              );
-            })}
+          <div className='mt-7 md:mt-10 2xl:mt-15 border-b border-lightest-blue pb-9'>
+            <PortableText value={currentPost.content as PortableTextBlock[]} />
           </div>
-        )}
-        {post.date && (
-          <div>Published on {new Date(post.date).toLocaleDateString()}</div>
-        )}
+
+          <PostsNavigation
+            previousPostSlug={previousPost?.slug?.current || ''}
+            nextPostSlug={nextPost?.slug?.current || ''}
+            className='mt-9'
+          />
+        </article>
       </div>
-      {uniqueCategories.length > 0 && (
-        <div className='mb-8'>
-          <h2 className='text-xl font-semibold mb-2'>Categories</h2>
-          <div className='flex flex-wrap gap-2'>
-            {uniqueCategories.map((category) => (
-              <Link
+
+      <RelatedPostsSection
+        newsroomPosts={newsroomPosts}
+        blogPosts={blogPosts}
+        insightsPosts={insightsPosts}
+      />
+    </main>
+  );
+};
+
+export default PostPage;
+
+const AuthorsBlock = ({
+  authors,
+}: {
+  authors: NonNullable<POST_QUERYResult['currentPost']>['authors'];
+}) => {
+  return (
+    <div className='flex items-center gap-4 mt-2 md:mt-5 flex-wrap'>
+      {authors.map((author) => (
+        <div key={author._id}>
+          {author.type === 'lawyer' && author.lawyer && (
+            <Link
+              href={`/people/${author.lawyer.slug?.current}`}
+              className='flex items-center gap-4 2xl:gap-5'
+            >
+              <div className='w-12.5 h-12.5 2xl:h-16 2xl:w-16 rounded-full overflow-hidden'>
+                <Image
+                  src={urlForUncropped(author.lawyer.picture).url() || ''}
+                  alt={author.lawyer?.name || ''}
+                  width={100}
+                  height={100}
+                  priority
+                  className='object-cover object-top h-full'
+                />
+              </div>
+              <div>
+                <p className='text-dark-blue 2xl:text-xl whitespace-nowrap'>
+                  {author.lawyer.name}
+                </p>
+                <p className='text-[#898A8D] mt-1 text-sm 2xl:text-base'>
+                  {author.lawyer.title}
+                </p>
+              </div>
+            </Link>
+          )}
+          {author.type === 'custom' && author.customAuthor && (
+            <Link
+              href={`/people/${author.customAuthor.slug.current}`}
+              className='text-dark-blue 2xl:text-xl whitespace-nowrap'
+            >
+              {author.customAuthor.name}
+            </Link>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const DateBlock = ({ date }: { date: string }) => {
+  return (
+    <div className='flex items-center gap-2'>
+      <span className='text-light-blue text-xxs xl:text-sm 2xl:text-base flex items-center gap-2'>
+        <Calendar className='w-4 h-4' />
+        {date}
+      </span>
+    </div>
+  );
+};
+
+const PostHeader = ({
+  title,
+  date,
+  authors,
+  categories,
+  featuredMedia,
+}: {
+  title: string;
+  date: string;
+  authors: NonNullable<POST_QUERYResult['currentPost']>['authors'];
+  categories: NonNullable<POST_QUERYResult['currentPost']>['categories'];
+  featuredMedia: NonNullable<POST_QUERYResult['currentPost']>['featuredMedia'];
+}) => {
+  return (
+    <div className='flex flex-col md:flex-col-reverse gap-6 md:gap-10 xl:gap-4 2xl:gap-19'>
+      <div>
+        <DateBlock date={date} />
+
+        <AuthorsBlock authors={authors} />
+
+        <div className='mt-4 md:mt-19 xl:mt-7 2xl:mt-22'>
+          <div className='rounded-[10px] md:rounded-[1.25rem] overflow-hidden aspect-[361/270]'>
+            <Image
+              src={urlFor(featuredMedia).url() || ''}
+              alt={title}
+              width={1600}
+              height={1197}
+              priority
+              className='w-full object-cover'
+            />
+          </div>
+          <div className='flex gap-2 mt-4 md:mt-5 2xl:mt-9.5'>
+            {categories.map((category) => (
+              <span
                 key={category._id}
-                href={`/categories/${category.slug?.current || ''}`}
-                className='bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full text-sm transition-colors'
+                className='text-dark-blue bg-dark-blue/20 rounded-[500px] flex items-center justify-center h-7.5 px-3 text-xxs 2xl:text-sm'
               >
                 {category.name}
-              </Link>
+              </span>
             ))}
           </div>
         </div>
-      )}
+      </div>
 
-      {post.content && (
-        <div className='prose max-w-none'>
-          <PortableText value={post.content as PortableTextBlock[]} />
-        </div>
-      )}
-    </article>
+      <h1 className='text-dark-blue text-3xl md:text-[2rem] xl:text-5xl 2xl:text-[55px]'>
+        {title}
+      </h1>
+    </div>
   );
-}
+};
 
-// function buildCategoryPaths(category: Category): Category[][] {
-//   if (!category.parentCategories || category.parentCategories.length === 0)
-//     return [[category]];
-
-//   return category.parentCategories.flatMap((parent) =>
-//     buildCategoryPaths(parent).map((path) => [...path, category])
-//   );
-// }
-
-// function getDeepestCategoryPath(categories: Category[] = []): Category[] {
-//   let longestPath: Category[] = [];
-
-//   categories.forEach((category) => {
-//     buildCategoryPaths(category).forEach((path) => {
-//       if (path.length > longestPath.length) longestPath = path;
-//     });
-//   });
-
-//   return longestPath;
-// }
-
-function collectUniqueCategories(
-  categories: CategoryWithExpandedReferences[]
-): CategoryWithExpandedReferences[] {
-  const map = new Map<string, CategoryWithExpandedReferences>();
-
-  function traverse(
-    category: CategoryWithExpandedReferences | undefined | null
-  ) {
-    if (!category || map.has(category._id)) return;
-    map.set(category._id, category);
-    if (category.parentCategories) {
-      category.parentCategories.forEach(traverse);
-    }
+const PostsNavigation = ({
+  previousPostSlug,
+  nextPostSlug,
+  className,
+}: {
+  previousPostSlug: string;
+  nextPostSlug: string;
+  className?: string;
+}) => {
+  if (!previousPostSlug && !nextPostSlug) {
+    return null;
   }
 
-  categories.forEach(traverse);
+  return (
+    <div className={cn('flex justify-between items-center', className)}>
+      {previousPostSlug ? (
+        <PostNavigationLink
+          href={`/bdknowledge/${previousPostSlug}`}
+          direction='previous'
+        >
+          Previous
+        </PostNavigationLink>
+      ) : (
+        <div />
+      )}
+      {nextPostSlug ? (
+        <PostNavigationLink
+          href={`/bdknowledge/${nextPostSlug}`}
+          direction='next'
+        >
+          Next
+        </PostNavigationLink>
+      ) : (
+        <div />
+      )}
+    </div>
+  );
+};
 
-  return Array.from(map.values());
-}
+const PostNavigationLink = ({
+  href,
+  children,
+  direction,
+}: {
+  href: string;
+  children: React.ReactNode;
+  direction: 'previous' | 'next';
+}) => {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        'border border-[#BEC1C6] rounded-[500px] text-[#BEC1C6] text-lg flex gap-2.5 items-center h-12.5',
+        direction === 'previous'
+          ? 'pl-2 pr-4.5'
+          : 'pr-2 pl-4.5 flex-row-reverse'
+      )}
+    >
+      <div className='bg-[#BEC1C6] rounded-full'>
+        {direction === 'previous' ? (
+          <ArrowLeftIcon className='w-9 h-9' strokeWidth={1} stroke='#fff' />
+        ) : (
+          <ArrowRightIcon className='w-9 h-9' strokeWidth={1} stroke='#fff' />
+        )}
+      </div>
+      {children}
+    </Link>
+  );
+};

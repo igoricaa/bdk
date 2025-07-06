@@ -12,14 +12,14 @@ const RelatedPostsSection = ({
   blogPosts,
   insightsPosts,
 }: {
-  newsroomPosts: RelatedPost[];
-  blogPosts: RelatedPost[];
-  insightsPosts: RelatedPost[];
+  newsroomPosts?: RelatedPost[];
+  blogPosts?: RelatedPost[];
+  insightsPosts?: RelatedPost[];
 }) => {
   const hasAnyPosts =
-    newsroomPosts.length > 0 ||
-    blogPosts.length > 0 ||
-    insightsPosts.length > 0;
+    (newsroomPosts && newsroomPosts.length > 0) ||
+    (blogPosts && blogPosts.length > 0) ||
+    (insightsPosts && insightsPosts.length > 0);
 
   if (!hasAnyPosts) {
     return null;
