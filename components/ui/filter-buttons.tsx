@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils';
 export interface FilterOption {
   id: string;
   label: string;
-  count: number;
 }
 
 interface FilterButtonsProps {
@@ -15,11 +14,7 @@ interface FilterButtonsProps {
   onOptionChange: (optionId: string) => void;
   variant?: 'dark' | 'light';
   className?: string;
-  showAllOption?: {
-    label: string;
-    count: number;
-  };
-  minOptionsToShow?: number;
+  showAllOption?: boolean;
 }
 
 export default function FilterButtons({
@@ -28,21 +23,15 @@ export default function FilterButtons({
   onOptionChange,
   variant = 'light',
   className,
-  showAllOption,
-  minOptionsToShow = 1,
+  showAllOption = true,
 }: FilterButtonsProps) {
-  const availableOptions = options.filter((option) => option.count > 0);
-
-  if (availableOptions.length <= minOptionsToShow) {
+  if (options.length <= 1) {
     return null;
   }
 
   const allOptions = showAllOption
-    ? [
-        { id: 'all', label: showAllOption.label, count: showAllOption.count },
-        ...availableOptions,
-      ]
-    : availableOptions;
+    ? [{ id: 'all', label: 'All' }, ...options]
+    : options;
 
   const getButtonStyles = (isActive: boolean) => {
     const baseStyles =

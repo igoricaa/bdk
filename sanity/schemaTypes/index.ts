@@ -21,6 +21,7 @@ import { generalInfoType } from './general';
 import { socialType } from './general/socialType';
 import { countryType } from './general/countryType';
 import { blinkdraftType } from './blinkdraft';
+import { peopleHeroSectionType, peoplePageType } from './pages/people';
 
 const schemaTypes = [
   blockContentType,
@@ -45,6 +46,8 @@ const schemaTypes = [
   socialType,
   countryType,
   blinkdraftType,
+  peoplePageType,
+  peopleHeroSectionType,
 ];
 
 export default schemaTypes;

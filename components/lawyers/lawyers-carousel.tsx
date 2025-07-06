@@ -1,11 +1,5 @@
 import { Lawyer } from '@/sanity.types';
-import {
-  Carousel,
-  CarouselNext,
-  CarouselContent,
-  CarouselPrevious,
-  CarouselItem,
-} from '../ui/carousel';
+import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
 import LawyerCard from './lawyers-card';
 
 const LawyersCarousel = ({
@@ -16,10 +10,7 @@ const LawyersCarousel = ({
   className?: string;
 }) => {
   return (
-    <Carousel
-      className={className}
-      opts={{ dragFree: true }}
-    >
+    <Carousel className={className} opts={{ dragFree: true }}>
       <CarouselContent className='-ml-side'>
         {lawyers.map((lawyer) => (
           <CarouselItem key={lawyer.name} className='basis-[23%] pl-5 2xl:pl-8'>
@@ -27,8 +18,6 @@ const LawyersCarousel = ({
           </CarouselItem>
         ))}
       </CarouselContent>
-      {/* <CarouselPrevious />
-      <CarouselNext /> */}
     </Carousel>
   );
 };

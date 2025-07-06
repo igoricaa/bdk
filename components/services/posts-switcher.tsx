@@ -29,15 +29,17 @@ export default function PostsSwitcher({
     return null;
   }
 
-  const categories = [
-    { id: 'newsroom', label: 'Newsroom', count: newsroomPosts?.length || 0 },
-    { id: 'blog', label: 'Blog Posts', count: blogPosts?.length || 0 },
-    {
-      id: 'insights',
-      label: 'BDK Insights',
-      count: insightsPosts?.length || 0,
-    },
-  ];
+  const categories = useMemo(() => {
+    const categoryConfig = [
+      { id: 'newsroom', label: 'Newsroom', posts: newsroomPosts },
+      { id: 'blog', label: 'Blog Posts', posts: blogPosts },
+      { id: 'insights', label: 'BDK Insights', posts: insightsPosts },
+    ];
+
+    return categoryConfig
+      .filter(({ posts }) => posts && posts.length > 0)
+      .map(({ id, label }) => ({ id, label }));
+  }, [newsroomPosts, blogPosts, insightsPosts]);
 
   const getDefaultCategory = () => {
     if (newsroomPosts && newsroomPosts.length > 0) return 'newsroom';
@@ -71,7 +73,7 @@ export default function PostsSwitcher({
         heading='Related posts'
         rightSideComponent={
           <CategoriesFilter
-            categories={categories}
+            options={categories}
             activeCategory={activeCategory}
             onCategoryChange={setActiveCategory}
           />

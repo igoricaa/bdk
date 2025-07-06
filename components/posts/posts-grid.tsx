@@ -84,13 +84,7 @@ const PostsGrid = ({
   });
 
   useEffect(() => {
-    console.log('Triggering fetchNextPage - test:', isInView);
-    console.log('isMobile', isMobile);
-    console.log('hasNextPage', hasNextPage);
-    console.log('isFetchingNextPage', isFetchingNextPage);
-    console.log('isInView', isInView);
     if (isMobile && hasNextPage && !isFetchingNextPage && isInView) {
-      console.log('Triggering fetchNextPage - isInView:', isInView);
       fetchNextPage();
     }
   }, [isMobile, hasNextPage, isFetchingNextPage, isInView, fetchNextPage]);
@@ -156,10 +150,9 @@ const PostsGrid = ({
         className='md:items-center'
         rightSideComponent={
           <PostsFilters
-            categories={categories}
+            options={categories}
             activeCategory={activeCategory}
             onCategoryChange={setActiveCategory}
-            allPostsCount={allPostsCount}
             variant='dark'
           />
         }

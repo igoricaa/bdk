@@ -2,25 +2,26 @@
 
 import FilterButtons, { FilterOption } from '@/components/ui/filter-buttons';
 
-interface CategoriesFilterProps {
-  options: FilterOption[];
+interface LawyersFilterProps {
+  categories: FilterOption[];
   activeCategory: string;
   onCategoryChange: (categoryId: string) => void;
   variant?: 'dark' | 'light';
 }
 
-export default function CategoriesFilter({
-  options,
+export default function LawyersFilter({
+  categories,
   activeCategory,
   onCategoryChange,
   variant = 'light',
-}: CategoriesFilterProps) {
+}: LawyersFilterProps) {
   return (
     <FilterButtons
-      options={options}
+      options={categories}
       activeOption={activeCategory}
       onOptionChange={onCategoryChange}
       variant={variant}
+      className='gap-0!'
     />
   );
 }

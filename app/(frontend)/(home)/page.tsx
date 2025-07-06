@@ -13,7 +13,7 @@ import { PortableTextBlock } from 'next-sanity';
 import Subtitle from '@/components/ui/subtitle';
 import Link from 'next/link';
 import { TextGradientScroll } from '@/components/ui/text-gradient-scroll';
-import LawyersGrid from '@/components/lawyers/lawyers-grid';
+import LawyersList from '@/components/lawyers/lawyers-list';
 import { cn } from '@/lib/utils';
 import ArrowUpRight from '@/components/ui/arrow-up-right';
 import LatestPostsSection from '@/components/home/latest-posts/latest-posts-section';
@@ -101,7 +101,7 @@ export default async function Home() {
           colorVariant='dark'
         />
 
-        <LawyersGrid
+        <LawyersList
           lawyers={partners as Lawyer[]}
           className='mt-4 md:mt-5 xl:mt-8 2xl:mt-16'
         />

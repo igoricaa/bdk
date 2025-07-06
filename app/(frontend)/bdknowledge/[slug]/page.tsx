@@ -58,8 +58,8 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
       .slice(0, 4) || [];
 
   return (
-    <main className='pt-7.5 pb-20 md:pt-11 md:pb-22 xl:pt-18 xl:pb-42 2xl:pt-35 2xl:pb-47'>
-      <div className='px-side'>
+    <main className='pt-7.5 md:pt-11 xl:pt-18 2xl:pt-35'>
+      <div className='px-side pb-20 md:pb-22 xl:pb-42 2xl:pb-47'>
         <article className='xl:max-w-2xl 2xl:max-w-5xl xl:mx-auto w-full'>
           <PostHeader
             title={currentPost.title}

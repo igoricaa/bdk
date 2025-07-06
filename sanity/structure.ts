@@ -80,6 +80,12 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
                 .child(
                   S.document().schemaType('homePage').documentId('homePage')
                 ),
+              S.listItem()
+                .title('People Page')
+                .icon(() => '👥')
+                .child(
+                  S.document().schemaType('peoplePage').documentId('peoplePage')
+                ),
             ])
         ),
       S.divider(),
@@ -106,6 +112,7 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             'author',
             'foreignDesk',
             'homePage',
+            'peoplePage',
             'generalInfo',
             'blinkdraft',
           ].includes(listItem.getId()!)

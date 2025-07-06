@@ -222,3 +222,19 @@ export const BDKNOWLEDGE_POSTS_QUERY = defineQuery(`{
     }
   }
 }`);
+
+export const PEOPLE_PAGE_QUERY = defineQuery(`{
+  "peoplePage": *[_type == "peoplePage"][0],
+  "lawyers": *[_type == "lawyer"]{
+    _id,
+    name,
+    title,
+    picture,
+    slug,
+    category->{
+      _id,
+      title,
+      slug
+    }
+  }
+}`);

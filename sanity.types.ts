@@ -13,6 +13,22 @@
  */
 
 // Source: schema.json
+export type PeoplePage = {
+  _id: string;
+  _type: "peoplePage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  hero: PeopleHeroSection;
+};
+
+export type PeopleHeroSection = {
+  _type: "peopleHeroSection";
+  heading: string;
+  description: string;
+};
+
 export type Blinkdraft = {
   _id: string;
   _type: "blinkdraft";
@@ -984,7 +1000,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = Blinkdraft | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | PortableText | Author | Category | Post | Industry | Practice | Lawyer | LawyerCategory | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = PeoplePage | PeopleHeroSection | Blinkdraft | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | PortableText | Author | Category | Post | Industry | Practice | Lawyer | LawyerCategory | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: app/actions/posts.ts
 // Variable: PAGINATED_POSTS_QUERY
@@ -1673,6 +1689,43 @@ export type BDKNOWLEDGE_POSTS_QUERYResult = {
     }>;
   }>;
 };
+// Variable: PEOPLE_PAGE_QUERY
+// Query: {  "peoplePage": *[_type == "peoplePage"][0],  "lawyers": *[_type == "lawyer"]{    _id,    name,    title,    picture,    slug,    category->{      _id,      title,      slug    }  }}
+export type PEOPLE_PAGE_QUERYResult = {
+  peoplePage: {
+    _id: string;
+    _type: "peoplePage";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    hero: PeopleHeroSection;
+  } | null;
+  lawyers: Array<{
+    _id: string;
+    name: string;
+    title: string;
+    picture: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
+    slug: Slug;
+    category: {
+      _id: string;
+      title: string;
+      slug: Slug;
+    };
+  }>;
+};
 
 // Query TypeMap
 import "@sanity/client";
@@ -1690,5 +1743,6 @@ declare module "@sanity/client" {
     "{\n    \"currentPost\": *[_type == \"post\" && slug.current == $slug][0]{\n      _id,\n      title,\n      slug,\n      date,\n      modified,\n      status,\n      content,\n      excerpt,\n      featuredMedia,\n      authors[]->{\n        _id,\n        type,\n        lawyer->{\n          name,\n          title,\n          picture,\n          slug\n        },\n        customAuthor{\n          name,\n          slug\n        }\n      },\n      categories[]->{\n        _id,\n        name,\n        slug,\n        \"parentCategories\": parent[]->{\n          _id,\n          name,\n          slug,\n          \"parentCategories\": parent[]->{\n            _id,\n            name,\n            slug\n          }\n        }\n      }\n    },\n    \"previousPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date < *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0]{\n      slug\n    },\n    \"nextPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date > *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date asc)[0]{\n      slug\n    },\n    \"relatedPosts\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && slug.current != $slug\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0...12]{\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    }\n  }": POST_QUERYResult;
     "{\n  \"generalInfo\": *[_type == \"generalInfo\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  }\n}": GENERAL_INFO_QUERYResult;
     "{\n  \"featuredPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...3] {\n    _id,\n    title,\n    slug,\n    excerpt,\n    featuredMedia,\n  },\n  \"categories\": *[_type == \"category\" && count(parent[_ref in *[_type==\"category\" && slug.current == $slug]._id]) > 0 && count > 0] | order(name asc) {\n    _id,\n    name,\n    slug,\n    count\n  },\n  \"allPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[3...12] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n}": BDKNOWLEDGE_POSTS_QUERYResult;
+    "{\n  \"peoplePage\": *[_type == \"peoplePage\"][0],\n  \"lawyers\": *[_type == \"lawyer\"]{\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug\n    }\n  }\n}": PEOPLE_PAGE_QUERYResult;
   }
 }
