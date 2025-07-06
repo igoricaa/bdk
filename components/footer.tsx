@@ -19,8 +19,8 @@ const Footer = ({
   blinkdraftLogo: any;
 }) => {
   return (
-    <footer className='bg-light-blue-bg'>
-      <div className='bg-white rounded-t-main px-side pt-8 pb-8 md:pt-18 md:pb-10 xl:pt-22 xl:pb-20 2xl:pt-36 2xl:pb-34 '>
+    <footer className='bg-dark-blue'>
+      <div className='bg-white rounded-t-main px-side pt-8 pb-8 md:pt-18 md:pb-10 xl:pt-22 xl:pb-20 2xl:pt-36 2xl:pb-34'>
         <MobileLinks
           blinkdraftLogo={blinkdraftLogo}
           generalInfo={generalInfo}

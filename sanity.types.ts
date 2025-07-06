@@ -21,6 +21,11 @@ export type PeoplePage = {
   _rev: string;
   title: string;
   hero: PeopleHeroSection;
+  newsroom: {
+    subtitle: string;
+    heading: string;
+    description: string;
+  };
 };
 
 export type PeopleHeroSection = {
@@ -1690,7 +1695,7 @@ export type BDKNOWLEDGE_POSTS_QUERYResult = {
   }>;
 };
 // Variable: PEOPLE_PAGE_QUERY
-// Query: {  "peoplePage": *[_type == "peoplePage"][0],  "lawyers": *[_type == "lawyer"]{    _id,    name,    title,    picture,    slug,    category->{      _id,      title,      slug    }  }}
+// Query: {  "peoplePage": *[_type == "peoplePage"][0],  "lawyers": *[_type == "lawyer"]{    _id,    name,    title,    picture,    slug,    category->{      _id,      title,      slug    }  },  "newsroomPosts": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{    title,    slug,    date,  }}
 export type PEOPLE_PAGE_QUERYResult = {
   peoplePage: {
     _id: string;
@@ -1700,6 +1705,11 @@ export type PEOPLE_PAGE_QUERYResult = {
     _rev: string;
     title: string;
     hero: PeopleHeroSection;
+    newsroom: {
+      subtitle: string;
+      heading: string;
+      description: string;
+    };
   } | null;
   lawyers: Array<{
     _id: string;
@@ -1725,6 +1735,11 @@ export type PEOPLE_PAGE_QUERYResult = {
       slug: Slug;
     };
   }>;
+  newsroomPosts: Array<{
+    title: string;
+    slug: Slug;
+    date: string;
+  }>;
 };
 
 // Query TypeMap
@@ -1743,6 +1758,6 @@ declare module "@sanity/client" {
     "{\n    \"currentPost\": *[_type == \"post\" && slug.current == $slug][0]{\n      _id,\n      title,\n      slug,\n      date,\n      modified,\n      status,\n      content,\n      excerpt,\n      featuredMedia,\n      authors[]->{\n        _id,\n        type,\n        lawyer->{\n          name,\n          title,\n          picture,\n          slug\n        },\n        customAuthor{\n          name,\n          slug\n        }\n      },\n      categories[]->{\n        _id,\n        name,\n        slug,\n        \"parentCategories\": parent[]->{\n          _id,\n          name,\n          slug,\n          \"parentCategories\": parent[]->{\n            _id,\n            name,\n            slug\n          }\n        }\n      }\n    },\n    \"previousPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date < *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0]{\n      slug\n    },\n    \"nextPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date > *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date asc)[0]{\n      slug\n    },\n    \"relatedPosts\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && slug.current != $slug\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0...12]{\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    }\n  }": POST_QUERYResult;
     "{\n  \"generalInfo\": *[_type == \"generalInfo\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  }\n}": GENERAL_INFO_QUERYResult;
     "{\n  \"featuredPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...3] {\n    _id,\n    title,\n    slug,\n    excerpt,\n    featuredMedia,\n  },\n  \"categories\": *[_type == \"category\" && count(parent[_ref in *[_type==\"category\" && slug.current == $slug]._id]) > 0 && count > 0] | order(name asc) {\n    _id,\n    name,\n    slug,\n    count\n  },\n  \"allPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[3...12] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n}": BDKNOWLEDGE_POSTS_QUERYResult;
-    "{\n  \"peoplePage\": *[_type == \"peoplePage\"][0],\n  \"lawyers\": *[_type == \"lawyer\"]{\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug\n    }\n  }\n}": PEOPLE_PAGE_QUERYResult;
+    "{\n  \"peoplePage\": *[_type == \"peoplePage\"][0],\n  \"lawyers\": *[_type == \"lawyer\"]{\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug\n    }\n  },\n  \"newsroomPosts\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    title,\n    slug,\n    date,\n  }\n}": PEOPLE_PAGE_QUERYResult;
   }
 }

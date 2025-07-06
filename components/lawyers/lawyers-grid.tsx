@@ -9,16 +9,19 @@ import { Image } from 'next-sanity/image';
 import { urlForUncropped } from '@/sanity/lib/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
+import { cn } from '@/lib/utils';
 
 const LawyersGrid = ({
   lawyersByCategory,
   categories,
+  className,
 }: {
   lawyersByCategory: Record<
     string,
     { lawyers: PEOPLE_PAGE_QUERYResult['lawyers'] }
   >;
   categories: FilterOption[];
+  className?: string;
 }) => {
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
@@ -27,8 +30,7 @@ const LawyersGrid = ({
   }, [activeCategory, lawyersByCategory]);
 
   return (
-    // mt-14 md:mt-30 xl:mt-18 2xl:mt-40
-    <section>
+    <section className={cn(className)}>
       <div className='flex flex-col md:flex-row gap-4 md:gap-5 xl:gap-10 md:justify-between md:items-center'>
         <SearchBar />
         <LawyersFilter

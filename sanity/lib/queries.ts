@@ -236,5 +236,10 @@ export const PEOPLE_PAGE_QUERY = defineQuery(`{
       title,
       slug
     }
+  },
+  "newsroomPosts": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
+    title,
+    slug,
+    date,
   }
 }`);

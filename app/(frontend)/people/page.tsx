@@ -1,17 +1,16 @@
+import NewsroomSection from '@/components/home/newsroom-section';
 import LawyersGrid from '@/components/lawyers/lawyers-grid';
-import { PEOPLE_PAGE_QUERYResult } from '@/sanity.types';
+import { PEOPLE_PAGE_QUERYResult, Post } from '@/sanity.types';
 import { client } from '@/sanity/lib/client';
 import { PEOPLE_PAGE_QUERY } from '@/sanity/lib/queries';
 
 const PeoplePage = async () => {
-  const { peoplePage, lawyers }: PEOPLE_PAGE_QUERYResult =
+  const { peoplePage, lawyers, newsroomPosts }: PEOPLE_PAGE_QUERYResult =
     await client.fetch(PEOPLE_PAGE_QUERY);
 
   if (!peoplePage || !lawyers || lawyers.length === 0) {
     return <div>No people page found</div>;
   }
-
-  console.log(lawyers);
 
   const { lawyersByCategory, categories } = lawyers.reduce(
     (acc, lawyer) => {
@@ -46,8 +45,8 @@ const PeoplePage = async () => {
   };
 
   return (
-    <main className='px-side pt-15 md:pt-18 2xl:pt-49'>
-      <section className='text-center md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl mx-auto pb-32 md:pb-28 xl:pb-32 2xl:pb-40'>
+    <main className='pt-15 md:pt-18 2xl:pt-49'>
+      <section className='px-side text-center md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl mx-auto pb-32 md:pb-28 xl:pb-32 2xl:pb-40'>
         <h1 className='text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl leading-[1.1]'>
           {peoplePage.hero.heading}
         </h1>
@@ -59,6 +58,15 @@ const PeoplePage = async () => {
       <LawyersGrid
         lawyersByCategory={finalLawyersByCategory}
         categories={categories}
+        className='px-side'
+      />
+
+      <NewsroomSection
+        heading={peoplePage.newsroom.heading}
+        description={peoplePage.newsroom.description}
+        subtitle={peoplePage.newsroom.subtitle}
+        newsroomPosts={newsroomPosts as Post[]}
+        className='mt-32 md:mt-28 xl:mt-32 2xl:mt-42'
       />
     </main>
   );
