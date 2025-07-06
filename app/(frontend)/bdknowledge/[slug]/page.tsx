@@ -9,23 +9,19 @@ import PortableText from '@/components/ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
 import { cn } from '@/lib/utils';
 import RelatedPostsSection from '@/components/services/related-posts-section';
+import ArrowLeft from '@/components/ui/arrow-left';
+import ShareButtons from '@/components/posts/share-buttons';
 
 const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
-  const {
-    currentPost,
-    previousPost,
-    nextPost,
-    relatedPosts,
-  }: POST_QUERYResult = await client.fetch(POST_QUERY, {
-    slug,
-  });
+
+  const { currentPost, previousPost, nextPost, relatedPosts } =
+    await client.fetch(POST_QUERY, { slug });
 
   if (!currentPost) {
     return <div>Post not found</div>;
   }
 
-  // Process related posts by category type
   const newsroomPosts =
     relatedPosts
       ?.filter((post) =>
@@ -59,14 +55,25 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   return (
     <main className='pt-7.5 md:pt-11 xl:pt-18 2xl:pt-35'>
-      <div className='px-side pb-20 md:pb-22 xl:pb-42 2xl:pb-47'>
-        <article className='xl:max-w-2xl 2xl:max-w-5xl xl:mx-auto w-full'>
+      <div className='px-side pb-20 md:pb-22 xl:pb-42 2xl:pb-47 grid grid-cols-1 xl:grid-cols-12 gap-12'>
+        <div className='order-2 flex md:hidden xl:flex xl:flex-col xl:order-1 xl:col-span-2 justify-end xl:justify-start'>
+          <Link
+            href={`/bdknowledge`}
+            className='hidden md:flex items-center gap-3.5 h-fit text-dark-blue'
+          >
+            <ArrowLeft /> Back to Blog
+          </Link>
+
+          <ShareButtons currentPost={currentPost} />
+        </div>
+        <article className='order-1 xl:order-2 w-full xl:col-span-7 xl:col-start-4 2xl:col-span-8 2xl:col-start-4'>
           <PostHeader
             title={currentPost.title}
             date={currentPost.date}
             authors={currentPost.authors}
             categories={currentPost.categories}
             featuredMedia={currentPost.featuredMedia}
+            currentPost={currentPost}
           />
 
           <div className='mt-7 md:mt-10 2xl:mt-15 border-b border-lightest-blue pb-9'>
@@ -94,48 +101,56 @@ export default PostPage;
 
 const AuthorsBlock = ({
   authors,
+  currentPost,
 }: {
   authors: NonNullable<POST_QUERYResult['currentPost']>['authors'];
+  currentPost: NonNullable<POST_QUERYResult['currentPost']>;
 }) => {
   return (
-    <div className='flex items-center gap-4 mt-2 md:mt-5 flex-wrap'>
-      {authors.map((author) => (
-        <div key={author._id}>
-          {author.type === 'lawyer' && author.lawyer && (
-            <Link
-              href={`/people/${author.lawyer.slug?.current}`}
-              className='flex items-center gap-4 2xl:gap-5'
-            >
-              <div className='w-12.5 h-12.5 2xl:h-16 2xl:w-16 rounded-full overflow-hidden'>
-                <Image
-                  src={urlForUncropped(author.lawyer.picture).url() || ''}
-                  alt={author.lawyer?.name || ''}
-                  width={100}
-                  height={100}
-                  priority
-                  className='object-cover object-top h-full'
-                />
-              </div>
-              <div>
-                <p className='text-dark-blue 2xl:text-xl whitespace-nowrap'>
-                  {author.lawyer.name}
-                </p>
-                <p className='text-[#898A8D] mt-1 text-sm 2xl:text-base'>
-                  {author.lawyer.title}
-                </p>
-              </div>
-            </Link>
-          )}
-          {author.type === 'custom' && author.customAuthor && (
-            <Link
-              href={`/people/${author.customAuthor.slug.current}`}
-              className='text-dark-blue 2xl:text-xl whitespace-nowrap'
-            >
-              {author.customAuthor.name}
-            </Link>
-          )}
-        </div>
-      ))}
+    <div className='mt-2 md:mt-5 md:flex md:items-center md:justify-between xl:block'>
+      <div className='flex items-center gap-4 flex-wrap'>
+        {authors.map((author) => (
+          <div key={author._id}>
+            {author.type === 'lawyer' && author.lawyer && (
+              <Link
+                href={`/people/${author.lawyer.slug?.current}`}
+                className='flex items-center gap-4 2xl:gap-5'
+              >
+                <div className='w-12.5 h-12.5 2xl:h-16 2xl:w-16 rounded-full overflow-hidden'>
+                  <Image
+                    src={urlForUncropped(author.lawyer.picture).url() || ''}
+                    alt={author.lawyer?.name || ''}
+                    width={100}
+                    height={100}
+                    priority
+                    className='object-cover object-top h-full'
+                  />
+                </div>
+                <div>
+                  <p className='text-dark-blue 2xl:text-xl whitespace-nowrap'>
+                    {author.lawyer.name}
+                  </p>
+                  <p className='text-[#898A8D] mt-1 text-sm 2xl:text-base'>
+                    {author.lawyer.title}
+                  </p>
+                </div>
+              </Link>
+            )}
+            {author.type === 'custom' && author.customAuthor && (
+              <Link
+                href={`/people/${author.customAuthor.slug.current}`}
+                className='text-dark-blue 2xl:text-xl whitespace-nowrap'
+              >
+                {author.customAuthor.name}
+              </Link>
+            )}
+          </div>
+        ))}
+      </div>
+      <ShareButtons
+        currentPost={currentPost}
+        className='hidden md:flex xl:hidden'
+      />
     </div>
   );
 };
@@ -157,19 +172,21 @@ const PostHeader = ({
   authors,
   categories,
   featuredMedia,
+  currentPost,
 }: {
   title: string;
   date: string;
   authors: NonNullable<POST_QUERYResult['currentPost']>['authors'];
   categories: NonNullable<POST_QUERYResult['currentPost']>['categories'];
   featuredMedia: NonNullable<POST_QUERYResult['currentPost']>['featuredMedia'];
+  currentPost: NonNullable<POST_QUERYResult['currentPost']>;
 }) => {
   return (
     <div className='flex flex-col md:flex-col-reverse gap-6 md:gap-10 xl:gap-4 2xl:gap-19'>
       <div>
         <DateBlock date={date} />
 
-        <AuthorsBlock authors={authors} />
+        <AuthorsBlock authors={authors} currentPost={currentPost} />
 
         <div className='mt-4 md:mt-19 xl:mt-7 2xl:mt-22'>
           <div className='rounded-[10px] md:rounded-[1.25rem] overflow-hidden aspect-[361/270]'>

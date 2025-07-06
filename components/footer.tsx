@@ -84,7 +84,7 @@ const FooterHeading = ({ children }: { children: React.ReactNode }) => {
 
 const FooterSocial = ({ social }: { social: Social }) => {
   return (
-    <li key={social.name} className=''>
+    <li key={social.name}>
       <Link href={social.link} className='flex items-center gap-2.5'>
         <div className='flex items-center justify-center min-w-7.5 min-h-7.5 w-7.5 h-7.5 rounded-full bg-light-blue p-2'>
           <img
