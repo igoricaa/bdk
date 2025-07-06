@@ -13,33 +13,37 @@ const PeoplePage = async () => {
 
   console.log(lawyers);
 
-  const categories = Array.from(
-    new Map(
-      lawyers.map((lawyer) => [
-        lawyer.category.slug.current,
-        {
-          id: lawyer.category.slug.current,
-          label: lawyer.category.title,
-        },
-      ])
-    ).values()
-  );
-
-  const lawyersByCategory = lawyers.reduce(
+  const { lawyersByCategory, categories } = lawyers.reduce(
     (acc, lawyer) => {
       const categorySlug = lawyer.category.slug.current;
-      if (!acc[categorySlug]) {
-        acc[categorySlug] = {
-          lawyers: [],
-        };
+      const categoryTitle = lawyer.category.title;
+
+      if (!acc.lawyersByCategory[categorySlug]) {
+        acc.lawyersByCategory[categorySlug] = { lawyers: [] };
+
+        acc.categories.push({
+          id: categorySlug,
+          label: categoryTitle,
+        });
       }
-      acc[categorySlug].lawyers.push(lawyer);
+
+      acc.lawyersByCategory[categorySlug].lawyers.push(lawyer);
       return acc;
     },
-    {} as Record<string, { lawyers: typeof lawyers }>
+    {
+      lawyersByCategory: {} as Record<string, { lawyers: typeof lawyers }>,
+      categories: [] as Array<{ id: string; label: string }>,
+    }
   );
 
-  //   console.log(lawyersByCategory);
+  const allLawyersSortedByCategory = categories.flatMap(
+    (category) => lawyersByCategory[category.id]?.lawyers || []
+  );
+
+  const finalLawyersByCategory = {
+    all: { lawyers: allLawyersSortedByCategory },
+    ...lawyersByCategory,
+  };
 
   return (
     <main className='px-side pt-15 md:pt-18 2xl:pt-49'>
@@ -53,7 +57,7 @@ const PeoplePage = async () => {
       </section>
 
       <LawyersGrid
-        lawyersByCategory={lawyersByCategory}
+        lawyersByCategory={finalLawyersByCategory}
         categories={categories}
       />
     </main>
