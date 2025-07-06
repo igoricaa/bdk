@@ -48,10 +48,16 @@ export default function PostsSwitcher({
     return null;
   };
 
-  const [activeCategory, setActiveCategory] = useState(getDefaultCategory());
+  const [activeCategory, setActiveCategory] = useState('all');
 
   const currentPosts = useMemo(() => {
     switch (activeCategory) {
+      case 'all':
+        return [
+          ...(newsroomPosts || []),
+          ...(blogPosts || []),
+          ...(insightsPosts || []),
+        ];
       case 'newsroom':
         return newsroomPosts;
       case 'blog':
