@@ -92,7 +92,28 @@ export const PRACTICES_QUERY = defineQuery(`*[_type == "practice"]{
 
 export const AUTHORS_QUERY = defineQuery(`*[_type == "author"]`);
 
-export const POSTS_QUERY = defineQuery(`*[_type == "post"]`);
+export const POSTS_QUERY = defineQuery(
+  `{
+    "allPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[3..-1] {
+      _id,
+      title,
+      slug,
+      date,
+      categories[]->{
+        _id,
+        name,
+        slug
+      }
+    },
+    "featuredPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...3] {
+      _id,
+      title,
+      slug,
+      excerpt,
+      featuredMedia,
+    }
+  }`
+);
 
 export const POST_QUERY =
   defineQuery(`*[_type == "post" && slug.current == $slug][0]{

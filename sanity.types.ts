@@ -1457,61 +1457,38 @@ export type AUTHORS_QUERYResult = Array<{
   };
 }>;
 // Variable: POSTS_QUERY
-// Query: *[_type == "post"]
-export type POSTS_QUERYResult = Array<{
-  _id: string;
-  _type: "post";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  slug: Slug;
-  date: string;
-  modified: string;
-  status: "auto-draft" | "draft" | "future" | "inherit" | "pending" | "private" | "publish" | "trash";
-  content: PortableText;
-  excerpt?: PortableText;
-  featuredMedia: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  sticky?: boolean;
-  authors: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "author";
+// Query: {    "allPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[3..-1] {      _id,      title,      slug,      date,      categories[]->{        _id,        name,        slug      }    },    "featuredPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...3] {      _id,      title,      slug,      excerpt,      featuredMedia,    }  }
+export type POSTS_QUERYResult = {
+  allPosts: Array<{
+    _id: string;
+    title: string;
+    slug: Slug;
+    date: string;
+    categories: Array<{
+      _id: string;
+      name: string;
+      slug: Slug;
+    }>;
   }>;
-  categories: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "category";
-  }>;
-  publications?: {
-    url?: string;
-    download?: {
+  featuredPosts: Array<{
+    _id: string;
+    title: string;
+    slug: Slug;
+    excerpt: PortableText | null;
+    featuredMedia: {
       asset?: {
         _ref: string;
         _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       media?: unknown;
-      _type: "file";
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
     };
-  };
-}>;
+  }>;
+};
 // Variable: POST_QUERY
 // Query: *[_type == "post" && slug.current == $slug][0]{      _id,      title,      slug,      date,      modified,      status,      content,      excerpt,      featuredMedia,      authors[]->{        _id,        name,        type,        lawyer->{          name,          title        },        customAuthor{          name        }      },      categories[]->{        _id,        name,        slug,        "parentCategories": parent[]->{          _id,          name,          slug,          "parentCategories": parent[]->{            _id,            name,            slug          }        }      }    }
 export type POST_QUERYResult = {
@@ -1618,7 +1595,7 @@ declare module "@sanity/client" {
     "{\n  \"currentPractice\": *[_type == \"practice\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n  \"otherPractices\": *[_type == \"practice\" && slug.current != $slug]{\n    title,\n    slug\n  },\n  \"industries\": *[_type == \"industry\"]{title, slug},\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{title, slug},\n  \"autoNewsroom\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    _id,\n    title,\n    slug,\n    date,\n  },\n}": PRACTICE_QUERYResult;
     "*[_type == \"practice\"]{\n  ...,\n  lawyers[]->{\n    _id,\n    name,\n    title,\n    picture,\n    bio,\n    contactInfo\n  }\n}": PRACTICES_QUERYResult;
     "*[_type == \"author\"]": AUTHORS_QUERYResult;
-    "*[_type == \"post\"]": POSTS_QUERYResult;
+    "{\n    \"allPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[3..-1] {\n      _id,\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    },\n    \"featuredPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...3] {\n      _id,\n      title,\n      slug,\n      excerpt,\n      featuredMedia,\n    }\n  }": POSTS_QUERYResult;
     "*[_type == \"post\" && slug.current == $slug][0]{\n      _id,\n      title,\n      slug,\n      date,\n      modified,\n      status,\n      content,\n      excerpt,\n      featuredMedia,\n      authors[]->{\n        _id,\n        name,\n        type,\n        lawyer->{\n          name,\n          title\n        },\n        customAuthor{\n          name\n        }\n      },\n      categories[]->{\n        _id,\n        name,\n        slug,\n        \"parentCategories\": parent[]->{\n          _id,\n          name,\n          slug,\n          \"parentCategories\": parent[]->{\n            _id,\n            name,\n            slug\n          }\n        }\n      }\n    }": POST_QUERYResult;
     "{\n  \"generalInfo\": *[_type == \"generalInfo\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  }\n}": GENERAL_INFO_QUERYResult;
   }

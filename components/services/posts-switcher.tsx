@@ -80,7 +80,7 @@ export default function PostsSwitcher({
             )}
           >
             <Link
-              href={`/posts/${post.slug.current}`}
+              href={`/${activeCategory}/${post.slug.current}`}
               className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18'
             >
               <div className='flex flex-col justify-between h-full'>
@@ -101,7 +101,7 @@ export default function PostsSwitcher({
 
       <div className='text-center'>
         <Link
-          href='/posts'
+          href={`/${activeCategory}`}
           className='text-light-blue hover:text-light-blue/80 transition-colors text-lg'
         >
           View All Posts

@@ -4,7 +4,7 @@ import React from 'react';
 
 import type { Slug, POST_QUERYResult } from '@/sanity.types';
 import type { PortableTextBlock } from '@portabletext/types';
-import PortableText from '@/app/components/PortableText';
+import PortableText from '@/app/components/bamPortabletext';
 import Link from 'next/link';
 import { POST_QUERY } from '@/sanity/lib/queries';
 

@@ -148,7 +148,6 @@
 
 @media (min-width: 1512px) {
   :root {
-    --padding-side: 9.5rem;
     --font-size-h1: 3.75rem; /* 60px */
     --font-size-h2: 3rem; /* 48px */
     --font-size-h3: 2.25rem; /* 36px */
@@ -156,6 +155,12 @@
     --font-size-h5: 1.75rem; /* 28px */
     --font-size-h6: 1.5rem; /* 24px */
     --radius-main: 2.5rem;
+  }
+}
+
+@media (min-width: 1800px) {
+  :root {
+    --padding-side: 9.5rem;
   }
 }
 

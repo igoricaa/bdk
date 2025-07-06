@@ -1,5 +1,5 @@
 import { client } from '@/sanity/lib/client';
-import PortableText from '../../components/PortableText';
+import PortableText from '../../components/bamPortabletext';
 import {
   AUTHORS_QUERYResult,
   LAWYERS_QUERYResult,

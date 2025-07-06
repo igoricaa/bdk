@@ -20,7 +20,7 @@ export default function TestimonialsCarousel({
 }: TestimonialsCarouselProps) {
   return (
     <div className='space-y-6'>
-      <Carousel 
+      <Carousel
         className={className}
         opts={{
           align: 'start',
@@ -42,7 +42,7 @@ export default function TestimonialsCarousel({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselDots className='text-dark-blue mt-6' />
+        <CarouselDots />
       </Carousel>
     </div>
   );
@@ -61,4 +61,4 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
       </div>
     </article>
   );
-}; 
+};
