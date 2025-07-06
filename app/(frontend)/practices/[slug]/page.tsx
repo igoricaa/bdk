@@ -1,9 +1,10 @@
 import { client } from '@/sanity/lib/client';
 import { PRACTICE_QUERY } from '@/sanity/lib/queries';
-import { PRACTICE_QUERYResult } from '@/sanity.types';
+import { Post, PRACTICE_QUERYResult } from '@/sanity.types';
 import PracticeHeroSection from '@/components/services/practice-hero-section';
 import PracticeContentSection from '@/components/services/practice-content-section';
 import PracticeExpertsSection from '@/components/services/practice-experts-section';
+import RelatedPostsSection from '@/components/services/related-posts-section';
 import TestimonialsSection from '@/components/services/testimonials-section';
 import { Testimonial } from '@/sanity/schemaTypes/services/testimonialTypes';
 
@@ -18,6 +19,7 @@ export default async function Page({
     otherPractices,
     industries,
     foreignDesks,
+    autoNewsroom,
   }: PRACTICE_QUERYResult = await client.fetch(PRACTICE_QUERY, {
     slug,
   });
@@ -25,6 +27,25 @@ export default async function Page({
   if (!currentPractice || !otherPractices || !industries || !foreignDesks) {
     return <div>No practice found</div>;
   }
+
+  const newsroomPosts = (
+    currentPractice.newsroom && currentPractice.newsroom.length > 0
+      ? currentPractice.newsroom
+      : autoNewsroom || []
+  ).filter((post) => post.title && post.date) as Post[];
+
+  const blogPosts = (
+    currentPractice.latestBlogPosts &&
+    currentPractice.latestBlogPosts.length > 0
+      ? currentPractice.latestBlogPosts
+      : []
+  ).filter((post) => post.title && post.date) as Post[];
+
+  const insightsPosts = (
+    currentPractice.bdkInsights && currentPractice.bdkInsights.length > 0
+      ? currentPractice.bdkInsights
+      : []
+  ).filter((post) => post.title && post.date) as Post[];
 
   return (
     <main>
@@ -38,8 +59,15 @@ export default async function Page({
       />
 
       <PracticeExpertsSection currentPractice={currentPractice} />
+
       <TestimonialsSection
         testimonials={currentPractice.testimonials as Testimonial[]}
+      />
+
+      <RelatedPostsSection
+        newsroomPosts={newsroomPosts}
+        blogPosts={blogPosts}
+        insightsPosts={insightsPosts}
       />
     </main>
   );

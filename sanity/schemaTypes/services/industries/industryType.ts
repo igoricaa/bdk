@@ -77,15 +77,26 @@ export const industryType = defineType({
         },
       ],
       group: 'relatedPosts',
-      description: 'Select posts for the newsroom section',
+      description: 'Select up to 4 specific posts for the newsroom section',
+      validation: (rule) =>
+        rule.max(4).error('Maximum 4 newsroom posts allowed'),
     }),
     defineField({
-      name: 'latestBlogPost',
-      title: 'Latest Blog Post',
+      name: 'latestBlogPosts',
+      title: 'Latest Blog Posts',
       type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'category' }] }],
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'category' }],
+          options: {
+            filter: `_type == "category" && (name == "Blog" || count(parent[_ref in *[_type=="category" && name=="Blog"]._id]) > 0)`,
+          },
+        },
+      ],
       group: 'relatedPosts',
-      description: 'Select categories for latest blog posts',
+      description:
+        'Select blog categories to show latest posts from those categories',
     }),
     defineField({
       name: 'bdkInsights',
@@ -101,7 +112,8 @@ export const industryType = defineType({
         },
       ],
       group: 'relatedPosts',
-      description: 'Select categories for BDK Insights',
+      description:
+        'Select insight categories to show latest posts from those categories',
     }),
   ],
   preview: {

@@ -18,7 +18,7 @@ export const HOME_PAGE_QUERY = defineQuery(`{
     title,
     picture
   },
-  "newsroom": *[_type == "post" && count(categories[_ref in *[_type=="category" && name=="Newsroom"]._id]) > 0] | order(date desc)[0...4]{
+  "newsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
     title,
     slug,
     date,
@@ -44,14 +44,38 @@ export const PRACTICE_QUERY = defineQuery(`{
       picture,
       slug,
       contactInfo
-    }
+    },
+    newsroom[]->{
+      _id,
+      title,
+      slug,
+      date,
+    },
+    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{
+      _id,
+      title,
+      slug,
+      date,
+    },
+    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{
+      _id,
+      title,
+      slug,
+      date,
+    },
   },
   "otherPractices": *[_type == "practice" && slug.current != $slug]{
     title,
     slug
   },
   "industries": *[_type == "industry"]{title, slug},
-  "foreignDesks": *[_type == "foreignDesk"]{title, slug}
+  "foreignDesks": *[_type == "foreignDesk"]{title, slug},
+  "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
+    _id,
+    title,
+    slug,
+    date,
+  },
 }`);
 
 export const PRACTICES_QUERY = defineQuery(`*[_type == "practice"]{

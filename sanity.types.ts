@@ -641,7 +641,7 @@ export type Industry = {
     _key: string;
     [internalGroqTypeReferenceTo]?: "post";
   }>;
-  latestBlogPost?: Array<{
+  latestBlogPosts?: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
@@ -735,7 +735,7 @@ export type Practice = {
     _key: string;
     [internalGroqTypeReferenceTo]?: "post";
   }>;
-  latestBlogPost?: Array<{
+  latestBlogPosts?: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
@@ -988,7 +988,7 @@ export type AllSanitySchemaTypes = Blinkdraft | Country | Social | GeneralInfo |
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: sanity/lib/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: {  "homePage": *[_type == "homePage"][0],  "blinkdraft": *[_type == "blinkdraft"][0]{    logo  },  "industries": *[_type == "industry"]{    title,    slug  },  "practices": *[_type == "practice"]{    title,    slug  },  "partners": *[_type == "lawyer" && category->title == "Partner"]{    name,    title,    picture  },  "newsroom": *[_type == "post" && count(categories[_ref in *[_type=="category" && name=="Newsroom"]._id]) > 0] | order(date desc)[0...4]{    title,    slug,    date,  }}
+// Query: {  "homePage": *[_type == "homePage"][0],  "blinkdraft": *[_type == "blinkdraft"][0]{    logo  },  "industries": *[_type == "industry"]{    title,    slug  },  "practices": *[_type == "practice"]{    title,    slug  },  "partners": *[_type == "lawyer" && category->title == "Partner"]{    name,    title,    picture  },  "newsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{    title,    slug,    date,  }}
 export type HOME_PAGE_QUERYResult = {
   homePage: {
     _id: string;
@@ -1167,7 +1167,7 @@ export type PARTNERS_LAWYERS_QUERYResult = Array<{
   };
 }>;
 // Variable: PRACTICE_QUERY
-// Query: {  "currentPractice": *[_type == "practice" && slug.current == $slug][0]{    ...,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo    }  },  "otherPractices": *[_type == "practice" && slug.current != $slug]{    title,    slug  },  "industries": *[_type == "industry"]{title, slug},  "foreignDesks": *[_type == "foreignDesk"]{title, slug}}
+// Query: {  "currentPractice": *[_type == "practice" && slug.current == $slug][0]{    ...,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo    },    newsroom[]->{      _id,      title,      slug,      date,    },    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },  },  "otherPractices": *[_type == "practice" && slug.current != $slug]{    title,    slug  },  "industries": *[_type == "industry"]{title, slug},  "foreignDesks": *[_type == "foreignDesk"]{title, slug},  "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{    _id,    title,    slug,    date,  },}
 export type PRACTICE_QUERYResult = {
   currentPractice: {
     _id: string;
@@ -1256,26 +1256,23 @@ export type PRACTICE_QUERYResult = {
       _key: string;
       [internalGroqTypeReferenceTo]?: "category";
     }>;
-    newsroom?: Array<{
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      _key: string;
-      [internalGroqTypeReferenceTo]?: "post";
+    newsroom: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }> | null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
     }>;
-    latestBlogPost?: Array<{
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      _key: string;
-      [internalGroqTypeReferenceTo]?: "category";
-    }>;
-    bdkInsights?: Array<{
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      _key: string;
-      [internalGroqTypeReferenceTo]?: "category";
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
     }>;
   } | null;
   otherPractices: Array<{
@@ -1289,6 +1286,12 @@ export type PRACTICE_QUERYResult = {
   foreignDesks: Array<{
     title: string;
     slug: Slug;
+  }>;
+  autoNewsroom: Array<{
+    _id: string;
+    title: string;
+    slug: Slug;
+    date: string;
   }>;
 };
 // Variable: PRACTICES_QUERY
@@ -1417,7 +1420,7 @@ export type PRACTICES_QUERYResult = Array<{
     _key: string;
     [internalGroqTypeReferenceTo]?: "post";
   }>;
-  latestBlogPost?: Array<{
+  latestBlogPosts?: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
@@ -1609,10 +1612,10 @@ export type GENERAL_INFO_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  },\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug\n  },\n  \"partners\": *[_type == \"lawyer\" && category->title == \"Partner\"]{\n    name,\n    title,\n    picture\n  },\n  \"newsroom\": *[_type == \"post\" && count(categories[_ref in *[_type==\"category\" && name==\"Newsroom\"]._id]) > 0] | order(date desc)[0...4]{\n    title,\n    slug,\n    date,\n  }\n}": HOME_PAGE_QUERYResult;
+    "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  },\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug\n  },\n  \"partners\": *[_type == \"lawyer\" && category->title == \"Partner\"]{\n    name,\n    title,\n    picture\n  },\n  \"newsroom\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    title,\n    slug,\n    date,\n  }\n}": HOME_PAGE_QUERYResult;
     "*[_type == \"lawyer\"]": LAWYERS_QUERYResult;
     "*[_type == \"lawyer\" && category->title == \"Partner\"]{\n  name,\n  title,\n  picture\n}": PARTNERS_LAWYERS_QUERYResult;
-    "{\n  \"currentPractice\": *[_type == \"practice\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    }\n  },\n  \"otherPractices\": *[_type == \"practice\" && slug.current != $slug]{\n    title,\n    slug\n  },\n  \"industries\": *[_type == \"industry\"]{title, slug},\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{title, slug}\n}": PRACTICE_QUERYResult;
+    "{\n  \"currentPractice\": *[_type == \"practice\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n  \"otherPractices\": *[_type == \"practice\" && slug.current != $slug]{\n    title,\n    slug\n  },\n  \"industries\": *[_type == \"industry\"]{title, slug},\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{title, slug},\n  \"autoNewsroom\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    _id,\n    title,\n    slug,\n    date,\n  },\n}": PRACTICE_QUERYResult;
     "*[_type == \"practice\"]{\n  ...,\n  lawyers[]->{\n    _id,\n    name,\n    title,\n    picture,\n    bio,\n    contactInfo\n  }\n}": PRACTICES_QUERYResult;
     "*[_type == \"author\"]": AUTHORS_QUERYResult;
     "*[_type == \"post\"]": POSTS_QUERYResult;

@@ -7,14 +7,16 @@ const SectionHeader = ({
   heading,
   description,
   subtitle,
+  rightSideComponent,
   className,
   headingClassName,
   descriptionClassName,
   colorVariant = 'light',
 }: {
   heading: string;
-  description: string;
+  description?: string;
   subtitle?: string;
+  rightSideComponent?: React.ReactNode;
   className?: string;
   headingClassName?: string;
   descriptionClassName?: string;
@@ -46,12 +48,16 @@ const SectionHeader = ({
         </SectionHeading>
       )}
 
-      <SectionParagraph
-        colorVariant={colorVariant}
-        className={descriptionClassName}
-      >
-        {description}
-      </SectionParagraph>
+      {description && (
+        <SectionParagraph
+          colorVariant={colorVariant}
+          className={descriptionClassName}
+        >
+          {description}
+        </SectionParagraph>
+      )}
+
+      {rightSideComponent}
     </div>
   );
 };

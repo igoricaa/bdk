@@ -4216,7 +4216,7 @@
         },
         "optional": true
       },
-      "latestBlogPost": {
+      "latestBlogPosts": {
         "type": "objectAttribute",
         "value": {
           "type": "array",
@@ -4860,7 +4860,7 @@
         },
         "optional": true
       },
-      "latestBlogPost": {
+      "latestBlogPosts": {
         "type": "objectAttribute",
         "value": {
           "type": "array",

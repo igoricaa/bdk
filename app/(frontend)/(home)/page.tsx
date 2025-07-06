@@ -150,7 +150,7 @@ export default async function Home() {
           <div className='text-center mt-12 md:mt-17 xl:mt-12 2xl:mt-35'>
             <a
               href='#'
-              className='text-sky-400 hover:text-sky-300 transition-colors text-lg'
+              className='text-light-blue hover:text-light-blue/80 transition-colors text-lg'
             >
               View All News
             </a>
