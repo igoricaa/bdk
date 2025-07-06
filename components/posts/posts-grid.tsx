@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'motion/react';
 import SectionHeader from '../ui/section-header/section-header';
@@ -10,6 +10,7 @@ import { Button } from '../ui/button';
 import { useIsMobile } from '@/lib/hooks/use-mobile';
 import { fetchPaginatedPosts } from '@/app/actions/posts';
 import { cn } from '@/lib/utils';
+import PostSkeleton from './post-card-skeleton';
 
 interface Category {
   _id: string;
@@ -36,14 +37,18 @@ const PostsGrid = ({
   const [activeCategory, setActiveCategory] = useState('all');
   const isMobile = useIsMobile();
   const intersectionRef = useRef(null);
+  const isInView = useInView(intersectionRef, {
+    margin: '100px',
+    amount: 0.1,
+  });
 
-  // TanStack Query infinite query
   const {
     data,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading,
+    isFetching,
     isError,
     error,
   } = useInfiniteQuery({
@@ -78,35 +83,31 @@ const PostsGrid = ({
         : undefined,
   });
 
-  // Handle infinite scroll on mobile using Framer Motion's useInView
-  const isInView = useInView(intersectionRef, {
-    margin: '100px',
-    amount: 0.1,
-  });
-
-  // Trigger fetch when intersection element comes into view
-  const handleIntersect = useCallback(() => {
+  useEffect(() => {
+    console.log('Triggering fetchNextPage - test:', isInView);
+    console.log('isMobile', isMobile);
+    console.log('hasNextPage', hasNextPage);
+    console.log('isFetchingNextPage', isFetchingNextPage);
+    console.log('isInView', isInView);
     if (isMobile && hasNextPage && !isFetchingNextPage && isInView) {
+      console.log('Triggering fetchNextPage - isInView:', isInView);
       fetchNextPage();
     }
   }, [isMobile, hasNextPage, isFetchingNextPage, isInView, fetchNextPage]);
 
-  // Use effect to handle intersection
-  useEffect(() => {
-    handleIntersect();
-  }, [handleIntersect]);
-
-  // Handle manual load more on desktop
   const handleLoadMore = () => {
     if (!isMobile && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
   };
 
-  // Flatten all posts from all pages
   const allPosts = data?.pages?.flatMap((page) => page?.posts || []) || [];
 
-  if (isLoading) {
+  const isInitialLoading = isLoading && !data;
+  const isCategorySwitching =
+    isFetching && !isFetchingNextPage && !isInitialLoading;
+
+  if (isInitialLoading) {
     return (
       <section
         className={cn(
@@ -115,8 +116,10 @@ const PostsGrid = ({
         )}
       >
         <SectionHeader heading='BDKnowledge' colorVariant='dark' />
-        <div className='mt-12 md:mt-5 xl:mt-11 2xl:mt-20 flex justify-center'>
-          <div className='text-white'>Loading posts...</div>
+        <div className='mt-12 md:mt-5 xl:mt-11 2xl:mt-20 justify-center grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-9'>
+          {Array.from({ length: 9 }).map((_, index) => (
+            <PostSkeleton key={`skeleton-${index}`} className='col-span-1' />
+          ))}
         </div>
       </section>
     );
@@ -150,6 +153,7 @@ const PostsGrid = ({
       <SectionHeader
         heading='BDKnowledge'
         colorVariant='dark'
+        className='md:items-center'
         rightSideComponent={
           <PostsFilters
             categories={categories}
@@ -162,32 +166,32 @@ const PostsGrid = ({
       />
 
       <div className='mt-12 md:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-9'>
-        {allPosts.map((post: any) => (
-          <PostCard key={post._id} post={post} />
-        ))}
+        {isCategorySwitching
+          ? Array.from({ length: 9 }).map((_, index) => (
+              <PostSkeleton key={`skeleton-${index}`} />
+            ))
+          : allPosts.map((post: any) => (
+              <PostCard key={post._id} post={post} />
+            ))}
       </div>
 
-      {/* Loading state for more posts */}
       {isFetchingNextPage && (
         <div className='mt-12 flex justify-center'>
-          <div className='text-white'>Loading more posts...</div>
+          <p className='text-light-blue'>Loading more posts...</p>
         </div>
       )}
 
-      {/* Mobile: Infinite scroll trigger */}
-      {isMobile && hasNextPage && (
-        <div
-          ref={intersectionRef}
-          className='h-10 flex justify-center items-center mt-8'
-        >
-          <div className='text-white text-sm opacity-50'>
-            Scroll for more...
-          </div>
-        </div>
-      )}
+      {/* Mobile: Infinite scroll trigger - Always render to ensure ref is attached */}
+      <div ref={intersectionRef} className='lg:hidden h-10'>
+        {/* {isMobile && hasNextPage && !isCategorySwitching ? (
+          <p className='text-light-blue'>Scroll for more</p>
+        ) : (
+          <div className='h-10' />
+        )} */}
+      </div>
 
       {/* Desktop: Load More button */}
-      {!isMobile && hasNextPage && (
+      {!isMobile && hasNextPage && !isCategorySwitching && (
         <div className='mt-12 flex justify-center'>
           <Button
             onClick={handleLoadMore}
@@ -200,13 +204,11 @@ const PostsGrid = ({
       )}
 
       {/* No more posts message */}
-      {!hasNextPage && allPosts.length > 0 && (
+      {/* {!hasNextPage && allPosts.length > 0 && !isCategorySwitching && (
         <div className='mt-12 flex justify-center'>
-          <div className='text-white text-sm opacity-70'>
-            You've reached the end of the posts
-          </div>
+          <p className='text-light-blue'>You've reached the end of the posts</p>
         </div>
-      )}
+      )} */}
     </section>
   );
 };

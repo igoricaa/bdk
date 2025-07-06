@@ -46,7 +46,6 @@ export default function PostsFilters({
         count: allPostsCount,
       }}
       minOptionsToShow={0}
-      className='mb-12 md:mb-5 xl:mb-11 2xl:mb-20'
     />
   );
 }

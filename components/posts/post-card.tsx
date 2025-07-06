@@ -13,7 +13,7 @@ const PostCard = ({
   return (
     <article
       className={cn(
-        'bg-white rounded-bl-[2.5rem] xl:rounded-bl-[3rem] overflow-hidden aspect-[520/467] flex flex-col gap-3.5 md:gap-7.5 2xl:gap-13 px-side py-7 md:px-5 md:py-7.5 2xl:py-10 2xl:px-7',
+        'bg-white rounded-br-[2.5rem] xl:rounded-br-[3rem] overflow-hidden aspect-[520/467] flex flex-col gap-3.5 md:gap-7.5 2xl:gap-13 px-side py-7 md:px-5 md:py-7.5 2xl:py-10 2xl:px-7',
         className
       )}
     >
