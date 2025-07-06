@@ -1,7 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import FilterButtons from '@/components/ui/filter-buttons';
 
 interface Category {
   id: string;
@@ -13,36 +12,22 @@ interface CategoriesFilterProps {
   categories: Category[];
   activeCategory: string;
   onCategoryChange: (categoryId: string) => void;
+  variant?: 'dark' | 'light';
 }
 
 export default function CategoriesFilter({
   categories,
   activeCategory,
   onCategoryChange,
+  variant = 'light',
 }: CategoriesFilterProps) {
-  const availableCategories = categories.filter((cat) => cat.count > 0);
-
-  if (availableCategories.length <= 1) {
-    return null;
-  }
-
   return (
-    <div className='flex gap-1'>
-      {availableCategories.map((category) => (
-        <Button
-          key={category.id}
-          size='sm'
-          onClick={() => onCategoryChange(category.id)}
-          className={cn(
-            'transition-all duration-200 text-white text-sm rounded-full h-7.5 px-4 2xl:h-10 2xl:px-6 cursor-pointer',
-            activeCategory === category.id
-              ? 'bg-light-blue hover:bg-light-blue/80'
-              : 'bg-white/10 hover:bg-white/20'
-          )}
-        >
-          {category.label}
-        </Button>
-      ))}
-    </div>
+    <FilterButtons
+      options={categories}
+      activeOption={activeCategory}
+      onOptionChange={onCategoryChange}
+      variant={variant}
+      minOptionsToShow={1}
+    />
   );
 }

@@ -23,8 +23,6 @@ const placeholderExcerpt: PortableTextBlock[] = [
   },
 ];
 const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
-  console.log(post.excerpt);
-
   return (
     <article
       key={post._id}

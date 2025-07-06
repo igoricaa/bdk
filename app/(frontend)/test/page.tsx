@@ -3,14 +3,12 @@ import PortableText from '../../components/bamPortabletext';
 import {
   AUTHORS_QUERYResult,
   LAWYERS_QUERYResult,
-  POSTS_QUERYResult,
   PRACTICES_QUERYResult,
 } from '@/sanity.types';
 import type { PortableTextBlock } from '@portabletext/types';
 import {
   AUTHORS_QUERY,
   LAWYERS_QUERY,
-  POSTS_QUERY,
   PRACTICES_QUERY,
 } from '@/sanity/lib/queries';
 
@@ -18,7 +16,6 @@ export default async function TestPage() {
   const lawyers: LAWYERS_QUERYResult = await client.fetch(LAWYERS_QUERY);
   const practices: PRACTICES_QUERYResult = await client.fetch(PRACTICES_QUERY);
   const authors: AUTHORS_QUERYResult = await client.fetch(AUTHORS_QUERY);
-  const posts: POSTS_QUERYResult = await client.fetch(POSTS_QUERY);
 
   return (
     <main>

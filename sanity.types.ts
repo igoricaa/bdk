@@ -986,6 +986,24 @@ export type SanityAssetSourceData = {
 
 export type AllSanitySchemaTypes = Blinkdraft | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | PortableText | Author | Category | Post | Industry | Practice | Lawyer | LawyerCategory | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
+// Source: app/actions/posts.ts
+// Variable: PAGINATED_POSTS_QUERY
+// Query: *[_type == "post" && references(*[_type=="category" && slug.current == $categorySlug]._id)]   | order(date desc)[$start...$end] {    _id,    title,    slug,    date,    categories[]->{      _id,      name,      slug    }  }
+export type PAGINATED_POSTS_QUERYResult = Array<{
+  _id: string;
+  title: string;
+  slug: Slug;
+  date: string;
+  categories: Array<{
+    _id: string;
+    name: string;
+    slug: Slug;
+  }>;
+}>;
+// Variable: POSTS_COUNT_QUERY
+// Query: count(*[_type == "post" && references(*[_type=="category" && slug.current == $categorySlug]._id)])
+export type POSTS_COUNT_QUERYResult = number;
+
 // Source: sanity/lib/queries.ts
 // Variable: HOME_PAGE_QUERY
 // Query: {  "homePage": *[_type == "homePage"][0],  "blinkdraft": *[_type == "blinkdraft"][0]{    logo  },  "industries": *[_type == "industry"]{    title,    slug  },  "practices": *[_type == "practice"]{    title,    slug  },  "partners": *[_type == "lawyer" && category->title == "Partner"]{    name,    title,    picture  },  "newsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{    title,    slug,    date,  }}
@@ -1584,11 +1602,52 @@ export type GENERAL_INFO_QUERYResult = {
     };
   } | null;
 };
+// Variable: BDKNOWLEDGE_POSTS_QUERY
+// Query: {  "featuredPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...3] {    _id,    title,    slug,    excerpt,    featuredMedia,  },  "categories": *[_type == "category" && count(parent[_ref in *[_type=="category" && slug.current == $slug]._id]) > 0 && count > 0] | order(name asc) {    _id,    name,    slug,    count  },  "allPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[3...12] {    _id,    title,    slug,    date,    categories[]->{      _id,      name,      slug    }  }}
+export type BDKNOWLEDGE_POSTS_QUERYResult = {
+  featuredPosts: Array<{
+    _id: string;
+    title: string;
+    slug: Slug;
+    excerpt: PortableText | null;
+    featuredMedia: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+  }>;
+  categories: Array<{
+    _id: string;
+    name: string;
+    slug: Slug;
+    count: number | null;
+  }>;
+  allPosts: Array<{
+    _id: string;
+    title: string;
+    slug: Slug;
+    date: string;
+    categories: Array<{
+      _id: string;
+      name: string;
+      slug: Slug;
+    }>;
+  }>;
+};
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
+    "\n  *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $categorySlug]._id)] \n  | order(date desc)[$start...$end] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n": PAGINATED_POSTS_QUERYResult;
+    "\n  count(*[_type == \"post\" && references(*[_type==\"category\" && slug.current == $categorySlug]._id)])\n": POSTS_COUNT_QUERYResult;
     "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  },\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug\n  },\n  \"partners\": *[_type == \"lawyer\" && category->title == \"Partner\"]{\n    name,\n    title,\n    picture\n  },\n  \"newsroom\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    title,\n    slug,\n    date,\n  }\n}": HOME_PAGE_QUERYResult;
     "*[_type == \"lawyer\"]": LAWYERS_QUERYResult;
     "*[_type == \"lawyer\" && category->title == \"Partner\"]{\n  name,\n  title,\n  picture\n}": PARTNERS_LAWYERS_QUERYResult;
@@ -1598,5 +1657,6 @@ declare module "@sanity/client" {
     "{\n    \"allPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[3..-1] {\n      _id,\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    },\n    \"featuredPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...3] {\n      _id,\n      title,\n      slug,\n      excerpt,\n      featuredMedia,\n    }\n  }": POSTS_QUERYResult;
     "*[_type == \"post\" && slug.current == $slug][0]{\n      _id,\n      title,\n      slug,\n      date,\n      modified,\n      status,\n      content,\n      excerpt,\n      featuredMedia,\n      authors[]->{\n        _id,\n        name,\n        type,\n        lawyer->{\n          name,\n          title\n        },\n        customAuthor{\n          name\n        }\n      },\n      categories[]->{\n        _id,\n        name,\n        slug,\n        \"parentCategories\": parent[]->{\n          _id,\n          name,\n          slug,\n          \"parentCategories\": parent[]->{\n            _id,\n            name,\n            slug\n          }\n        }\n      }\n    }": POST_QUERYResult;
     "{\n  \"generalInfo\": *[_type == \"generalInfo\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  }\n}": GENERAL_INFO_QUERYResult;
+    "{\n  \"featuredPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...3] {\n    _id,\n    title,\n    slug,\n    excerpt,\n    featuredMedia,\n  },\n  \"categories\": *[_type == \"category\" && count(parent[_ref in *[_type==\"category\" && slug.current == $slug]._id]) > 0 && count > 0] | order(name asc) {\n    _id,\n    name,\n    slug,\n    count\n  },\n  \"allPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[3...12] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n}": BDKNOWLEDGE_POSTS_QUERYResult;
   }
 }

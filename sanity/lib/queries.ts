@@ -161,3 +161,30 @@ export const GENERAL_INFO_QUERY = defineQuery(`{
     logo
   }
 }`);
+
+export const BDKNOWLEDGE_POSTS_QUERY = defineQuery(`{
+  "featuredPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...3] {
+    _id,
+    title,
+    slug,
+    excerpt,
+    featuredMedia,
+  },
+  "categories": *[_type == "category" && count(parent[_ref in *[_type=="category" && slug.current == $slug]._id]) > 0 && count > 0] | order(name asc) {
+    _id,
+    name,
+    slug,
+    count
+  },
+  "allPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[3...12] {
+    _id,
+    title,
+    slug,
+    date,
+    categories[]->{
+      _id,
+      name,
+      slug
+    }
+  }
+}`);
