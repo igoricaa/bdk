@@ -58,7 +58,7 @@ const PeoplePage = async () => {
       <LawyersGrid
         lawyersByCategory={finalLawyersByCategory}
         categories={categories}
-        className='px-side'
+        className='px-side xl:px-0 xl:max-w-5xl 2xl:max-w-[1340px] xl:mx-auto'
       />
 
       <NewsroomSection
