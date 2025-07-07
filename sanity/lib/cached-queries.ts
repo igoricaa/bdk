@@ -1,12 +1,16 @@
 import { cache } from 'react';
-import { client } from './client';
+import { sanityFetch } from './client';
 import { GENERAL_INFO_QUERY } from './queries';
 import type { GENERAL_INFO_QUERYResult } from '@/sanity.types';
 
 // Cache the general info query so it's only fetched once per request
 export const getGeneralInfo = cache(
   async (): Promise<GENERAL_INFO_QUERYResult> => {
-    return await client.fetch(GENERAL_INFO_QUERY);
+    return await sanityFetch({
+      query: GENERAL_INFO_QUERY,
+      tags: ['general-info', 'navigation', 'footer'],
+      revalidate: 43200,
+    });
   }
 );
 

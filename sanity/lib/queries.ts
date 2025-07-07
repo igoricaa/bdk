@@ -243,3 +243,7 @@ export const PEOPLE_PAGE_QUERY = defineQuery(`{
     date,
   }
 }`);
+
+export const LAWYER_QUERY = defineQuery(`{
+  "lawyer": *[_type == "lawyer" && slug.current == $slug][0]
+}`);

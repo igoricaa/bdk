@@ -1,5 +1,5 @@
 import { POST_QUERY } from '@/sanity/lib/queries';
-import { client } from '@/sanity/lib/client';
+import { sanityFetch } from '@/sanity/lib/client';
 import { POST_QUERYResult } from '@/sanity.types';
 import { getGeneralInfo } from '@/sanity/lib/cached-queries';
 import { ArrowLeftIcon, ArrowRightIcon, Calendar } from 'lucide-react';
@@ -25,8 +25,13 @@ const PostPageWithCachedData = async ({
     { currentPost, previousPost, nextPost, relatedPosts },
     { generalInfo, blinkdraft },
   ] = await Promise.all([
-    client.fetch(POST_QUERY, { slug }),
-    getGeneralInfo(), // This uses the same cached data as the layout
+    sanityFetch({
+      query: POST_QUERY,
+      params: { slug },
+      tags: ['posts', `post-${slug}`, 'latest-posts'],
+      revalidate: 43200,
+    }),
+    getGeneralInfo(),
   ]);
 
   if (!currentPost) {

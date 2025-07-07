@@ -1,4 +1,4 @@
-import { client } from '@/sanity/lib/client';
+import { sanityFetch } from '@/sanity/lib/client';
 import { PRACTICE_QUERY } from '@/sanity/lib/queries';
 import { Post, PRACTICE_QUERYResult } from '@/sanity.types';
 import PracticeHeroSection from '@/components/services/practice-hero-section';
@@ -20,8 +20,9 @@ export default async function Page({
     industries,
     foreignDesks,
     autoNewsroom,
-  }: PRACTICE_QUERYResult = await client.fetch(PRACTICE_QUERY, {
-    slug,
+  }: PRACTICE_QUERYResult = await sanityFetch({
+    query: PRACTICE_QUERY,
+    params: { slug },
   });
 
   if (!currentPractice || !otherPractices || !industries || !foreignDesks) {

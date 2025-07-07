@@ -1,12 +1,14 @@
 import NewsroomSection from '@/components/home/newsroom-section';
 import LawyersGrid from '@/components/lawyers/lawyers-grid';
 import { PEOPLE_PAGE_QUERYResult, Post } from '@/sanity.types';
-import { client } from '@/sanity/lib/client';
+import { sanityFetch } from '@/sanity/lib/client';
 import { PEOPLE_PAGE_QUERY } from '@/sanity/lib/queries';
 
 const PeoplePage = async () => {
   const { peoplePage, lawyers, newsroomPosts }: PEOPLE_PAGE_QUERYResult =
-    await client.fetch(PEOPLE_PAGE_QUERY);
+    await sanityFetch({
+      query: PEOPLE_PAGE_QUERY,
+    });
 
   if (!peoplePage || !lawyers || lawyers.length === 0) {
     return <div>No people page found</div>;

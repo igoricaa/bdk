@@ -2,7 +2,7 @@
 
 import { createSafeActionClient } from 'next-safe-action';
 import { z } from 'zod';
-import { client } from '@/sanity/lib/client';
+import { sanityFetch } from '@/sanity/lib/client';
 import { defineQuery } from 'next-sanity';
 
 const POSTS_PER_PAGE = 9;
@@ -39,10 +39,6 @@ export const fetchPaginatedPosts = createSafeActionClient()
   .schema(fetchPostsSchema)
   .action(async ({ parsedInput: { categorySlug, page } }) => {
     try {
-      // Account for featured posts offset
-      // Page 0: posts [3...11] (already loaded on initial page)
-      // Page 1: posts [12...20] (first load more)
-      // Page 2: posts [21...29] (second load more)
       const start = FEATURED_POSTS_COUNT + page * POSTS_PER_PAGE;
       const end = start + POSTS_PER_PAGE - 1;
 
@@ -51,17 +47,26 @@ export const fetchPaginatedPosts = createSafeActionClient()
         categorySlug === 'all' ? 'bdknowledge' : categorySlug;
 
       const [posts, totalCount] = await Promise.all([
-        client.fetch(PAGINATED_POSTS_QUERY, {
-          categorySlug: actualCategorySlug,
-          start,
-          end,
+        sanityFetch({
+          query: PAGINATED_POSTS_QUERY,
+          params: {
+            categorySlug: actualCategorySlug,
+            start,
+            end,
+          },
+          tags: ['posts', `posts-${actualCategorySlug}`, 'categories'],
+          revalidate: 43200,
         }),
-        client.fetch(POSTS_COUNT_QUERY, {
-          categorySlug: actualCategorySlug,
+        sanityFetch({
+          query: POSTS_COUNT_QUERY,
+          params: {
+            categorySlug: actualCategorySlug,
+          },
+          tags: ['posts', `posts-${actualCategorySlug}`, 'categories'],
+          revalidate: 43200,
         }),
       ]);
 
-      // For specific categories, filter posts that belong to that category
       const filteredPosts =
         categorySlug === 'all'
           ? posts
@@ -71,7 +76,6 @@ export const fetchPaginatedPosts = createSafeActionClient()
               )
             );
 
-      // Calculate if there's a next page (accounting for featured posts offset)
       const hasNextPage = start + POSTS_PER_PAGE < totalCount;
 
       return {

@@ -1,4 +1,4 @@
-import { client } from '@/sanity/lib/client';
+import { sanityFetch } from '@/sanity/lib/client';
 import {
   HOME_PAGE_QUERYResult,
   Industry,
@@ -29,7 +29,10 @@ export default async function Home() {
     practices,
     partners,
     newsroom: newsroomPosts,
-  }: HOME_PAGE_QUERYResult = await client.fetch(HOME_PAGE_QUERY);
+  }: HOME_PAGE_QUERYResult = await sanityFetch({
+    query: HOME_PAGE_QUERY,
+    tags: ['home-page'],
+  });
 
   if (!homePageData) {
     return <div>No home page data found</div>;

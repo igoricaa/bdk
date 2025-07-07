@@ -1,5 +1,5 @@
 import { POST_QUERY } from '@/sanity/lib/queries';
-import { client } from '@/sanity/lib/client';
+import { sanityFetch } from '@/sanity/lib/client';
 import { POST_QUERYResult } from '@/sanity.types';
 import { ArrowLeftIcon, ArrowRightIcon, Calendar } from 'lucide-react';
 import { Image } from 'next-sanity/image';
@@ -16,7 +16,11 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
 
   const { currentPost, previousPost, nextPost, relatedPosts } =
-    await client.fetch(POST_QUERY, { slug });
+    await sanityFetch({
+      query: POST_QUERY,
+      params: { slug },
+      tags: ['bdknowledge'],
+    });
 
   if (!currentPost) {
     return <div>Post not found</div>;
