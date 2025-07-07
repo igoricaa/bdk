@@ -35,22 +35,20 @@ export default function FilterButtons({
 
   const getButtonStyles = (isActive: boolean) => {
     const baseStyles =
-      'transition-all duration-200 text-sm rounded-full h-7.5 px-4 2xl:h-10 2xl:px-6 cursor-pointer';
+      'transition-all duration-200 text-sm rounded-full h-7.5 px-4 2xl:h-10 2xl:px-6 cursor-pointer text-white';
 
     if (variant === 'dark') {
       return cn(
         baseStyles,
-        'text-white',
+        'border border-light-blue',
         isActive
           ? 'bg-light-blue hover:bg-light-blue/80'
-          : 'bg-transparent hover:bg-light-blue border border-light-blue text-light-blue hover:text-white'
+          : 'bg-transparent text-light-blue hover:bg-light-blue hover:text-white'
       );
     }
 
-    // Light variant (original styling)
     return cn(
       baseStyles,
-      'text-white',
       isActive
         ? 'bg-light-blue hover:bg-light-blue/80'
         : 'bg-white/10 hover:bg-white/20'
@@ -58,7 +56,7 @@ export default function FilterButtons({
   };
 
   return (
-    <div className={cn('overflow-x-auto flex gap-1 2xl:gap-2.5', className)}>
+    <div className={cn('overflow-x-scroll flex gap-1 2xl:gap-2.5', className)}>
       {allOptions.map((option) => (
         <Button
           key={option.id}

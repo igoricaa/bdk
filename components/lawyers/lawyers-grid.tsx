@@ -44,7 +44,7 @@ const LawyersGrid = ({
       <AnimatePresence mode='wait'>
         <motion.div
           key={activeCategory}
-          className='px-side grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-5 xl:gap-x-6 xl:gap-y-12 2xl:gap-x-7 2xl:gap-y-13 mt-4 md:mt-5 xl:mt-11 2xl:mt-12.5'
+          className='px-side grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-5 xl:gap-x-6 xl:gap-y-12 2xl:gap-x-7 2xl:gap-y-13 mt-8 md:mt-10 xl:mt-11 2xl:mt-12.5'
           layout
           initial='hidden'
           animate='visible'
