@@ -1,5 +1,6 @@
 import { urlFor } from '@/sanity/lib/image';
 import { PRACTICE_QUERYResult } from '@/sanity.types';
+import { TextShimmer } from '../ui/text-shimmer';
 
 interface PracticeHeroSectionProps {
   currentPractice: NonNullable<PRACTICE_QUERYResult['currentPractice']>;
@@ -14,8 +15,14 @@ const PracticeHeroSection = ({ currentPractice }: PracticeHeroSectionProps) => {
         // -top-3/20
         className='w-full object-cover absolute top-0 sm:-top-[5%] xl:-top-1/2 right-0 max-w-full md:max-w-3/5'
       />
-      <h1 className='text-white text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl mt-auto'>
-        {currentPractice.title}
+      <h1 className='text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl mt-auto'>
+        <TextShimmer
+          className='[--base-color:#fff] [--base-gradient-color:hsl(var(--light-blue))]'
+          spread={5}
+          duration={2.5}
+        >
+          {currentPractice.title}
+        </TextShimmer>
       </h1>
     </section>
   );
