@@ -1,6 +1,6 @@
-import { defineField } from 'sanity';
+import { defineType } from 'sanity';
 
-export const portableTextType = defineField({
+export const portableTextType = defineType({
   name: 'portableText',
   type: 'array',
   of: [
