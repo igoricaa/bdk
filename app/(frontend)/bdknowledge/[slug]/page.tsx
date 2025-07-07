@@ -1,20 +1,33 @@
 import { POST_QUERY } from '@/sanity/lib/queries';
 import { sanityFetch } from '@/sanity/lib/client';
 import { POST_QUERYResult } from '@/sanity.types';
-import { ArrowLeftIcon, ArrowRightIcon, Calendar } from 'lucide-react';
+import { ArrowLeftIcon, ArrowRightIcon, Calendar, Clock } from 'lucide-react';
 import { Image } from 'next-sanity/image';
 import { urlFor, urlForUncropped } from '@/sanity/lib/image';
 import Link from 'next/link';
 import PortableText from '@/components/ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
-import { cn, formatDate } from '@/lib/utils';
+import {
+  calculateReadingTimeFromPortableText,
+  cn,
+  formatDate,
+} from '@/lib/utils';
 import RelatedPostsSection from '@/components/services/related-posts-section';
 import ShareButtons from '@/components/posts/share-buttons';
 import BackToButton from '@/components/ui/buttons/back-to-button';
 import { ScrollProgress } from '@/components/ui/scroll-progress';
 
+const readingTimeCache = new Map();
+
 const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
+
+  const cacheKey = `post-${slug}`;
+
+  // Check cache first
+  if (readingTimeCache.has(cacheKey)) {
+    return readingTimeCache.get(cacheKey);
+  }
 
   const { currentPost, previousPost, nextPost, relatedPosts } =
     await sanityFetch({
@@ -26,6 +39,12 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   if (!currentPost) {
     return <div>Post not found</div>;
   }
+
+  const readingTime = calculateReadingTimeFromPortableText(
+    currentPost.content as PortableTextBlock[]
+  );
+
+  readingTimeCache.set(cacheKey, readingTime);
 
   const newsroomPosts =
     relatedPosts
@@ -82,6 +101,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
           <PostHeader
             title={currentPost.title}
             date={formatDate(currentPost.date)}
+            readingTime={readingTime}
             authors={currentPost.authors}
             categories={currentPost.categories}
             featuredMedia={currentPost.featuredMedia}
@@ -180,9 +200,29 @@ const DateBlock = ({ date }: { date: string }) => {
   );
 };
 
+const ReadingTimeBlock = ({
+  readingTime,
+}: {
+  readingTime: {
+    minutes: number;
+    words: number;
+    text: string;
+  };
+}) => {
+  return (
+    <div className='flex items-center gap-2'>
+      <span className='text-light-blue text-xxs xl:text-sm 2xl:text-base flex items-center gap-2'>
+        <Clock className='w-4 h-4' />
+        {readingTime.text}
+      </span>
+    </div>
+  );
+};
+
 const PostHeader = ({
   title,
   date,
+  readingTime,
   authors,
   categories,
   featuredMedia,
@@ -190,6 +230,11 @@ const PostHeader = ({
 }: {
   title: string;
   date: string;
+  readingTime: {
+    minutes: number;
+    words: number;
+    text: string;
+  };
   authors: NonNullable<POST_QUERYResult['currentPost']>['authors'];
   categories: NonNullable<POST_QUERYResult['currentPost']>['categories'];
   featuredMedia: NonNullable<POST_QUERYResult['currentPost']>['featuredMedia'];
@@ -198,7 +243,10 @@ const PostHeader = ({
   return (
     <div className='flex flex-col md:flex-col-reverse gap-6 md:gap-10 xl:gap-4 2xl:gap-19'>
       <div>
-        <DateBlock date={date} />
+        <div className='flex items-center gap-4 md:gap-8'>
+          <DateBlock date={date} />
+          <ReadingTimeBlock readingTime={readingTime} />
+        </div>
 
         <AuthorsBlock authors={authors} currentPost={currentPost} />
 

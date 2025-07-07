@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from 'clsx';
+import { PortableTextBlock, toPlainText } from 'next-sanity';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -27,3 +28,61 @@ export const formatDate = (dateString: string) => {
   const year = dateObj.getFullYear();
   return `${day}.${month}.${year}`;
 };
+
+export function calculateReadingTimeFromPortableText(
+  portableText: PortableTextBlock[]
+) {
+  const wordsPerMinute = 200;
+
+  // Convert Portable Text to plain text
+  const plainText = toPlainText(portableText);
+
+  // Count words
+  const words = plainText
+    .trim()
+    .split(/\s+/)
+    .filter((word) => word.length > 0).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+
+  return {
+    minutes: minutes || 1, // Minimum 1 minute
+    words,
+    text: `${minutes || 1} min read`,
+  };
+}
+
+// Alternative method without @portabletext/react dependency
+export function calculateReadingTimeFromPortableTextManual(
+  portableText: PortableTextBlock[]
+) {
+  const wordsPerMinute = 200;
+
+  // Extract text from Portable Text blocks manually
+  const extractText = (blocks: PortableTextBlock[]) => {
+    return blocks
+      .map((block) => {
+        if (block._type === 'block' && block.children) {
+          return block.children
+            .filter((child) => child._type === 'span')
+            .map((span) => span.text)
+            .join(' ');
+        }
+        return '';
+      })
+      .filter((text) => text.trim().length > 0)
+      .join(' ');
+  };
+
+  const plainText = extractText(portableText);
+  const words = plainText
+    .trim()
+    .split(/\s+/)
+    .filter((word) => word.length > 0).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+
+  return {
+    minutes: minutes || 1,
+    words,
+    text: `${minutes || 1} min read`,
+  };
+}
