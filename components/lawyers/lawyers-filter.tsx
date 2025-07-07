@@ -1,12 +1,14 @@
 'use client';
 
 import FilterButtons, { FilterOption } from '@/components/ui/filter-buttons';
+import { cn } from '@/lib/utils';
 
 interface LawyersFilterProps {
   categories: FilterOption[];
   activeCategory: string;
   onCategoryChange: (categoryId: string) => void;
   variant?: 'dark' | 'light';
+  className?: string;
 }
 
 export default function LawyersFilter({
@@ -14,6 +16,7 @@ export default function LawyersFilter({
   activeCategory,
   onCategoryChange,
   variant = 'light',
+  className,
 }: LawyersFilterProps) {
   return (
     <FilterButtons
@@ -21,7 +24,7 @@ export default function LawyersFilter({
       activeOption={activeCategory}
       onOptionChange={onCategoryChange}
       variant={variant}
-      className='gap-0!'
+      className={cn('gap-0!', className)}
     />
   );
 }

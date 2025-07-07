@@ -26,7 +26,7 @@ const Sidebar = ({
       <Accordion type='single' collapsible className='xl:hidden'>
         <AccordionItem value='sidebar-content'>
           <AccordionTrigger
-            className='flex items-center justify-between text-sm py-0 [&[data-state=open]>svg]:rotate-180'
+            className='flex items-center justify-between text-base py-0 [&[data-state=open]>svg]:rotate-180'
             icon={
               <ChevronDown
                 strokeWidth={1}

@@ -105,12 +105,12 @@ const PostsGrid = ({
     return (
       <section
         className={cn(
-          'px-side pt-19 pb-25 md:pt-25 md:pb-28 xl:py-30 2xl:py-42 bg-light-blue-bg rounded-t-main',
+          'px-side pt-19 pb-25 sm:pt-25 sm:pb-28 xl:py-30 2xl:py-42 bg-light-blue-bg rounded-t-main',
           className
         )}
       >
         <SectionHeader heading='BDKnowledge' colorVariant='dark' />
-        <div className='mt-12 md:mt-5 xl:mt-11 2xl:mt-20 justify-center grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-9'>
+        <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 justify-center grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 xl:gap-9'>
           {Array.from({ length: 9 }).map((_, index) => (
             <PostSkeleton key={`skeleton-${index}`} className='col-span-1' />
           ))}
@@ -123,12 +123,12 @@ const PostsGrid = ({
     return (
       <section
         className={cn(
-          'px-side pt-19 pb-25 md:pt-25 md:pb-28 xl:py-30 2xl:py-42 bg-light-blue-bg rounded-t-main',
+          'px-side pt-19 pb-25 sm:pt-25 sm:pb-28 xl:py-30 2xl:py-42 bg-light-blue-bg rounded-t-main',
           className
         )}
       >
         <SectionHeader heading='BDKnowledge' colorVariant='dark' />
-        <div className='mt-12 md:mt-5 xl:mt-11 2xl:mt-20 flex justify-center'>
+        <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 flex justify-center'>
           <div className='text-red-500'>
             Error: {error?.message || 'Failed to load posts'}
           </div>
@@ -140,7 +140,7 @@ const PostsGrid = ({
   return (
     <section
       className={cn(
-        'px-side pt-19 pb-25 md:pt-25 md:pb-28 xl:py-30 2xl:py-42 bg-light-blue-bg rounded-t-main',
+        'px-side pt-19 pb-25 sm:pt-25 sm:pb-28 xl:py-30 2xl:py-42 bg-light-blue-bg rounded-t-main',
         className
       )}
     >
@@ -158,7 +158,7 @@ const PostsGrid = ({
         }
       />
 
-      <div className='mt-12 md:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-9'>
+      <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 xl:gap-9'>
         {isCategorySwitching
           ? Array.from({ length: 9 }).map((_, index) => (
               <PostSkeleton key={`skeleton-${index}`} />

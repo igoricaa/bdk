@@ -91,7 +91,7 @@ const PracticeAccordionItem = ({
   return (
     <AccordionItem value={value}>
       <AccordionTrigger
-        className='flex items-center justify-between py-2.5 pl-4 pr-2.5 2xl:py-3.25 2xl:pl-5 2xl:pr-3 cursor-pointer bg-light-blue/15 text-dark-blue text-sm 2xl:text-lg'
+        className='flex items-center justify-between py-2.5 pl-4 pr-2.5 2xl:py-3.25 2xl:pl-5 2xl:pr-3 cursor-pointer bg-light-blue/15 text-dark-blue text-base 2xl:text-lg'
         icon={<PlusIcon />}
       >
         <div className='flex items-center gap-2.5 2xl:gap-3.5'>
