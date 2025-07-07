@@ -85,6 +85,7 @@ const PostPageWithCachedData = async ({
         newsroomPosts={relatedPosts?.slice(0, 4) || []}
         blogPosts={relatedPosts?.slice(4, 8) || []}
         insightsPosts={relatedPosts?.slice(8, 12) || []}
+        title='Related Posts'
       />
     </main>
   );
