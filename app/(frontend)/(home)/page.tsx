@@ -79,7 +79,8 @@ export default async function Home() {
       </section> */}
 
       {/* <section className='px-side h-screen flex flex-col justify-center bg-white'> */}
-      <AuroraBackground className='h-[calc(100vh-20px)] md:h-[calc(100vh-40px)]'>
+      {/* h-[calc(100vh-20px)] md:h-[calc(100vh-40px)] */}
+      <AuroraBackground className='h-screen'>
         <InViewWrapper>
           <AnimatedHeroHeading
             text={homePageData.hero.heading}
