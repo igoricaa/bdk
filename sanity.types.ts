@@ -64,7 +64,7 @@ export type Country = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -190,7 +190,7 @@ export type BlinkdraftSection = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -298,7 +298,7 @@ export type AboutSection = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -372,7 +372,7 @@ export type ForeignDesk = {
         _type: "span";
         _key: string;
       }>;
-      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
       listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
@@ -403,7 +403,7 @@ export type ForeignDesk = {
         _type: "span";
         _key: string;
       }>;
-      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
       listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
@@ -477,7 +477,7 @@ export type PortableText = Array<{
     _type: "span";
     _key: string;
   }>;
-  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
   listItem?: "bullet" | "number";
   markDefs?: Array<{
     href?: string;
@@ -611,7 +611,7 @@ export type Industry = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -693,7 +693,7 @@ export type Practice = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -811,7 +811,7 @@ export type Lawyer = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -862,7 +862,7 @@ export type BlockContent = Array<{
     _type: "span";
     _key: string;
   }>;
-  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
   listItem?: "bullet" | "number";
   markDefs?: Array<{
     href?: string;
@@ -1156,7 +1156,7 @@ export type LAWYERS_QUERYResult = Array<{
       _type: "span";
       _key: string;
     }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "highlighted" | "normal";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -1224,7 +1224,7 @@ export type PRACTICE_QUERYResult = {
         _type: "span";
         _key: string;
       }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "highlighted" | "normal";
       listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
@@ -1351,7 +1351,7 @@ export type PRACTICES_QUERYResult = Array<{
       _type: "span";
       _key: string;
     }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "highlighted" | "normal";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -1417,7 +1417,7 @@ export type PRACTICES_QUERYResult = Array<{
         _type: "span";
         _key: string;
       }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "highlighted" | "normal";
       listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
@@ -1784,7 +1784,7 @@ export type LAWYER_QUERYResult = {
         _type: "span";
         _key: string;
       }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "highlighted" | "normal";
       listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;

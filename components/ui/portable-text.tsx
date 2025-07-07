@@ -75,6 +75,14 @@ const PortableText = ({
           {children}
         </p>
       ),
+      highlighted: ({ value, children }) => (
+        <p
+          className='text-xl sm:text-2xl xl:text-[2rem] text-dark-blue'
+          id={value?._key}
+        >
+          {children}
+        </p>
+      ),
     },
     // marks: {
     //   link: ({ children, value: link }) => {

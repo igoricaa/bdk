@@ -14,6 +14,7 @@ export const blockContentType = defineType({
         { title: 'H3', value: 'h3' },
         { title: 'H4', value: 'h4' },
         { title: 'Quote', value: 'blockquote' },
+        { title: 'Highlighted', value: 'highlighted' },
       ],
       marks: {
         decorators: [
