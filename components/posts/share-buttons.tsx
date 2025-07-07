@@ -5,17 +5,19 @@ import LnIcon from '../ui/icons/ln-icon';
 import { cn } from '@/lib/utils';
 
 const ShareButtons = ({
-  currentPost,
+  postSlug,
+  postTitle,
   className,
 }: {
-  currentPost: NonNullable<POST_QUERYResult['currentPost']>;
+  postSlug: string;
+  postTitle: string;
   className?: string;
 }) => {
-  if (!currentPost) return null;
+  if (!postSlug || !postTitle) return null;
 
-  const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bdklaw.com'}/bdknowledge/${currentPost.slug?.current}`;
+  const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bdklaw.com'}/bdknowledge/${postSlug}`;
   const encodedUrl = encodeURIComponent(currentUrl);
-  const encodedTitle = encodeURIComponent(currentPost.title || '');
+  const encodedTitle = encodeURIComponent(postTitle || '');
 
   const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
   const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}&title=${encodedTitle}`;

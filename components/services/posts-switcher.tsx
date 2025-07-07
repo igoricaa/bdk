@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { cn } from '@/lib/utils';
+import { cn, formatDate } from '@/lib/utils';
 import ArrowUpRight from '@/components/ui/arrow-up-right';
 import Link from 'next/link';
 import { Slug } from '@/sanity.types';
@@ -111,7 +111,7 @@ export default function PostsSwitcher({
               <div className='flex flex-col justify-between h-full'>
                 <div>
                   <p className='text-sm 2xl:text-base text-light-blue'>
-                    {post.date}
+                    {formatDate(post.date)}
                   </p>
                   <h3 className='text-2xl 2xl:text-[2rem] mt-5'>
                     {post.title}

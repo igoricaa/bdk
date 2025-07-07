@@ -7,7 +7,7 @@ import { urlFor, urlForUncropped } from '@/sanity/lib/image';
 import Link from 'next/link';
 import PortableText from '@/components/ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
-import { cn } from '@/lib/utils';
+import { cn, formatDate } from '@/lib/utils';
 import RelatedPostsSection from '@/components/services/related-posts-section';
 import ArrowLeft from '@/components/ui/arrow-left';
 import ShareButtons from '@/components/posts/share-buttons';
@@ -69,12 +69,15 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
             className='hidden md:flex'
           />
 
-          <ShareButtons currentPost={currentPost} />
+          <ShareButtons
+            postSlug={currentPost.slug.current}
+            postTitle={currentPost.title}
+          />
         </div>
         <article className='order-1 xl:order-2 w-full xl:col-span-7 xl:col-start-4 2xl:col-span-8 2xl:col-start-4'>
           <PostHeader
             title={currentPost.title}
-            date={currentPost.date}
+            date={formatDate(currentPost.date)}
             authors={currentPost.authors}
             categories={currentPost.categories}
             featuredMedia={currentPost.featuredMedia}
@@ -154,7 +157,8 @@ const AuthorsBlock = ({
         ))}
       </div>
       <ShareButtons
-        currentPost={currentPost}
+        postSlug={currentPost.slug.current}
+        postTitle={currentPost.title}
         className='hidden md:flex xl:hidden'
       />
     </div>

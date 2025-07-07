@@ -1,7 +1,7 @@
 import { POSTS_QUERYResult } from '@/sanity.types';
 import Link from 'next/link';
 import ArrowUpRight from '../ui/arrow-up-right';
-import { cn } from '@/lib/utils';
+import { cn, formatDate } from '@/lib/utils';
 
 const PostCard = ({
   post,
@@ -24,7 +24,9 @@ const PostCard = ({
         className='flex flex-col gap-8 md:gap-7.5 2xl:gap-13 justify-between h-full px-side py-7 md:px-5 md:py-7.5 2xl:py-10 2xl:px-7'
       >
         <div className='flex flex-col'>
-          <p className='text-light-blue text-xxs 2xl:text-base'>{post.date}</p>
+          <p className='text-light-blue text-xxs 2xl:text-base'>
+            {formatDate(post.date)}
+          </p>
           <h3 className='mt-5 text-dark-blue text-2xl 2xl:text-3xl'>
             {post.title}
           </h3>

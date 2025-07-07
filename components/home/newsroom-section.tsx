@@ -1,5 +1,5 @@
 import SectionHeader from '../ui/section-header/section-header';
-import { cn } from '@/lib/utils';
+import { cn, formatDate } from '@/lib/utils';
 import { Post } from '@/sanity.types';
 import ArrowUpRight from '../ui/arrow-up-right';
 import Section from '../ui/section';
@@ -43,7 +43,7 @@ const NewsroomSection = ({
               <div className='flex flex-col justify-between h-full'>
                 <div>
                   <p className='text-sm 2xl:text-base text-light-blue'>
-                    {post.date}
+                    {formatDate(post.date)}
                   </p>
                   <h3 className='text-2xl 2xl:text-[2rem] mt-5'>
                     {post.title}
