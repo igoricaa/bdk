@@ -20,6 +20,7 @@ import LatestPostsSection from '@/components/home/latest-posts/latest-posts-sect
 import ServicesSection from '@/components/home/services/services-section';
 import SectionHeader from '@/components/ui/section-header/section-header';
 import NewsroomSection from '@/components/home/newsroom-section';
+import Section from '@/components/ui/section';
 
 export default async function Home() {
   const {
@@ -87,7 +88,7 @@ export default async function Home() {
         </div>
         <PortableText
           className='text-lightest-blue mt-8 xl:mt-12 2xl:mt-12 xl:max-w-1/2'
-          paragraphClassName='md:text-lg 2xl:text-2xl text-justify mt-4 md:mt-4.5 2xl:mt-6'
+          paragraphClassName='md:text-lg 2xl:text-2xl mt-4 md:mt-4.5 2xl:mt-6'
           value={homePageData.about.description as PortableTextBlock[]}
         />
         <Link href='/about' className='text-white mt-10 2xl:mt-15 flex'>
@@ -123,7 +124,8 @@ export default async function Home() {
 
         <LawyersList
           lawyers={partners as Lawyer[]}
-          className='mt-4 md:mt-5 xl:mt-8 2xl:mt-16'
+          gridLimit={6}
+          className='mt-4 md:mt-5 xl:mt-8 2xl:mt-16 px-side'
         />
       </section>
 
@@ -155,41 +157,43 @@ export default async function Home() {
       />
 
       {/* Blinkdraft */}
-      <section className='bg-white'>
-        <div className='flex flex-col items-center px-side bg-light-blue-bg rounded-t-main py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43'>
-          {blinkdraftData && (
-            <div className='w-28 md:w-34 2xl:w-45'>
-              <img
-                src={urlFor(blinkdraftData.logo).url()}
-                alt='BDK - Blinkdraft'
-                className='w-full h-full object-cover'
-              />
-            </div>
-          )}
-
-          <h2 className='text-center mt-5 md:mt-10 xl:mt-12.5 2xl:mt-15 text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
-            {homePageData.blinkdraft.heading}
-          </h2>
-          <PortableText
-            value={homePageData.blinkdraft.description as PortableTextBlock[]}
-            className='mt-4 text-center text-grey-text md:text-xl xl:text-2xl 2xl:text-3xl md:mt-7.5 xl:max-w-1/2'
-          />
-          <div className='flex gap-3 mt-4 md:mt-9 xl:mt-11 2xl:mt-18'>
-            <Link
-              href='/blinkdraft'
-              className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
-            >
-              English <ArrowUpRight className='bg-light-blue' />
-            </Link>
-            <Link
-              href='/blinkdraft/sr'
-              className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
-            >
-              Serbian <ArrowUpRight className='bg-light-blue' />
-            </Link>
+      <Section
+        variant='blue'
+        underColor='bg-white'
+        className='flex flex-col items-center'
+      >
+        {blinkdraftData && (
+          <div className='w-28 md:w-34 2xl:w-45'>
+            <img
+              src={urlFor(blinkdraftData.logo).url()}
+              alt='BDK - Blinkdraft'
+              className='w-full h-full object-cover'
+            />
           </div>
+        )}
+
+        <h2 className='text-center mt-5 md:mt-10 xl:mt-12.5 2xl:mt-15 text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
+          {homePageData.blinkdraft.heading}
+        </h2>
+        <PortableText
+          value={homePageData.blinkdraft.description as PortableTextBlock[]}
+          className='mt-4 text-center text-grey-text md:text-xl xl:text-2xl 2xl:text-3xl md:mt-7.5 xl:max-w-1/2'
+        />
+        <div className='flex gap-3 mt-4 md:mt-9 xl:mt-11 2xl:mt-18'>
+          <Link
+            href='/blinkdraft'
+            className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
+          >
+            English <ArrowUpRight className='bg-light-blue' />
+          </Link>
+          <Link
+            href='/blinkdraft/sr'
+            className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
+          >
+            Serbian <ArrowUpRight className='bg-light-blue' />
+          </Link>
         </div>
-      </section>
+      </Section>
     </main>
   );
 }

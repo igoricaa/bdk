@@ -245,5 +245,52 @@ export const PEOPLE_PAGE_QUERY = defineQuery(`{
 }`);
 
 export const LAWYER_QUERY = defineQuery(`{
-  "lawyer": *[_type == "lawyer" && slug.current == $slug][0]
+  "lawyer": *[_type == "lawyer" && slug.current == $slug][0],
+  "partners": *[_type == "lawyer" && category->title == "Partner"]{
+    _id,
+    name,
+    title,
+    picture,
+    slug,
+  },
+  "newsroomPosts": *[
+    _type == "post" 
+    && status == "publish"
+    && references(*[_type=="category" && name=="Newsroom"]._id)
+    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0
+  ] | order(date desc)[0...4]{
+    title,
+    slug,
+    date
+  },
+  "blogPosts": *[
+    _type == "post" 
+    && status == "publish"
+    && references(*[_type=="category" && name=="Blog"]._id)
+    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0
+  ] | order(date desc)[0...4]{
+    title,
+    slug,
+    date
+  },
+  "insightsPosts": *[
+    _type == "post" 
+    && status == "publish"
+    && references(*[_type=="category" && name=="Insights"]._id)
+    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0
+  ] | order(date desc)[0...4]{
+    title,
+    slug,
+    date
+  },  
+  "publications": *[
+    _type == "post" 
+    && status == "publish"
+    && references(*[_type=="category" && name=="Publications"]._id)
+    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0
+  ] | order(date desc)[0...4]{
+    title,
+    slug,
+    date
+  },
 }`);

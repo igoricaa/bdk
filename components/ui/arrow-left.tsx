@@ -9,11 +9,7 @@ const ArrowLeft = ({ className }: { className?: string }) => {
         className
       )}
     >
-      <ArrowIcon
-        size={32}
-        strokeWidth={1}
-        className='w-8 h-8'
-      />
+      <ArrowIcon size={32} strokeWidth={1} className='w-8 h-8' />
     </div>
   );
 };

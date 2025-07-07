@@ -31,7 +31,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning>
       <body className={`${dmSans.variable} antialiased`}>
         <QueryProvider>
           <Lenis>

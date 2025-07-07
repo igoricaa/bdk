@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import {
   Carousel,
   CarouselContent,
@@ -12,16 +13,22 @@ import Autoplay from 'embla-carousel-autoplay';
 interface TestimonialsCarouselProps {
   testimonials: Testimonial[];
   className?: string;
+  cardClassName?: string;
 }
 
 export default function TestimonialsCarousel({
   testimonials,
   className,
+  cardClassName,
 }: TestimonialsCarouselProps) {
   return (
-    <div className='space-y-6'>
+    <div
+      className={cn(
+        'border-l-[3px] border-light-blue pl-5 2xl:pl-8 space-y-6',
+        className
+      )}
+    >
       <Carousel
-        className={className}
         opts={{
           align: 'start',
           loop: true,
@@ -38,7 +45,10 @@ export default function TestimonialsCarousel({
               key={testimonial.author + index}
               className='pl-5 2xl:pl-8'
             >
-              <TestimonialCard testimonial={testimonial} />
+              <TestimonialCard
+                testimonial={testimonial}
+                className={cardClassName}
+              />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -48,9 +58,15 @@ export default function TestimonialsCarousel({
   );
 }
 
-const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
+const TestimonialCard = ({
+  testimonial,
+  className,
+}: {
+  testimonial: Testimonial;
+  className?: string;
+}) => {
   return (
-    <article className='pb-10 md:pb-17 2xl:pb-23'>
+    <article className={cn('pb-10 md:pb-17 2xl:pb-23', className)}>
       <div className='flex flex-col md:flex-col-reverse gap-10 md:gap-12 2xl:gap-15'>
         <p className='text-grey-text text-lg xl:text-2xl 2xl:text-[2rem] italic'>
           '{testimonial.text}'

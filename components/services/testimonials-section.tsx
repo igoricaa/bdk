@@ -11,9 +11,10 @@ const TestimonialsSection = ({
       <h2 className='text-dark-blue text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
         Mentions
       </h2>
-      <div className='border-l-[3px] border-light-blue pl-5 2xl:pl-8 md:max-w-4/6 xl:max-w-6/10'>
-        <TestimonialsCarousel testimonials={testimonials} />
-      </div>
+      <TestimonialsCarousel
+        testimonials={testimonials}
+        className='md:max-w-4/6 xl:max-w-6/10'
+      />
     </section>
   );
 };

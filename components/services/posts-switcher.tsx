@@ -15,17 +15,21 @@ interface RelatedPost {
 }
 
 interface PostsSwitcherProps {
+  title: string;
   newsroomPosts?: RelatedPost[];
   blogPosts?: RelatedPost[];
   insightsPosts?: RelatedPost[];
+  publications?: RelatedPost[];
 }
 
 export default function PostsSwitcher({
+  title,
   newsroomPosts,
   blogPosts,
   insightsPosts,
+  publications,
 }: PostsSwitcherProps) {
-  if (!newsroomPosts && !blogPosts && !insightsPosts) {
+  if (!newsroomPosts && !blogPosts && !insightsPosts && !publications) {
     return null;
   }
 
@@ -34,17 +38,19 @@ export default function PostsSwitcher({
       { id: 'newsroom', label: 'Newsroom', posts: newsroomPosts },
       { id: 'blog', label: 'Blog Posts', posts: blogPosts },
       { id: 'insights', label: 'BDK Insights', posts: insightsPosts },
+      { id: 'publications', label: 'Publications', posts: publications },
     ];
 
     return categoryConfig
       .filter(({ posts }) => posts && posts.length > 0)
       .map(({ id, label }) => ({ id, label }));
-  }, [newsroomPosts, blogPosts, insightsPosts]);
+  }, [newsroomPosts, blogPosts, insightsPosts, publications]);
 
   const getDefaultCategory = () => {
     if (newsroomPosts && newsroomPosts.length > 0) return 'newsroom';
     if (blogPosts && blogPosts.length > 0) return 'blog';
     if (insightsPosts && insightsPosts.length > 0) return 'insights';
+    if (publications && publications.length > 0) return 'publications';
     return null;
   };
 
@@ -57,6 +63,7 @@ export default function PostsSwitcher({
           ...(newsroomPosts || []),
           ...(blogPosts || []),
           ...(insightsPosts || []),
+          ...(publications || []),
         ];
       case 'newsroom':
         return newsroomPosts;
@@ -64,19 +71,21 @@ export default function PostsSwitcher({
         return blogPosts;
       case 'insights':
         return insightsPosts;
+      case 'publications':
+        return publications;
       default:
         return [];
     }
-  }, [activeCategory, newsroomPosts, blogPosts, insightsPosts]);
+  }, [activeCategory, newsroomPosts, blogPosts, insightsPosts, publications]);
 
   if (!activeCategory || !currentPosts || currentPosts.length === 0) {
     return null;
   }
 
   return (
-    <div className='space-y-8'>
+    <div>
       <SectionHeader
-        heading='Related posts'
+        heading={title}
         rightSideComponent={
           <CategoriesFilter
             options={categories}
@@ -86,8 +95,8 @@ export default function PostsSwitcher({
         }
       />
 
-      <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 xl:gap-9'>
-        {currentPosts.map((post, index) => (
+      <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 xl:gap-9 mt-8 xl:mt-11 2xl:mt-17'>
+        {currentPosts.slice(0, 4).map((post, index) => (
           <article
             key={index}
             className={cn(
@@ -115,14 +124,12 @@ export default function PostsSwitcher({
         ))}
       </div>
 
-      <div className='text-center'>
-        <Link
-          href={`/${activeCategory}`}
-          className='text-light-blue hover:text-light-blue/80 transition-colors text-lg'
-        >
-          View All Posts
-        </Link>
-      </div>
+      <Link
+        href={`/${activeCategory}`}
+        className='text-light-blue hover:text-light-blue/80 transition-colors text-lg w-fit mx-auto block mt-12 2xl:mt-30'
+      >
+        View All Posts
+      </Link>
     </div>
   );
 }

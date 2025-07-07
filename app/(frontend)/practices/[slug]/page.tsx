@@ -66,6 +66,7 @@ export default async function Page({
       />
 
       <RelatedPostsSection
+        title='Related posts'
         newsroomPosts={newsroomPosts}
         blogPosts={blogPosts}
         insightsPosts={insightsPosts}

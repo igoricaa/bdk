@@ -8,23 +8,25 @@ import LawyersCarousel from './lawyers-carousel';
 
 const LawyersList = ({
   lawyers,
+  gridLimit = 6,
   className,
 }: {
   lawyers: Lawyer[];
+  gridLimit?: number;
   className?: string;
 }) => {
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile({ breakpoint: 1024 });
 
   return (
     <>
       {isMobile ? (
         <div
           className={cn(
-            'px-side grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5',
+            'grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5',
             className
           )}
         >
-          {lawyers.map((lawyer) => (
+          {lawyers.slice(0, gridLimit).map((lawyer) => (
             <LawyerCard key={lawyer._id} lawyer={lawyer} />
           ))}
         </div>

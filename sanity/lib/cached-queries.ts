@@ -210,8 +210,16 @@ export const getLawyerProfile = cache(
     return await sanityFetch({
       query: LAWYER_QUERY,
       params: { slug },
-      tags: ['lawyers', `lawyer-${slug}`],
-      revalidate: 43200, // 12 hours
+      tags: [
+        'lawyers',
+        `lawyer-${slug}`,
+        'posts',
+        'newsroom',
+        'blog',
+        'insights',
+        'publications',
+      ],
+      revalidate: 43200,
     });
   }
 );

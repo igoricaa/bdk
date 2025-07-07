@@ -162,7 +162,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
       aria-roledescription='slide'
       data-slot='carousel-item'
       className={cn(
-        'min-w-0 shrink-0 grow-0 basis-full',
+        'cursor-pointer min-w-0 shrink-0 grow-0 basis-full',
         orientation === 'horizontal' ? 'pl-4' : 'pt-4',
         className
       )}
@@ -231,7 +231,11 @@ function CarouselNext({
   );
 }
 
-function CarouselDots({ className, ...props }: React.ComponentProps<'div'>) {
+function CarouselDots({
+  className,
+  barColor = 'bg-light-blue-bg',
+  ...props
+}: React.ComponentProps<'div'> & { barColor?: string }) {
   const { api } = useCarousel();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [scrollSnaps, setScrollSnaps] = React.useState<number[]>([]);
@@ -284,13 +288,10 @@ function CarouselDots({ className, ...props }: React.ComponentProps<'div'>) {
           key={index}
           type='button'
           className={cn(
-            'h-[5px] rounded-[20px] border-0 p-0 transition-opacity',
+            'cursor-pointer h-[5px] rounded-[20px] border-0 p-0 transition-opacity',
             'hover:opacity-75 focus:opacity-75',
-            'md:w-[120px] 2xl:w-[160px]',
-            'flex-1 md:flex-none',
-            selectedIndex === index
-              ? 'opacity-100 bg-light-blue'
-              : 'bg-light-blue-bg'
+            'flex-1 w-full md:max-w-[120px] 2xl:max-w-[160px]',
+            selectedIndex === index ? 'opacity-100 bg-light-blue' : barColor
           )}
           onClick={() => onDotClick(index)}
           aria-label={`Go to slide ${index + 1}`}

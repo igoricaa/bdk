@@ -1742,7 +1742,7 @@ export type PEOPLE_PAGE_QUERYResult = {
   }>;
 };
 // Variable: LAWYER_QUERY
-// Query: {  "lawyer": *[_type == "lawyer" && slug.current == $slug][0]}
+// Query: {  "lawyer": *[_type == "lawyer" && slug.current == $slug][0],  "partners": *[_type == "lawyer" && category->title == "Partner"]{    _id,    name,    title,    picture,    slug,  },  "newsroomPosts": *[    _type == "post"     && status == "publish"    && references(*[_type=="category" && name=="Newsroom"]._id)    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0  ] | order(date desc)[0...4]{    title,    slug,    date  },  "blogPosts": *[    _type == "post"     && status == "publish"    && references(*[_type=="category" && name=="Blog"]._id)    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0  ] | order(date desc)[0...4]{    title,    slug,    date  },  "insightsPosts": *[    _type == "post"     && status == "publish"    && references(*[_type=="category" && name=="Insights"]._id)    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0  ] | order(date desc)[0...4]{    title,    slug,    date  },    "publications": *[    _type == "post"     && status == "publish"    && references(*[_type=="category" && name=="Publications"]._id)    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0  ] | order(date desc)[0...4]{    title,    slug,    date  },}
 export type LAWYER_QUERYResult = {
   lawyer: {
     _id: string;
@@ -1814,6 +1814,45 @@ export type LAWYER_QUERYResult = {
       _key: string;
     }>;
   } | null;
+  partners: Array<{
+    _id: string;
+    name: string;
+    title: string;
+    picture: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
+    slug: Slug;
+  }>;
+  newsroomPosts: Array<{
+    title: string;
+    slug: Slug;
+    date: string;
+  }>;
+  blogPosts: Array<{
+    title: string;
+    slug: Slug;
+    date: string;
+  }>;
+  insightsPosts: Array<{
+    title: string;
+    slug: Slug;
+    date: string;
+  }>;
+  publications: Array<{
+    title: string;
+    slug: Slug;
+    date: string;
+  }>;
 };
 
 // Query TypeMap
@@ -1833,6 +1872,6 @@ declare module "@sanity/client" {
     "{\n  \"generalInfo\": *[_type == \"generalInfo\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  }\n}": GENERAL_INFO_QUERYResult;
     "{\n  \"featuredPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...3] {\n    _id,\n    title,\n    slug,\n    excerpt,\n    featuredMedia,\n  },\n  \"categories\": *[_type == \"category\" && count(parent[_ref in *[_type==\"category\" && slug.current == $slug]._id]) > 0 && count > 0] | order(name asc) {\n    _id,\n    name,\n    slug,\n    count\n  },\n  \"allPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[3...12] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n}": BDKNOWLEDGE_POSTS_QUERYResult;
     "{\n  \"peoplePage\": *[_type == \"peoplePage\"][0],\n  \"lawyers\": *[_type == \"lawyer\"]{\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug\n    }\n  },\n  \"newsroomPosts\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    title,\n    slug,\n    date,\n  }\n}": PEOPLE_PAGE_QUERYResult;
-    "{\n  \"lawyer\": *[_type == \"lawyer\" && slug.current == $slug][0]\n}": LAWYER_QUERYResult;
+    "{\n  \"lawyer\": *[_type == \"lawyer\" && slug.current == $slug][0],\n  \"partners\": *[_type == \"lawyer\" && category->title == \"Partner\"]{\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n  },\n  \"newsroomPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Newsroom\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"blogPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Blog\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"insightsPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Insights\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },  \n  \"publications\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Publications\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n}": LAWYER_QUERYResult;
   }
 }

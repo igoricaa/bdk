@@ -11,6 +11,7 @@ const SectionHeader = ({
   className,
   headingClassName,
   descriptionClassName,
+  rightSideComponentClassName,
   colorVariant = 'light',
 }: {
   heading: string;
@@ -20,13 +21,15 @@ const SectionHeader = ({
   className?: string;
   headingClassName?: string;
   descriptionClassName?: string;
+  rightSideComponentClassName?: string;
   colorVariant?: 'dark' | 'light';
 }) => {
   return (
     <div
       className={cn(
         'flex flex-col md:flex-row gap-4 md:items-end md:justify-between',
-        className
+        className,
+        rightSideComponent && 'md:items-center'
       )}
     >
       {subtitle ? (
@@ -57,7 +60,11 @@ const SectionHeader = ({
         </SectionParagraph>
       )}
 
-      {rightSideComponent}
+      {rightSideComponent && (
+        <div className={cn(rightSideComponentClassName)}>
+          {rightSideComponent}
+        </div>
+      )}
     </div>
   );
 };

@@ -35,7 +35,7 @@ const PostsGrid = ({
   className,
 }: PostsGridProps) => {
   const [activeCategory, setActiveCategory] = useState('all');
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile({ breakpoint: 1024 });
   const intersectionRef = useRef(null);
   const isInView = useInView(intersectionRef, {
     margin: '100px',

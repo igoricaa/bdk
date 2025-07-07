@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import RelatedPostsSection from '@/components/services/related-posts-section';
 import ArrowLeft from '@/components/ui/arrow-left';
 import ShareButtons from '@/components/posts/share-buttons';
+import BackToButton from '@/components/ui/buttons/back-to-button';
 
 const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
@@ -61,12 +62,12 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
     <main className='pt-7.5 md:pt-11 xl:pt-18 2xl:pt-35'>
       <div className='px-side pb-20 md:pb-22 xl:pb-42 2xl:pb-47 grid grid-cols-1 xl:grid-cols-12 gap-12'>
         <div className='order-2 flex md:hidden xl:flex xl:flex-col xl:order-1 xl:col-span-2 justify-end xl:justify-start'>
-          <Link
-            href={`/bdknowledge`}
-            className='hidden md:flex items-center gap-3.5 h-fit text-dark-blue'
-          >
-            <ArrowLeft /> Back to Blog
-          </Link>
+          <BackToButton
+            href='/bdknowledge'
+            text='Back to Blog'
+            bgColor='bg-light-blue'
+            className='hidden md:flex'
+          />
 
           <ShareButtons currentPost={currentPost} />
         </div>
@@ -93,6 +94,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
       </div>
 
       <RelatedPostsSection
+        title='Related posts'
         newsroomPosts={newsroomPosts}
         blogPosts={blogPosts}
         insightsPosts={insightsPosts}

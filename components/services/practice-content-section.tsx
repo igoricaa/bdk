@@ -28,7 +28,7 @@ const PracticeContentSection = ({
         <PortableText
           value={currentPractice.description as PortableTextBlock[]}
           className=''
-          paragraphClassName='md:text-lg 2xl:text-2xl text-justify mt-4 md:mt-4.5 2xl:mt-6'
+          paragraphClassName='md:text-lg 2xl:text-2xl mt-4 md:mt-4.5 2xl:mt-6'
         />
       </div>
     </section>

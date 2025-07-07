@@ -31,7 +31,7 @@ const LawyersGrid = ({
 
   return (
     <section className={cn(className)}>
-      <div className='flex flex-col md:flex-row gap-4 md:gap-5 xl:gap-10 md:justify-between md:items-center'>
+      <div className='pl-side md:px-side flex flex-col md:flex-row gap-4 md:gap-5 xl:gap-10 md:justify-between md:items-center'>
         <SearchBar />
         <LawyersFilter
           categories={categories}
@@ -44,7 +44,7 @@ const LawyersGrid = ({
       <AnimatePresence mode='wait'>
         <motion.div
           key={activeCategory}
-          className='grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-5 xl:gap-x-6 xl:gap-y-12 2xl:gap-x-7 2xl:gap-y-13 mt-4 md:mt-5 xl:mt-11 2xl:mt-12.5'
+          className='px-side grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-5 xl:gap-x-6 xl:gap-y-12 2xl:gap-x-7 2xl:gap-y-13 mt-4 md:mt-5 xl:mt-11 2xl:mt-12.5'
           layout
           initial='hidden'
           animate='visible'
@@ -71,7 +71,7 @@ export default LawyersGrid;
 const SearchBar = () => {
   return (
     <div className='rounded-[500px] flex items-center gap-16 justify-between bg-lightest-blue/25 h-12.5 md:h-7.5 2xl:h-10 px-6'>
-      <span className='text-grey-text md:text-sm'>Search for people</span>
+      <span className='text-grey-text md:text-sm'>Search</span>
       <SearchIcon
         className='w-4 h-4'
         strokeWidth={1}
