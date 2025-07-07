@@ -1,6 +1,6 @@
-import { defineType } from 'sanity';
+import { defineField } from 'sanity';
 
-export const portableTextType = defineType({
+export const portableTextType = defineField({
   name: 'portableText',
   type: 'array',
   of: [
@@ -12,6 +12,8 @@ export const portableTextType = defineType({
         { title: 'H2', value: 'h2' },
         { title: 'H3', value: 'h3' },
         { title: 'H4', value: 'h4' },
+        { title: 'H5', value: 'h5' },
+        { title: 'H6', value: 'h6' },
         { title: 'Quote', value: 'blockquote' },
         { title: 'Highlighted', value: 'highlighted' },
       ],
@@ -41,3 +43,9 @@ export const portableTextType = defineType({
     { type: 'externalImage' },
   ],
 });
+
+// export const portableTextType = defineField({
+//   name: 'portableText',
+//   type: 'array',
+//   of: [{ type: 'block' }, { type: 'image' }, { type: 'externalImage' }],
+// });
