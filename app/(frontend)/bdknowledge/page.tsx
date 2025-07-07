@@ -19,7 +19,7 @@ const BDKnowledgePage = async () => {
   }
 
   return (
-    <main className='pt-7.5 pb-19 md:pt-11 md:pb-21 xl:pt-18 xl:pb-30 2xl:pt-35 2xl:pb-40'>
+    <main id='blogPage' className='pt-7.5 md:pt-11 xl:pt-18  2xl:pt-35 '>
       <FeaturedPostsSection featuredPosts={featuredPosts as Post[]} />
       {categories && categories.length > 0 && (
         <PostsGrid

@@ -56,8 +56,7 @@ export default async function Home() {
   }
 
   return (
-    <main className='bg-dark-blue'>
-      {/* Hero */}
+    <main id='home' className='bg-dark-blue'>
       <section className='relative h-screen w-full px-side pt-22 md:pt-20 2xl:pt-37'>
         <Image
           src={urlFor(homePageData.hero.backgroundImage).url()}

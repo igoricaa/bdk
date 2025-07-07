@@ -206,3 +206,11 @@
     );
   }
 }
+
+#home,
+#blogPage,
+#lawyerPage {
+  ~ footer {
+    @apply bg-light-blue-bg;
+  }
+}
