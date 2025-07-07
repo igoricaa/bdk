@@ -9,9 +9,9 @@ import PortableText from '@/components/ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
 import { cn, formatDate } from '@/lib/utils';
 import RelatedPostsSection from '@/components/services/related-posts-section';
-import ArrowLeft from '@/components/ui/arrow-left';
 import ShareButtons from '@/components/posts/share-buttons';
 import BackToButton from '@/components/ui/buttons/back-to-button';
+import { ScrollProgress } from '@/components/ui/scroll-progress';
 
 const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
@@ -61,20 +61,24 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   return (
     <main className='pt-header'>
       <div className='px-side pb-20 md:pb-22 xl:pb-42 2xl:pb-47 grid grid-cols-1 xl:grid-cols-12 gap-12 pt-7.5 md:pt-11 xl:pt-18 2xl:pt-35'>
-        <div className='order-2 flex md:hidden xl:flex xl:flex-col xl:order-1 xl:col-span-2 justify-end xl:justify-start'>
-          <BackToButton
-            href='/bdknowledge'
-            text='Back to Blog'
-            bgColor='bg-light-blue'
-            className='hidden md:flex'
-          />
+        <div className='order-2 md:hidden xl:flex xl:order-1 xl:col-span-2 xl:sticky xl:top-60 xl:self-start'>
+          <div className='flex xl:flex-col justify-end xl:justify-start'>
+            <BackToButton
+              href='/bdknowledge'
+              text='Back to Blog'
+              bgColor='bg-light-blue'
+              className='hidden md:flex'
+            />
 
-          <ShareButtons
-            postSlug={currentPost.slug.current}
-            postTitle={currentPost.title}
-          />
+            <ShareButtons
+              postSlug={currentPost.slug.current}
+              postTitle={currentPost.title}
+            />
+          </div>
         </div>
+
         <article className='order-1 xl:order-2 w-full xl:col-span-7 xl:col-start-4 2xl:col-span-8 2xl:col-start-4'>
+          <ScrollProgress />
           <PostHeader
             title={currentPost.title}
             date={formatDate(currentPost.date)}
