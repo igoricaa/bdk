@@ -56,7 +56,12 @@ export default function FilterButtons({
   };
 
   return (
-    <div className={cn('overflow-x-scroll flex gap-1 2xl:gap-2.5', className)}>
+    <div
+      className={cn(
+        'overflow-x-scroll scrollbar-hide flex gap-1 2xl:gap-2.5',
+        className
+      )}
+    >
       {allOptions.map((option) => (
         <Button
           key={option.id}
