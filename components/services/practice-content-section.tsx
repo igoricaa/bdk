@@ -17,14 +17,14 @@ const PracticeContentSection = ({
   foreignDesks,
 }: PracticeContentSectionProps) => {
   return (
-    <section className='px-side pt-12 pb-28 md:pt-25 md:pb-39 xl:pt-38 xl:pb-21 2xl:pt-44 2xl:pb-40 relative xl:flex xl:gap-x-18 2xl:gap-x-34'>
+    <section className='px-side pt-0 pb-28 md:pb-39 xl:pt-38 xl:pb-21 2xl:pt-44 2xl:pb-40 relative xl:flex xl:gap-x-18 2xl:gap-x-34'>
       <Sidebar
         currentPractice={currentPractice}
         otherPractices={otherPractices}
         industries={industries}
         foreignDesks={foreignDesks}
       />
-      <div>
+      <div className='mt-12 md:mt-25 xl:mt-0'>
         <PortableText
           value={currentPractice.description as PortableTextBlock[]}
           className=''

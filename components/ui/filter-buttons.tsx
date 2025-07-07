@@ -58,7 +58,7 @@ export default function FilterButtons({
   return (
     <div
       className={cn(
-        'overflow-x-scroll scrollbar-hide flex gap-1 2xl:gap-2.5',
+        'overflow-x-scroll no-scrollbar flex gap-1 2xl:gap-2.5',
         className
       )}
     >

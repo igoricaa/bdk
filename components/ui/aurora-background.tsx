@@ -14,7 +14,7 @@ export const AuroraBackground = ({
   ...props
 }: AuroraBackgroundProps) => {
   return (
-    <main>
+    <div>
       <div
         className={cn(
           'px-side relative flex h-screen flex-col justify-center bg-white',
@@ -52,6 +52,6 @@ export const AuroraBackground = ({
         </div>
         {children}
       </div>
-    </main>
+    </div>
   );
 };

@@ -15,6 +15,7 @@ export const HOME_PAGE_QUERY = defineQuery(`{
   },
   "partners": *[_type == "lawyer" && category->title == "Partner"]{
     name,
+    slug,
     title,
     picture
   },

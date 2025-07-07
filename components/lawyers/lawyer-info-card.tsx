@@ -42,7 +42,7 @@ const LawyerInfoCard = ({ lawyer }: { lawyer: Lawyer }) => {
         </div>
 
         <Link
-          href={`/lawyers/${lawyer.slug.current}`}
+          href={`/people/${lawyer.slug.current}`}
           className='block mt-8 md:mt-auto'
         >
           <ArrowUpRight />

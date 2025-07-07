@@ -49,7 +49,7 @@ export default async function Page({
   ).filter((post) => post.title && post.date) as Post[];
 
   return (
-    <main>
+    <main className='pt-header'>
       <PracticeHeroSection currentPractice={currentPractice} />
 
       <PracticeContentSection

@@ -50,8 +50,8 @@ const PeoplePage = async () => {
   };
 
   return (
-    <main className='pt-15 md:pt-18 2xl:pt-49'>
-      <section className='px-side lg:px-0 text-center md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl mx-auto pb-32 md:pb-28 xl:pb-32 2xl:pb-40'>
+    <main className='pt-header'>
+      <section className='px-side lg:px-0 text-center md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl mx-auto pb-32 md:pb-28 xl:pb-32 2xl:pb-40 pt-15 md:pt-18 2xl:pt-49'>
         <h1 className='text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl leading-[1.1]'>
           {peoplePage.hero.heading}
         </h1>

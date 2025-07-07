@@ -5,6 +5,7 @@
   --font-dm-sans: var(--font-dm-sans);
   --padding-side: var(--padding-side);
   --margin-side: var(--padding-side);
+  --header-height: var(--header-height);
 
   --text-xxs: 10px;
   --breakpoint-3xl: 120rem;
@@ -82,6 +83,7 @@
   --font-size-h4: 1.25rem; /* 20px */
   --font-size-h5: 1.125rem; /* 18px */
   --font-size-h6: 1rem; /* 16px */
+  --header-height: 3.75rem;
 
   --radius-main: 0.625rem;
 
@@ -144,6 +146,7 @@
 @media (min-width: 768px) {
   :root {
     --padding-side: 2.5rem;
+    --header-height: 5rem;
   }
 }
 
@@ -231,6 +234,16 @@
       var(--gradient-start),
       var(--gradient-end)
     );
+  }
+}
+
+@layer utilities {
+  .pt-header {
+    @apply pt-[var(--header-height)];
+  }
+
+  .no-scrollbar {
+    @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
   }
 }
 

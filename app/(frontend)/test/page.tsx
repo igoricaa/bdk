@@ -17,7 +17,7 @@ export default async function TestPage() {
   const authors: AUTHORS_QUERYResult = await getAuthors();
 
   return (
-    <main>
+    <main className='pt-header'>
       {/* <h1>Lawyers</h1>
       <ul>
         {lawyers.map((lawyer: Lawyer) => (

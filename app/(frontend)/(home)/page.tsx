@@ -59,7 +59,7 @@ export default async function Home() {
   }
 
   return (
-    <main id='home' className='bg-dark-blue'>
+    <main id='home' className='bg-dark-blue pt-header'>
       {/* <section className='relative h-screen w-full px-side pt-22 md:pt-20 2xl:pt-37'>
         <Image
           src={urlFor(homePageData.hero.backgroundImage).url()}
@@ -80,7 +80,7 @@ export default async function Home() {
 
       {/* <section className='px-side h-screen flex flex-col justify-center bg-white'> */}
       {/* h-[calc(100vh-20px)] md:h-[calc(100vh-40px)] */}
-      <AuroraBackground className='h-screen'>
+      <AuroraBackground className='h-[calc(100vh-20px)] md:h-[calc(100vh-40px)]'>
         <InViewWrapper>
           <AnimatedHeroHeading
             text={homePageData.hero.heading}
