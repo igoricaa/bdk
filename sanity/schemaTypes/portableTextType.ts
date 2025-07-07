@@ -48,9 +48,3 @@ export const portableTextType = defineField({
     { type: 'externalImage' },
   ],
 });
-
-// export const portableTextType = defineField({
-//   name: 'portableText',
-//   type: 'array',
-//   of: [{ type: 'block' }, { type: 'image' }, { type: 'externalImage' }],
-// });

@@ -200,20 +200,12 @@ const DateBlock = ({ date }: { date: string }) => {
   );
 };
 
-const ReadingTimeBlock = ({
-  readingTime,
-}: {
-  readingTime: {
-    minutes: number;
-    words: number;
-    text: string;
-  };
-}) => {
+const ReadingTimeBlock = ({ readingTime }: { readingTime: string }) => {
   return (
     <div className='flex items-center gap-2'>
       <span className='text-light-blue text-xxs xl:text-sm 2xl:text-base flex items-center gap-2'>
         <Clock className='w-4 h-4' />
-        {readingTime.text}
+        {readingTime}
       </span>
     </div>
   );
@@ -230,11 +222,7 @@ const PostHeader = ({
 }: {
   title: string;
   date: string;
-  readingTime: {
-    minutes: number;
-    words: number;
-    text: string;
-  };
+  readingTime: string;
   authors: NonNullable<POST_QUERYResult['currentPost']>['authors'];
   categories: NonNullable<POST_QUERYResult['currentPost']>['categories'];
   featuredMedia: NonNullable<POST_QUERYResult['currentPost']>['featuredMedia'];

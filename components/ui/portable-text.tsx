@@ -18,100 +18,136 @@ const PortableText = ({
 }: PortableTextCustomProps) => {
   const components: PortableTextComponents = {
     block: {
-      // h1: ({ children, value }) => (
-      //   // Add an anchor to the h1
-      //   <h1 className='group relative'>
-      //     {children}
-      //     <a
-      //       href={`#${value?._key}`}
-      //       className='absolute left-0 top-0 bottom-0 -ml-6 flex items-center opacity-0 group-hover:opacity-100 transition-opacity'
-      //     >
-      //       <svg
-      //         xmlns='http://www.w3.org/2000/svg'
-      //         className='h-4 w-4'
-      //         fill='none'
-      //         viewBox='0 0 24 24'
-      //         stroke='currentColor'
-      //       >
-      //         <path
-      //           strokeLinecap='round'
-      //           strokeLinejoin='round'
-      //           strokeWidth={2}
-      //           d='M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1'
-      //         />
-      //       </svg>
-      //     </a>
-      //   </h1>
-      // ),
-      // h2: ({ children, value }) => {
-      //   // Add an anchor to the h2
-      //   return (
-      //     <h2 className='group relative'>
-      //       {children}
-      //       <a
-      //         href={`#${value?._key}`}
-      //         className='absolute left-0 top-0 bottom-0 -ml-6 flex items-center opacity-0 group-hover:opacity-100 transition-opacity'
-      //       >
-      //         <svg
-      //           xmlns='http://www.w3.org/2000/svg'
-      //           className='h-4 w-4'
-      //           fill='none'
-      //           viewBox='0 0 24 24'
-      //           stroke='currentColor'
-      //         >
-      //           <path
-      //             strokeLinecap='round'
-      //             strokeLinejoin='round'
-      //             strokeWidth={2}
-      //             d='M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1'
-      //           />
-      //         </svg>
-      //       </a>
-      //     </h2>
-      //   );
-      // },
-      normal: ({ value, children }) => (
-        <p className={paragraphClassName} id={value?._key}>
+      h1: ({ value, children }) => (
+        <h1
+          className='text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-7 mt-13 md:mb-11 md:mt-17'
+          id={value?._key}
+        >
+          {children}
+        </h1>
+      ),
+
+      // H2 Headline: 24px → 30px → 36px → 48px
+      h2: ({ value, children }) => (
+        <h2
+          className='text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight mb-5 mt-11 md:mb-9 md:mt-15'
+          id={value?._key}
+        >
+          {children}
+        </h2>
+      ),
+
+      // H3 Headline: 20px → 24px → 24px → 36px
+      h3: ({ value, children }) => (
+        <h3
+          className='text-xl md:text-2xl lg:text-2xl xl:text-4xl font-bold leading-tight mb-4 mt-10 md:mb-7 md:mt-14'
+          id={value?._key}
+        >
+          {children}
+        </h3>
+      ),
+
+      // H4 Headline: 18px → 20px → 20px → 32px
+      h4: ({ value, children }) => (
+        <h4
+          className='text-lg md:text-xl lg:text-xl xl:text-3xl font-bold leading-tight mb-3 mt-9 md:mb-5 md:mt-13'
+          id={value?._key}
+        >
+          {children}
+        </h4>
+      ),
+
+      h5: ({ value, children }) => (
+        <h5
+          className='text-base md:text-lg lg:text-lg xl:text-2xl font-bold leading-tight mb-2 mt-8 md:mb-4 md:mt-12'
+          id={value?._key}
+        >
+          {children}
+        </h5>
+      ),
+
+      h6: ({ value, children }) => (
+        <h6
+          className='text-sm md:text-base lg:text-base xl:text-xl font-bold leading-tight mb-2 mt-8 md:mb-3 md:mt-11'
+          id={value?._key}
+        >
+          {children}
+        </h6>
+      ),
+
+      // Quote Text: 20px → 24px → 24px → 32px (Italic)
+      blockquote: ({ value, children }) => (
+        <blockquote
+          className='text-xl md:text-2xl lg:text-2xl xl:text-3xl italic border-l-4 border-gray-300 pl-6 my-6 leading-relaxed text-[--grey-text] md:leading-8 md:my-8'
+          id={value?._key}
+        >
+          {children}
+        </blockquote>
+      ),
+
+      highlighted: ({ value, children }) => (
+        <p
+          className='text-xl md:text-2xl lg:text-2xl xl:text-3xl text-dark-blue font-medium leading-relaxed mb-2 mt-6 md:leading-8 md:mb-4 md:mt-8'
+          id={value?._key}
+        >
           {children}
         </p>
       ),
-      highlighted: ({ value, children }) => (
+      normal: ({ value, children }) => (
         <p
-          className='text-xl sm:text-2xl xl:text-[2rem] text-dark-blue'
+          className={cn(
+            'text-lg leading-7 -mb-2 mt-6 md:text-xl md:leading-8 md:mt-10 text-[--grey-text]',
+            paragraphClassName
+          )}
           id={value?._key}
         >
           {children}
         </p>
       ),
     },
-    // marks: {
-    //   link: ({ children, value: link }) => {
-    //     return <Link href={link.href}>{children}</Link>;
-    //   },
-    // },
-    // types: {
-    //   image: ({ value }: any) => {
-    //     if (!value?.asset?._ref) {
-    //       return null;
-    //     }
-    //     return (
-    //       <div className='my-8'>
-    //         <img
-    //           src={urlFor(value).url()}
-    //           alt={value.alt || 'Image'}
-    //           className='w-full h-auto rounded-lg'
-    //         />
-    //         {value.alt && (
-    //           <p className='text-sm text-gray-500 mt-2'>{value.alt}</p>
-    //         )}
-    //       </div>
-    //     );
-    //   },
-    // },
+
+    marks: {
+      strong: ({ children }) => (
+        <strong className='font-bold'>{children}</strong>
+      ),
+      em: ({ children }) => <em className='italic'>{children}</em>,
+      link: ({ children, value }) => (
+        <a
+          href={value?.href}
+          className='text-blue-600 hover:text-blue-800 underline transition-colors'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          {children}
+        </a>
+      ),
+    },
+
+    list: {
+      bullet: ({ children }) => (
+        <ul className='list-disc ml-6 mb-2 mt-6 text-base md:text-lg lg:text-lg xl:text-2xl leading-relaxed text-[--grey-text] md:mb-4 md:mt-8 md:leading-7'>
+          {children}
+        </ul>
+      ),
+      number: ({ children }) => (
+        <ol className='list-decimal ml-6 mb-2 mt-6 text-base md:text-lg lg:text-lg xl:text-2xl leading-relaxed text-[--grey-text] md:mb-4 md:mt-8 md:leading-7'>
+          {children}
+        </ol>
+      ),
+    },
+
+    listItem: {
+      bullet: ({ children }) => (
+        <li className='mb-2 leading-relaxed md:mb-3'>{children}</li>
+      ),
+      number: ({ children }) => (
+        <li className='mb-2 leading-relaxed md:mb-3'>{children}</li>
+      ),
+    },
   };
 
   return (
-    <div className={cn(className)}>
+    <div className={cn('prose prose-lg max-w-none', className)}>
       <PortableTextSanity value={value} components={components} />
     </div>
   );

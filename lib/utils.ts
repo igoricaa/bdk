@@ -44,11 +44,7 @@ export function calculateReadingTimeFromPortableText(
     .filter((word) => word.length > 0).length;
   const minutes = Math.ceil(words / wordsPerMinute);
 
-  return {
-    minutes: minutes || 1, // Minimum 1 minute
-    words,
-    text: `${minutes || 1} min read`,
-  };
+  return `${minutes || 1} min read`;
 }
 
 // Alternative method without @portabletext/react dependency
