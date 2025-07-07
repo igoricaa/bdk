@@ -144,7 +144,7 @@ export default async function Home() {
         <LawyersList
           lawyers={partners as Lawyer[]}
           gridLimit={6}
-          className='mt-4 md:mt-5 xl:mt-8 2xl:mt-16 px-side'
+          className='px-side lg:px-0 mt-4 md:mt-5 xl:mt-8 2xl:mt-16'
         />
       </section>
 

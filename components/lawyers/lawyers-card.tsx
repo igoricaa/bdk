@@ -19,7 +19,7 @@ const LawyerCard = ({ lawyer }: { lawyer: Lawyer }) => {
         <h3 className='text-dark-blue text-lg xl:text-2xl mt-5 md:mt-3 xl:mt-5 2xl:mt-8'>
           {lawyer.name}
         </h3>
-        <p className='text-[#898A8D] text-xxs md:text-sm 2xl:text-base mt-2 md:mt-[10px]'>
+        <p className='text-[#898A8D] text-xs md:text-sm 2xl:text-base mt-2 md:mt-[10px]'>
           {lawyer.title}
         </p>
       </Link>
