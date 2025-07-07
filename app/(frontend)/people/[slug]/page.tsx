@@ -37,9 +37,20 @@ const LawyerPage = async ({
               className='w-full h-full object-cover object-top'
             />
           </div>
-          <h1 className='text-dark-blue text-2xl font-bold'>
-            {lawyer.name}
-          </h1>
+          <div className='flex flex-col-reverse md:flex-col gap-4 2xl:gap-8 mt-5 md:mt-0 xl:mt-9 2xl:mt-18'>
+            <h1 className='text-dark-blue text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
+              {lawyer.name}
+            </h1>
+            <p className='text-dark-blue italic md:text-lg 2xl:text-2xl'>
+              {lawyer.title}
+            </p>
+          </div>
+          <p className='text-grey-text mt-4 2xl:mt-5 md:text-lg 2xl:text-2xl'>
+            {lawyer.contactInfo?.phone}
+          </p>
+          <p className='text-grey-text mt-1 md:mt-2 2xl:mt-3 md:text-lg 2xl:text-2xl'>
+            {lawyer.contactInfo?.email}
+          </p>
         </section>
         <section className='col-span-1 xl:col-span-7 xl:col-start-6 2xl:col-span-6 2xl:col-start-6 flex flex-col md:flex-row xl:flex-col gap-5 xl:gap-9 2xl:gap-18'>
           <p>Background</p>

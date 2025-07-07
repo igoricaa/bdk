@@ -10,6 +10,9 @@ const PeoplePage = async () => {
       query: PEOPLE_PAGE_QUERY,
     });
 
+  // const { peoplePage, lawyers, newsroomPosts }: PEOPLE_PAGE_QUERYResult =
+  // await getPeoplePageData();
+
   if (!peoplePage || !lawyers || lawyers.length === 0) {
     return <div>No people page found</div>;
   }

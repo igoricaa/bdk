@@ -1,4 +1,3 @@
-import { sanityFetch } from '@/sanity/lib/client';
 import PortableText from '../../components/bamPortabletext';
 import {
   AUTHORS_QUERYResult,
@@ -7,27 +6,15 @@ import {
 } from '@/sanity.types';
 import type { PortableTextBlock } from '@portabletext/types';
 import {
-  AUTHORS_QUERY,
-  LAWYERS_QUERY,
-  PRACTICES_QUERY,
-} from '@/sanity/lib/queries';
+  getLawyers,
+  getPractices,
+  getAuthors,
+} from '@/sanity/lib/cached-queries';
 
 export default async function TestPage() {
-  const lawyers: LAWYERS_QUERYResult = await sanityFetch({
-    query: LAWYERS_QUERY,
-    tags: ['lawyers', 'partners'],
-    revalidate: 43200,
-  });
-  const practices: PRACTICES_QUERYResult = await sanityFetch({
-    query: PRACTICES_QUERY,
-    tags: ['practices', 'services'],
-    revalidate: 43200,
-  });
-  const authors: AUTHORS_QUERYResult = await sanityFetch({
-    query: AUTHORS_QUERY,
-    tags: ['authors'],
-    revalidate: 43200,
-  });
+  const lawyers: LAWYERS_QUERYResult = await getLawyers();
+  const practices: PRACTICES_QUERYResult = await getPractices();
+  const authors: AUTHORS_QUERYResult = await getAuthors();
 
   return (
     <main>

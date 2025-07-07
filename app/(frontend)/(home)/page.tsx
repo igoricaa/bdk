@@ -34,6 +34,22 @@ export default async function Home() {
     tags: ['home-page'],
   });
 
+  // const [
+  //   homePageData,
+  //   blinkdraftData,
+  //   industries,
+  //   practices,
+  //   partners,
+  //   newsroomPosts,
+  // ] = await Promise.all([
+  //   getHomePageConfig(),
+  //   getBlinkdraftConfig(),
+  //   getIndustries(),
+  //   getPractices(),
+  //   getPartnerLawyers(),
+  //   getNewsroomPosts(4),
+  // ]);
+
   if (!homePageData) {
     return <div>No home page data found</div>;
   }

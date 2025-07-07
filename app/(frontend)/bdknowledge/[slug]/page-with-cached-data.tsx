@@ -1,7 +1,8 @@
-import { POST_QUERY } from '@/sanity/lib/queries';
-import { sanityFetch } from '@/sanity/lib/client';
 import { POST_QUERYResult } from '@/sanity.types';
-import { getGeneralInfo } from '@/sanity/lib/cached-queries';
+import {
+  getGeneralInfo,
+  getPostWithRelated,
+} from '@/sanity/lib/cached-queries';
 import { ArrowLeftIcon, ArrowRightIcon, Calendar } from 'lucide-react';
 import { Image } from 'next-sanity/image';
 import { urlFor, urlForUncropped } from '@/sanity/lib/image';
@@ -24,15 +25,7 @@ const PostPageWithCachedData = async ({
   const [
     { currentPost, previousPost, nextPost, relatedPosts },
     { generalInfo, blinkdraft },
-  ] = await Promise.all([
-    sanityFetch({
-      query: POST_QUERY,
-      params: { slug },
-      tags: ['posts', `post-${slug}`, 'latest-posts'],
-      revalidate: 43200,
-    }),
-    getGeneralInfo(),
-  ]);
+  ] = await Promise.all([getPostWithRelated(slug), getGeneralInfo()]);
 
   if (!currentPost) {
     return <div>Post not found</div>;
