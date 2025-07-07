@@ -79,15 +79,15 @@ export default async function Home() {
       </section> */}
 
       {/* <section className='px-side h-screen flex flex-col justify-center bg-white'> */}
-      <AuroraBackground>
+      <AuroraBackground className='h-[calc(100vh-20px)] md:h-[calc(100vh-40px)]'>
         <InViewWrapper>
           <AnimatedHeroHeading
             text={homePageData.hero.heading}
-            className='text-dark-blue md:line-clamp-3 md:max-w-2xl lg:max-w-4xl xl:max-w-6xl xl:text-7xl 2xl:text-[5rem] leading-[1.1]'
+            className='text-dark-blue md:line-clamp-3 md:max-w-2xl lg:max-w-4xl xl:max-w-6xl text-[2.5rem] sm:text-5xl lg:text-7xl 2xl:text-[5rem] leading-[1.1]'
           />
         </InViewWrapper>
         <InViewWrapper delay={0.3}>
-          <p className='text-grey-text mt-5 md:mt-8 2xl:mt-10 md:line-clamp-4 sm:text-lg 2xl:text-xl leading-tight sm:max-w-lg xl:max-w-[620px] 2xl:max-w-2xl'>
+          <p className='text-grey-text mt-8 2xl:mt-10 md:line-clamp-4 text-lg 2xl:text-xl leading-tight sm:max-w-lg xl:max-w-[620px] 2xl:max-w-2xl'>
             {homePageData.hero.description}
           </p>
         </InViewWrapper>

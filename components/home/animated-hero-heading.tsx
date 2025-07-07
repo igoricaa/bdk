@@ -33,7 +33,7 @@ export function AnimatedHeroHeading({
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{
                   duration: 0.5,
-                  delay: 0.4 + targetIndices.indexOf(index) * 0.2,
+                  delay: 0.5 + targetIndices.indexOf(index) * 0.2,
                   ease: 'easeOut',
                 }}
                 style={{

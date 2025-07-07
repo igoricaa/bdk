@@ -26,8 +26,8 @@ const LawyersList = ({
             className
           )}
         >
-          {lawyers.slice(0, gridLimit).map((lawyer) => (
-            <LawyerCard key={lawyer._id} lawyer={lawyer} />
+          {lawyers.slice(0, gridLimit).map((lawyer, index) => (
+            <LawyerCard key={`${lawyer._id}-${index}`} lawyer={lawyer} />
           ))}
         </div>
       ) : (
