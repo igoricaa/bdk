@@ -1,17 +1,22 @@
-import { sanityFetch } from '@/sanity/lib/live';
-import { PRACTICE_QUERY, PRACTICES_QUERY } from '@/sanity/lib/queries';
+import {
+  PRACTICE_QUERY,
+  PRACTICES_QUERY_WITH_SLUGS,
+} from '@/sanity/lib/queries';
 import ServicePage from '@/components/services/service-page';
-import { PRACTICE_QUERYResult, PRACTICES_QUERYResult } from '@/sanity.types';
+import {
+  PRACTICE_QUERYResult,
+  PRACTICES_QUERY_WITH_SLUGSResult,
+} from '@/sanity.types';
+import { sanityFetch } from '@/sanity/lib/client';
 
-// export async function generateStaticParams() {
-//   const practices: PRACTICES_QUERYResult = await sanityFetch({
-//     query: PRACTICES_QUERY,
-//   });
-
-//   return practices.map((practice) => ({
-//     slug: practice.slug.current,
-//   }));
-// }
+export async function generateStaticParams() {
+  const practices: PRACTICES_QUERY_WITH_SLUGSResult = await sanityFetch({
+    query: PRACTICES_QUERY_WITH_SLUGS,
+  });
+  return practices.map((practice) => ({
+    slug: practice.slug.current,
+  }));
+}
 
 export default async function Page({
   params,
@@ -19,7 +24,7 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { data }: { data: PRACTICE_QUERYResult } = await sanityFetch({
+  const practice: PRACTICE_QUERYResult = await sanityFetch({
     query: PRACTICE_QUERY,
     params: { slug },
   });
@@ -30,7 +35,7 @@ export default async function Page({
     industries,
     foreignDesks,
     autoNewsroom,
-  } = data;
+  } = practice;
 
   if (!currentService) {
     return <div>Practice not found</div>;

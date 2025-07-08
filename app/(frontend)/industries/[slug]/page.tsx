@@ -1,13 +1,13 @@
-import { sanityFetch } from '@/sanity/lib/live';
+import { sanityFetch } from '@/sanity/lib/client';
 import { INDUSTRY_QUERY, INDUSTRIES_QUERY } from '@/sanity/lib/queries';
 import ServicePage from '@/components/services/service-page';
 import { INDUSTRIES_QUERYResult, INDUSTRY_QUERYResult } from '@/sanity.types';
 
 export async function generateStaticParams() {
-  const { data }: { data: INDUSTRIES_QUERYResult } = await sanityFetch({
+  const industries: INDUSTRIES_QUERYResult = await sanityFetch({
     query: INDUSTRIES_QUERY,
   });
-  return data.industries.map((industry) => ({
+  return industries.industries.map((industry) => ({
     slug: industry.slug.current,
   }));
 }
@@ -18,7 +18,7 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { data }: { data: INDUSTRY_QUERYResult } = await sanityFetch({
+  const industry: INDUSTRY_QUERYResult = await sanityFetch({
     query: INDUSTRY_QUERY,
     params: { slug },
   });
@@ -30,7 +30,7 @@ export default async function Page({
     industries,
     foreignDesks,
     autoNewsroom,
-  } = data;
+  } = industry;
 
   if (!currentService) {
     return <div>Industry not found</div>;

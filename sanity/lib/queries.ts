@@ -187,7 +187,15 @@ export const PRACTICES_QUERY = defineQuery(`*[_type == "practice"]{
   }
 }`);
 
+export const PRACTICES_QUERY_WITH_SLUGS = defineQuery(`*[_type == "practice"]{
+  slug
+}`);
+
 export const AUTHORS_QUERY = defineQuery(`*[_type == "author"]`);
+
+export const POSTS_QUERY_WITH_SLUGS = defineQuery(`*[_type == "post"]{
+  slug
+}`);
 
 export const POSTS_QUERY = defineQuery(
   `{

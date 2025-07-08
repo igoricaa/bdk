@@ -2415,6 +2415,11 @@ export type PRACTICES_QUERYResult = Array<{
     [internalGroqTypeReferenceTo]?: "category";
   }>;
 }>;
+// Variable: PRACTICES_QUERY_WITH_SLUGS
+// Query: *[_type == "practice"]{  slug}
+export type PRACTICES_QUERY_WITH_SLUGSResult = Array<{
+  slug: Slug;
+}>;
 // Variable: AUTHORS_QUERY
 // Query: *[_type == "author"]
 export type AUTHORS_QUERYResult = Array<{
@@ -2435,6 +2440,11 @@ export type AUTHORS_QUERYResult = Array<{
     slug: Slug;
     url?: string;
   };
+}>;
+// Variable: POSTS_QUERY_WITH_SLUGS
+// Query: *[_type == "post"]{  slug}
+export type POSTS_QUERY_WITH_SLUGSResult = Array<{
+  slug: Slug;
 }>;
 // Variable: POSTS_QUERY
 // Query: {    "allPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[3..-1] {      _id,      title,      slug,      date,      categories[]->{        _id,        name,        slug      }    },    "featuredPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...3] {      _id,      title,      slug,      excerpt,      featuredMedia,    }  }
@@ -2811,7 +2821,9 @@ declare module "@sanity/client" {
     "{\n  \"currentPractice\": *[_type == \"practice\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n  \"otherPractices\": *[_type == \"practice\" && slug.current != $slug]{\n    title,\n    slug\n  },\n  \"industries\": *[_type == \"industry\"]{title, slug},\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{title, slug},\n  \"autoNewsroom\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    _id,\n    title,\n    slug,\n    date,\n  },\n}": PRACTICE_QUERYResult;
     "{\n  \"currentIndustry\": *[_type == \"industry\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n  \"otherIndustries\": *[_type == \"industry\" && slug.current != $slug]{\n    title,\n    slug\n  },\n  \"practices\": *[_type == \"practice\"]{title, slug},\n  \"industries\": *[_type == \"industry\"]{title, slug},\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{title, slug},\n  \"autoNewsroom\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    _id,\n    title,\n    slug,\n    date,\n  },\n}": INDUSTRY_QUERYResult;
     "*[_type == \"practice\"]{\n  ...,\n  lawyers[]->{\n    _id,\n    name,\n    title,\n    picture,\n    bio,\n    contactInfo\n  }\n}": PRACTICES_QUERYResult;
+    "*[_type == \"practice\"]{\n  slug\n}": PRACTICES_QUERY_WITH_SLUGSResult;
     "*[_type == \"author\"]": AUTHORS_QUERYResult;
+    "*[_type == \"post\"]{\n  slug\n}": POSTS_QUERY_WITH_SLUGSResult;
     "{\n    \"allPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[3..-1] {\n      _id,\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    },\n    \"featuredPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...3] {\n      _id,\n      title,\n      slug,\n      excerpt,\n      featuredMedia,\n    }\n  }": POSTS_QUERYResult;
     "{\n    \"currentPost\": *[_type == \"post\" && slug.current == $slug][0]{\n      _id,\n      title,\n      slug,\n      date,\n      modified,\n      status,\n      content,\n      excerpt,\n      featuredMedia,\n      authors[]->{\n        _id,\n        type,\n        lawyer->{\n          name,\n          title,\n          picture,\n          slug\n        },\n        customAuthor{\n          name,\n          slug\n        }\n      },\n      categories[]->{\n        _id,\n        name,\n        slug,\n        \"parentCategories\": parent[]->{\n          _id,\n          name,\n          slug,\n          \"parentCategories\": parent[]->{\n            _id,\n            name,\n            slug\n          }\n        }\n      }\n    },\n    \"previousPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date < *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0]{\n      slug\n    },\n    \"nextPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date > *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date asc)[0]{\n      slug\n    },\n    \"relatedPosts\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && slug.current != $slug\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0...12]{\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    }\n  }": POST_QUERYResult;
     "{\n  \"generalInfo\": *[_type == \"generalInfo\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  }\n}": GENERAL_INFO_QUERYResult;
