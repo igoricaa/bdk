@@ -8,6 +8,7 @@ import { postType } from './posts';
 import { practiceType } from './services/practices';
 import { industryType } from './services/industries';
 import { foreignDeskType } from './services/foreignDesks';
+import { illustrationType } from './services/illustrationType';
 import {
   aboutSectionType,
   teamSectionType,
@@ -35,6 +36,7 @@ const schemaTypes = [
   portableTextType,
   externalImageType,
   foreignDeskType,
+  illustrationType,
   homePageType,
   aboutSectionType,
   teamSectionType,

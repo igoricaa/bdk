@@ -1,6 +1,6 @@
-import { POST_QUERY } from '@/sanity/lib/queries';
+import { POST_QUERY, POSTS_QUERY } from '@/sanity/lib/queries';
 import { sanityFetch } from '@/sanity/lib/client';
-import { POST_QUERYResult } from '@/sanity.types';
+import { POST_QUERYResult, POSTS_QUERYResult } from '@/sanity.types';
 import { ArrowLeftIcon, ArrowRightIcon, Calendar, Clock } from 'lucide-react';
 import { Image } from 'next-sanity/image';
 import { urlFor, urlForUncropped } from '@/sanity/lib/image';
@@ -16,6 +16,13 @@ import RelatedPostsSection from '@/components/services/related-posts-section';
 import ShareButtons from '@/components/posts/share-buttons';
 import BackToButton from '@/components/ui/buttons/back-to-button';
 import { ScrollProgress } from '@/components/ui/scroll-progress';
+
+export async function generateStaticParams() {
+  const posts: POSTS_QUERYResult = await sanityFetch({
+    query: POSTS_QUERY,
+  });
+  return posts.allPosts.map((post) => ({ slug: post.slug.current }));
+}
 
 const readingTimeCache = new Map();
 

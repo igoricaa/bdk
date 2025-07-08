@@ -6,23 +6,33 @@ import {
 } from '@/components/ui/accordion';
 import { ChevronDown } from 'lucide-react';
 import AccordionList from './accordion-list';
-import { PRACTICE_QUERYResult } from '@/sanity.types';
+import { ServiceData } from '@/types/service';
+import { cn } from '@/lib/utils';
 
 interface SidebarProps {
-  currentPractice: PRACTICE_QUERYResult['currentPractice'];
-  otherPractices: PRACTICE_QUERYResult['otherPractices'];
-  industries: PRACTICE_QUERYResult['industries'];
-  foreignDesks: PRACTICE_QUERYResult['foreignDesks'];
+  currentService: ServiceData;
+  otherServices: Array<{ title: string; slug: { current: string } }>;
+  services: Array<{ title: string; slug: { current: string } }>;
+  foreignDesks:
+    | Array<{ title: string; slug: { current: string } }>
+    | Array<{ title: string; slug: { current: string } }>;
+  className?: string;
 }
 
 const Sidebar = ({
-  currentPractice,
-  otherPractices,
-  industries,
+  currentService,
+  otherServices,
+  services,
   foreignDesks,
+  className,
 }: SidebarProps) => {
   return (
-    <div className='sticky top-0 xl:static bg-light-blue-bg rounded-[10px] py-3 md:py-5 px-side xl:p-4 2xl:px-5 2xl:py-7 xl:min-w-xs 2xl:min-w-[26rem] w-screen xl:w-auto -ml-side xl:ml-0'>
+    <div
+      className={cn(
+        'sticky top-0 xl:static bg-light-blue-bg rounded-[10px] py-3 md:py-5 px-side xl:p-4 2xl:px-5 2xl:py-7 xl:min-w-xs 2xl:min-w-[26rem] w-screen xl:w-auto -ml-side xl:ml-0 z-10',
+        className
+      )}
+    >
       <Accordion type='single' collapsible className='xl:hidden'>
         <AccordionItem value='sidebar-content'>
           <AccordionTrigger
@@ -35,12 +45,12 @@ const Sidebar = ({
               />
             }
           >
-            {currentPractice?.title}
+            {currentService?.title}
           </AccordionTrigger>
           <AccordionContent className='pt-5 pb-2 md:pt-6 md:pb-0'>
             <AccordionList
-              services={otherPractices}
-              industries={industries}
+              services={otherServices}
+              industries={services}
               foreignDesks={foreignDesks}
             />
           </AccordionContent>
@@ -49,8 +59,8 @@ const Sidebar = ({
 
       <div className='hidden xl:block'>
         <AccordionList
-          services={otherPractices}
-          industries={industries}
+          services={otherServices}
+          industries={services}
           foreignDesks={foreignDesks}
         />
       </div>

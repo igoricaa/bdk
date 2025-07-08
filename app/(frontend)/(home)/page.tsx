@@ -25,6 +25,8 @@ import { AuroraBackground } from '@/components/ui/aurora-background';
 import { AnimatedHeroHeading } from '@/components/home/animated-hero-heading';
 import { InViewWrapper } from '@/components/ui/in-view-wrapper';
 import Hero from '@/components/home/hero';
+import LawyersFilter from '@/components/lawyers/lawyers-filter';
+import SearchBar from '@/components/ui/search-bar';
 
 export default async function Home() {
   const {
@@ -111,6 +113,18 @@ export default async function Home() {
           descriptionClassName='xl:max-w-1/3'
           colorVariant='dark'
         />
+
+        <div className='pl-side md:px-side flex flex-col md:flex-row gap-4 xl:gap-10 md:justify-between md:items-center'>
+          <div className='lg:w-full lg:max-w-[calc((100%-2*20px)/3)] xl:max-w-[calc((100%-2*24px)/3)] 2xl:max-w-[calc((100%-3*28px)/4)] pr-side md:pr-0'>
+            <SearchBar />
+          </div>
+          {/* <LawyersFilter
+            categories={categories}
+            activeCategory={activeCategory}
+            onCategoryChange={setActiveCategory}
+            variant='dark'
+          /> */}
+        </div>
 
         <LawyersList
           lawyers={partners as Lawyer[]}

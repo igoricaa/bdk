@@ -21,6 +21,7 @@ const PeoplePage = async () => {
     (acc, lawyer) => {
       const categorySlug = lawyer.category.slug.current;
       const categoryTitle = lawyer.category.title;
+      const categoryOrder = lawyer.category.order || 5;
 
       if (!acc.lawyersByCategory[categorySlug]) {
         acc.lawyersByCategory[categorySlug] = { lawyers: [] };
@@ -28,6 +29,7 @@ const PeoplePage = async () => {
         acc.categories.push({
           id: categorySlug,
           label: categoryTitle,
+          order: categoryOrder,
         });
       }
 
@@ -36,9 +38,11 @@ const PeoplePage = async () => {
     },
     {
       lawyersByCategory: {} as Record<string, { lawyers: typeof lawyers }>,
-      categories: [] as Array<{ id: string; label: string }>,
+      categories: [] as Array<{ id: string; label: string; order: number }>,
     }
   );
+
+  categories.sort((a, b) => a.order - b.order);
 
   const allLawyersSortedByCategory = categories.flatMap(
     (category) => lawyersByCategory[category.id]?.lawyers || []

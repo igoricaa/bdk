@@ -1,4 +1,3 @@
-import LawyersList from '@/components/lawyers/lawyers-list';
 import TeamMembersCarousel from '@/components/lawyers/teamMembersCarousel';
 import RelatedPostsSection from '@/components/services/related-posts-section';
 import TestimonialsCarousel from '@/components/services/testimonials-carousel';
@@ -8,14 +7,25 @@ import PortableText from '@/components/ui/portable-text';
 import Section from '@/components/ui/section';
 import SectionHeader from '@/components/ui/section-header/section-header';
 import { cn } from '@/lib/utils';
-import { Lawyer, LAWYER_QUERYResult } from '@/sanity.types';
+import {
+  Lawyer,
+  LAWYER_QUERYResult,
+  LAWYERS_QUERYResult,
+} from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/client';
 import { urlForUncropped } from '@/sanity/lib/image';
-import { LAWYER_QUERY } from '@/sanity/lib/queries';
+import { LAWYER_QUERY, LAWYERS_QUERY } from '@/sanity/lib/queries';
 import { Testimonial } from '@/sanity/schemaTypes/services/testimonialTypes';
 import { PortableTextBlock } from 'next-sanity';
 import { Image } from 'next-sanity/image';
 import Link from 'next/link';
+
+export async function generateStaticParams() {
+  const lawyers: LAWYERS_QUERYResult = await sanityFetch({
+    query: LAWYERS_QUERY,
+  });
+  return lawyers.map((lawyer) => ({ slug: lawyer.slug.current }));
+}
 
 const LawyerPage = async ({
   params,

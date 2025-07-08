@@ -5,6 +5,8 @@ import {
   HOME_PAGE_QUERY,
   PEOPLE_PAGE_QUERY,
   PRACTICE_QUERY,
+  SERVICE_QUERY,
+  INDUSTRY_QUERY,
   POST_QUERY,
   POSTS_QUERY,
   BDKNOWLEDGE_POSTS_QUERY,
@@ -243,6 +245,45 @@ export const getPracticePageData = cache(
     });
   }
 );
+
+// Generic service page data (works for both practices and industries)
+export const getServicePageData = cache(
+  async (type: 'practice' | 'industry', slug: string) => {
+    return await sanityFetch({
+      query: SERVICE_QUERY,
+      params: { type, slug },
+      tags: [
+        type === 'practice' ? 'practices' : 'industries',
+        `${type}-${slug}`,
+        'lawyers',
+        'newsroom',
+        'posts',
+        'practices',
+        'industries',
+        'foreign-desks',
+      ],
+      revalidate: 43200, // 12 hours
+    });
+  }
+);
+
+// Industry page with all related data
+export const getIndustryPageData = cache(async (slug: string) => {
+  return await sanityFetch({
+    query: INDUSTRY_QUERY,
+    params: { slug },
+    tags: [
+      'industries',
+      `industry-${slug}`,
+      'lawyers',
+      'newsroom',
+      'posts',
+      'practices',
+      'foreign-desks',
+    ],
+    revalidate: 43200, // 12 hours
+  });
+});
 
 // Individual post with related content
 export const getPostWithRelated = cache(

@@ -10,6 +10,7 @@ import { urlForUncropped } from '@/sanity/lib/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
+import SearchBar from '../ui/search-bar';
 
 const LawyersGrid = ({
   lawyersByCategory,
@@ -33,7 +34,7 @@ const LawyersGrid = ({
     <section className={cn(className)}>
       <div className='pl-side md:px-side flex flex-col md:flex-row gap-4 xl:gap-10 md:justify-between md:items-center'>
         <div className='lg:w-full lg:max-w-[calc((100%-2*20px)/3)] xl:max-w-[calc((100%-2*24px)/3)] 2xl:max-w-[calc((100%-3*28px)/4)] pr-side md:pr-0'>
-          <SearchBar className='' />
+          <SearchBar />
         </div>
         <LawyersFilter
           categories={categories}
@@ -69,24 +70,6 @@ const LawyersGrid = ({
 };
 
 export default LawyersGrid;
-
-const SearchBar = ({ className }: { className?: string }) => {
-  return (
-    <div
-      className={cn(
-        'rounded-[500px] flex items-center gap-16 justify-between bg-lightest-blue/25 h-12.5 md:h-7.5 2xl:h-10 px-6',
-        className
-      )}
-    >
-      <span className='text-grey-text md:text-sm'>Search</span>
-      <SearchIcon
-        className='w-4 h-4'
-        strokeWidth={1}
-        stroke='hsl(var(--grey-text))'
-      />
-    </div>
-  );
-};
 
 const LawyerCard = ({
   lawyer,

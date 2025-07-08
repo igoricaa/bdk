@@ -26,6 +26,12 @@ export const HOME_PAGE_QUERY = defineQuery(`{
   }
 }`);
 
+export const INDUSTRIES_QUERY = defineQuery(`{
+  "industries": *[_type == "industry"]{
+    slug
+  },
+}`);
+
 export const LAWYERS_QUERY = defineQuery(`*[_type == "lawyer"]`);
 
 export const PARTNERS_LAWYERS_QUERY =
@@ -33,6 +39,51 @@ export const PARTNERS_LAWYERS_QUERY =
   name,
   title,
   picture
+}`);
+
+export const SERVICE_QUERY = defineQuery(`{
+  "currentService": *[_type == $type && slug.current == $slug][0]{
+    ...,
+    lawyers[]->{
+      _id,
+      name,
+      title,
+      picture,
+      slug,
+      contactInfo
+    },
+    newsroom[]->{
+      _id,
+      title,
+      slug,
+      date,
+    },
+    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{
+      _id,
+      title,
+      slug,
+      date,
+    },
+    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{
+      _id,
+      title,
+      slug,
+      date,
+    },
+  },
+  "otherServices": *[_type == $type && slug.current != $slug]{
+    title,
+    slug
+  },
+  "practices": *[_type == "practice"]{title, slug},
+  "industries": *[_type == "industry"]{title, slug},
+  "foreignDesks": *[_type == "foreignDesk"]{title, slug},
+  "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
+    _id,
+    title,
+    slug,
+    date,
+  },
 }`);
 
 export const PRACTICE_QUERY = defineQuery(`{
@@ -69,6 +120,51 @@ export const PRACTICE_QUERY = defineQuery(`{
     title,
     slug
   },
+  "industries": *[_type == "industry"]{title, slug},
+  "foreignDesks": *[_type == "foreignDesk"]{title, slug},
+  "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
+    _id,
+    title,
+    slug,
+    date,
+  },
+}`);
+
+export const INDUSTRY_QUERY = defineQuery(`{
+  "currentIndustry": *[_type == "industry" && slug.current == $slug][0]{
+    ...,
+    lawyers[]->{
+      _id,
+      name,
+      title,
+      picture,
+      slug,
+      contactInfo
+    },
+    newsroom[]->{
+      _id,
+      title,
+      slug,
+      date,
+    },
+    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{
+      _id,
+      title,
+      slug,
+      date,
+    },
+    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{
+      _id,
+      title,
+      slug,
+      date,
+    },
+  },
+  "otherIndustries": *[_type == "industry" && slug.current != $slug]{
+    title,
+    slug
+  },
+  "practices": *[_type == "practice"]{title, slug},
   "industries": *[_type == "industry"]{title, slug},
   "foreignDesks": *[_type == "foreignDesk"]{title, slug},
   "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
@@ -235,7 +331,8 @@ export const PEOPLE_PAGE_QUERY = defineQuery(`{
     category->{
       _id,
       title,
-      slug
+      slug,
+      order
     }
   },
   "newsroomPosts": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{

@@ -1,12 +1,17 @@
-import { sanityFetch } from '@/sanity/lib/client';
-import { PRACTICE_QUERY } from '@/sanity/lib/queries';
-import { Post, PRACTICE_QUERYResult } from '@/sanity.types';
-import PracticeHeroSection from '@/components/services/practice-hero-section';
-import PracticeContentSection from '@/components/services/practice-content-section';
-import PracticeExpertsSection from '@/components/services/practice-experts-section';
-import RelatedPostsSection from '@/components/services/related-posts-section';
-import TestimonialsSection from '@/components/services/testimonials-section';
-import { Testimonial } from '@/sanity/schemaTypes/services/testimonialTypes';
+import { sanityFetch } from '@/sanity/lib/live';
+import { PRACTICE_QUERY, PRACTICES_QUERY } from '@/sanity/lib/queries';
+import ServicePage from '@/components/services/service-page';
+import { PRACTICE_QUERYResult, PRACTICES_QUERYResult } from '@/sanity.types';
+
+// export async function generateStaticParams() {
+//   const practices: PRACTICES_QUERYResult = await sanityFetch({
+//     query: PRACTICES_QUERY,
+//   });
+
+//   return practices.map((practice) => ({
+//     slug: practice.slug.current,
+//   }));
+// }
 
 export default async function Page({
   params,
@@ -14,63 +19,35 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const {
-    currentPractice,
-    otherPractices,
-    industries,
-    foreignDesks,
-    autoNewsroom,
-  }: PRACTICE_QUERYResult = await sanityFetch({
+  const { data }: { data: PRACTICE_QUERYResult } = await sanityFetch({
     query: PRACTICE_QUERY,
     params: { slug },
   });
 
-  if (!currentPractice || !otherPractices || !industries || !foreignDesks) {
-    return <div>No practice found</div>;
+  const {
+    currentPractice: currentService,
+    otherPractices: otherServices,
+    industries,
+    foreignDesks,
+    autoNewsroom,
+  } = data;
+
+  if (!currentService) {
+    return <div>Practice not found</div>;
   }
 
-  const newsroomPosts = (
-    currentPractice.newsroom && currentPractice.newsroom.length > 0
-      ? currentPractice.newsroom
-      : autoNewsroom || []
-  ).filter((post) => post.title && post.date) as Post[];
-
-  const blogPosts = (
-    currentPractice.latestBlogPosts &&
-    currentPractice.latestBlogPosts.length > 0
-      ? currentPractice.latestBlogPosts
-      : []
-  ).filter((post) => post.title && post.date) as Post[];
-
-  const insightsPosts = (
-    currentPractice.bdkInsights && currentPractice.bdkInsights.length > 0
-      ? currentPractice.bdkInsights
-      : []
-  ).filter((post) => post.title && post.date) as Post[];
+  // Convert practices list from otherServices since PRACTICE_QUERY doesn't include practices separately
+  const practices = otherServices;
 
   return (
-    <main className='pt-header'>
-      <PracticeHeroSection currentPractice={currentPractice} />
-
-      <PracticeContentSection
-        currentPractice={currentPractice}
-        otherPractices={otherPractices}
-        industries={industries}
-        foreignDesks={foreignDesks}
-      />
-
-      <PracticeExpertsSection currentPractice={currentPractice} />
-
-      <TestimonialsSection
-        testimonials={currentPractice.testimonials as Testimonial[]}
-      />
-
-      <RelatedPostsSection
-        title='Related posts'
-        newsroomPosts={newsroomPosts}
-        blogPosts={blogPosts}
-        insightsPosts={insightsPosts}
-      />
-    </main>
+    <ServicePage
+      serviceType='practice'
+      currentService={currentService}
+      otherServices={otherServices}
+      practices={practices}
+      industries={industries}
+      foreignDesks={foreignDesks}
+      autoNewsroom={autoNewsroom}
+    />
   );
 }

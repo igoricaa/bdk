@@ -64,7 +64,7 @@ export type Country = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote" | "highlighted";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -190,7 +190,7 @@ export type BlinkdraftSection = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote" | "highlighted";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -298,7 +298,7 @@ export type AboutSection = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote" | "highlighted";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -372,7 +372,7 @@ export type ForeignDesk = {
         _type: "span";
         _key: string;
       }>;
-      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote" | "highlighted";
       listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
@@ -403,7 +403,7 @@ export type ForeignDesk = {
         _type: "span";
         _key: string;
       }>;
-      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote" | "highlighted";
       listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
@@ -477,7 +477,7 @@ export type PortableText = Array<{
     _type: "span";
     _key: string;
   }>;
-  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
+  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote" | "highlighted";
   listItem?: "bullet" | "number";
   markDefs?: Array<{
     href?: string;
@@ -611,7 +611,7 @@ export type Industry = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote" | "highlighted";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -635,6 +635,7 @@ export type Industry = {
     _type: "image";
     _key: string;
   }>;
+  illustration: Illustration;
   testimonials?: Array<{
     text: string;
     author: string;
@@ -693,7 +694,7 @@ export type Practice = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote" | "highlighted";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -717,18 +718,7 @@ export type Practice = {
     _type: "image";
     _key: string;
   }>;
-  illustration: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
+  illustration: Illustration;
   testimonials?: Array<{
     text: string;
     author: string;
@@ -772,6 +762,46 @@ export type Practice = {
   }>;
 };
 
+export type Illustration = {
+  _type: "illustration";
+  desktop: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  tablet: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  mobile: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+};
+
 export type Lawyer = {
   _id: string;
   _type: "lawyer";
@@ -811,7 +841,7 @@ export type Lawyer = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote" | "highlighted";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -862,7 +892,7 @@ export type BlockContent = Array<{
     _type: "span";
     _key: string;
   }>;
-  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "highlighted";
+  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote" | "highlighted";
   listItem?: "bullet" | "number";
   markDefs?: Array<{
     href?: string;
@@ -1005,7 +1035,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = PeoplePage | PeopleHeroSection | Blinkdraft | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | PortableText | Author | Category | Post | Industry | Practice | Lawyer | LawyerCategory | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = PeoplePage | PeopleHeroSection | Blinkdraft | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | PortableText | Author | Category | Post | Industry | Practice | Illustration | Lawyer | LawyerCategory | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: app/actions/posts.ts
 // Variable: PAGINATED_POSTS_QUERY
@@ -1115,6 +1145,13 @@ export type HOME_PAGE_QUERYResult = {
     date: string;
   }>;
 };
+// Variable: INDUSTRIES_QUERY
+// Query: {  "industries": *[_type == "industry"]{    slug  },}
+export type INDUSTRIES_QUERYResult = {
+  industries: Array<{
+    slug: Slug;
+  }>;
+};
 // Variable: LAWYERS_QUERY
 // Query: *[_type == "lawyer"]
 export type LAWYERS_QUERYResult = Array<{
@@ -1156,7 +1193,7 @@ export type LAWYERS_QUERYResult = Array<{
       _type: "span";
       _key: string;
     }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "highlighted" | "normal";
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "highlighted" | "normal";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -1206,12 +1243,324 @@ export type PARTNERS_LAWYERS_QUERYResult = Array<{
     _type: "image";
   };
 }>;
-// Variable: PRACTICE_QUERY
-// Query: {  "currentPractice": *[_type == "practice" && slug.current == $slug][0]{    ...,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo    },    newsroom[]->{      _id,      title,      slug,      date,    },    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },  },  "otherPractices": *[_type == "practice" && slug.current != $slug]{    title,    slug  },  "industries": *[_type == "industry"]{title, slug},  "foreignDesks": *[_type == "foreignDesk"]{title, slug},  "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{    _id,    title,    slug,    date,  },}
-export type PRACTICE_QUERYResult = {
-  currentPractice: {
+// Variable: SERVICE_QUERY
+// Query: {  "currentService": *[_type == $type && slug.current == $slug][0]{    ...,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo    },    newsroom[]->{      _id,      title,      slug,      date,    },    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },  },  "otherServices": *[_type == $type && slug.current != $slug]{    title,    slug  },  "practices": *[_type == "practice"]{title, slug},  "industries": *[_type == "industry"]{title, slug},  "foreignDesks": *[_type == "foreignDesk"]{title, slug},  "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{    _id,    title,    slug,    date,  },}
+export type SERVICE_QUERYResult = {
+  currentService: {
     _id: string;
-    _type: "practice";
+    _type: "author";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    type: "custom" | "lawyer";
+    lawyer?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "lawyer";
+    };
+    customAuthor?: {
+      name: string;
+      slug: Slug;
+      url?: string;
+    };
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "blinkdraft";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    logo: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "category";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name: string;
+    slug: Slug;
+    parent?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "category";
+    }>;
+    count?: number;
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "foreignDesk";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    slug: Slug;
+    description?: {
+      nativeDescription: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "highlighted" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+        _key: string;
+      }>;
+      englishDescription: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "highlighted" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+        _key: string;
+      }>;
+    };
+    lawyers: Array<{
+      _id: string;
+      name: string;
+      title: string;
+      picture: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      };
+      slug: Slug;
+      contactInfo: {
+        email: string;
+        phone: string;
+      } | null;
+    }>;
+    publications?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "category";
+    }>;
+    newsroom: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }> | null;
+    latestBlogPost?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "category";
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "generalInfo";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    logo: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    socials: Array<{
+      _key: string;
+    } & Social>;
+    countries: Array<{
+      _key: string;
+    } & Country>;
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "homePage";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    hero: HeroSection;
+    about: AboutSection;
+    services: {
+      practicesIllustration: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
+      industriesIllustration: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
+    };
+    team: TeamSection;
+    newsroom: null;
+    latestPosts: LatestPostsSection;
+    blinkdraft: BlinkdraftSection;
+    lawyers: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "industry";
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
@@ -1224,7 +1573,7 @@ export type PRACTICE_QUERYResult = {
         _type: "span";
         _key: string;
       }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "highlighted" | "normal";
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "highlighted" | "normal";
       listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
@@ -1248,7 +1597,204 @@ export type PRACTICE_QUERYResult = {
       _type: "image";
       _key: string;
     }>;
-    illustration: {
+    illustration: Illustration;
+    testimonials?: Array<{
+      text: string;
+      author: string;
+      _type: "testimonial";
+      _key: string;
+    }>;
+    lawyers: Array<{
+      _id: string;
+      name: string;
+      title: string;
+      picture: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      };
+      slug: Slug;
+      contactInfo: {
+        email: string;
+        phone: string;
+      } | null;
+    }>;
+    publications?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "category";
+    }>;
+    newsroom: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }> | null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "lawyer";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name: string;
+    slug: Slug;
+    title: string;
+    category: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "lawyerCategory";
+    };
+    picture: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
+    contactInfo?: {
+      email: string;
+      phone: string;
+    };
+    bio: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "highlighted" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }>;
+    testimonials?: Array<{
+      text: string;
+      author: string;
+      _type: "testimonial";
+      _key: string;
+    }>;
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "lawyerCategory";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    slug: Slug;
+    description?: string;
+    order?: number;
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "peoplePage";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    hero: PeopleHeroSection;
+    newsroom: null;
+    lawyers: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "post";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    slug: Slug;
+    date: string;
+    modified: string;
+    status: "auto-draft" | "draft" | "future" | "inherit" | "pending" | "private" | "publish" | "trash";
+    content: PortableText;
+    excerpt?: PortableText;
+    featuredMedia: {
       asset?: {
         _ref: string;
         _type: "reference";
@@ -1260,6 +1806,290 @@ export type PRACTICE_QUERYResult = {
       crop?: SanityImageCrop;
       _type: "image";
     };
+    sticky?: boolean;
+    authors: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "author";
+    }>;
+    categories: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "category";
+    }>;
+    publications?: {
+      url?: string;
+      download?: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+        };
+        media?: unknown;
+        _type: "file";
+      };
+    };
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "practice";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    slug: Slug;
+    description: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "highlighted" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }>;
+    illustration: Illustration;
+    testimonials?: Array<{
+      text: string;
+      author: string;
+      _type: "testimonial";
+      _key: string;
+    }>;
+    lawyers: Array<{
+      _id: string;
+      name: string;
+      title: string;
+      picture: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      };
+      slug: Slug;
+      contactInfo: {
+        email: string;
+        phone: string;
+      } | null;
+    }>;
+    publications?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "category";
+    }>;
+    newsroom: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }> | null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "sanity.fileAsset";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    originalFilename?: string;
+    label?: string;
+    title?: string;
+    description?: string;
+    altText?: string;
+    sha1hash?: string;
+    extension?: string;
+    mimeType?: string;
+    size?: number;
+    assetId?: string;
+    uploadId?: string;
+    path?: string;
+    url?: string;
+    source?: SanityAssetSourceData;
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "sanity.imageAsset";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    originalFilename?: string;
+    label?: string;
+    title?: string;
+    description?: string;
+    altText?: string;
+    sha1hash?: string;
+    extension?: string;
+    mimeType?: string;
+    size?: number;
+    assetId?: string;
+    uploadId?: string;
+    path?: string;
+    url?: string;
+    metadata?: SanityImageMetadata;
+    source?: SanityAssetSourceData;
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | null;
+  otherServices: Array<{
+    title: null;
+    slug: Slug;
+  } | {
+    title: string;
+    slug: Slug;
+  } | {
+    title: null;
+    slug: null;
+  } | {
+    title: string;
+    slug: null;
+  } | {
+    title: string | null;
+    slug: null;
+  }>;
+  practices: Array<{
+    title: string;
+    slug: Slug;
+  }>;
+  industries: Array<{
+    title: string;
+    slug: Slug;
+  }>;
+  foreignDesks: Array<{
+    title: string;
+    slug: Slug;
+  }>;
+  autoNewsroom: Array<{
+    _id: string;
+    title: string;
+    slug: Slug;
+    date: string;
+  }>;
+};
+// Variable: PRACTICE_QUERY
+// Query: {  "currentPractice": *[_type == "practice" && slug.current == $slug][0]{    ...,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo    },    newsroom[]->{      _id,      title,      slug,      date,    },    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },  },  "otherPractices": *[_type == "practice" && slug.current != $slug]{    title,    slug  },  "industries": *[_type == "industry"]{title, slug},  "foreignDesks": *[_type == "foreignDesk"]{title, slug},  "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{    _id,    title,    slug,    date,  },}
+export type PRACTICE_QUERYResult = {
+  currentPractice: {
+    _id: string;
+    _type: "practice";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    slug: Slug;
+    description: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "highlighted" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }>;
+    illustration: Illustration;
     testimonials?: Array<{
       text: string;
       author: string;
@@ -1334,6 +2164,127 @@ export type PRACTICE_QUERYResult = {
     date: string;
   }>;
 };
+// Variable: INDUSTRY_QUERY
+// Query: {  "currentIndustry": *[_type == "industry" && slug.current == $slug][0]{    ...,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo    },    newsroom[]->{      _id,      title,      slug,      date,    },    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },  },  "otherIndustries": *[_type == "industry" && slug.current != $slug]{    title,    slug  },  "practices": *[_type == "practice"]{title, slug},  "industries": *[_type == "industry"]{title, slug},  "foreignDesks": *[_type == "foreignDesk"]{title, slug},  "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{    _id,    title,    slug,    date,  },}
+export type INDUSTRY_QUERYResult = {
+  currentIndustry: {
+    _id: string;
+    _type: "industry";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    slug: Slug;
+    description: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "highlighted" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }>;
+    illustration: Illustration;
+    testimonials?: Array<{
+      text: string;
+      author: string;
+      _type: "testimonial";
+      _key: string;
+    }>;
+    lawyers: Array<{
+      _id: string;
+      name: string;
+      title: string;
+      picture: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      };
+      slug: Slug;
+      contactInfo: {
+        email: string;
+        phone: string;
+      } | null;
+    }>;
+    publications?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "category";
+    }>;
+    newsroom: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }> | null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | null;
+  otherIndustries: Array<{
+    title: string;
+    slug: Slug;
+  }>;
+  practices: Array<{
+    title: string;
+    slug: Slug;
+  }>;
+  industries: Array<{
+    title: string;
+    slug: Slug;
+  }>;
+  foreignDesks: Array<{
+    title: string;
+    slug: Slug;
+  }>;
+  autoNewsroom: Array<{
+    _id: string;
+    title: string;
+    slug: Slug;
+    date: string;
+  }>;
+};
 // Variable: PRACTICES_QUERY
 // Query: *[_type == "practice"]{  ...,  lawyers[]->{    _id,    name,    title,    picture,    bio,    contactInfo  }}
 export type PRACTICES_QUERYResult = Array<{
@@ -1351,7 +2302,7 @@ export type PRACTICES_QUERYResult = Array<{
       _type: "span";
       _key: string;
     }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "highlighted" | "normal";
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "highlighted" | "normal";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -1375,18 +2326,7 @@ export type PRACTICES_QUERYResult = Array<{
     _type: "image";
     _key: string;
   }>;
-  illustration: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
+  illustration: Illustration;
   testimonials?: Array<{
     text: string;
     author: string;
@@ -1417,7 +2357,7 @@ export type PRACTICES_QUERYResult = Array<{
         _type: "span";
         _key: string;
       }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "highlighted" | "normal";
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "highlighted" | "normal";
       listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
@@ -1696,7 +2636,7 @@ export type BDKNOWLEDGE_POSTS_QUERYResult = {
   }>;
 };
 // Variable: PEOPLE_PAGE_QUERY
-// Query: {  "peoplePage": *[_type == "peoplePage"][0],  "lawyers": *[_type == "lawyer"]{    _id,    name,    title,    picture,    slug,    category->{      _id,      title,      slug    }  },  "newsroomPosts": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{    title,    slug,    date,  }}
+// Query: {  "peoplePage": *[_type == "peoplePage"][0],  "lawyers": *[_type == "lawyer"]{    _id,    name,    title,    picture,    slug,    category->{      _id,      title,      slug,      order    }  },  "newsroomPosts": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{    title,    slug,    date,  }}
 export type PEOPLE_PAGE_QUERYResult = {
   peoplePage: {
     _id: string;
@@ -1734,6 +2674,7 @@ export type PEOPLE_PAGE_QUERYResult = {
       _id: string;
       title: string;
       slug: Slug;
+      order: number | null;
     };
   }>;
   newsroomPosts: Array<{
@@ -1784,7 +2725,7 @@ export type LAWYER_QUERYResult = {
         _type: "span";
         _key: string;
       }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "highlighted" | "normal";
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "highlighted" | "normal";
       listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
@@ -1863,16 +2804,19 @@ declare module "@sanity/client" {
     "\n  *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $categorySlug]._id)] \n  | order(date desc)[$start...$end] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n": PAGINATED_POSTS_QUERYResult;
     "\n  count(*[_type == \"post\" && references(*[_type==\"category\" && slug.current == $categorySlug]._id)])\n": POSTS_COUNT_QUERYResult;
     "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  },\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug\n  },\n  \"partners\": *[_type == \"lawyer\" && category->title == \"Partner\"]{\n    name,\n    slug,\n    title,\n    picture\n  },\n  \"newsroom\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    title,\n    slug,\n    date,\n  }\n}": HOME_PAGE_QUERYResult;
+    "{\n  \"industries\": *[_type == \"industry\"]{\n    slug\n  },\n}": INDUSTRIES_QUERYResult;
     "*[_type == \"lawyer\"]": LAWYERS_QUERYResult;
     "*[_type == \"lawyer\" && category->title == \"Partner\"]{\n  name,\n  title,\n  picture\n}": PARTNERS_LAWYERS_QUERYResult;
+    "{\n  \"currentService\": *[_type == $type && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n  \"otherServices\": *[_type == $type && slug.current != $slug]{\n    title,\n    slug\n  },\n  \"practices\": *[_type == \"practice\"]{title, slug},\n  \"industries\": *[_type == \"industry\"]{title, slug},\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{title, slug},\n  \"autoNewsroom\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    _id,\n    title,\n    slug,\n    date,\n  },\n}": SERVICE_QUERYResult;
     "{\n  \"currentPractice\": *[_type == \"practice\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n  \"otherPractices\": *[_type == \"practice\" && slug.current != $slug]{\n    title,\n    slug\n  },\n  \"industries\": *[_type == \"industry\"]{title, slug},\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{title, slug},\n  \"autoNewsroom\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    _id,\n    title,\n    slug,\n    date,\n  },\n}": PRACTICE_QUERYResult;
+    "{\n  \"currentIndustry\": *[_type == \"industry\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n  \"otherIndustries\": *[_type == \"industry\" && slug.current != $slug]{\n    title,\n    slug\n  },\n  \"practices\": *[_type == \"practice\"]{title, slug},\n  \"industries\": *[_type == \"industry\"]{title, slug},\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{title, slug},\n  \"autoNewsroom\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    _id,\n    title,\n    slug,\n    date,\n  },\n}": INDUSTRY_QUERYResult;
     "*[_type == \"practice\"]{\n  ...,\n  lawyers[]->{\n    _id,\n    name,\n    title,\n    picture,\n    bio,\n    contactInfo\n  }\n}": PRACTICES_QUERYResult;
     "*[_type == \"author\"]": AUTHORS_QUERYResult;
     "{\n    \"allPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[3..-1] {\n      _id,\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    },\n    \"featuredPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...3] {\n      _id,\n      title,\n      slug,\n      excerpt,\n      featuredMedia,\n    }\n  }": POSTS_QUERYResult;
     "{\n    \"currentPost\": *[_type == \"post\" && slug.current == $slug][0]{\n      _id,\n      title,\n      slug,\n      date,\n      modified,\n      status,\n      content,\n      excerpt,\n      featuredMedia,\n      authors[]->{\n        _id,\n        type,\n        lawyer->{\n          name,\n          title,\n          picture,\n          slug\n        },\n        customAuthor{\n          name,\n          slug\n        }\n      },\n      categories[]->{\n        _id,\n        name,\n        slug,\n        \"parentCategories\": parent[]->{\n          _id,\n          name,\n          slug,\n          \"parentCategories\": parent[]->{\n            _id,\n            name,\n            slug\n          }\n        }\n      }\n    },\n    \"previousPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date < *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0]{\n      slug\n    },\n    \"nextPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date > *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date asc)[0]{\n      slug\n    },\n    \"relatedPosts\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && slug.current != $slug\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0...12]{\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    }\n  }": POST_QUERYResult;
     "{\n  \"generalInfo\": *[_type == \"generalInfo\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  }\n}": GENERAL_INFO_QUERYResult;
     "{\n  \"featuredPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...3] {\n    _id,\n    title,\n    slug,\n    excerpt,\n    featuredMedia,\n  },\n  \"categories\": *[_type == \"category\" && count(parent[_ref in *[_type==\"category\" && slug.current == $slug]._id]) > 0 && count > 0] | order(name asc) {\n    _id,\n    name,\n    slug,\n    count\n  },\n  \"allPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[3...12] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n}": BDKNOWLEDGE_POSTS_QUERYResult;
-    "{\n  \"peoplePage\": *[_type == \"peoplePage\"][0],\n  \"lawyers\": *[_type == \"lawyer\"]{\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug\n    }\n  },\n  \"newsroomPosts\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    title,\n    slug,\n    date,\n  }\n}": PEOPLE_PAGE_QUERYResult;
+    "{\n  \"peoplePage\": *[_type == \"peoplePage\"][0],\n  \"lawyers\": *[_type == \"lawyer\"]{\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug,\n      order\n    }\n  },\n  \"newsroomPosts\": *[_type == \"post\" && references(*[_type==\"category\" && name==\"Newsroom\"]._id)] | order(date desc)[0...4]{\n    title,\n    slug,\n    date,\n  }\n}": PEOPLE_PAGE_QUERYResult;
     "{\n  \"lawyer\": *[_type == \"lawyer\" && slug.current == $slug][0],\n  \"partners\": *[_type == \"lawyer\" && category->title == \"Partner\"]{\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n  },\n  \"newsroomPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Newsroom\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"blogPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Blog\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"insightsPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Insights\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },  \n  \"publications\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Publications\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n}": LAWYER_QUERYResult;
   }
 }
