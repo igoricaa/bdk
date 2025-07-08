@@ -88,6 +88,10 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
                 ),
             ])
         ),
+      S.listItem()
+        .title('Countries')
+        .icon(() => '🌍')
+        .child(S.documentTypeList('country').title('Countries')),
       S.divider(),
       S.listItem()
         .title('Blinkdraft')
@@ -100,6 +104,7 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .child(
           S.document().schemaType('generalInfo').documentId('generalInfo')
         ),
+      S.divider(),
       ...S.documentTypeListItems().filter(
         (listItem) =>
           ![
@@ -115,6 +120,7 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             'peoplePage',
             'generalInfo',
             'blinkdraft',
+            'country',
           ].includes(listItem.getId()!)
       ),
     ]);

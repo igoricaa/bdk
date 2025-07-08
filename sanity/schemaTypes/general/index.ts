@@ -54,7 +54,7 @@ export const generalInfoType = defineType({
       title: 'Office locations',
       type: 'array',
       description: 'Company offices, branches, or service locations',
-      of: [defineArrayMember({ type: 'country' })],
+      of: [defineArrayMember({ type: 'reference', to: { type: 'country' } })],
       validation: (rule) =>
         rule.required().min(1).error('At least one location is required'),
       group: 'locations',

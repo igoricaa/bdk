@@ -3,7 +3,6 @@ import { blockContentType } from './blockContentType';
 import { categoryType } from './posts/categories';
 import { externalImageType } from './externalImageType';
 import { lawyerType, lawyerCategoryType } from './lawyers';
-import { portableTextType } from './portableTextType';
 import { postType } from './posts';
 import { practiceType } from './services/practices';
 import { industryType } from './services/industries';
@@ -20,9 +19,14 @@ import {
 } from './pages/home';
 import { generalInfoType } from './general';
 import { socialType } from './general/socialType';
-import { countryType } from './general/countryType';
 import { blinkdraftType } from './blinkdraft';
 import { peopleHeroSectionType, peoplePageType } from './pages/people';
+import { countryType } from './countries';
+import {
+  aboutUsPageType,
+  aboutUsHeroSectionType,
+  independentReviewsSectionType,
+} from './pages/about-us';
 
 const schemaTypes = [
   blockContentType,
@@ -33,7 +37,6 @@ const schemaTypes = [
   postType,
   categoryType,
   authorType,
-  portableTextType,
   externalImageType,
   foreignDeskType,
   illustrationType,
@@ -50,6 +53,9 @@ const schemaTypes = [
   blinkdraftType,
   peoplePageType,
   peopleHeroSectionType,
+  aboutUsPageType,
+  aboutUsHeroSectionType,
+  independentReviewsSectionType,
 ];
 
 export default schemaTypes;

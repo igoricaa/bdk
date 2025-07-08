@@ -57,5 +57,6 @@ export const blockContentType = defineType({
         },
       ],
     },
+    { type: 'externalImage' },
   ],
 });

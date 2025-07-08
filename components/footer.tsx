@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Country, GeneralInfo, Social } from '@/sanity.types';
+import { Country, GENERAL_INFO_QUERYResult, Social } from '@/sanity.types';
 import { urlFor } from '@/sanity/lib/image';
 import PortableText from './ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
@@ -15,9 +15,13 @@ const Footer = ({
   generalInfo,
   blinkdraftLogo,
 }: {
-  generalInfo: GeneralInfo;
+  generalInfo: GENERAL_INFO_QUERYResult['generalInfo'];
   blinkdraftLogo: any;
 }) => {
+  if (!generalInfo) {
+    return null;
+  }
+
   return (
     <footer className='bg-dark-blue'>
       <div className='bg-white rounded-t-main px-side pt-8 pb-8 md:pt-18 md:pb-10 xl:pt-22 xl:pb-20 2xl:pt-36 2xl:pb-34'>
@@ -35,10 +39,10 @@ const Footer = ({
               'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[repeat(auto-fit,minmax(0,1fr))] gap-4 xl:gap-2.5 2xl:gap-5'
             }
           >
-            {generalInfo?.countries.map((country, index) => (
+            {generalInfo.countries.map((country, index) => (
               <CountryCard
                 key={country.name}
-                country={country}
+                country={country as Country}
                 index={index + 1}
               />
             ))}
@@ -144,7 +148,7 @@ const MobileLinks = ({
   generalInfo,
 }: {
   blinkdraftLogo: any;
-  generalInfo: GeneralInfo;
+  generalInfo: GENERAL_INFO_QUERYResult['generalInfo'];
 }) => {
   return (
     <section className='grid grid-cols-1 md:hidden'>
@@ -224,7 +228,7 @@ const DesktopLinks = ({
   generalInfo,
 }: {
   blinkdraftLogo: any;
-  generalInfo: GeneralInfo;
+  generalInfo: GENERAL_INFO_QUERYResult['generalInfo'];
 }) => {
   return (
     <section className='hidden md:grid grid-cols-5 gap-x-5 xl:gap-x-8'>

@@ -41,7 +41,9 @@ export const getNavigationRoutes = async (): Promise<NavigationRoute[]> => {
           subRoutes: practices.map((practice) => ({
             label: practice.title,
             href: `/practices/${practice.slug.current}`,
-            illustration: practice.illustration,
+            illustration: {
+              mobile: practice.illustration.mobile,
+            },
           })),
         },
         {
@@ -50,7 +52,9 @@ export const getNavigationRoutes = async (): Promise<NavigationRoute[]> => {
           subRoutes: industries.map((industry) => ({
             label: industry.title,
             href: `/industries/${industry.slug.current}`,
-            illustration: industry.illustration,
+            illustration: {
+              mobile: industry.illustration.mobile,
+            },
           })),
         },
         {

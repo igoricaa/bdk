@@ -11,27 +11,18 @@ export const illustrationType = defineType({
       name: 'desktop',
       title: 'Desktop',
       type: 'image',
-      options: {
-        hotspot: true,
-      },
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'tablet',
       title: 'Tablet',
       type: 'image',
-      options: {
-        hotspot: true,
-      },
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'mobile',
       title: 'Mobile',
       type: 'image',
-      options: {
-        hotspot: true,
-      },
       validation: (rule) => rule.required(),
     }),
   ],

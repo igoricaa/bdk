@@ -4,7 +4,7 @@ import { defineField, defineType } from 'sanity';
 export const countryType = defineType({
   name: 'country',
   title: 'Country/Location',
-  type: 'object',
+  type: 'document',
   icon: Earth,
   fields: [
     defineField({
@@ -13,6 +13,20 @@ export const countryType = defineType({
       type: 'string',
       description: 'Name of the country',
       validation: (rule) => rule.required().error('Location name is required'),
+    }),
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'blockContent',
+      description: 'Description of the country',
+      validation: (rule) => rule.required().error('Description is required'),
+    }),
+    defineField({
+      name: 'countryIllustration',
+      title: 'Country Illustration',
+      type: 'image',
+      description: 'Illustration of the country',
+      validation: (rule) => rule.required().error('Illustration is required'),
     }),
     defineField({
       name: 'address',

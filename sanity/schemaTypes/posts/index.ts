@@ -46,12 +46,12 @@ export const postType = defineType({
     }),
     defineField({
       name: 'content',
-      type: 'portableText',
+      type: 'blockContent',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'excerpt',
-      type: 'portableText',
+      type: 'blockContent',
     }),
     defineField({
       name: 'featuredMedia',

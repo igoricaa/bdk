@@ -249,7 +249,19 @@ export const POST_QUERY = defineQuery(`{
   }`);
 
 export const GENERAL_INFO_QUERY = defineQuery(`{
-  "generalInfo": *[_type == "generalInfo"][0],
+  "generalInfo": *[_type == "generalInfo"][0]{
+    ...,
+    countries[]->{
+      _id,
+      name,
+      description,
+      countryIllustration,
+      address,
+      email,
+      phone,
+      note
+    }
+  },
   "blinkdraft": *[_type == "blinkdraft"][0]{
     logo
   }
