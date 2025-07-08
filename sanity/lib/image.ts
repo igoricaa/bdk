@@ -45,13 +45,21 @@ export const urlForClip = (
 export const urlForWithHotspot = (
   source: SanityImageSource,
   width: number,
-  height: number
+  height: number,
+  crop:
+    | 'top'
+    | 'center'
+    | 'bottom'
+    | 'focalpoint'
+    | 'left'
+    | 'right'
+    | 'entropy' = 'center'
 ) => {
   return builder
     .image(source)
     .width(width)
     .height(height)
     .fit('crop')
-    .crop('focalpoint')
+    .crop(crop)
     .auto('format');
 };

@@ -42,6 +42,9 @@ export const lawyerType = defineType({
       name: 'picture',
       title: 'Picture',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
       fields: [
         defineField({
           name: 'alt',

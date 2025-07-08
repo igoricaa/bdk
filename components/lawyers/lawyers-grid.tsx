@@ -4,7 +4,7 @@ import { PEOPLE_PAGE_QUERYResult } from '@/sanity.types';
 import { useMemo, useState } from 'react';
 import { FilterOption } from '../ui/filter-buttons';
 import { Image } from 'next-sanity/image';
-import { urlForUncropped } from '@/sanity/lib/image';
+import { urlForWithHotspot } from '@/sanity/lib/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
@@ -102,11 +102,11 @@ const LawyerCard = ({
           transition={{ duration: 0.3 }}
         >
           <Image
-            src={urlForUncropped(lawyer.picture).url() || ''}
+            src={urlForWithHotspot(lawyer.picture, 471, 485, 'top').url() || ''}
             alt={lawyer.name}
             width={471}
             height={485}
-            className='w-full h-full object-cover object-top'
+            className='w-full h-full'
           />
         </motion.div>
         <motion.div
