@@ -59,7 +59,7 @@ const ServicePage = ({
     <main className='pt-header'>
       <ServiceHeroSection currentService={currentService} />
 
-      <Sidebar
+      {/* <Sidebar
         currentService={currentService}
         otherServices={otherServices}
         services={industries}
@@ -87,7 +87,7 @@ const ServicePage = ({
         newsroomPosts={newsroomPosts}
         blogPosts={blogPosts}
         insightsPosts={insightsPosts}
-      />
+      /> */}
     </main>
   );
 };
