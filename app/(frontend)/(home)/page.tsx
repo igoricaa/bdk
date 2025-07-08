@@ -2,12 +2,10 @@ import { sanityFetch } from '@/sanity/lib/client';
 import {
   HOME_PAGE_QUERYResult,
   Industry,
-  Lawyer,
   Post,
   Practice,
 } from '@/sanity.types';
 import { HOME_PAGE_QUERY } from '@/sanity/lib/queries';
-import { Image } from 'next-sanity/image';
 import { urlFor } from '@/sanity/lib/image';
 import PortableText from '@/components/ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
@@ -21,12 +19,8 @@ import ServicesSection from '@/components/home/services/services-section';
 import SectionHeader from '@/components/ui/section-header/section-header';
 import NewsroomSection from '@/components/home/newsroom-section';
 import Section from '@/components/ui/section';
-import { AuroraBackground } from '@/components/ui/aurora-background';
-import { AnimatedHeroHeading } from '@/components/home/animated-hero-heading';
-import { InViewWrapper } from '@/components/ui/in-view-wrapper';
 import Hero from '@/components/home/hero';
-import LawyersFilter from '@/components/lawyers/lawyers-filter';
-import SearchBar from '@/components/ui/search-bar';
+import { FilterOption } from '@/components/ui/filter-buttons';
 
 export default async function Home() {
   const {
@@ -34,7 +28,7 @@ export default async function Home() {
     blinkdraft: blinkdraftData,
     industries,
     practices,
-    partners,
+    lawyers,
     newsroom: newsroomPosts,
   }: HOME_PAGE_QUERYResult = await sanityFetch({
     query: HOME_PAGE_QUERY,
@@ -60,6 +54,42 @@ export default async function Home() {
   if (!homePageData) {
     return <div>No home page data found</div>;
   }
+
+  const { lawyersByCategory, categories } = lawyers.reduce(
+    (acc, lawyer) => {
+      const categorySlug = lawyer.category.slug.current;
+      const categoryTitle = lawyer.category.title;
+      const categoryOrder = lawyer.category.order || 5;
+
+      if (!acc.lawyersByCategory[categorySlug]) {
+        acc.lawyersByCategory[categorySlug] = { lawyers: [] };
+
+        acc.categories.push({
+          id: categorySlug,
+          label: categoryTitle,
+          order: categoryOrder,
+        });
+      }
+
+      acc.lawyersByCategory[categorySlug].lawyers.push(lawyer);
+      return acc;
+    },
+    {
+      lawyersByCategory: {} as Record<string, { lawyers: typeof lawyers }>,
+      categories: [] as Array<{ id: string; label: string; order: number }>,
+    }
+  );
+
+  categories.sort((a, b) => a.order - b.order);
+
+  const allLawyersSortedByCategory = categories.flatMap(
+    (category) => lawyersByCategory[category.id]?.lawyers || []
+  );
+
+  const finalLawyersByCategory = {
+    all: { lawyers: allLawyersSortedByCategory },
+    ...lawyersByCategory,
+  };
 
   return (
     <main id='home' className='bg-dark-blue pt-header'>
@@ -114,22 +144,12 @@ export default async function Home() {
           colorVariant='dark'
         />
 
-        <div className='pl-side md:px-side flex flex-col md:flex-row gap-4 xl:gap-10 md:justify-between md:items-center'>
-          <div className='lg:w-full lg:max-w-[calc((100%-2*20px)/3)] xl:max-w-[calc((100%-2*24px)/3)] 2xl:max-w-[calc((100%-3*28px)/4)] pr-side md:pr-0'>
-            <SearchBar />
-          </div>
-          {/* <LawyersFilter
-            categories={categories}
-            activeCategory={activeCategory}
-            onCategoryChange={setActiveCategory}
-            variant='dark'
-          /> */}
-        </div>
-
         <LawyersList
-          lawyers={partners as Lawyer[]}
+          lawyersByCategory={finalLawyersByCategory}
+          lawyersFilterOptions={categories as FilterOption[]}
           gridLimit={6}
-          className='px-side lg:px-0 mt-4 md:mt-5 xl:mt-8 2xl:mt-16'
+          className='mt-4 md:mt-8 xl:mt-9 2xl:mt-18'
+          listClassName='px-side lg:px-0 mt-4 md:mt-5 xl:mt-8 2xl:mt-16'
         />
       </section>
 

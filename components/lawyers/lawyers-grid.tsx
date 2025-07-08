@@ -1,7 +1,5 @@
 'use client';
 
-import { SearchIcon } from 'lucide-react';
-import LawyersFilter from './lawyers-filter';
 import { PEOPLE_PAGE_QUERYResult } from '@/sanity.types';
 import { useMemo, useState } from 'react';
 import { FilterOption } from '../ui/filter-buttons';
@@ -10,7 +8,7 @@ import { urlForUncropped } from '@/sanity/lib/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
-import SearchBar from '../ui/search-bar';
+import LawyersNavbar from './lawyers-navbar';
 
 const LawyersGrid = ({
   lawyersByCategory,
@@ -32,17 +30,11 @@ const LawyersGrid = ({
 
   return (
     <section className={cn(className)}>
-      <div className='pl-side md:px-side flex flex-col md:flex-row gap-4 xl:gap-10 md:justify-between md:items-center'>
-        <div className='lg:w-full lg:max-w-[calc((100%-2*20px)/3)] xl:max-w-[calc((100%-2*24px)/3)] 2xl:max-w-[calc((100%-3*28px)/4)] pr-side md:pr-0'>
-          <SearchBar />
-        </div>
-        <LawyersFilter
-          categories={categories}
-          activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
-          variant='dark'
-        />
-      </div>
+      <LawyersNavbar
+        categories={categories as FilterOption[]}
+        activeCategory={activeCategory}
+        onCategoryChange={setActiveCategory}
+      />
 
       <AnimatePresence mode='wait'>
         <motion.div

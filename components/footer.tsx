@@ -104,12 +104,16 @@ const FooterSocial = ({ social }: { social: Social }) => {
 const CountryCard = ({
   country,
   index,
+  className,
 }: {
   country: Country;
   index: number;
+  className?: string;
 }) => {
   return (
-    <article className='bg-lightest-blue/25 p-6 rounded-[10px] h-56 md:h-48 2xl:h-58 pt-6 px-5'>
+    <article
+      className={`bg-lightest-blue/25 p-6 rounded-[10px] min-h-56 md:min-h-48 2xl:min-h-58 pt-6 px-5 ${className}`}
+    >
       <div className='flex items-center justify-between'>
         <h3 className='text-xl 2xl:text-2xl'>{country.name}</h3>
         <span className='text-light-blue text-sm 2xl:text-base'>0{index}</span>

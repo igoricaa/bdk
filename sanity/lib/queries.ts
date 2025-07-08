@@ -13,11 +13,17 @@ export const HOME_PAGE_QUERY = defineQuery(`{
     title,
     slug
   },
-  "partners": *[_type == "lawyer" && category->title == "Partner"]{
+  "lawyers": *[_type == "lawyer"]{
     name,
     slug,
     title,
-    picture
+    picture,
+    category->{
+      _id,
+      slug,
+      title,
+      order
+    }
   },
   "newsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
     title,
@@ -39,6 +45,31 @@ export const PARTNERS_LAWYERS_QUERY =
   name,
   title,
   picture
+}`);
+
+export const SERVICES_QUERY = defineQuery(`{
+  "industries": *[_type == "industry"]{
+    title,
+    slug,
+    illustration{
+      desktop,
+      tablet,
+      mobile
+    }
+  },
+  "practices": *[_type == "practice"]{
+    title,
+    slug,
+    illustration{
+      desktop,
+      tablet,
+      mobile
+    }
+  },
+  "foreignDesks": *[_type == "foreignDesk"]{
+    title,
+    slug
+  }
 }`);
 
 export const SERVICE_QUERY = defineQuery(`{
