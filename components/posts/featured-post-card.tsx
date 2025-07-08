@@ -29,23 +29,27 @@ const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
       className='flex gap-18 md:gap-6 xl:gap-32 3xl:gap-51'
     >
       <div className='pb-19 md:pb-8 xl:pb-37 3xl:pb-50'>
-        <h1 className='text-sm text-white bg-dark-blue flex items-center justify-center h-7.5 2xl:h-10 px-4 2xl:px-5 rounded-[500px] w-fit'>
+        <h2 className='text-sm text-white bg-dark-blue flex items-center justify-center h-7.5 2xl:h-10 px-4 2xl:px-5 rounded-[500px] w-fit'>
           Featured Posts
-        </h1>
-        <h2 className='text-dark-blue mt-6 xl:mt-12 2xl:mt-13 md:text-5 text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
-          {post.title}
         </h2>
+        <Link href={`/${post.slug.current}`}>
+          <h1 className='text-dark-blue mt-6 xl:mt-12 2xl:mt-13 md:text-5 text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
+            {post.title}
+          </h1>
+        </Link>
 
-        <div className='w-full md:hidden overflow-hidden rounded-tl-[5rem] rounded-br-[5rem] mt-6'>
-          <Image
-            src={urlFor(post.featuredMedia).url()}
-            alt={post.title}
-            width={361}
-            height={381}
-            className='object-cover w-full h-full'
-            priority={index === 0}
-          />
-        </div>
+        <Link href={`/${post.slug.current}`}>
+          <div className='w-full md:hidden overflow-hidden rounded-tl-[5rem] rounded-br-[5rem] mt-6'>
+            <Image
+              src={urlFor(post.featuredMedia).url()}
+              alt={post.title}
+              width={361}
+              height={381}
+              className='object-cover w-full h-full'
+              priority={index === 0}
+            />
+          </div>
+        </Link>
 
         {post.excerpt && post.excerpt.length > 0 ? (
           <PortableText
@@ -60,7 +64,7 @@ const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
         )}
 
         <Link
-          href={`/bdknowledge/${post.slug.current}`}
+          href={`/${post.slug.current}`}
           className='mt-10 xl:mt-12 2xl:mt-15 text-lg 2xl:text-2xl text-light-blue underline decoration-light-blue flex items-center gap-4 capitalize w-fit'
         >
           <ArrowUpRight />
@@ -69,14 +73,16 @@ const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
       </div>
 
       <div className='hidden md:block min-w-4/10 w-4/10 xl:min-w-5/12 xl:w-5/12 overflow-hidden rounded-tl-[7.5rem] rounded-br-[7.5rem] xl:rounded-tl-[150px] xl:rounded-br-[150px] 2xl:rounded-tl-[12.5rem] 2xl:rounded-br-[12.5rem]'>
-        <Image
-          src={urlFor(post.featuredMedia).url()}
-          alt={post.title}
-          width={1080}
-          height={1140}
-          className='object-cover w-full h-full'
-          priority={index === 0}
-        />
+        <Link href={`/${post.slug.current}`}>
+          <Image
+            src={urlFor(post.featuredMedia).url()}
+            alt={post.title}
+            width={1080}
+            height={1140}
+            className='object-cover w-full h-full'
+            priority={index === 0}
+          />
+        </Link>
       </div>
     </article>
   );

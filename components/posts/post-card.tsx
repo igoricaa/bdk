@@ -20,7 +20,7 @@ const PostCard = ({
       )}
     >
       <Link
-        href={`/bdknowledge/${post.slug.current}`}
+        href={`/${post.slug.current}`}
         className='flex flex-col gap-8 md:gap-7.5 2xl:gap-13 justify-between h-full px-side py-7 md:px-5 md:py-7.5 2xl:py-10 2xl:px-7'
       >
         <div className='flex flex-col'>

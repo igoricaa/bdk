@@ -193,7 +193,8 @@ export const PRACTICES_QUERY_WITH_SLUGS = defineQuery(`*[_type == "practice"]{
 
 export const AUTHORS_QUERY = defineQuery(`*[_type == "author"]`);
 
-export const POSTS_QUERY_WITH_SLUGS = defineQuery(`*[_type == "post"]{
+export const POSTS_QUERY_WITH_SLUGS =
+  defineQuery(`*[_type == "post" && status == "publish"]{
   slug
 }`);
 
@@ -221,7 +222,7 @@ export const POSTS_QUERY = defineQuery(
 );
 
 export const POST_QUERY = defineQuery(`{
-    "currentPost": *[_type == "post" && slug.current == $slug][0]{
+    "currentPost": *[_type == "post" && slug.current == $slug && status == "publish"][0]{
       _id,
       title,
       slug,

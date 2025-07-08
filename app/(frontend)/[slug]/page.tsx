@@ -16,47 +16,111 @@ import RelatedPostsSection from '@/components/services/related-posts-section';
 import ShareButtons from '@/components/posts/share-buttons';
 import BackToButton from '@/components/ui/buttons/back-to-button';
 import { ScrollProgress } from '@/components/ui/scroll-progress';
+import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 export async function generateStaticParams() {
   const posts: POSTS_QUERY_WITH_SLUGSResult = await sanityFetch({
     query: POSTS_QUERY_WITH_SLUGS,
   });
-  return posts.map((post) => ({ slug: post.slug.current }));
+  return posts.map((post: { slug: { current: string } }) => ({
+    slug: post.slug.current,
+  }));
 }
 
-const readingTimeCache = new Map();
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+
+  const { currentPost } = await sanityFetch({
+    query: POST_QUERY,
+    params: { slug },
+  });
+
+  if (!currentPost) {
+    return {
+      title: 'Post Not Found',
+    };
+  }
+
+  const description =
+    currentPost.excerpt && currentPost.excerpt.length > 0
+      ? currentPost.excerpt
+          .map(
+            (block: any) =>
+              block.children?.map((child: any) => child.text).join(' ') || ''
+          )
+          .join(' ')
+          .substring(0, 160)
+      : `Read ${currentPost.title} on BDK Law Firm blog`;
+
+  return {
+    title: currentPost.title,
+    description,
+    openGraph: {
+      title: currentPost.title,
+      description,
+      type: 'article',
+      publishedTime: currentPost.date,
+      authors: currentPost.authors
+        ?.map((author: any) =>
+          author.type === 'lawyer'
+            ? author.lawyer?.name
+            : author.customAuthor?.name
+        )
+        .filter(Boolean) as string[],
+      ...(currentPost.featuredMedia && {
+        images: [
+          {
+            url: urlFor(currentPost.featuredMedia)
+              .width(1200)
+              .height(630)
+              .url(),
+            width: 1200,
+            height: 630,
+            alt: currentPost.title,
+          },
+        ],
+      }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: currentPost.title,
+      description,
+      ...(currentPost.featuredMedia && {
+        images: [
+          urlFor(currentPost.featuredMedia).width(1200).height(630).url(),
+        ],
+      }),
+    },
+  };
+}
 
 const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
-
-  const cacheKey = `post-${slug}`;
-
-  // Check cache first
-  if (readingTimeCache.has(cacheKey)) {
-    return readingTimeCache.get(cacheKey);
-  }
 
   const { currentPost, previousPost, nextPost, relatedPosts } =
     await sanityFetch({
       query: POST_QUERY,
       params: { slug },
-      tags: ['bdknowledge'],
+      tags: ['posts', `post-${slug}`, 'categories', 'authors'],
     });
 
   if (!currentPost) {
-    return <div>Post not found</div>;
+    notFound();
   }
 
   const readingTime = calculateReadingTimeFromPortableText(
     currentPost.content as PortableTextBlock[]
   );
 
-  readingTimeCache.set(cacheKey, readingTime);
-
   const newsroomPosts =
     relatedPosts
-      ?.filter((post) =>
-        post.categories?.some((cat) =>
+      ?.filter((post: any) =>
+        post.categories?.some((cat: any) =>
           cat.name?.toLowerCase().includes('newsroom')
         )
       )
@@ -64,9 +128,9 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   const blogPosts =
     relatedPosts
-      ?.filter((post) =>
+      ?.filter((post: any) =>
         post.categories?.some(
-          (cat) =>
+          (cat: any) =>
             cat.name?.toLowerCase().includes('blog') ||
             cat.name?.toLowerCase().includes('latest')
         )
@@ -75,9 +139,9 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   const insightsPosts =
     relatedPosts
-      ?.filter((post) =>
+      ?.filter((post: any) =>
         post.categories?.some(
-          (cat) =>
+          (cat: any) =>
             cat.name?.toLowerCase().includes('insight') ||
             cat.name?.toLowerCase().includes('bdk')
         )
@@ -299,7 +363,7 @@ const PostsNavigation = ({
         <div />
       )}
       {nextPostSlug ? (
-        <PostNavigationLink href={` /${nextPostSlug}`} direction='next'>
+        <PostNavigationLink href={`/${nextPostSlug}`} direction='next'>
           Next
         </PostNavigationLink>
       ) : (

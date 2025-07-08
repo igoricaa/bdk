@@ -54,7 +54,7 @@ const LawyerPage = async ({
     <main id='lawyerPage' className='pt-header'>
       <div className='px-side grid grid-cols-1 xl:grid-cols-12 gap-24 sm:gap-20 xl:gap-8 pb-24 md:pb-30 2xl:pb-42 pt-8 sm:pt-11 xl:pt-0'>
         <section className='col-span-1 xl:col-span-5 2xl:col-span-4 flex flex-col gap-5 sm:gap-6 xl:gap-9 2xl:gap-18 sm:flex-row xl:flex-col w-full xl:w-[calc(80%+32px)]'>
-          <div className='w-full sm:w-1/2 xl:w-full h-full rounded-br-[50px] xl:rounded-br-[150px] overflow-hidden aspect-[518/547]'>
+          <div className='w-full sm:w-1/2 xl:w-full h-auto rounded-br-[50px] xl:rounded-br-[150px] overflow-hidden aspect-[518/547]'>
             <Image
               src={urlForUncropped(lawyer.picture).url() || ''}
               alt={lawyer?.name || ''}
@@ -74,12 +74,18 @@ const LawyerPage = async ({
                 {lawyer.title}
               </p>
             </div>
-            <p className='text-grey-text mt-4 2xl:mt-5 sm:text-lg 2xl:text-2xl'>
+            <a
+              href={`tel:${lawyer.contactInfo?.phone}`}
+              className='text-grey-text mt-4 2xl:mt-5 sm:text-lg 2xl:text-2xl underline block'
+            >
               {lawyer.contactInfo?.phone}
-            </p>
-            <p className='text-grey-text mt-1 sm:mt-2 2xl:mt-3 sm:text-lg 2xl:text-2xl'>
+            </a>
+            <a
+              href={`mailto:${lawyer.contactInfo?.email}`}
+              className='text-grey-text mt-1 sm:mt-2 2xl:mt-3 sm:text-lg 2xl:text-2xl underline block'
+            >
               {lawyer.contactInfo?.email}
-            </p>
+            </a>
           </div>
         </section>
         <section className='col-span-1 xl:col-span-7 xl:col-start-6 2xl:col-span-6 2xl:col-start-6 xl:pt-18 2xl:pt-23'>

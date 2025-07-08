@@ -37,7 +37,7 @@ const NewsroomSection = ({
             )}
           >
             <a
-              href={`/newsroom/${post.slug.current}`}
+              href={`/${post.slug.current}`}
               className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18'
             >
               <div className='flex flex-col justify-between h-full'>
