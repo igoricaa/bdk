@@ -1,4 +1,4 @@
-import { Lawyer, Post } from '@/sanity.types';
+import { Lawyer, Post, SERVICE_QUERYResult } from '@/sanity.types';
 import { ServiceData } from '@/types/service';
 import ServiceHeroSection from './service-hero-section';
 import SimpleServiceContentSection from './simple-service-content-section';
@@ -49,7 +49,15 @@ const ServicePage = ({
 
   return (
     <main className='pt-header'>
-      <ServiceHeroSection currentService={currentService} />
+      <ServiceHeroSection
+        title={currentService.title || ''}
+        illustration={
+          (currentService as SERVICE_QUERYResult['currentService'])
+            ?.illustration as NonNullable<
+            SERVICE_QUERYResult['currentService']
+          >['illustration']
+        }
+      />
 
       <Sidebar
         currentService={currentService}
