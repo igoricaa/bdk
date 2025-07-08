@@ -116,10 +116,7 @@ export const PRACTICE_QUERY = defineQuery(`{
       date,
     },
   },
-  "otherPractices": *[_type == "practice" && slug.current != $slug]{
-    title,
-    slug
-  },
+  "practices": *[_type == "practice"]{title, slug},
   "industries": *[_type == "industry"]{title, slug},
   "foreignDesks": *[_type == "foreignDesk"]{title, slug},
   "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
@@ -160,9 +157,46 @@ export const INDUSTRY_QUERY = defineQuery(`{
       date,
     },
   },
-  "otherIndustries": *[_type == "industry" && slug.current != $slug]{
+  "practices": *[_type == "practice"]{title, slug},
+  "industries": *[_type == "industry"]{title, slug},
+  "foreignDesks": *[_type == "foreignDesk"]{title, slug},
+  "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
+    _id,
     title,
-    slug
+    slug,
+    date,
+  },
+}`);
+
+export const FOREIGN_DESK_QUERY = defineQuery(`{
+  "currentForeignDesk": *[_type == "foreignDesk" && slug.current == $slug][0]{
+    ...,
+    lawyers[]->{
+      _id,
+      name,
+      title,
+      picture,
+      slug,
+      contactInfo
+    },
+    newsroom[]->{
+      _id,
+      title,
+      slug,
+      date,
+    },
+    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{
+      _id,
+      title,
+      slug,
+      date,
+    },
+    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{
+      _id,
+      title,
+      slug,
+      date,
+    },
   },
   "practices": *[_type == "practice"]{title, slug},
   "industries": *[_type == "industry"]{title, slug},
@@ -173,6 +207,11 @@ export const INDUSTRY_QUERY = defineQuery(`{
     slug,
     date,
   },
+}`);
+
+export const FOREIGN_DESKS_QUERY_WITH_SLUGS =
+  defineQuery(`*[_type == "foreignDesk"]{
+  slug
 }`);
 
 export const PRACTICES_QUERY = defineQuery(`*[_type == "practice"]{

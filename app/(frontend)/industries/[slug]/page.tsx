@@ -23,24 +23,17 @@ export default async function Page({
     params: { slug },
   });
 
-  const {
-    currentIndustry: currentService,
-    otherIndustries: otherServices,
-    practices,
-    industries,
-    foreignDesks,
-    autoNewsroom,
-  } = industry;
+  const { currentIndustry, practices, industries, foreignDesks, autoNewsroom } =
+    industry;
 
-  if (!currentService) {
+  if (!currentIndustry) {
     return <div>Industry not found</div>;
   }
 
   return (
     <ServicePage
       serviceType='industry'
-      currentService={currentService}
-      otherServices={otherServices}
+      currentService={currentIndustry}
       practices={practices}
       industries={industries}
       foreignDesks={foreignDesks}

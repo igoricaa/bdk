@@ -11,8 +11,8 @@ import { cn } from '@/lib/utils';
 
 interface SidebarProps {
   currentService: ServiceData;
-  otherServices: Array<{ title: string; slug: { current: string } }>;
-  services: Array<{ title: string; slug: { current: string } }>;
+  practices: Array<{ title: string; slug: { current: string } }>;
+  industries: Array<{ title: string; slug: { current: string } }>;
   foreignDesks:
     | Array<{ title: string; slug: { current: string } }>
     | Array<{ title: string; slug: { current: string } }>;
@@ -21,8 +21,8 @@ interface SidebarProps {
 
 const Sidebar = ({
   currentService,
-  otherServices,
-  services,
+  practices,
+  industries,
   foreignDesks,
   className,
 }: SidebarProps) => {
@@ -49,8 +49,8 @@ const Sidebar = ({
           </AccordionTrigger>
           <AccordionContent className='pt-5 pb-2 md:pt-6 md:pb-0'>
             <AccordionList
-              services={otherServices}
-              industries={services}
+              practices={practices}
+              industries={industries}
               foreignDesks={foreignDesks}
             />
           </AccordionContent>
@@ -59,8 +59,8 @@ const Sidebar = ({
 
       <div className='hidden xl:block'>
         <AccordionList
-          services={otherServices}
-          industries={services}
+          practices={practices}
+          industries={industries}
           foreignDesks={foreignDesks}
         />
       </div>

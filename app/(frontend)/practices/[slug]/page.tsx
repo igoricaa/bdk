@@ -29,26 +29,17 @@ export default async function Page({
     params: { slug },
   });
 
-  const {
-    currentPractice: currentService,
-    otherPractices: otherServices,
-    industries,
-    foreignDesks,
-    autoNewsroom,
-  } = practice;
+  const { currentPractice, practices, industries, foreignDesks, autoNewsroom } =
+    practice;
 
-  if (!currentService) {
+  if (!currentPractice) {
     return <div>Practice not found</div>;
   }
-
-  // Convert practices list from otherServices since PRACTICE_QUERY doesn't include practices separately
-  const practices = otherServices;
 
   return (
     <ServicePage
       serviceType='practice'
-      currentService={currentService}
-      otherServices={otherServices}
+      currentService={currentPractice}
       practices={practices}
       industries={industries}
       foreignDesks={foreignDesks}

@@ -17,24 +17,24 @@ interface AccordionData {
 }
 
 interface AccordionListProps {
-  services: AccordionData[];
+  practices: AccordionData[];
   industries: AccordionData[];
   foreignDesks: AccordionData[];
   className?: string;
 }
 
 const AccordionList = ({
-  services,
+  practices,
   industries,
   foreignDesks,
   className,
 }: AccordionListProps) => {
   const accordionData = [
     {
-      id: 'services',
-      title: 'Services',
+      id: 'practices',
+      title: 'Practices',
       icon: ServicesIcon,
-      data: services,
+      data: practices,
       basePath: '/practices',
     },
     {
@@ -88,6 +88,10 @@ const PracticeAccordionItem = ({
   basePath: string;
   value: string;
 }) => {
+  if (!data) {
+    return null;
+  }
+
   return (
     <AccordionItem value={value}>
       <AccordionTrigger

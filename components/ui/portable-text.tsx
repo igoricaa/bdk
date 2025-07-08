@@ -3,7 +3,9 @@ import {
   PortableTextBlock,
   PortableTextComponents,
 } from 'next-sanity';
+import { Image } from 'next-sanity/image';
 import { cn } from '@/lib/utils';
+import { urlFor } from '@/sanity/lib/image';
 
 interface PortableTextCustomProps {
   value: PortableTextBlock[];
@@ -17,6 +19,28 @@ const PortableText = ({
   paragraphClassName,
 }: PortableTextCustomProps) => {
   const components: PortableTextComponents = {
+    types: {
+      image: ({ value }) => (
+        <div className='my-6 md:my-8 rounded-lg overflow-hidden'>
+          <Image
+            src={urlFor(value).url()}
+            alt={value.alt || ''}
+            width={800}
+            height={600}
+            className='w-full h-auto object-cover'
+          />
+        </div>
+      ),
+      externalImage: ({ value }) => (
+        <div className='my-6 md:my-8 rounded-lg overflow-hidden'>
+          <img
+            src={value.url}
+            alt={value.alt || ''}
+            className='w-full h-auto object-cover'
+          />
+        </div>
+      ),
+    },
     block: {
       h1: ({ value, children }) => (
         <h1

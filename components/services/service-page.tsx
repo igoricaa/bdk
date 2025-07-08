@@ -3,16 +3,14 @@ import { ServiceData } from '@/types/service';
 import ServiceHeroSection from './service-hero-section';
 import SimpleServiceContentSection from './simple-service-content-section';
 import ServiceExpertsSection from './service-experts-section';
-import FeaturedPostsSection from '@/components/posts/featured-posts-section';
 import RelatedPostsSection from './related-posts-section';
 import TestimonialsSection from './testimonials-section';
 import { Testimonial } from '@/sanity/schemaTypes/services/testimonialTypes';
 import Sidebar from './sidebar';
 
 interface ServicePageProps {
-  serviceType: 'practice' | 'industry';
+  serviceType: 'practice' | 'industry' | 'foreign-desk';
   currentService: ServiceData;
-  otherServices: Array<{ title: string; slug: { current: string } }>;
   practices: Array<{ title: string; slug: { current: string } }>;
   industries: Array<{ title: string; slug: { current: string } }>;
   foreignDesks: Array<{ title: string; slug: { current: string } }>;
@@ -27,7 +25,6 @@ interface ServicePageProps {
 const ServicePage = ({
   serviceType,
   currentService,
-  otherServices,
   practices,
   industries,
   foreignDesks,
@@ -59,17 +56,16 @@ const ServicePage = ({
     <main className='pt-header'>
       <ServiceHeroSection currentService={currentService} />
 
-      {/* <Sidebar
+      <Sidebar
         currentService={currentService}
-        otherServices={otherServices}
-        services={industries}
+        practices={practices}
+        industries={industries}
         foreignDesks={foreignDesks}
         className='-ml-0! xl:hidden'
       />
 
       <SimpleServiceContentSection
         currentService={currentService}
-        otherServices={otherServices}
         practices={practices}
         industries={industries}
         foreignDesks={foreignDesks}
@@ -78,16 +74,18 @@ const ServicePage = ({
 
       <ServiceExpertsSection currentService={currentService} />
 
-      <TestimonialsSection
-        testimonials={currentService.testimonials as Testimonial[]}
-      />
+      {serviceType !== 'foreign-desk' && 'testimonials' in currentService && (
+        <TestimonialsSection
+          testimonials={currentService.testimonials as Testimonial[]}
+        />
+      )}
 
       <RelatedPostsSection
         title='Related posts'
         newsroomPosts={newsroomPosts}
         blogPosts={blogPosts}
         insightsPosts={insightsPosts}
-      /> */}
+      />
     </main>
   );
 };
