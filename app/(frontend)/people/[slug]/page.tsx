@@ -7,24 +7,19 @@ import PortableText from '@/components/ui/portable-text';
 import Section from '@/components/ui/section';
 import SectionHeader from '@/components/ui/section-header/section-header';
 import { cn } from '@/lib/utils';
-import {
-  Lawyer,
-  LAWYER_QUERYResult,
-  LAWYERS_QUERYResult,
-} from '@/sanity.types';
+import { Lawyer, LAWYER_QUERYResult } from '@/sanity.types';
+import { getLawyers } from '@/sanity/lib/cached-queries';
 import { sanityFetch } from '@/sanity/lib/client';
 import { urlForUncropped } from '@/sanity/lib/image';
-import { LAWYER_QUERY, LAWYERS_QUERY } from '@/sanity/lib/queries';
+import { LAWYER_QUERY } from '@/sanity/lib/queries';
 import { Testimonial } from '@/sanity/schemaTypes/services/testimonialTypes';
 import { PortableTextBlock } from 'next-sanity';
 import { Image } from 'next-sanity/image';
 import Link from 'next/link';
 
 export async function generateStaticParams() {
-  const lawyers: LAWYERS_QUERYResult = await sanityFetch({
-    query: LAWYERS_QUERY,
-  });
-  return lawyers.map((lawyer) => ({ slug: lawyer.slug.current }));
+  const lawyers = await getLawyers();
+  return lawyers.lawyers.map((lawyer) => ({ slug: lawyer.slug.current }));
 }
 
 const LawyerPage = async ({
@@ -36,7 +31,7 @@ const LawyerPage = async ({
 
   const {
     lawyer,
-    partners,
+    sameCategoryLawyers,
     newsroomPosts,
     blogPosts,
     insightsPosts,
@@ -133,7 +128,7 @@ const LawyerPage = async ({
           rightSideComponentClassName='hidden md:block'
         />
         <TeamMembersCarousel
-          lawyers={partners as Lawyer[]}
+          lawyers={sameCategoryLawyers as Lawyer[]}
           className='mt-10 md:mt-13 xl:mt-12 2xl:mt-20'
           itemClassName='basis-50% sm:basis-[33%] xl:basis-[21.5%] 2xl:basis-[18%]'
         />

@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
@@ -14,24 +13,12 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
-import {
-  getNavigationRoutes,
-  NavigationRoute,
-} from '@/lib/utils/navigation-routes';
+import { NavigationRoute } from '@/lib/utils/navigation-routes';
 import { cn } from '@/lib/utils';
 import { urlFor } from '@/sanity/lib/image';
 
-function DesktopMenu() {
-  const [routes, setRoutes] = React.useState<NavigationRoute[]>([]);
+function DesktopMenu({ routes }: { routes: NavigationRoute[] }) {
   const pathname = usePathname();
-
-  React.useEffect(() => {
-    async function loadRoutes() {
-      const navigationRoutes = await getNavigationRoutes();
-      setRoutes(navigationRoutes);
-    }
-    loadRoutes();
-  }, []);
 
   const isActive = (href: string) => {
     if (href === '/') {

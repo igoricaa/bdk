@@ -1,3 +1,4 @@
+import { LAWYERS_QUERYResult } from '@/sanity.types';
 import { type ClassValue, clsx } from 'clsx';
 import { PortableTextBlock, toPlainText } from 'next-sanity';
 import { twMerge } from 'tailwind-merge';
@@ -47,38 +48,58 @@ export function calculateReadingTimeFromPortableText(
   return `${minutes || 1} min read`;
 }
 
-// Alternative method without @portabletext/react dependency
-export function calculateReadingTimeFromPortableTextManual(
-  portableText: PortableTextBlock[]
+export type LawyersByCategory = Record<
+  string,
+  { lawyers: LAWYERS_QUERYResult['lawyers'] }
+>;
+export type Categories = Array<{ id: string; label: string; order: number }>;
+
+export function getLawyersByCategoryAndCategories(
+  lawyers: LAWYERS_QUERYResult['lawyers']
 ) {
-  const wordsPerMinute = 200;
+  const { lawyersByCategory, categories } = lawyers.reduce(
+    (
+      acc: {
+        lawyersByCategory: Record<string, { lawyers: typeof lawyers }>;
+        categories: Array<{ id: string; label: string; order: number }>;
+      },
+      lawyer: (typeof lawyers)[0]
+    ) => {
+      const categorySlug = lawyer.category.slug.current;
+      const categoryTitle = lawyer.category.title;
+      const categoryOrder = lawyer.category.order || 5;
 
-  // Extract text from Portable Text blocks manually
-  const extractText = (blocks: PortableTextBlock[]) => {
-    return blocks
-      .map((block) => {
-        if (block._type === 'block' && block.children) {
-          return block.children
-            .filter((child) => child._type === 'span')
-            .map((span) => span.text)
-            .join(' ');
-        }
-        return '';
-      })
-      .filter((text) => text.trim().length > 0)
-      .join(' ');
+      if (!acc.lawyersByCategory[categorySlug]) {
+        acc.lawyersByCategory[categorySlug] = { lawyers: [] };
+
+        acc.categories.push({
+          id: categorySlug,
+          label: categoryTitle,
+          order: categoryOrder,
+        });
+      }
+
+      acc.lawyersByCategory[categorySlug].lawyers.push(lawyer);
+      return acc;
+    },
+    {
+      lawyersByCategory: {} as Record<string, { lawyers: typeof lawyers }>,
+      categories: [] as Array<{ id: string; label: string; order: number }>,
+    }
+  );
+
+  categories.sort(
+    (a: { order: number }, b: { order: number }) => a.order - b.order
+  );
+
+  const allLawyersSortedByCategory = categories.flatMap(
+    (category: { id: string }) => lawyersByCategory[category.id]?.lawyers || []
+  );
+
+  const finalLawyersByCategory = {
+    all: { lawyers: allLawyersSortedByCategory },
+    ...lawyersByCategory,
   };
 
-  const plainText = extractText(portableText);
-  const words = plainText
-    .trim()
-    .split(/\s+/)
-    .filter((word) => word.length > 0).length;
-  const minutes = Math.ceil(words / wordsPerMinute);
-
-  return {
-    minutes: minutes || 1,
-    words,
-    text: `${minutes || 1} min read`,
-  };
+  return [finalLawyersByCategory, categories];
 }

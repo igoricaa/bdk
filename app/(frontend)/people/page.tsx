@@ -1,57 +1,31 @@
 import NewsroomSection from '@/components/home/newsroom-section';
 import LawyersGrid from '@/components/lawyers/lawyers-grid';
-import { PEOPLE_PAGE_QUERYResult, Post } from '@/sanity.types';
-import { sanityFetch } from '@/sanity/lib/client';
-import { PEOPLE_PAGE_QUERY } from '@/sanity/lib/queries';
+import { FilterOption } from '@/components/ui/filter-buttons';
+import {
+  getLawyersByCategoryAndCategories,
+  LawyersByCategory,
+} from '@/lib/utils';
+import { Post } from '@/sanity.types';
+import {
+  getLawyers,
+  getPeoplePageData,
+  getPostsByCategory,
+} from '@/sanity/lib/cached-queries';
 
 const PeoplePage = async () => {
-  const { peoplePage, lawyers, newsroomPosts }: PEOPLE_PAGE_QUERYResult =
-    await sanityFetch({
-      query: PEOPLE_PAGE_QUERY,
-    });
+  const [{ peoplePage }, { lawyers }, { posts: newsroomPosts }] =
+    await Promise.all([
+      getPeoplePageData(),
+      getLawyers(),
+      getPostsByCategory('newsroom', 4),
+    ]);
 
-  // const { peoplePage, lawyers, newsroomPosts }: PEOPLE_PAGE_QUERYResult =
-  // await getPeoplePageData();
-
-  if (!peoplePage || !lawyers || lawyers.length === 0) {
+  if (!peoplePage || !lawyers || lawyers.length === 0 || !newsroomPosts) {
     return <div>No people page found</div>;
   }
 
-  const { lawyersByCategory, categories } = lawyers.reduce(
-    (acc, lawyer) => {
-      const categorySlug = lawyer.category.slug.current;
-      const categoryTitle = lawyer.category.title;
-      const categoryOrder = lawyer.category.order || 5;
-
-      if (!acc.lawyersByCategory[categorySlug]) {
-        acc.lawyersByCategory[categorySlug] = { lawyers: [] };
-
-        acc.categories.push({
-          id: categorySlug,
-          label: categoryTitle,
-          order: categoryOrder,
-        });
-      }
-
-      acc.lawyersByCategory[categorySlug].lawyers.push(lawyer);
-      return acc;
-    },
-    {
-      lawyersByCategory: {} as Record<string, { lawyers: typeof lawyers }>,
-      categories: [] as Array<{ id: string; label: string; order: number }>,
-    }
-  );
-
-  categories.sort((a, b) => a.order - b.order);
-
-  const allLawyersSortedByCategory = categories.flatMap(
-    (category) => lawyersByCategory[category.id]?.lawyers || []
-  );
-
-  const finalLawyersByCategory = {
-    all: { lawyers: allLawyersSortedByCategory },
-    ...lawyersByCategory,
-  };
+  const [finalLawyersByCategory, categories] =
+    getLawyersByCategoryAndCategories(lawyers);
 
   return (
     <main className='pt-header'>
@@ -65,8 +39,8 @@ const PeoplePage = async () => {
       </section>
 
       <LawyersGrid
-        lawyersByCategory={finalLawyersByCategory}
-        categories={categories}
+        lawyersByCategory={finalLawyersByCategory as LawyersByCategory}
+        categories={categories as FilterOption[]}
         className='xl:px-0 2xl:max-w-[1550px] xl:mx-auto'
       />
 

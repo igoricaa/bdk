@@ -1,13 +1,13 @@
 'use client';
 
-import { PEOPLE_PAGE_QUERYResult } from '@/sanity.types';
+import { LAWYERS_QUERYResult } from '@/sanity.types';
 import { useMemo, useState } from 'react';
 import { FilterOption } from '../ui/filter-buttons';
 import { Image } from 'next-sanity/image';
 import { urlForWithHotspot } from '@/sanity/lib/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
-import { cn } from '@/lib/utils';
+import { cn, LawyersByCategory } from '@/lib/utils';
 import LawyersNavbar from './lawyers-navbar';
 
 const LawyersGrid = ({
@@ -15,10 +15,7 @@ const LawyersGrid = ({
   categories,
   className,
 }: {
-  lawyersByCategory: Record<
-    string,
-    { lawyers: PEOPLE_PAGE_QUERYResult['lawyers'] }
-  >;
+  lawyersByCategory: LawyersByCategory;
   categories: FilterOption[];
   className?: string;
 }) => {
@@ -53,7 +50,11 @@ const LawyersGrid = ({
           }}
         >
           {currentLawyers.map((lawyer, index) => (
-            <LawyerCard key={lawyer._id} lawyer={lawyer} index={index} />
+            <LawyerCard
+              key={lawyer.slug.current}
+              lawyer={lawyer}
+              index={index}
+            />
           ))}
         </motion.div>
       </AnimatePresence>
@@ -67,7 +68,7 @@ const LawyerCard = ({
   lawyer,
   index,
 }: {
-  lawyer: PEOPLE_PAGE_QUERYResult['lawyers'][number];
+  lawyer: LAWYERS_QUERYResult['lawyers'][number];
   index: number;
 }) => {
   return (

@@ -35,7 +35,6 @@ export const getGeneralInfo = cache(
 // Used across multiple pages
 getLawyers(); // → ['lawyers']
 getPractices(); // → ['practices']
-getCategories(); // → ['categories']
 getAuthors(); // → ['authors']
 ```
 
@@ -45,7 +44,6 @@ getAuthors(); // → ['authors']
 // Page-specific settings
 getHomePageConfig(); // → ['home-page-config']
 getPeoplePageConfig(); // → ['people-page-config']
-getBlinkdraftConfig(); // → ['blinkdraft']
 ```
 
 #### **🔹 Combined Page Queries** (Complex, Page-Specific)
@@ -54,7 +52,6 @@ getBlinkdraftConfig(); // → ['blinkdraft']
 // Single large queries that fetch multiple data types atomically
 getHomePageData(); // → Single GROQ query: home + blinkdraft + industries + practices + partners + newsroom
 getPeoplePageData(); // → Single GROQ query: people config + lawyers + newsroom
-getPostWithRelated(); // → Single GROQ query: post + related content
 ```
 
 **Note**: These are **single large GROQ queries**, not combinations of smaller queries. This approach is chosen when:
@@ -162,7 +159,6 @@ const lawyers = await sanityFetch({ query: LAWYERS_QUERY });
 
 ```typescript
 // ✅ Efficient, deduplicated, cached requests
-const post = await getPostWithRelated(slug); // Cached 12h
 const general = await getGeneralInfo(); // Cached 12h, shared
 const lawyers = await getLawyers(); // Cached 12h, shared
 ```

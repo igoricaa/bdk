@@ -1,4 +1,4 @@
-import { Post } from '@/sanity.types';
+import { Lawyer, Post } from '@/sanity.types';
 import { ServiceData } from '@/types/service';
 import ServiceHeroSection from './service-hero-section';
 import SimpleServiceContentSection from './simple-service-content-section';
@@ -14,12 +14,6 @@ interface ServicePageProps {
   practices: Array<{ title: string; slug: { current: string } }>;
   industries: Array<{ title: string; slug: { current: string } }>;
   foreignDesks: Array<{ title: string; slug: { current: string } }>;
-  autoNewsroom: Array<{
-    _id: string;
-    title: string;
-    slug: { current: string };
-    date: string;
-  }>;
 }
 
 const ServicePage = ({
@@ -28,16 +22,17 @@ const ServicePage = ({
   practices,
   industries,
   foreignDesks,
-  autoNewsroom,
 }: ServicePageProps) => {
   if (!currentService) {
     return <div>No {serviceType} found</div>;
   }
 
+  console.log(currentService);
+
   const newsroomPosts = (
     currentService.newsroom && currentService.newsroom.length > 0
       ? currentService.newsroom
-      : autoNewsroom || []
+      : []
   ).filter((post) => post.title && post.date) as Post[];
 
   const blogPosts = (
@@ -72,13 +67,18 @@ const ServicePage = ({
         serviceType={serviceType}
       />
 
-      <ServiceExpertsSection currentService={currentService} />
-
-      {serviceType !== 'foreign-desk' && 'testimonials' in currentService && (
-        <TestimonialsSection
-          testimonials={currentService.testimonials as Testimonial[]}
-        />
+      {currentService.lawyers && currentService.lawyers.length > 0 && (
+        <ServiceExpertsSection lawyers={currentService.lawyers as Lawyer[]} />
       )}
+
+      {serviceType !== 'foreign-desk' &&
+        'testimonials' in currentService &&
+        currentService.testimonials &&
+        currentService.testimonials.length > 0 && (
+          <TestimonialsSection
+            testimonials={currentService.testimonials as Testimonial[]}
+          />
+        )}
 
       <RelatedPostsSection
         title='Related posts'

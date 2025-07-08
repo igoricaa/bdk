@@ -1,8 +1,8 @@
 'use client';
 
-import { HOME_PAGE_QUERYResult, Lawyer } from '@/sanity.types';
+import { Lawyer } from '@/sanity.types';
 import LawyerCard from './lawyers-card';
-import { cn } from '@/lib/utils';
+import { cn, LawyersByCategory } from '@/lib/utils';
 import { useIsMobile } from '@/lib/hooks/use-mobile';
 import LawyersCarousel from './lawyers-carousel';
 import { FilterOption } from '../ui/filter-buttons';
@@ -16,10 +16,7 @@ const LawyersList = ({
   className,
   listClassName,
 }: {
-  lawyersByCategory: Record<
-    string,
-    { lawyers: HOME_PAGE_QUERYResult['lawyers'] }
-  >;
+  lawyersByCategory: LawyersByCategory;
   lawyersFilterOptions: FilterOption[];
   gridLimit?: number;
   className?: string;

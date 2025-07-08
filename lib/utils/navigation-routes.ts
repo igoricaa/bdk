@@ -1,6 +1,4 @@
-import { SERVICES_QUERYResult } from '@/sanity.types';
-import { sanityFetch } from '@/sanity/lib/client';
-import { SERVICES_QUERY } from '@/sanity/lib/queries';
+import { getServicesData } from '@/sanity/lib/cached-queries';
 
 export interface NavigationRoute {
   label: string;
@@ -14,10 +12,7 @@ export interface NavigationRoute {
 }
 
 export const getNavigationRoutes = async (): Promise<NavigationRoute[]> => {
-  const { industries, practices, foreignDesks }: SERVICES_QUERYResult =
-    await sanityFetch({
-      query: SERVICES_QUERY,
-    });
+  const { industries, practices, foreignDesks } = await getServicesData();
 
   if (!industries && !practices && !foreignDesks) {
     return [];

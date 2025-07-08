@@ -45,6 +45,7 @@ export function TextShimmer({
         {
           '--spread': `${dynamicSpread}px`,
           backgroundImage: `var(--bg), linear-gradient(var(--base-color), var(--base-color))`,
+          lineHeight: '1.5',
         } as React.CSSProperties
       }
     >

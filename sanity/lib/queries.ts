@@ -5,27 +5,14 @@ export const HOME_PAGE_QUERY = defineQuery(`{
   "blinkdraft": *[_type == "blinkdraft"][0]{
     logo
   },
-  "industries": *[_type == "industry"]{
-    title,
-    slug
-  },
-  "practices": *[_type == "practice"]{
-    title,
-    slug
-  },
-  "lawyers": *[_type == "lawyer"]{
-    name,
-    slug,
-    title,
-    picture,
-    category->{
-      _id,
-      slug,
-      title,
-      order
-    }
-  },
-  "newsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
+}`);
+
+export const PEOPLE_PAGE_QUERY = defineQuery(`{
+  "peoplePage": *[_type == "peoplePage"][0],
+}`);
+
+export const POSTS_BY_CATEGORY_QUERY = defineQuery(`{
+  "posts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{
     title,
     slug,
     date,
@@ -38,13 +25,20 @@ export const INDUSTRIES_QUERY = defineQuery(`{
   },
 }`);
 
-export const LAWYERS_QUERY = defineQuery(`*[_type == "lawyer"]`);
-
-export const PARTNERS_LAWYERS_QUERY =
-  defineQuery(`*[_type == "lawyer" && category->title == "Partner"]{
-  name,
-  title,
-  picture
+export const LAWYERS_QUERY = defineQuery(`{
+  "lawyers": *[_type == "lawyer"]{
+    name,
+    title,
+    picture,
+    slug,
+    category->{
+      _id,
+      title,
+      slug,
+      order
+    },
+    contactInfo
+  }
 }`);
 
 export const SERVICES_QUERY = defineQuery(`{
@@ -74,7 +68,21 @@ export const SERVICES_QUERY = defineQuery(`{
 
 export const SERVICE_QUERY = defineQuery(`{
   "currentService": *[_type == $type && slug.current == $slug][0]{
-    ...,
+    _id,
+    _type,
+    title,
+    slug,
+    description,
+    illustration{
+      desktop,
+      tablet,
+      mobile
+    },
+    testimonials[]{
+      text,
+      author
+    },
+    publications,
     lawyers[]->{
       _id,
       name,
@@ -101,101 +109,6 @@ export const SERVICE_QUERY = defineQuery(`{
       slug,
       date,
     },
-  },
-  "otherServices": *[_type == $type && slug.current != $slug]{
-    title,
-    slug
-  },
-  "practices": *[_type == "practice"]{title, slug},
-  "industries": *[_type == "industry"]{title, slug},
-  "foreignDesks": *[_type == "foreignDesk"]{title, slug},
-  "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
-    _id,
-    title,
-    slug,
-    date,
-  },
-}`);
-
-export const PRACTICE_QUERY = defineQuery(`{
-  "currentPractice": *[_type == "practice" && slug.current == $slug][0]{
-    ...,
-    lawyers[]->{
-      _id,
-      name,
-      title,
-      picture,
-      slug,
-      contactInfo
-    },
-    newsroom[]->{
-      _id,
-      title,
-      slug,
-      date,
-    },
-    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{
-      _id,
-      title,
-      slug,
-      date,
-    },
-    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{
-      _id,
-      title,
-      slug,
-      date,
-    },
-  },
-  "practices": *[_type == "practice"]{title, slug},
-  "industries": *[_type == "industry"]{title, slug},
-  "foreignDesks": *[_type == "foreignDesk"]{title, slug},
-  "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
-    _id,
-    title,
-    slug,
-    date,
-  },
-}`);
-
-export const INDUSTRY_QUERY = defineQuery(`{
-  "currentIndustry": *[_type == "industry" && slug.current == $slug][0]{
-    ...,
-    lawyers[]->{
-      _id,
-      name,
-      title,
-      picture,
-      slug,
-      contactInfo
-    },
-    newsroom[]->{
-      _id,
-      title,
-      slug,
-      date,
-    },
-    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{
-      _id,
-      title,
-      slug,
-      date,
-    },
-    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{
-      _id,
-      title,
-      slug,
-      date,
-    },
-  },
-  "practices": *[_type == "practice"]{title, slug},
-  "industries": *[_type == "industry"]{title, slug},
-  "foreignDesks": *[_type == "foreignDesk"]{title, slug},
-  "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
-    _id,
-    title,
-    slug,
-    date,
   },
 }`);
 
@@ -229,36 +142,6 @@ export const FOREIGN_DESK_QUERY = defineQuery(`{
       date,
     },
   },
-  "practices": *[_type == "practice"]{title, slug},
-  "industries": *[_type == "industry"]{title, slug},
-  "foreignDesks": *[_type == "foreignDesk"]{title, slug},
-  "autoNewsroom": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
-    _id,
-    title,
-    slug,
-    date,
-  },
-}`);
-
-export const FOREIGN_DESKS_QUERY_WITH_SLUGS =
-  defineQuery(`*[_type == "foreignDesk"]{
-  slug
-}`);
-
-export const PRACTICES_QUERY = defineQuery(`*[_type == "practice"]{
-  ...,
-  lawyers[]->{
-    _id,
-    name,
-    title,
-    picture,
-    bio,
-    contactInfo
-  }
-}`);
-
-export const PRACTICES_QUERY_WITH_SLUGS = defineQuery(`*[_type == "practice"]{
-  slug
 }`);
 
 export const AUTHORS_QUERY = defineQuery(`*[_type == "author"]`);
@@ -372,58 +255,9 @@ export const GENERAL_INFO_QUERY = defineQuery(`{
   }
 }`);
 
-export const BDKNOWLEDGE_POSTS_QUERY = defineQuery(`{
-  "featuredPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...3] {
-    _id,
-    title,
-    slug,
-    excerpt,
-    featuredMedia,
-  },
-  "categories": *[_type == "category" && count(parent[_ref in *[_type=="category" && slug.current == $slug]._id]) > 0 && count > 0] | order(name asc) {
-    _id,
-    name,
-    slug,
-    count
-  },
-  "allPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[3...12] {
-    _id,
-    title,
-    slug,
-    date,
-    categories[]->{
-      _id,
-      name,
-      slug
-    }
-  }
-}`);
-
-export const PEOPLE_PAGE_QUERY = defineQuery(`{
-  "peoplePage": *[_type == "peoplePage"][0],
-  "lawyers": *[_type == "lawyer"]{
-    _id,
-    name,
-    title,
-    picture,
-    slug,
-    category->{
-      _id,
-      title,
-      slug,
-      order
-    }
-  },
-  "newsroomPosts": *[_type == "post" && references(*[_type=="category" && name=="Newsroom"]._id)] | order(date desc)[0...4]{
-    title,
-    slug,
-    date,
-  }
-}`);
-
 export const LAWYER_QUERY = defineQuery(`{
   "lawyer": *[_type == "lawyer" && slug.current == $slug][0],
-  "partners": *[_type == "lawyer" && category->title == "Partner"]{
+  "sameCategoryLawyers": *[_type == "lawyer" && category->_id == *[_type == "lawyer" && slug.current == $slug][0].category->_id && slug.current != $slug]{
     _id,
     name,
     title,
@@ -470,4 +304,33 @@ export const LAWYER_QUERY = defineQuery(`{
     slug,
     date
   },
+}`);
+
+// -----------------
+
+export const BDKNOWLEDGE_POSTS_QUERY = defineQuery(`{
+  "featuredPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...3] {
+    _id,
+    title,
+    slug,
+    excerpt,
+    featuredMedia,
+  },
+  "categories": *[_type == "category" && count(parent[_ref in *[_type=="category" && slug.current == $slug]._id]) > 0 && count > 0] | order(name asc) {
+    _id,
+    name,
+    slug,
+    count
+  },
+  "allPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[3...12] {
+    _id,
+    title,
+    slug,
+    date,
+    categories[]->{
+      _id,
+      name,
+      slug
+    }
+  }
 }`);

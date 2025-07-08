@@ -16,12 +16,16 @@ const ServicesAccordion = ({
   practices,
   practicesIllustration,
   industriesIllustration,
+  activeService,
+  setActiveService,
 }: {
   className?: string;
   industries: Industry[];
   practices: Practice[];
   practicesIllustration: any;
   industriesIllustration: any;
+  activeService: string;
+  setActiveService: (service: string) => void;
 }) => {
   return (
     <Accordion
@@ -36,6 +40,8 @@ const ServicesAccordion = ({
         title='Practices'
         slug='practices'
         index={1}
+        activeService={activeService}
+        setActiveService={setActiveService}
       />
       <ServicesAccordionItem
         data={industries}
@@ -43,6 +49,8 @@ const ServicesAccordion = ({
         title='Industries'
         slug='industries'
         index={2}
+        activeService={activeService}
+        setActiveService={setActiveService}
       />
     </Accordion>
   );
@@ -56,12 +64,16 @@ const ServicesAccordionItem = ({
   title,
   slug,
   index,
+  activeService,
+  setActiveService,
 }: {
   data: Practice[] | Industry[];
   illustration: any;
   title: string;
   slug: string;
   index: number;
+  activeService: string;
+  setActiveService: (service: string) => void;
 }) => {
   return (
     <AccordionItem
@@ -84,13 +96,18 @@ const ServicesAccordionItem = ({
         </div>
         <ul className='grid grid-cols-1 xl:grid-cols-2 xl:gap-x-12 2xl:gap-x-16 gap-y-2 md:gap-y-0 xl:gap-y-8 2xl:gap-y-5 mt-12 md:mt-0 p-5 md:pt-0'>
           {data.map((item, index) => (
-            <li key={item.title}>
+            <li
+              key={item.title}
+              onMouseEnter={() => setActiveService(item._id)}
+            >
               <Link
                 href={`/${slug}/${item.slug.current}`}
                 className='text-dark-blue text-lg 2xl:text-2xl flex gap-10 justify-between pt-[10px] h-14 md:h-16 xl:h-14 2xl:h-17 border-t border-t-[rgba(137, 138, 141, 0.5)]'
               >
                 {item.title}
-                <span className='text-light-blue'>0{index + 1}</span>
+                <span className='text-light-blue'>
+                  {index < 9 ? `0${index + 1}` : index + 1}
+                </span>
               </Link>
             </li>
           ))}

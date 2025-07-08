@@ -1,16 +1,12 @@
-import { sanityFetch } from '@/sanity/lib/client';
-import {
-  FOREIGN_DESK_QUERY,
-  FOREIGN_DESKS_QUERY_WITH_SLUGS,
-} from '@/sanity/lib/queries';
 import ServicePage from '@/components/services/service-page';
-import { FOREIGN_DESK_QUERYResult } from '@/sanity.types';
+import {
+  getForeignDeskPageData,
+  getServicesData,
+} from '@/sanity/lib/cached-queries';
 
 export async function generateStaticParams() {
-  const foreignDesks = await sanityFetch({
-    query: FOREIGN_DESKS_QUERY_WITH_SLUGS,
-  });
-  return foreignDesks.map((foreignDesk) => ({
+  const foreignDesks = await getServicesData();
+  return foreignDesks.foreignDesks.map((foreignDesk) => ({
     slug: foreignDesk.slug.current,
   }));
 }
@@ -21,18 +17,14 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const foreignDesk: FOREIGN_DESK_QUERYResult = await sanityFetch({
-    query: FOREIGN_DESK_QUERY,
-    params: { slug },
-  });
 
-  const {
-    currentForeignDesk,
-    practices,
-    industries,
-    foreignDesks,
-    autoNewsroom,
-  } = foreignDesk;
+  const [serviceResult, servicesResult] = await Promise.all([
+    getForeignDeskPageData(slug),
+    getServicesData(),
+  ]);
+
+  const { currentForeignDesk } = serviceResult;
+  const { practices, industries, foreignDesks } = servicesResult;
 
   if (!currentForeignDesk) {
     return <div>Foreign desk not found</div>;
@@ -45,7 +37,6 @@ export default async function Page({
       practices={practices}
       industries={industries}
       foreignDesks={foreignDesks}
-      autoNewsroom={autoNewsroom}
     />
   );
 }

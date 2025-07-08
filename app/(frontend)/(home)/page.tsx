@@ -1,11 +1,10 @@
-import { sanityFetch } from '@/sanity/lib/client';
+import { Industry, LAWYERS_QUERYResult, Post, Practice } from '@/sanity.types';
 import {
-  HOME_PAGE_QUERYResult,
-  Industry,
-  Post,
-  Practice,
-} from '@/sanity.types';
-import { HOME_PAGE_QUERY } from '@/sanity/lib/queries';
+  getHomePageData,
+  getLawyers,
+  getPostsByCategory,
+  getServicesData,
+} from '@/sanity/lib/cached-queries';
 import { urlFor } from '@/sanity/lib/image';
 import PortableText from '@/components/ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
@@ -21,75 +20,31 @@ import NewsroomSection from '@/components/home/newsroom-section';
 import Section from '@/components/ui/section';
 import Hero from '@/components/home/hero';
 import { FilterOption } from '@/components/ui/filter-buttons';
+import {
+  getLawyersByCategoryAndCategories,
+  LawyersByCategory,
+} from '@/lib/utils';
 
 export default async function Home() {
-  const {
-    homePage: homePageData,
-    blinkdraft: blinkdraftData,
-    industries,
-    practices,
-    lawyers,
-    newsroom: newsroomPosts,
-  }: HOME_PAGE_QUERYResult = await sanityFetch({
-    query: HOME_PAGE_QUERY,
-    tags: ['home-page'],
-  });
+  const [homePageResult, servicesResult, lawyersResult, newsroomPostsResult] =
+    await Promise.all([
+      getHomePageData(),
+      getServicesData(),
+      getLawyers(),
+      getPostsByCategory('newsroom', 4),
+    ]);
 
-  // const [
-  //   homePageData,
-  //   blinkdraftData,
-  //   industries,
-  //   practices,
-  //   partners,
-  //   newsroomPosts,
-  // ] = await Promise.all([
-  //   getHomePageConfig(),
-  //   getBlinkdraftConfig(),
-  //   getIndustries(),
-  //   getPractices(),
-  //   getPartnerLawyers(),
-  //   getNewsroomPosts(4),
-  // ]);
+  const { homePage: homePageData, blinkdraft: blinkdraftData } = homePageResult;
+  const { lawyers } = lawyersResult;
+  const { industries, practices } = servicesResult;
+  const { posts: newsroomPosts } = newsroomPostsResult;
 
   if (!homePageData) {
     return <div>No home page data found</div>;
   }
 
-  const { lawyersByCategory, categories } = lawyers.reduce(
-    (acc, lawyer) => {
-      const categorySlug = lawyer.category.slug.current;
-      const categoryTitle = lawyer.category.title;
-      const categoryOrder = lawyer.category.order || 5;
-
-      if (!acc.lawyersByCategory[categorySlug]) {
-        acc.lawyersByCategory[categorySlug] = { lawyers: [] };
-
-        acc.categories.push({
-          id: categorySlug,
-          label: categoryTitle,
-          order: categoryOrder,
-        });
-      }
-
-      acc.lawyersByCategory[categorySlug].lawyers.push(lawyer);
-      return acc;
-    },
-    {
-      lawyersByCategory: {} as Record<string, { lawyers: typeof lawyers }>,
-      categories: [] as Array<{ id: string; label: string; order: number }>,
-    }
-  );
-
-  categories.sort((a, b) => a.order - b.order);
-
-  const allLawyersSortedByCategory = categories.flatMap(
-    (category) => lawyersByCategory[category.id]?.lawyers || []
-  );
-
-  const finalLawyersByCategory = {
-    all: { lawyers: allLawyersSortedByCategory },
-    ...lawyersByCategory,
-  };
+  const [finalLawyersByCategory, categories] =
+    getLawyersByCategoryAndCategories(lawyers);
 
   return (
     <main id='home' className='bg-dark-blue pt-header'>
@@ -145,7 +100,7 @@ export default async function Home() {
         />
 
         <LawyersList
-          lawyersByCategory={finalLawyersByCategory}
+          lawyersByCategory={finalLawyersByCategory as LawyersByCategory}
           lawyersFilterOptions={categories as FilterOption[]}
           gridLimit={6}
           className='mt-4 md:mt-8 xl:mt-9 2xl:mt-18'

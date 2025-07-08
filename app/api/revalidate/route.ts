@@ -150,7 +150,7 @@ const getTagsForDocumentType = (
       break;
 
     case 'homePage':
-      tags.push('home-page-config', 'home-page-data');
+      tags.push('home-page-data');
       break;
 
     case 'blinkdraft':

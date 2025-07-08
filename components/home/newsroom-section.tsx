@@ -58,15 +58,13 @@ const NewsroomSection = ({
 
       <div className='text-center mt-12 md:mt-17 xl:mt-12 2xl:mt-35'>
         <a
-          href='#'
+          href='/newsroom'
           className='text-light-blue hover:text-light-blue/80 transition-colors text-lg'
         >
           View All News
         </a>
       </div>
     </Section>
-    //   </div>
-    // </section>
   );
 };
 
