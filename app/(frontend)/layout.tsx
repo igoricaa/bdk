@@ -4,7 +4,7 @@ import './globals.css';
 import Lenis from '@/components/lenis';
 import Footer from '@/components/footer';
 import Header from '@/components/header/header';
-import { getGeneralInfo } from '@/sanity/lib/cached-queries';
+import { getGeneralInfoData } from '@/sanity/lib/cached-queries';
 import QueryProvider from '@/components/providers/query-client-provider';
 
 const dmSans = DM_Sans({
@@ -24,7 +24,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { generalInfo, blinkdraft } = await getGeneralInfo();
+  const { generalInfo, blinkdraft } = await getGeneralInfoData();
 
   if (!generalInfo || !blinkdraft) {
     return <div>No general info or blinkdraft data found</div>;

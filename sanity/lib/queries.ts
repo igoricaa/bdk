@@ -11,18 +11,16 @@ export const PEOPLE_PAGE_QUERY = defineQuery(`{
   "peoplePage": *[_type == "peoplePage"][0],
 }`);
 
+export const ABOUT_US_PAGE_QUERY = defineQuery(`{
+  "aboutUsPage": *[_type == "aboutUsPage"][0],
+}`);
+
 export const POSTS_BY_CATEGORY_QUERY = defineQuery(`{
   "posts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{
     title,
     slug,
     date,
   }
-}`);
-
-export const INDUSTRIES_QUERY = defineQuery(`{
-  "industries": *[_type == "industry"]{
-    slug
-  },
 }`);
 
 export const LAWYERS_QUERY = defineQuery(`{

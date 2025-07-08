@@ -10,7 +10,7 @@ This document explains the comprehensive caching strategy implemented for your S
 
 ```typescript
 // Layer 1: React cache() - Request-level memoization
-export const getGeneralInfo = cache(
+export const getGeneralInfoData = cache(
   // Layer 2: Next.js fetch cache - Long-term caching with tags
   async () =>
     sanityFetch({
@@ -159,7 +159,7 @@ const lawyers = await sanityFetch({ query: LAWYERS_QUERY });
 
 ```typescript
 // ✅ Efficient, deduplicated, cached requests
-const general = await getGeneralInfo(); // Cached 12h, shared
+const general = await getGeneralInfoData(); // Cached 12h, shared
 const lawyers = await getLawyers(); // Cached 12h, shared
 ```
 

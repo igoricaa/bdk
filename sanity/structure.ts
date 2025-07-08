@@ -86,6 +86,14 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
                 .child(
                   S.document().schemaType('peoplePage').documentId('peoplePage')
                 ),
+              S.listItem()
+                .title('About Us Page')
+                .icon(() => '👥')
+                .child(
+                  S.document()
+                    .schemaType('aboutUsPage')
+                    .documentId('aboutUsPage')
+                ),
             ])
         ),
       S.listItem()
@@ -118,6 +126,7 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             'foreignDesk',
             'homePage',
             'peoplePage',
+            'aboutUsPage',
             'generalInfo',
             'blinkdraft',
             'country',

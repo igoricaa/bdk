@@ -13,6 +13,49 @@
  */
 
 // Source: schema.json
+export type AboutUsPage = {
+  _id: string;
+  _type: "aboutUsPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  hero: AboutUsHeroSection;
+  independentReviews: IndependentReviewsSection;
+};
+
+export type IndependentReviewsSection = {
+  _type: "independentReviewsSection";
+  heading: string;
+  description: string;
+  reviews?: Array<{
+    title: string;
+    description: string;
+    link: string;
+    _type: "review";
+    _key: string;
+  }>;
+};
+
+export type AboutUsHeroSection = {
+  _type: "aboutUsHeroSection";
+  heading: string;
+  mainDescription: string;
+  secondaryDescription: string;
+  backgroundImage: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+};
+
 export type PeoplePage = {
   _id: string;
   _type: "peoplePage";
@@ -1137,7 +1180,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = PeoplePage | PeopleHeroSection | Blinkdraft | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | Author | Category | Post | Industry | Practice | Illustration | Lawyer | LawyerCategory | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = AboutUsPage | IndependentReviewsSection | AboutUsHeroSection | PeoplePage | PeopleHeroSection | Blinkdraft | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | Author | Category | Post | Industry | Practice | Illustration | Lawyer | LawyerCategory | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: app/actions/posts.ts
 // Variable: PAGINATED_POSTS_QUERY
@@ -1234,6 +1277,20 @@ export type PEOPLE_PAGE_QUERYResult = {
     };
   } | null;
 };
+// Variable: ABOUT_US_PAGE_QUERY
+// Query: {  "aboutUsPage": *[_type == "aboutUsPage"][0],}
+export type ABOUT_US_PAGE_QUERYResult = {
+  aboutUsPage: {
+    _id: string;
+    _type: "aboutUsPage";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    hero: AboutUsHeroSection;
+    independentReviews: IndependentReviewsSection;
+  } | null;
+};
 // Variable: POSTS_BY_CATEGORY_QUERY
 // Query: {  "posts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{    title,    slug,    date,  }}
 export type POSTS_BY_CATEGORY_QUERYResult = {
@@ -1241,13 +1298,6 @@ export type POSTS_BY_CATEGORY_QUERYResult = {
     title: string;
     slug: Slug;
     date: string;
-  }>;
-};
-// Variable: INDUSTRIES_QUERY
-// Query: {  "industries": *[_type == "industry"]{    slug  },}
-export type INDUSTRIES_QUERYResult = {
-  industries: Array<{
-    slug: Slug;
   }>;
 };
 // Variable: LAWYERS_QUERY
@@ -1378,6 +1428,29 @@ export type SERVICES_QUERYResult = {
 // Query: {  "currentService": *[_type == $type && slug.current == $slug][0]{    _id,    _type,    title,    slug,    description,    illustration{      desktop,      tablet,      mobile    },    testimonials[]{      text,      author    },    publications,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo    },    newsroom[]->{      _id,      title,      slug,      date,    },    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },  },}
 export type SERVICE_QUERYResult = {
   currentService: {
+    _id: string;
+    _type: "aboutUsPage";
+    title: string;
+    slug: null;
+    description: null;
+    illustration: null;
+    testimonials: null;
+    publications: null;
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
     _id: string;
     _type: "author";
     title: null;
@@ -2776,8 +2849,8 @@ declare module "@sanity/client" {
     "\n  count(*[_type == \"post\" && references(*[_type==\"category\" && slug.current == $categorySlug]._id)])\n": POSTS_COUNT_QUERYResult;
     "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  },\n}": HOME_PAGE_QUERYResult;
     "{\n  \"peoplePage\": *[_type == \"peoplePage\"][0],\n}": PEOPLE_PAGE_QUERYResult;
+    "{\n  \"aboutUsPage\": *[_type == \"aboutUsPage\"][0],\n}": ABOUT_US_PAGE_QUERYResult;
     "{\n  \"posts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{\n    title,\n    slug,\n    date,\n  }\n}": POSTS_BY_CATEGORY_QUERYResult;
-    "{\n  \"industries\": *[_type == \"industry\"]{\n    slug\n  },\n}": INDUSTRIES_QUERYResult;
     "{\n  \"lawyers\": *[_type == \"lawyer\"]{\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug,\n      order\n    },\n    contactInfo\n  }\n}": LAWYERS_QUERYResult;
     "{\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{\n    title,\n    slug\n  }\n}": SERVICES_QUERYResult;
     "{\n  \"currentService\": *[_type == $type && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    description,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    },\n    testimonials[]{\n      text,\n      author\n    },\n    publications,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n}": SERVICE_QUERYResult;

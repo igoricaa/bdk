@@ -10,6 +10,7 @@ import {
   SERVICES_QUERY,
   POSTS_BY_CATEGORY_QUERY,
   FOREIGN_DESK_QUERY,
+  ABOUT_US_PAGE_QUERY,
 } from './queries';
 import type {
   GENERAL_INFO_QUERYResult,
@@ -21,6 +22,7 @@ import type {
   POSTS_BY_CATEGORY_QUERYResult,
   SERVICE_QUERYResult,
   FOREIGN_DESK_QUERYResult,
+  ABOUT_US_PAGE_QUERYResult,
 } from '@/sanity.types';
 
 // Dont need to cache these, it's not used on multiple pages§
@@ -41,6 +43,15 @@ export const getPeoplePageData = async (): Promise<PEOPLE_PAGE_QUERYResult> => {
     revalidate: 43200,
   });
 };
+
+export const getAboutUsPageData =
+  async (): Promise<ABOUT_US_PAGE_QUERYResult> => {
+    return await sanityFetch({
+      query: ABOUT_US_PAGE_QUERY,
+      tags: ['about-us-page-data'],
+      revalidate: 43200,
+    });
+  };
 
 export const getServicePageData = async (
   type: 'practice' | 'industry',
@@ -71,7 +82,7 @@ export const getForeignDeskPageData = async (
 };
 
 // General site information and settings (used on all pages)
-export const getGeneralInfo = cache(
+export const getGeneralInfoData = cache(
   async (): Promise<GENERAL_INFO_QUERYResult> => {
     return await sanityFetch({
       query: GENERAL_INFO_QUERY,
