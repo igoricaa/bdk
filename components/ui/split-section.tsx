@@ -32,12 +32,12 @@ const SplitSection = ({
   return (
     <section
       className={cn(
-        'flex gap-18 md:gap-6 xl:gap-32 3xl:gap-51 pb-19 md:pb-23 xl:pb-37 2xl:pb-42',
+        'flex gap-18 md:gap-6 xl:gap-32 3xl:gap-51 pb-19 md:pb-23 xl:pb-37 2xl:pb-42 mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35',
         className
       )}
     >
       <div className='md:pb-9 xl:pb-24 3xl:pb-30'>
-        <Subtitle variation='dark'>{subtitle}</Subtitle>
+        {subtitle && <Subtitle variation='dark'>{subtitle}</Subtitle>}
 
         <h1 className='text-dark-blue mt-6 xl:mt-12 2xl:mt-13 text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
           {heading}

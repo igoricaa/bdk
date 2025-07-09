@@ -11,6 +11,7 @@ import {
   POSTS_BY_CATEGORY_QUERY,
   FOREIGN_DESK_QUERY,
   ABOUT_US_PAGE_QUERY,
+  CAREER_PAGE_QUERY,
 } from './queries';
 import type {
   GENERAL_INFO_QUERYResult,
@@ -23,6 +24,7 @@ import type {
   SERVICE_QUERYResult,
   FOREIGN_DESK_QUERYResult,
   ABOUT_US_PAGE_QUERYResult,
+  CAREER_PAGE_QUERYResult,
 } from '@/sanity.types';
 
 // Dont need to cache these, it's not used on multiple pages§
@@ -52,6 +54,14 @@ export const getAboutUsPageData =
       revalidate: 43200,
     });
   };
+
+export const getCareerPageData = async (): Promise<CAREER_PAGE_QUERYResult> => {
+  return await sanityFetch({
+    query: CAREER_PAGE_QUERY,
+    tags: ['career-page-data'],
+    revalidate: 43200,
+  });
+};
 
 export const getServicePageData = async (
   type: 'practice' | 'industry',

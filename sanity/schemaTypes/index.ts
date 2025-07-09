@@ -27,6 +27,12 @@ import {
   aboutUsHeroSectionType,
   independentReviewsSectionType,
 } from './pages/about-us';
+import {
+  careerPageType,
+  careerHeroSectionType,
+  openPositionType,
+  coursesSectionType,
+} from './pages/career';
 
 const schemaTypes = [
   blockContentType,
@@ -56,6 +62,10 @@ const schemaTypes = [
   aboutUsPageType,
   aboutUsHeroSectionType,
   independentReviewsSectionType,
+  careerPageType,
+  careerHeroSectionType,
+  openPositionType,
+  coursesSectionType,
 ];
 
 export default schemaTypes;

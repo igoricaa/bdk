@@ -13,6 +13,86 @@
  */
 
 // Source: schema.json
+export type OpenPosition = {
+  _id: string;
+  _type: "openPosition";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  location: string;
+  pdfFile: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
+};
+
+export type CareerPage = {
+  _id: string;
+  _type: "careerPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  hero: CareerHeroSection;
+  coursesSection: CoursesSection;
+};
+
+export type CoursesSection = {
+  _type: "coursesSection";
+  subtitle: string;
+  title: string;
+  courses?: Array<{
+    title: string;
+    pdfFile?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+      };
+      media?: unknown;
+      _type: "file";
+    };
+    _type: "course";
+    _key: string;
+  }>;
+};
+
+export type CareerHeroSection = {
+  _type: "careerHeroSection";
+  heading: string;
+  description: string;
+  backgroundImage: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  openPositionsSection: {
+    heading: string;
+    openPositions: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "openPosition";
+    }>;
+  };
+};
+
 export type AboutUsPage = {
   _id: string;
   _type: "aboutUsPage";
@@ -1181,7 +1261,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = AboutUsPage | IndependentReviewsSection | AboutUsHeroSection | PeoplePage | PeopleHeroSection | Blinkdraft | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | Author | Category | Post | Industry | Practice | Illustration | Lawyer | LawyerCategory | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = OpenPosition | CareerPage | CoursesSection | CareerHeroSection | AboutUsPage | IndependentReviewsSection | AboutUsHeroSection | PeoplePage | PeopleHeroSection | Blinkdraft | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | Author | Category | Post | Industry | Practice | Illustration | Lawyer | LawyerCategory | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: app/actions/posts.ts
 // Variable: PAGINATED_POSTS_QUERY
@@ -1290,6 +1370,52 @@ export type ABOUT_US_PAGE_QUERYResult = {
     title: string;
     hero: AboutUsHeroSection;
     independentReviews: IndependentReviewsSection;
+  } | null;
+};
+// Variable: CAREER_PAGE_QUERY
+// Query: {  "careerPage": *[_type == "careerPage"][0] {    title,    hero {      heading,      description,      backgroundImage,      openPositionsSection {        heading,        openPositions[]->{          _id,          title,          description,          location,          pdfFile        }      }    },    coursesSection {      heading,      courses[]->{        _id,        title,      }    }  }}
+export type CAREER_PAGE_QUERYResult = {
+  careerPage: {
+    title: string;
+    hero: {
+      heading: string;
+      description: string;
+      backgroundImage: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
+      openPositionsSection: {
+        heading: string;
+        openPositions: Array<{
+          _id: string;
+          title: string;
+          description: null;
+          location: string;
+          pdfFile: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+            };
+            media?: unknown;
+            _type: "file";
+          };
+        }>;
+      };
+    };
+    coursesSection: {
+      heading: null;
+      courses: Array<null> | null;
+    };
   } | null;
 };
 // Variable: POSTS_BY_CATEGORY_QUERY
@@ -1478,6 +1604,29 @@ export type SERVICE_QUERYResult = {
     _id: string;
     _type: "blinkdraft";
     title: null;
+    slug: null;
+    description: null;
+    illustration: null;
+    testimonials: null;
+    publications: null;
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "careerPage";
+    title: string;
     slug: null;
     description: null;
     illustration: null;
@@ -1904,6 +2053,29 @@ export type SERVICE_QUERYResult = {
     title: string;
     slug: Slug;
     description: string | null;
+    illustration: null;
+    testimonials: null;
+    publications: null;
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "openPosition";
+    title: string;
+    slug: null;
+    description: null;
     illustration: null;
     testimonials: null;
     publications: null;
@@ -2851,6 +3023,7 @@ declare module "@sanity/client" {
     "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  },\n}": HOME_PAGE_QUERYResult;
     "{\n  \"peoplePage\": *[_type == \"peoplePage\"][0],\n}": PEOPLE_PAGE_QUERYResult;
     "{\n  \"aboutUsPage\": *[_type == \"aboutUsPage\"][0],\n}": ABOUT_US_PAGE_QUERYResult;
+    "{\n  \"careerPage\": *[_type == \"careerPage\"][0] {\n    title,\n    hero {\n      heading,\n      description,\n      backgroundImage,\n      openPositionsSection {\n        heading,\n        openPositions[]->{\n          _id,\n          title,\n          description,\n          location,\n          pdfFile\n        }\n      }\n    },\n    coursesSection {\n      heading,\n      courses[]->{\n        _id,\n        title,\n      }\n    }\n  }\n}": CAREER_PAGE_QUERYResult;
     "{\n  \"posts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{\n    title,\n    slug,\n    date,\n  }\n}": POSTS_BY_CATEGORY_QUERYResult;
     "{\n  \"lawyers\": *[_type == \"lawyer\"]{\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug,\n      order\n    },\n    contactInfo\n  }\n}": LAWYERS_QUERYResult;
     "{\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{\n    title,\n    slug\n  }\n}": SERVICES_QUERYResult;

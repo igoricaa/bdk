@@ -1,3 +1,11 @@
+import {
+  Briefcase,
+  EarthIcon,
+  FileIcon,
+  GlobeIcon,
+  HomeIcon,
+  UsersIcon,
+} from 'lucide-react';
 import type { StructureBuilder, StructureResolver } from 'sanity/structure';
 
 export const structure: StructureResolver = (S: StructureBuilder) =>
@@ -5,15 +13,50 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
     .title('Content')
     .items([
       S.listItem()
+        .title('Pages')
+        .icon(FileIcon)
+        .child(
+          S.list()
+            .title('Pages')
+            .items([
+              S.listItem()
+                .title('Home Page')
+                .icon(HomeIcon)
+                .child(
+                  S.document().schemaType('homePage').documentId('homePage')
+                ),
+              S.listItem()
+                .title('People Page')
+                .icon(UsersIcon)
+                .child(
+                  S.document().schemaType('peoplePage').documentId('peoplePage')
+                ),
+              S.listItem()
+                .title('About Us Page')
+                .icon(UsersIcon)
+                .child(
+                  S.document()
+                    .schemaType('aboutUsPage')
+                    .documentId('aboutUsPage')
+                ),
+              S.listItem()
+                .title('Career Page')
+                .icon(Briefcase)
+                .child(
+                  S.document().schemaType('careerPage').documentId('careerPage')
+                ),
+            ])
+        ),
+      S.listItem()
         .title('Lawyers')
-        .icon(() => '👨‍⚖️')
+        .icon(UsersIcon)
         .child(
           S.list()
             .title('Lawyers')
             .items([
               S.listItem()
                 .title('Lawyers')
-                .icon(() => '👨‍⚖️')
+                .icon(UsersIcon)
                 .child(S.documentTypeList('lawyer').title('Lawyers')),
               S.listItem()
                 .title('Categories')
@@ -25,90 +68,61 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         ),
       S.listItem()
         .title('Posts')
-        .icon(() => '📝')
+        .icon(FileIcon)
         .child(
           S.list()
             .title('Posts')
             .items([
               S.listItem()
                 .title('Posts')
-                .icon(() => '📝')
+                .icon(FileIcon)
                 .child(S.documentTypeList('post').title('Posts')),
               S.listItem()
                 .title('Categories')
-                .icon(() => '📋')
+                .icon(FileIcon)
                 .child(S.documentTypeList('category').title('Categories')),
               S.listItem()
                 .title('Authors')
-                .icon(() => '📋')
+                .icon(FileIcon)
                 .child(S.documentTypeList('author').title('Authors')),
             ])
         ),
       S.listItem()
         .title('Services')
-        .icon(() => '📝')
+        .icon(FileIcon)
         .child(
           S.list()
             .title('Services')
             .items([
               S.listItem()
                 .title('Practices')
-                .icon(() => '📝')
+                .icon(FileIcon)
                 .child(S.documentTypeList('practice').title('Practices')),
               S.listItem()
                 .title('Industries')
-                .icon(() => '📋')
+                .icon(FileIcon)
                 .child(S.documentTypeList('industry').title('Industries')),
               S.listItem()
                 .title('Foreign Desks')
-                .icon(() => '📝')
+                .icon(FileIcon)
                 .child(
                   S.documentTypeList('foreignDesk').title('Foreign Desks')
                 ),
             ])
         ),
       S.listItem()
-        .title('Pages')
-        .icon(() => '📝')
-        .child(
-          S.list()
-            .title('Pages')
-            .items([
-              S.listItem()
-                .title('Home Page')
-                .icon(() => '🏠')
-                .child(
-                  S.document().schemaType('homePage').documentId('homePage')
-                ),
-              S.listItem()
-                .title('People Page')
-                .icon(() => '👥')
-                .child(
-                  S.document().schemaType('peoplePage').documentId('peoplePage')
-                ),
-              S.listItem()
-                .title('About Us Page')
-                .icon(() => '👥')
-                .child(
-                  S.document()
-                    .schemaType('aboutUsPage')
-                    .documentId('aboutUsPage')
-                ),
-            ])
-        ),
-      S.listItem()
         .title('Countries')
-        .icon(() => '🌍')
+        .icon(EarthIcon)
         .child(S.documentTypeList('country').title('Countries')),
       S.divider(),
       S.listItem()
         .title('Blinkdraft')
-        .icon(() => '🌐')
+        .icon(GlobeIcon)
         .child(S.document().schemaType('blinkdraft').documentId('blinkdraft')),
       S.divider(),
       S.listItem()
         .title('General')
-        .icon(() => '🌐')
+        .icon(GlobeIcon)
         .child(
           S.document().schemaType('generalInfo').documentId('generalInfo')
         ),
@@ -130,6 +144,8 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             'generalInfo',
             'blinkdraft',
             'country',
+            'careerPage',
+            'openPosition',
           ].includes(listItem.getId()!)
       ),
     ]);

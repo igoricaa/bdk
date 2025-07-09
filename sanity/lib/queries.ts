@@ -15,6 +15,34 @@ export const ABOUT_US_PAGE_QUERY = defineQuery(`{
   "aboutUsPage": *[_type == "aboutUsPage"][0],
 }`);
 
+export const CAREER_PAGE_QUERY = defineQuery(`{
+  "careerPage": *[_type == "careerPage"][0] {
+    title,
+    hero {
+      heading,
+      description,
+      backgroundImage,
+      openPositionsSection {
+        heading,
+        openPositions[]->{
+          _id,
+          title,
+          description,
+          location,
+          pdfFile
+        }
+      }
+    },
+    coursesSection {
+      heading,
+      courses[]->{
+        _id,
+        title,
+      }
+    }
+  }
+}`);
+
 export const POSTS_BY_CATEGORY_QUERY = defineQuery(`{
   "posts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{
     title,

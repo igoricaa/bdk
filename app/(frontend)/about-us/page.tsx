@@ -26,7 +26,7 @@ const AboutUsPage = async () => {
         image={aboutUsPageData?.hero.backgroundImage || ''}
         highlightedText={aboutUsPageData?.hero.mainDescription || ''}
         description={aboutUsPageData?.hero.secondaryDescription || ''}
-        className='mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35 px-side'
+        className='px-side'
       />
 
       {generalInfo.generalInfo?.countries && (
