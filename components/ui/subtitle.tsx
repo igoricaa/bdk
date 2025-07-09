@@ -14,7 +14,7 @@ const Subtitle = ({
       className={cn(
         className,
         variation === 'light' ? ' bg-white/10' : 'bg-dark-blue',
-        'text-white text-sm px-5 py-3 rounded-full w-fit'
+        'text-white text-sm rounded-[500px] w-fit flex items-center justify-center h-7.5 2xl:h-10 px-4 2xl:px-5'
       )}
     >
       {children}

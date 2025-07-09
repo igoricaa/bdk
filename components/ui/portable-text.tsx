@@ -102,7 +102,7 @@ const PortableText = ({
       // Quote Text: 20px → 24px → 24px → 32px (Italic)
       blockquote: ({ value, children }) => (
         <blockquote
-          className='text-xl md:text-2xl lg:text-2xl xl:text-3xl italic border-l-4 border-gray-300 pl-6 my-6 leading-relaxed text-[--grey-text] md:leading-8 md:my-8'
+          className='text-xl md:text-2xl lg:text-2xl xl:text-3xl italic border-l-4 border-gray-300 pl-6 my-6 leading-relaxed text-grey-text md:leading-8 md:my-8'
           id={value?._key}
         >
           {children}
@@ -120,7 +120,7 @@ const PortableText = ({
       normal: ({ value, children }) => (
         <p
           className={cn(
-            'text-lg leading-7 -mb-2 mt-6 md:text-xl md:leading-8 md:mt-10 text-[--grey-text]',
+            'text-lg leading-7 -mb-2 first:mt-0 mt-6 md:text-xl md:leading-8 md:first:mt-0 md:mt-10 text-grey-text',
             paragraphClassName
           )}
           id={value?._key}
@@ -149,12 +149,12 @@ const PortableText = ({
 
     list: {
       bullet: ({ children }) => (
-        <ul className='list-disc ml-6 mb-2 mt-6 text-base md:text-lg lg:text-lg xl:text-2xl leading-relaxed text-[--grey-text] md:mb-4 md:mt-8 md:leading-7'>
+        <ul className='list-disc ml-6 mb-2 mt-6 text-base md:text-lg lg:text-lg xl:text-2xl leading-relaxed text-grey-text md:mb-4 md:mt-8 md:leading-7'>
           {children}
         </ul>
       ),
       number: ({ children }) => (
-        <ol className='list-decimal ml-6 mb-2 mt-6 text-base md:text-lg lg:text-lg xl:text-2xl leading-relaxed text-[--grey-text] md:mb-4 md:mt-8 md:leading-7'>
+        <ol className='list-decimal ml-6 mb-2 mt-6 text-base md:text-lg lg:text-lg xl:text-2xl leading-relaxed text-grey-text md:mb-4 md:mt-8 md:leading-7'>
           {children}
         </ol>
       ),

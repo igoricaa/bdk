@@ -8,6 +8,13 @@ export const aboutUsHeroSectionType = defineType({
   icon: UsersIcon,
   fields: [
     defineField({
+      name: 'subtitle',
+      title: 'Subtitle',
+      type: 'string',
+      description: 'Section subtitle text',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: 'heading',
       title: 'Heading (H1)',
       type: 'string',

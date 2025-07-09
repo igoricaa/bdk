@@ -153,6 +153,13 @@
             "value": "aboutUsHeroSection"
           }
         },
+        "subtitle": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": false
+        },
         "heading": {
           "type": "objectAttribute",
           "value": {

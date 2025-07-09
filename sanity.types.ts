@@ -39,6 +39,7 @@ export type IndependentReviewsSection = {
 
 export type AboutUsHeroSection = {
   _type: "aboutUsHeroSection";
+  subtitle: string;
   heading: string;
   mainDescription: string;
   secondaryDescription: string;
