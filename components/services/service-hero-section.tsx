@@ -12,7 +12,10 @@ const ServiceHeroSection = ({
   >['illustration'];
 }) => {
   return (
-    <section className='bg-dark-blue flex rounded-b-main px-side pb-12 md:pb-24 2xl:pb-34 relative aspect-[393/550] md:aspect-[834/500] xl:aspect-[1440/600] 2xl:aspect-[1920/800] overflow-hidden'>
+    <section
+      id='serviceHeroSection'
+      className='bg-dark-blue flex rounded-b-main px-side pb-12 md:pb-24 2xl:pb-34 relative aspect-[393/550] md:aspect-[834/500] xl:aspect-[1440/600] 2xl:aspect-[1920/800] overflow-hidden'
+    >
       {illustration &&
         (illustration.desktop ||
           illustration.tablet ||

@@ -7,19 +7,33 @@ interface StickyHeaderWrapperProps {
 }
 
 const StickyHeaderWrapper = ({ children }: StickyHeaderWrapperProps) => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const servicesTopbar = document.getElementById('servicesTopbar');
+      const serviceHeroSection = document.getElementById('serviceHeroSection');
 
       if (currentScrollY === 0) {
-        setIsVisible(true);
+        setIsHeaderVisible(true);
       } else if (currentScrollY < lastScrollY) {
-        setIsVisible(true);
+        setIsHeaderVisible(true);
       } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
+        setIsHeaderVisible(false);
+      }
+
+      // Sidebar translation logic
+      if (servicesTopbar && serviceHeroSection) {
+        const heroRect = serviceHeroSection.getBoundingClientRect();
+        const isTopPastHeroBottom = heroRect.bottom < 0;
+
+        if (isHeaderVisible && isTopPastHeroBottom) {
+          servicesTopbar.classList.add('translated');
+        } else {
+          servicesTopbar.classList.remove('translated');
+        }
       }
 
       setLastScrollY(currentScrollY);
@@ -27,12 +41,12 @@ const StickyHeaderWrapper = ({ children }: StickyHeaderWrapperProps) => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, [lastScrollY, isHeaderVisible]);
 
   return (
     <div
       className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
+        isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
       {children}

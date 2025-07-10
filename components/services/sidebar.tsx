@@ -32,8 +32,9 @@ const Sidebar = ({
 }: SidebarProps) => {
   return (
     <div
+      id={mobileOnly ? 'servicesTopbar' : ''}
       className={cn(
-        'sticky top-0 xl:static bg-light-blue-bg rounded-[10px] py-3 md:py-5 px-side xl:p-4 2xl:px-5 2xl:py-7 xl:min-w-xs 2xl:min-w-[26rem] w-screen xl:w-auto -ml-side xl:ml-0 z-10',
+        'sticky top-0 xl:static bg-light-blue-bg rounded-[10px] py-3 md:py-5 px-side xl:p-4 2xl:px-5 2xl:py-7 xl:min-w-xs 2xl:min-w-[26rem] w-screen xl:w-auto -ml-side xl:ml-0 z-10 transition-transform duration-300',
         className
       )}
     >

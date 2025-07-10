@@ -237,6 +237,10 @@
       var(--gradient-end)
     );
   }
+
+  .translated {
+    @apply translate-y-15;
+  }
 }
 
 @layer utilities {
