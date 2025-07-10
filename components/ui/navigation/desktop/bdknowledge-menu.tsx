@@ -1,3 +1,5 @@
+'use client';
+
 import { Image } from 'next-sanity/image';
 import {
   NavigationMenuContent,

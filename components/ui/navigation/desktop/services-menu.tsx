@@ -1,3 +1,5 @@
+'use client';
+
 import { NavigationRoute } from '@/lib/utils/navigation-routes';
 import {
   NavigationMenuContent,
