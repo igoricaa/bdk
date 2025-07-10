@@ -61,7 +61,7 @@ const ServicePage = ({
     !hasTestimonials && !hasAnyPosts
       ? 'hsl(var(--dark-blue))'
       : hasTestimonials && !hasAnyPosts
-        ? '#fff'
+        ? 'hsl(var(--light-blue-bg))'
         : !hasTestimonials && hasAnyPosts
           ? 'hsl(var(--dark-blue))'
           : '';
@@ -110,6 +110,7 @@ const ServicePage = ({
       {hasTestimonials && (
         <TestimonialsSection
           testimonials={currentService.testimonials as Testimonial[]}
+          bgVariant={hasAnyPosts ? 'light' : 'blue'}
         />
       )}
 

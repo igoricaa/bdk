@@ -4,8 +4,10 @@ import Section from '../ui/section';
 
 const TestimonialsSection = ({
   testimonials,
+  bgVariant = 'dark',
 }: {
   testimonials: Testimonial[];
+  bgVariant?: 'dark' | 'light' | 'blue';
 }) => {
   if (!testimonials || testimonials.length === 0) {
     return null;
@@ -13,7 +15,7 @@ const TestimonialsSection = ({
 
   return (
     <Section
-      variant='light'
+      variant={bgVariant}
       underColor='bg-dark-blue'
       className='flex flex-col md:flex-row gap-13 md:justify-between'
     >
