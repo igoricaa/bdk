@@ -41,8 +41,7 @@ const BDKnowledgeMenu = ({
   };
 
   return (
-    // value='BDKnowledge'
-    <NavigationMenuItem>
+    <NavigationMenuItem value='BDKnowledge'>
       <NavigationMenuTrigger
         className={cn(
           navMenuTriggerClasses,
@@ -51,7 +50,7 @@ const BDKnowledgeMenu = ({
       >
         <Link href={bdknowledgeRoute.href}>{bdknowledgeRoute.label}</Link>
       </NavigationMenuTrigger>
-      <NavigationMenuContent className='fixed! left-1/2 -translate-x-1/2 top-23!'>
+      <NavigationMenuContent className='fixed! left-1/2 -translate-x-1/2 top-24! mt-0!'>
         <div className='grid gap-5 min-w-3xl w-3xl lg:grid-cols-[270px_1fr_1fr]'>
           {/* Column 1: Featured Illustration */}
           <div className='row-span-3'>
@@ -81,35 +80,6 @@ const BDKnowledgeMenu = ({
               </Link>
             </NavigationMenuLink>
           </div>
-
-          {/* <ul className='grid w-[300px] gap-5'>
-          <li>
-            <NavigationMenuLink asChild>
-              <Link
-                href={bdknowledgeRoute.href}
-                className='block select-none rounded-md leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground'
-              >
-                <div className='text-sm font-medium'>
-                  {bdknowledgeRoute.label}
-                </div>
-              </Link>
-            </NavigationMenuLink>
-          </li>
-          {bdknowledgeRoute.subRoutes?.map((subRoute) => (
-            <li key={subRoute.href}>
-              <NavigationMenuLink asChild>
-                <Link
-                  href={subRoute.href}
-                  className='block select-none rounded-md leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground'
-                >
-                  <div className='text-lg text-dark-blue'>
-                    {subRoute.label}
-                  </div>
-                </Link>
-              </NavigationMenuLink>
-            </li>
-          ))}
-        </ul> */}
 
           <div className='row-span-3'>
             <ul className='grid gap-5 h-full'>

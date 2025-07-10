@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { urlFor } from '@/sanity/lib/image';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import MenuItemLink from './menu-item-link';
 
 const navMenuTriggerClasses = cn(
   'group inline-flex h-9 gap-x-1 w-max items-center justify-center rounded-md bg-background text-sm font-medium hover:bg-light-blue-bg hover:text-light-blue focus:bg-light-blue-bg focus:text-light-blue disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-light-blue-bg data-[state=open]:text-light-blue data-[state=open]:focus:bg-light-blue-bg data-[state=open]:bg-light-blue-bg/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1'
@@ -41,8 +42,7 @@ const ServicesMenu = ({
   };
 
   return (
-    <NavigationMenuItem>
-      {/* value='Services' */}
+    <NavigationMenuItem value='Services'>
       <NavigationMenuTrigger
         className={cn(
           navMenuTriggerClasses,
@@ -51,7 +51,7 @@ const ServicesMenu = ({
       >
         {servicesRoute.label}
       </NavigationMenuTrigger>
-      <NavigationMenuContent className='fixed! left-1/2 -translate-x-1/2 top-23!'>
+      <NavigationMenuContent className='fixed! left-1/2 -translate-x-1/2 top-24! mt-0!'>
         <div className='grid gap-5 min-w-7xl w-7xl lg:grid-cols-[270px_1fr_1fr_1fr_180px] h-full'>
           {/* Column 1: Featured Illustration */}
           <div className='row-span-3'>
@@ -159,20 +159,19 @@ function ServiceSection({
           </p>
         )}
       </div>
-      <div>
+      <ul>
         {subRoutes?.map((subRoute) => (
-          <LinkWithArrow
-            key={subRoute.href}
-            href={subRoute.href}
-            label={subRoute.label}
-            className='text-base leading-6.5 2xl:text-base text-grey-darker hover:bg-transparent hover:text-light-blue focus:bg-transparent focus:text-light-blue py-2'
-            iconSize={20}
-            onMouseEnter={() => {
-              setActiveItem(subRoute);
-            }}
-          />
+          <li key={subRoute.href}>
+            <MenuItemLink
+              href={subRoute.href}
+              label={subRoute.label}
+              onMouseEnter={() => {
+                setActiveItem(subRoute);
+              }}
+            />
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

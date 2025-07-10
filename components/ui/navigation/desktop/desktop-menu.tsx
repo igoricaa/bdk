@@ -6,6 +6,7 @@ import { NavigationRoute } from '@/lib/utils/navigation-routes';
 import ServicesMenu from './services-menu';
 import BDKnowledgeMenu from './bdknowledge-menu';
 import SimpleNavigationItem from './simple-menu-item';
+import SimpleMenuDropdown from './simple-menu-dropdown';
 
 function DesktopMenu({ routes }: { routes: NavigationRoute[] }) {
   // if (routes.length === 0)
@@ -16,6 +17,7 @@ function DesktopMenu({ routes }: { routes: NavigationRoute[] }) {
     <NavigationMenu
       viewport={false}
       className='hidden lg:flex'
+      // value='About Us'
       // value='Services'
       // value='BDKnowledge'
     >
@@ -28,6 +30,9 @@ function DesktopMenu({ routes }: { routes: NavigationRoute[] }) {
             return (
               <BDKnowledgeMenu key={route.href} bdknowledgeRoute={route} />
             );
+          }
+          if (route.subRoutes) {
+            return <SimpleMenuDropdown key={route.href} route={route} />;
           }
           return <SimpleNavigationItem key={route.href} route={route} />;
         })}

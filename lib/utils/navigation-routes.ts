@@ -26,6 +26,12 @@ export const getNavigationRoutes = async (): Promise<NavigationRoute[]> => {
     {
       label: 'About Us',
       href: '/about-us',
+      subRoutes: [
+        {
+          label: 'Career',
+          href: '/career',
+        },
+      ],
     },
     {
       label: 'People',

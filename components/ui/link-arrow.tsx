@@ -21,7 +21,7 @@ export const LinkWithArrow = ({
     <Link
       href={href}
       className={cn(
-        'flex items-center gap-x-2 transition-[translate,color] text-sm leading-6 2xl:text-lg 2xl:leading-7 hover:text-light-blue duration-300 relative overflow-hidden group/arrow',
+        'flex items-center w-fit gap-x-2 transition-[translate,color] text-sm leading-6 2xl:text-lg 2xl:leading-7 hover:text-light-blue duration-300 relative overflow-hidden group/arrow',
         className
       )}
       onMouseEnter={onMouseEnter}
