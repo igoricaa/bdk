@@ -125,18 +125,18 @@ const CountryCard = ({
       <PortableText
         value={country.address as PortableTextBlock[]}
         className='mt-6 md:mt-4 xl:mt-6 text-grey-text md:text-sm 2xl:text-lg'
-        paragraphClassName='mt-0!'
+        paragraphClassName='mt-0! md:text-sm! 2xl:text-base! 3xl:text-lg!'
       />
       {country.phone && (
-        <p className='text-grey-text underline md:text-sm 2xl:text-lg mt-3'>
+        <p className='text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3'>
           {country.phone}
         </p>
       )}
-      <p className='text-grey-text underline md:text-sm 2xl:text-lg mt-3'>
+      <p className='text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3'>
         {country.email}
       </p>
       {country.note && (
-        <p className='text-light-blue md:text-sm 2xl:text-lg mt-3 '>
+        <p className='text-light-blue md:text-sm 2xl:text-base 3xl:text-lg mt-3 '>
           {country.note}
         </p>
       )}
