@@ -10,6 +10,10 @@ export const generalInfoType = defineType({
       title: 'Branding',
     },
     {
+      name: 'services',
+      title: 'Services Category Illustrations',
+    },
+    {
       name: 'social',
       title: 'Social Media',
     },
@@ -35,6 +39,45 @@ export const generalInfoType = defineType({
       description: 'Main company or organization logo',
       validation: (rule) => rule.required().error('Company logo is required'),
       group: 'branding',
+    }),
+    defineField({
+      name: 'servicesCategoryIllustrations',
+      title: 'Services Category Illustrations',
+      type: 'object',
+      description: 'General illustrations for each service category',
+      group: 'services',
+      fields: [
+        defineField({
+          name: 'servicesIllustration',
+          title: 'Services (General)',
+          type: 'image',
+          description: 'General illustration for the overall services category',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'practicesIllustration',
+          title: 'Practices',
+          type: 'image',
+          description: 'General illustration for the practices category',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'industriesIllustration',
+          title: 'Industries',
+          type: 'image',
+          description: 'General illustration for the industries category',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'foreignDesksIllustration',
+          title: 'Foreign Desks',
+          type: 'image',
+          description: 'General illustration for the foreign desks category',
+          validation: (rule) => rule.required(),
+        }),
+      ],
+      validation: (rule) =>
+        rule.required().error('Services category illustrations are required'),
     }),
     defineField({
       name: 'socials',
@@ -68,16 +111,26 @@ export const generalInfoType = defineType({
       media: 'logo',
       socialsCount: 'socials',
       countriesCount: 'countries',
+      servicesIllustrations: 'servicesCategoryIllustrations',
     },
-    prepare({ title, media, socialsCount, countriesCount }) {
+    prepare({
+      title,
+      media,
+      socialsCount,
+      countriesCount,
+      servicesIllustrations,
+    }) {
       const socialCount = Array.isArray(socialsCount) ? socialsCount.length : 0;
       const locationCount = Array.isArray(countriesCount)
         ? countriesCount.length
         : 0;
+      const hasServicesIllustrations = servicesIllustrations
+        ? '✓ Services illustrations'
+        : '✗ No services illustrations';
 
       return {
         title: title || 'General Information',
-        subtitle: `${socialCount} social profiles • ${locationCount} locations`,
+        subtitle: `${socialCount} social profiles • ${locationCount} locations • ${hasServicesIllustrations}`,
         media: media,
       };
     },

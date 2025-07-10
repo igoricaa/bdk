@@ -54,31 +54,6 @@ export const homePageType = defineType({
       group: 'content',
     }),
     defineField({
-      name: 'services',
-      title: 'Services Section',
-      type: 'object',
-      fields: [
-        defineField({
-          name: 'practicesIllustration',
-          title: 'Practices Illustration',
-          type: 'image',
-          description: 'Illustration for the practices section',
-          validation: (rule) => rule.required(),
-        }),
-        defineField({
-          name: 'industriesIllustration',
-          title: 'Industries Illustration',
-          type: 'image',
-          description: 'Illustration for the industries section',
-          validation: (rule) => rule.required(),
-        }),
-      ],
-      description: 'Services section with list of services',
-      validation: (rule) =>
-        rule.required().error('Services section is required'),
-      group: 'content',
-    }),
-    defineField({
       name: 'team',
       title: 'Team Section',
       type: 'teamSection',

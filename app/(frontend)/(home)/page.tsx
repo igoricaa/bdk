@@ -1,9 +1,15 @@
-import { Industry, Post, Practice } from '@/sanity.types';
+import {
+  GENERAL_INFO_QUERYResult,
+  Industry,
+  Post,
+  Practice,
+} from '@/sanity.types';
 import {
   getHomePageData,
   getLawyersByCategory,
   getPostsByCategory,
   getServicesData,
+  getGeneralInfoData,
 } from '@/sanity/lib/cached-queries';
 import { urlFor } from '@/sanity/lib/image';
 import PortableText from '@/components/ui/portable-text';
@@ -22,18 +28,25 @@ import Hero from '@/components/home/hero';
 import { ComputedLawyersData, getComputedLawyersData } from '@/lib/utils';
 
 export default async function Home() {
-  const [homePageResult, servicesResult, lawyersResult, newsroomPostsResult] =
-    await Promise.all([
-      getHomePageData(),
-      getServicesData(),
-      getLawyersByCategory(),
-      getPostsByCategory('newsroom', 4),
-    ]);
+  const [
+    homePageResult,
+    servicesResult,
+    lawyersResult,
+    newsroomPostsResult,
+    generalInfoResult,
+  ] = await Promise.all([
+    getHomePageData(),
+    getServicesData(),
+    getLawyersByCategory(),
+    getPostsByCategory('newsroom', 4),
+    getGeneralInfoData(),
+  ]);
 
   const { homePage: homePageData, blinkdraft: blinkdraftData } = homePageResult;
   const { categories } = lawyersResult;
   const { industries, practices } = servicesResult;
   const { posts: newsroomPosts } = newsroomPostsResult;
+  const { generalInfo } = generalInfoResult;
 
   if (!homePageData) {
     return <div>No home page data found</div>;
@@ -79,8 +92,11 @@ export default async function Home() {
       <ServicesSection
         industries={industries as Industry[]}
         practices={practices as Practice[]}
-        practicesIllustration={homePageData.services.practicesIllustration}
-        industriesIllustration={homePageData.services.industriesIllustration}
+        servicesCategoryIllustrations={
+          generalInfo?.servicesCategoryIllustrations as NonNullable<
+            GENERAL_INFO_QUERYResult['generalInfo']
+          >['servicesCategoryIllustrations']
+        }
       />
 
       {/* Team */}

@@ -298,6 +298,12 @@ export const POST_QUERY = defineQuery(`{
 export const GENERAL_INFO_QUERY = defineQuery(`{
   "generalInfo": *[_type == "generalInfo"][0]{
     ...,
+    servicesCategoryIllustrations{
+      servicesIllustration,
+      practicesIllustration,
+      industriesIllustration,
+      foreignDesksIllustration
+    },
     countries[]->{
       _id,
       name,

@@ -7,7 +7,6 @@ import {
   NavigationMenuLink,
   NavigationMenuTrigger,
 } from '../../navigation-menu';
-import { LinkWithArrow } from '../../link-arrow';
 import Link from 'next/link';
 import { Image } from 'next-sanity/image';
 import { cn } from '@/lib/utils';
@@ -30,6 +29,9 @@ const ServicesMenu = ({
     label: 'Services',
     href: '',
     subRoutes: [],
+    illustration: {
+      mobile: servicesRoute.illustration?.mobile,
+    },
   });
 
   const isServicesActive = () => {

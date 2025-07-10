@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from '../../ui/accordion';
 import Link from 'next/link';
-import { Industry, Practice } from '@/sanity.types';
+import { GENERAL_INFO_QUERYResult, Industry, Practice } from '@/sanity.types';
 import { Plus } from 'lucide-react';
 import { urlFor } from '@/sanity/lib/image';
 
@@ -14,15 +14,15 @@ const ServicesAccordion = ({
   className,
   industries,
   practices,
-  practicesIllustration,
-  industriesIllustration,
+  servicesCategoryIllustrations,
   setActiveService,
 }: {
   className?: string;
   industries: Industry[];
   practices: Practice[];
-  practicesIllustration: any;
-  industriesIllustration: any;
+  servicesCategoryIllustrations: NonNullable<
+    GENERAL_INFO_QUERYResult['generalInfo']
+  >['servicesCategoryIllustrations'];
   setActiveService: (service: Practice | Industry) => void;
 }) => {
   return (
@@ -34,7 +34,7 @@ const ServicesAccordion = ({
     >
       <ServicesAccordionItem
         data={practices}
-        illustration={practicesIllustration}
+        illustration={servicesCategoryIllustrations.practicesIllustration}
         title='Practices'
         slug='practices'
         index={1}
@@ -42,7 +42,7 @@ const ServicesAccordion = ({
       />
       <ServicesAccordionItem
         data={industries}
-        illustration={industriesIllustration}
+        illustration={servicesCategoryIllustrations.industriesIllustration}
         title='Industries'
         slug='industries'
         index={2}
@@ -81,13 +81,15 @@ const ServicesAccordionItem = ({
         {title}
       </AccordionTrigger>
       <AccordionContent className='text-balance'>
-        <div className='md:hidden w-100% bg-dark-blue rounded-bl-[100px] md:rounded-bl-[120px] xl:rounded-bl-[150px] overflow-hidden mt-5 md:mt-7'>
-          <img
-            src={urlFor(illustration).url()}
-            alt='Practices Illustration'
-            className='object-cover w-full h-full'
-          />
-        </div>
+        {illustration && (
+          <div className='md:hidden w-100% bg-dark-blue rounded-bl-[100px] md:rounded-bl-[120px] xl:rounded-bl-[150px] overflow-hidden mt-5 md:mt-7'>
+            <img
+              src={urlFor(illustration).url()}
+              alt={`BDK Advokati - ${title} Illustration`}
+              className='object-cover w-full h-full'
+            />
+          </div>
+        )}
         <ul className='grid grid-cols-1 xl:grid-cols-2 xl:gap-x-12 2xl:gap-x-16 gap-y-2 md:gap-y-0 xl:gap-y-8 2xl:gap-y-5 mt-12 md:mt-0 p-5 md:pt-0'>
           {data.map((item, index) => (
             <li key={item.title} onMouseEnter={() => setActiveService(item)}>

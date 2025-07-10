@@ -1,4 +1,8 @@
-import { getServicesData } from '@/sanity/lib/cached-queries';
+import { GENERAL_INFO_QUERYResult } from '@/sanity.types';
+import {
+  getGeneralInfoData,
+  getServicesData,
+} from '@/sanity/lib/cached-queries';
 
 export interface NavigationRoute {
   label: string;
@@ -12,9 +16,10 @@ export interface NavigationRoute {
 }
 
 export const getNavigationRoutes = async (): Promise<NavigationRoute[]> => {
-  const { industries, practices, foreignDesks } = await getServicesData();
+  const [{ industries, practices, foreignDesks }, { generalInfo }] =
+    await Promise.all([getServicesData(), getGeneralInfoData()]);
 
-  if (!industries && !practices && !foreignDesks) {
+  if (!industries && !practices && !foreignDesks && !generalInfo) {
     return [];
   }
 
@@ -40,10 +45,22 @@ export const getNavigationRoutes = async (): Promise<NavigationRoute[]> => {
     {
       label: 'Services',
       href: '/services',
+      illustration: {
+        mobile: generalInfo?.servicesCategoryIllustrations
+          .servicesIllustration as NonNullable<
+          GENERAL_INFO_QUERYResult['generalInfo']
+        >['servicesCategoryIllustrations']['servicesIllustration'],
+      },
       subRoutes: [
         {
           label: 'Practices',
           href: '/practices',
+          illustration: {
+            mobile: generalInfo?.servicesCategoryIllustrations
+              .practicesIllustration as NonNullable<
+              GENERAL_INFO_QUERYResult['generalInfo']
+            >['servicesCategoryIllustrations']['practicesIllustration'],
+          },
           subRoutes: practices.map((practice) => ({
             label: practice.title,
             href: `/practices/${practice.slug.current}`,
@@ -55,6 +72,12 @@ export const getNavigationRoutes = async (): Promise<NavigationRoute[]> => {
         {
           label: 'Industries',
           href: '/industries',
+          illustration: {
+            mobile: generalInfo?.servicesCategoryIllustrations
+              .industriesIllustration as NonNullable<
+              GENERAL_INFO_QUERYResult['generalInfo']
+            >['servicesCategoryIllustrations']['industriesIllustration'],
+          },
           subRoutes: industries.map((industry) => ({
             label: industry.title,
             href: `/industries/${industry.slug.current}`,
@@ -66,6 +89,12 @@ export const getNavigationRoutes = async (): Promise<NavigationRoute[]> => {
         {
           label: 'Foreign Desks',
           href: '/foreign-desks',
+          illustration: {
+            mobile: generalInfo?.servicesCategoryIllustrations
+              .foreignDesksIllustration as NonNullable<
+              GENERAL_INFO_QUERYResult['generalInfo']
+            >['servicesCategoryIllustrations']['foreignDesksIllustration'],
+          },
           subRoutes: foreignDesks.map((foreignDesk) => ({
             label: foreignDesk.title,
             href: `/foreign-desks/${foreignDesk.slug.current}`,
