@@ -14,12 +14,14 @@ const RelatedPostsSection = ({
   blogPosts,
   insightsPosts,
   publications,
+  underColor = 'bg-white',
 }: {
   title: string;
   newsroomPosts?: RelatedPost[];
   blogPosts?: RelatedPost[];
   insightsPosts?: RelatedPost[];
   publications?: RelatedPost[];
+  underColor?: string;
 }) => {
   const hasAnyPosts =
     (newsroomPosts && newsroomPosts.length > 0) ||
@@ -32,7 +34,7 @@ const RelatedPostsSection = ({
   }
 
   return (
-    <Section variant='dark' underColor='bg-white'>
+    <Section variant='dark' underColor={underColor}>
       <PostsSwitcher
         title={title}
         newsroomPosts={newsroomPosts}

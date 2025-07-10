@@ -1,5 +1,6 @@
 import { Testimonial } from '@/sanity/schemaTypes/services/testimonialTypes';
 import TestimonialsCarousel from './testimonials-carousel';
+import Section from '../ui/section';
 
 const TestimonialsSection = ({
   testimonials,
@@ -11,7 +12,11 @@ const TestimonialsSection = ({
   }
 
   return (
-    <section className='flex flex-col md:flex-row gap-13 md:justify-between bg-white rounded-t-main px-side pt-20 pb-35 md:pt-24 md:pb-30 xl:pt-30 xl:pb-37 2xl:py-42 '>
+    <Section
+      variant='light'
+      underColor='bg-dark-blue'
+      className='flex flex-col md:flex-row gap-13 md:justify-between'
+    >
       <h2 className='text-dark-blue text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
         Mentions
       </h2>
@@ -19,7 +24,7 @@ const TestimonialsSection = ({
         testimonials={testimonials}
         className='md:max-w-4/6 xl:max-w-6/10'
       />
-    </section>
+    </Section>
   );
 };
 

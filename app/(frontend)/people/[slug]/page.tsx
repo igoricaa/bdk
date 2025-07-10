@@ -45,7 +45,10 @@ const LawyerPage = async ({
 
   return (
     <main id='lawyerPage' className='pt-header'>
-      <FooterBackgroundHandler changeColor={!hasTeamMembers} />
+      <FooterBackgroundHandler
+        changeColor={!hasTeamMembers}
+        color='hsl(var(--dark-blue))'
+      />
       <div className='px-side grid grid-cols-1 xl:grid-cols-12 gap-24 sm:gap-20 xl:gap-8 pb-24 md:pb-30 2xl:pb-42 pt-8 sm:pt-11 xl:pt-0'>
         <section className='col-span-1 xl:col-span-5 2xl:col-span-4 flex flex-col gap-5 sm:gap-6 xl:gap-9 2xl:gap-18 sm:flex-row xl:flex-col w-full xl:w-[calc(80%+32px)]'>
           <div className='w-full sm:w-1/2 xl:w-full h-auto rounded-br-[50px] xl:rounded-br-[150px] overflow-hidden aspect-[518/547]'>

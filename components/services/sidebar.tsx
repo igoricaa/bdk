@@ -17,6 +17,8 @@ interface SidebarProps {
     | Array<{ title: string; slug: { current: string } }>
     | Array<{ title: string; slug: { current: string } }>;
   className?: string;
+  serviceType: 'practice' | 'industry' | 'foreign-desk';
+  mobileOnly?: boolean;
 }
 
 const Sidebar = ({
@@ -24,7 +26,9 @@ const Sidebar = ({
   practices,
   industries,
   foreignDesks,
+  serviceType,
   className,
+  mobileOnly,
 }: SidebarProps) => {
   return (
     <div
@@ -49,9 +53,11 @@ const Sidebar = ({
           </AccordionTrigger>
           <AccordionContent className='pt-5 pb-2 md:pt-6 md:pb-0'>
             <AccordionList
+              serviceType={serviceType}
               practices={practices}
               industries={industries}
               foreignDesks={foreignDesks}
+              mobileOnly={mobileOnly}
             />
           </AccordionContent>
         </AccordionItem>
@@ -59,6 +65,7 @@ const Sidebar = ({
 
       <div className='hidden xl:block'>
         <AccordionList
+          serviceType={serviceType}
           practices={practices}
           industries={industries}
           foreignDesks={foreignDesks}

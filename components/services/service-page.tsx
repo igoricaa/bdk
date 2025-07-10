@@ -7,6 +7,7 @@ import RelatedPostsSection from './related-posts-section';
 import TestimonialsSection from './testimonials-section';
 import { Testimonial } from '@/sanity/schemaTypes/services/testimonialTypes';
 import Sidebar from './sidebar';
+import { FooterBackgroundHandler } from '../ui/footer-background-handler';
 
 interface ServicePageProps {
   serviceType: 'practice' | 'industry' | 'foreign-desk';
@@ -45,8 +46,35 @@ const ServicePage = ({
       : []
   ).filter((post) => post.title && post.date) as Post[];
 
+  const hasAnyPosts =
+    (newsroomPosts && newsroomPosts.length > 0) ||
+    (blogPosts && blogPosts.length > 0) ||
+    (insightsPosts && insightsPosts.length > 0);
+
+  const hasTestimonials =
+    serviceType !== 'foreign-desk' &&
+    'testimonials' in currentService &&
+    currentService.testimonials &&
+    currentService.testimonials.length > 0;
+
+  const footerColor =
+    !hasTestimonials && !hasAnyPosts
+      ? 'hsl(var(--dark-blue))'
+      : hasTestimonials && !hasAnyPosts
+        ? '#fff'
+        : !hasTestimonials && hasAnyPosts
+          ? 'hsl(var(--dark-blue))'
+          : '';
+
+  const postsUnderColor =
+    !hasTestimonials && hasAnyPosts ? 'bg-dark-blue' : 'bg-white';
+
   return (
     <main className='pt-header'>
+      <FooterBackgroundHandler
+        changeColor={!hasAnyPosts || !hasTestimonials}
+        color={footerColor}
+      />
       <ServiceHeroSection
         title={currentService.title || ''}
         illustration={
@@ -62,6 +90,8 @@ const ServicePage = ({
         practices={practices}
         industries={industries}
         foreignDesks={foreignDesks}
+        serviceType={serviceType}
+        mobileOnly={true}
         className='-ml-0! xl:hidden'
       />
 
@@ -77,20 +107,18 @@ const ServicePage = ({
         <ServiceExpertsSection lawyers={currentService.lawyers as Lawyer[]} />
       )}
 
-      {serviceType !== 'foreign-desk' &&
-        'testimonials' in currentService &&
-        currentService.testimonials &&
-        currentService.testimonials.length > 0 && (
-          <TestimonialsSection
-            testimonials={currentService.testimonials as Testimonial[]}
-          />
-        )}
+      {hasTestimonials && (
+        <TestimonialsSection
+          testimonials={currentService.testimonials as Testimonial[]}
+        />
+      )}
 
       <RelatedPostsSection
         title='Related posts'
         newsroomPosts={newsroomPosts}
         blogPosts={blogPosts}
         insightsPosts={insightsPosts}
+        underColor={postsUnderColor}
       />
     </main>
   );

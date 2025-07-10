@@ -16,7 +16,9 @@ const ServicesSection = ({
   practicesIllustration: any;
   industriesIllustration: any;
 }) => {
-  const [activeService, setActiveService] = useState(practices[0]._id);
+  const [activeService, setActiveService] = useState(
+    practices[0] as Practice | Industry
+  );
 
   return (
     <section className='group bg-white rounded-t-main pt-4 pb-25 md:pt-20 md:pb-37 xl:py-37 2xl:py-43 px-side flex md:gap-4 xl:gap-18 2xl:gap-24'>
@@ -26,12 +28,11 @@ const ServicesSection = ({
         practices={practices as Practice[]}
         practicesIllustration={practicesIllustration}
         industriesIllustration={industriesIllustration}
-        activeService={activeService}
         setActiveService={setActiveService}
       />
       <div className='hidden md:block w-auto h-fit bg-dark-blue rounded-bl-[100px] md:rounded-bl-[120px] xl:rounded-bl-[150px] overflow-hidden'>
         <img
-          src={urlFor(practicesIllustration).url()}
+          src={urlFor(activeService.illustration.mobile).url()}
           alt='Service Illustration'
           className='object-cover w-full h-full'
         />

@@ -30,6 +30,7 @@ const SimpleServiceContentSection = ({
         practices={practices}
         industries={industries}
         foreignDesks={foreignDesks}
+        serviceType={serviceType}
         className='hidden xl:block h-fit'
       />
       {serviceType === 'foreign-desk' && (

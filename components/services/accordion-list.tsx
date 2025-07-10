@@ -17,35 +17,39 @@ interface AccordionData {
 }
 
 interface AccordionListProps {
+  serviceType: 'practice' | 'industry' | 'foreign-desk';
   practices: AccordionData[];
   industries: AccordionData[];
   foreignDesks: AccordionData[];
   className?: string;
+  mobileOnly?: boolean;
 }
 
 const AccordionList = ({
+  serviceType,
   practices,
   industries,
   foreignDesks,
   className,
+  mobileOnly,
 }: AccordionListProps) => {
   const accordionData = [
     {
-      id: 'practices',
+      id: 'practice',
       title: 'Practices',
       icon: ServicesIcon,
       data: practices,
       basePath: '/practices',
     },
     {
-      id: 'industries',
+      id: 'industry',
       title: 'Industries',
       icon: IndustriesIcon,
       data: industries,
       basePath: '/industries',
     },
     {
-      id: 'foreign-desks',
+      id: 'foreign-desk',
       title: 'Foreign Desks',
       icon: ForeignDesksIcon,
       data: foreignDesks,
@@ -53,14 +57,19 @@ const AccordionList = ({
     },
   ];
 
+  const initialValue = accordionData.find(
+    (accordion) => accordion.id === serviceType
+  )?.id;
+
   return (
     <Accordion
       type='single'
       collapsible
       className={cn('flex flex-col gap-2.5', className)}
+      defaultValue={mobileOnly ? '' : initialValue}
     >
       {accordionData.map((accordion, index) => (
-        <PracticeAccordionItem
+        <ServiceAccordionItem
           key={accordion.id}
           data={accordion.data}
           title={accordion.title}
@@ -75,7 +84,7 @@ const AccordionList = ({
 
 export default AccordionList;
 
-const PracticeAccordionItem = ({
+const ServiceAccordionItem = ({
   data,
   title,
   icon: Icon,
