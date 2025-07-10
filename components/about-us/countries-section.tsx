@@ -30,7 +30,6 @@ export const CountriesSection = ({
       <div className='flex xl:gap-18 2xl:gap-24 mt-6 md:mt-7.5 xl:mt-12 2xl:mt-17'>
         <CountriesAccordion
           countries={countries}
-          activeCountry={activeCountry}
           setActiveCountry={setActiveCountry}
           className='w-full'
         />
@@ -49,14 +48,10 @@ export const CountriesSection = ({
 const CountriesAccordion = ({
   className,
   countries,
-  activeCountry,
   setActiveCountry,
 }: {
   className?: string;
   countries: NonNullable<GENERAL_INFO_QUERYResult['generalInfo']>['countries'];
-  activeCountry: NonNullable<
-    GENERAL_INFO_QUERYResult['generalInfo']
-  >['countries'][number];
   setActiveCountry: (
     country: NonNullable<
       GENERAL_INFO_QUERYResult['generalInfo']
@@ -68,13 +63,12 @@ const CountriesAccordion = ({
       type='single'
       collapsible
       className={cn(className, 'flex flex-col gap-3 md:gap-4')}
-      defaultValue='item-1'
+      defaultValue={`item-${countries[0]._id}`}
     >
       {countries.map((country) => (
         <CountriesAccordionItem
           key={country._id}
           country={country}
-          activeCountry={activeCountry}
           setActiveCountry={setActiveCountry}
         />
       ))}
@@ -83,13 +77,9 @@ const CountriesAccordion = ({
 };
 const CountriesAccordionItem = ({
   country,
-  activeCountry,
   setActiveCountry,
 }: {
   country: NonNullable<
-    GENERAL_INFO_QUERYResult['generalInfo']
-  >['countries'][number];
-  activeCountry: NonNullable<
     GENERAL_INFO_QUERYResult['generalInfo']
   >['countries'][number];
   setActiveCountry: (

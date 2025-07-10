@@ -33,11 +33,14 @@ const AboutUsPage = async () => {
         <CountriesSection countries={generalInfo.generalInfo.countries} />
       )}
 
-      <IndependentReviewsSection
-        heading={aboutUsPageData?.independentReviews.heading || ''}
-        description={aboutUsPageData?.independentReviews.description || ''}
-        reviews={aboutUsPageData?.independentReviews.reviews || []}
-      />
+      {aboutUsPageData?.independentReviews.reviews &&
+        aboutUsPageData?.independentReviews.reviews.length > 0 && (
+          <IndependentReviewsSection
+            heading={aboutUsPageData?.independentReviews.heading || ''}
+            description={aboutUsPageData?.independentReviews.description || ''}
+            reviews={aboutUsPageData?.independentReviews.reviews || []}
+          />
+        )}
     </main>
   );
 };
