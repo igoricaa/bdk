@@ -125,6 +125,7 @@ const CountryCard = ({
       <PortableText
         value={country.address as PortableTextBlock[]}
         className='mt-6 md:mt-4 xl:mt-6 text-grey-text md:text-sm 2xl:text-lg'
+        paragraphClassName='mt-0!'
       />
       {country.phone && (
         <p className='text-grey-text underline md:text-sm 2xl:text-lg mt-3'>
