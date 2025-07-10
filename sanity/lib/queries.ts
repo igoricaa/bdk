@@ -293,7 +293,7 @@ export const GENERAL_INFO_QUERY = defineQuery(`{
 
 export const LAWYER_QUERY = defineQuery(`{
   "lawyer": *[_type == "lawyer" && slug.current == $slug][0],
-  "sameCategoryLawyers": *[_type == "lawyer" && category->_id == *[_type == "lawyer" && slug.current == $slug][0].category->_id && slug.current != $slug]{
+  "sameCategoryLawyers": *[_type == "lawyer" && category->_id == *[_type == "lawyer" && slug.current == $slug][0].category->_id && slug.current != $slug][0...100]{
     _id,
     name,
     title,

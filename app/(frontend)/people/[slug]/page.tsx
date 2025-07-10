@@ -3,15 +3,14 @@ import RelatedPostsSection from '@/components/services/related-posts-section';
 import TestimonialsCarousel from '@/components/services/testimonials-carousel';
 import ArrowUpRight from '@/components/ui/arrow-up-right';
 import BackToButton from '@/components/ui/buttons/back-to-button';
+import { FooterBackgroundHandler } from '@/components/ui/footer-background-handler';
 import PortableText from '@/components/ui/portable-text';
 import Section from '@/components/ui/section';
 import SectionHeader from '@/components/ui/section-header/section-header';
 import { cn } from '@/lib/utils';
 import { Lawyer, LAWYER_QUERYResult } from '@/sanity.types';
-import { getLawyers } from '@/sanity/lib/cached-queries';
-import { sanityFetch } from '@/sanity/lib/client';
+import { getLawyerPageData, getLawyers } from '@/sanity/lib/cached-queries';
 import { urlForUncropped } from '@/sanity/lib/image';
-import { LAWYER_QUERY } from '@/sanity/lib/queries';
 import { Testimonial } from '@/sanity/schemaTypes/services/testimonialTypes';
 import { PortableTextBlock } from 'next-sanity';
 import { Image } from 'next-sanity/image';
@@ -36,17 +35,17 @@ const LawyerPage = async ({
     blogPosts,
     insightsPosts,
     publications,
-  }: LAWYER_QUERYResult = await sanityFetch({
-    query: LAWYER_QUERY,
-    params: { slug },
-  });
+  }: LAWYER_QUERYResult = await getLawyerPageData(slug);
 
   if (!lawyer) {
     return <div>Lawyer not found</div>;
   }
 
+  const hasTeamMembers = sameCategoryLawyers.length > 0;
+
   return (
     <main id='lawyerPage' className='pt-header'>
+      <FooterBackgroundHandler changeColor={!hasTeamMembers} />
       <div className='px-side grid grid-cols-1 xl:grid-cols-12 gap-24 sm:gap-20 xl:gap-8 pb-24 md:pb-30 2xl:pb-42 pt-8 sm:pt-11 xl:pt-0'>
         <section className='col-span-1 xl:col-span-5 2xl:col-span-4 flex flex-col gap-5 sm:gap-6 xl:gap-9 2xl:gap-18 sm:flex-row xl:flex-col w-full xl:w-[calc(80%+32px)]'>
           <div className='w-full sm:w-1/2 xl:w-full h-auto rounded-br-[50px] xl:rounded-br-[150px] overflow-hidden aspect-[518/547]'>
@@ -119,25 +118,29 @@ const LawyerPage = async ({
         publications={publications}
       />
 
-      <Section variant='blue' underColor='bg-dark-blue' className='px-0!'>
-        <SectionHeader
-          heading='Other Team Members'
-          colorVariant='dark'
-          className='px-side'
-          rightSideComponent={<ViewAllButton href='/people' text='View All' />}
-          rightSideComponentClassName='hidden md:block'
-        />
-        <TeamMembersCarousel
-          lawyers={sameCategoryLawyers as Lawyer[]}
-          className='mt-10 md:mt-13 xl:mt-12 2xl:mt-20'
-          itemClassName='basis-50% sm:basis-[33%] xl:basis-[21.5%] 2xl:basis-[18%]'
-        />
-        <ViewAllButton
-          href='/people'
-          text='View All'
-          className='mt-10 md:hidden mx-auto'
-        />
-      </Section>
+      {hasTeamMembers && (
+        <Section variant='blue' underColor='bg-dark-blue' className='px-0!'>
+          <SectionHeader
+            heading='Other Team Members'
+            colorVariant='dark'
+            className='px-side'
+            rightSideComponent={
+              <ViewAllButton href='/people' text='View All' />
+            }
+            rightSideComponentClassName='hidden md:block'
+          />
+          <TeamMembersCarousel
+            lawyers={sameCategoryLawyers as Lawyer[]}
+            className='mt-10 md:mt-13 xl:mt-12 2xl:mt-20'
+            itemClassName='basis-50% sm:basis-[33%] xl:basis-[21.5%] 2xl:basis-[18%]'
+          />
+          <ViewAllButton
+            href='/people'
+            text='View All'
+            className='mt-10 md:hidden mx-auto'
+          />
+        </Section>
+      )}
     </main>
   );
 };

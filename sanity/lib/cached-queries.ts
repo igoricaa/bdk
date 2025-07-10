@@ -12,6 +12,7 @@ import {
   FOREIGN_DESK_QUERY,
   ABOUT_US_PAGE_QUERY,
   CAREER_PAGE_QUERY,
+  LAWYER_QUERY,
 } from './queries';
 import type {
   GENERAL_INFO_QUERYResult,
@@ -25,6 +26,7 @@ import type {
   FOREIGN_DESK_QUERYResult,
   ABOUT_US_PAGE_QUERYResult,
   CAREER_PAGE_QUERYResult,
+  LAWYER_QUERYResult,
 } from '@/sanity.types';
 
 // Dont need to cache these, it's not used on multiple pages§
@@ -42,6 +44,17 @@ export const getPeoplePageData = async (): Promise<PEOPLE_PAGE_QUERYResult> => {
   return await sanityFetch({
     query: PEOPLE_PAGE_QUERY,
     tags: ['people-page-data'],
+    revalidate: 43200,
+  });
+};
+
+export const getLawyerPageData = async (
+  slug: string
+): Promise<LAWYER_QUERYResult> => {
+  return await sanityFetch({
+    query: LAWYER_QUERY,
+    params: { slug },
+    tags: [`lawyer-${slug}`, 'lawyers'],
     revalidate: 43200,
   });
 };
