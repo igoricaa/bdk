@@ -1,19 +1,19 @@
 import SplitSection from '@/components/ui/split-section';
 import type { CAREER_PAGE_QUERYResult, OpenPosition } from '@/sanity.types';
 import { getCareerPageData } from '@/sanity/lib/cached-queries';
-import { cn } from '@/lib/utils';
-import { Plus } from 'lucide-react';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import Section from '@/components/ui/section';
-import Subtitle from '@/components/ui/subtitle';
-import { client } from '@/sanity/lib/client';
-import Link from 'next/link';
 import ArrowUpRight from '@/components/ui/arrow-up-right';
+import Section from '@/components/ui/section';
+import SectionHeader from '@/components/ui/section-header/section-header';
+import { cn, getPdfUrl, PdfFile } from '@/lib/utils';
+
+type Course = {
+  title: string;
+  pdfFile: {
+    asset: {
+      _ref: string;
+    };
+  };
+};
 
 const CareerPage = async () => {
   const {
@@ -25,6 +25,8 @@ const CareerPage = async () => {
     return <div>No data</div>;
   }
 
+  const coursesSectionData = careerPageData.coursesSection;
+
   return (
     <main className='pt-header'>
       <SplitSection
@@ -34,11 +36,87 @@ const CareerPage = async () => {
         customComponent={<OpenPositions careerPageData={careerPageData} />}
         className='px-side'
       />
+
+      {coursesSectionData &&
+        coursesSectionData.courses &&
+        coursesSectionData.courses.length > 0 && (
+          <ProgrammesSection
+            title={coursesSectionData.title || ''}
+            subtitle={coursesSectionData.subtitle || ''}
+            courses={coursesSectionData.courses as Array<Course>}
+          />
+        )}
     </main>
   );
 };
 
 export default CareerPage;
+
+const ProgrammesSection = ({
+  title,
+  subtitle,
+  courses,
+}: {
+  title: string;
+  subtitle: string;
+  courses: Array<Course>;
+}) => {
+  if (!courses || courses.length === 0) {
+    return null;
+  }
+
+  return (
+    <Section className='px-side'>
+      <SectionHeader heading={title} subtitle={subtitle} />
+
+      <ul className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 xl:gap-9 mt-8 xl:mt-11 2xl:mt-17'>
+        {courses.slice(0, 4).map((course, index) => {
+          const pdfFile: PdfFile = course.pdfFile;
+
+          if (!pdfFile) {
+            return null;
+          }
+
+          const pdfUrl = getPdfUrl(pdfFile);
+
+          if (!pdfUrl) {
+            return null;
+          }
+
+          return (
+            <li key={`${course.title}-${index}`}>
+              <article
+                className={cn(
+                  'bg-white/5 rounded-br-[2.5rem] md:rounded-br-[50px] h-77 md:h-88 xl:h-77 2xl:h-103',
+                  index === 3 && 'hidden sm:max-xl:block'
+                )}
+              >
+                <a
+                  href={pdfUrl}
+                  target={'_blank'}
+                  rel={'noopener noreferrer'}
+                  className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18'
+                >
+                  <div className='flex flex-col justify-between h-full'>
+                    {/* <div> */}
+                    {/* <p className='text-sm 2xl:text-base text-light-blue'>
+                      {formatDate(post.date)}
+                    </p> */}
+                    <h3 className='text-2xl 2xl:text-[2rem] mt-5'>
+                      {course.title}
+                    </h3>
+                    {/* </div> */}
+                    <ArrowUpRight />
+                  </div>
+                </a>
+              </article>
+            </li>
+          );
+        })}
+      </ul>
+    </Section>
+  );
+};
 
 const OpenPositions = ({
   careerPageData,
@@ -49,21 +127,6 @@ const OpenPositions = ({
     return null;
   }
 
-  const pdfFile =
-    careerPageData.hero.openPositionsSection.openPositions?.[0]?.pdfFile;
-
-  if (!pdfFile) {
-    return null;
-  }
-
-  // Extract the file ID from the reference
-  const fileId = pdfFile.asset?._ref.replace('file-', '').replace('-pdf', '');
-
-  // Construct the Sanity CDN URL for the PDF
-  const pdfUrl = `https://cdn.sanity.io/files/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${fileId}.pdf`;
-
-  const fileName = `${careerPageData.hero.openPositionsSection.heading.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
-
   return (
     <section className='mt-13'>
       <p className='text-dark-blue text-2xl 2xl:text-3xl border-b border-lightest-blue pb-7.5 md:pb-5 xl:pb-7.5 2xl:pb-10'>
@@ -71,73 +134,43 @@ const OpenPositions = ({
       </p>
       <ul>
         {careerPageData.hero.openPositionsSection.openPositions?.map(
-          (openPosition) => (
-            <li
-              key={openPosition._id}
-              className='py-7.5 md:py-5 xl:py-7.5 border-b border-lightest-blue relative'
-            >
-              <a
-                href={pdfUrl}
-                target={'_blank'}
-                rel={'noopener noreferrer'}
-                className='flex flex-col gap-4 '
+          (openPosition) => {
+            const pdfFile: PdfFile = openPosition.pdfFile as PdfFile;
+
+            if (!pdfFile) {
+              return null;
+            }
+
+            const pdfUrl = getPdfUrl(pdfFile);
+
+            if (!pdfUrl) {
+              return null;
+            }
+
+            return (
+              <li
+                key={`${openPosition.title}-${openPosition.location}`}
+                className='py-7.5 md:py-5 xl:py-7.5 border-b border-lightest-blue relative'
               >
-                <p className='text-dark-blue text-2xl 2xl:text-3xl'>
-                  {openPosition.title}
-                </p>
-                <p className='text-grey-text text-lg 2xl:text-2xl'>
-                  {openPosition.location}
-                </p>
-                <ArrowUpRight className='absolute top-8 md:top-5 2xl:top-8 right-0' />
-              </a>
-            </li>
-          )
+                <a
+                  href={pdfUrl}
+                  target={'_blank'}
+                  rel={'noopener noreferrer'}
+                  className='flex flex-col gap-4 '
+                >
+                  <p className='text-dark-blue text-2xl 2xl:text-3xl'>
+                    {openPosition.title}
+                  </p>
+                  <p className='text-grey-text text-lg 2xl:text-2xl'>
+                    {openPosition.location}
+                  </p>
+                  <ArrowUpRight className='absolute top-8 md:top-5 2xl:top-8 right-0' />
+                </a>
+              </li>
+            );
+          }
         )}
       </ul>
     </section>
-  );
-};
-
-interface PdfDownloadLinkProps {
-  pdfFile: {
-    asset: {
-      _ref: string;
-      _type: string;
-    };
-    _type: string;
-  };
-  title: string;
-  className?: string;
-  showAsDownload?: boolean; // if true, forces download, if false opens in new tab
-}
-
-const PdfDownloadLink: React.FC<PdfDownloadLinkProps> = ({
-  pdfFile,
-  title,
-  className = '',
-  showAsDownload = true,
-}) => {
-  if (!pdfFile?.asset?._ref) {
-    return null;
-  }
-
-  // Extract the file ID from the reference
-  const fileId = pdfFile.asset._ref.replace('file-', '').replace('-pdf', '');
-
-  // Construct the Sanity CDN URL for the PDF
-  const pdfUrl = `https://cdn.sanity.io/files/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${fileId}.pdf`;
-
-  const fileName = `${title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
-
-  return (
-    <a
-      href={pdfUrl}
-      download={showAsDownload ? fileName : undefined}
-      target={showAsDownload ? undefined : '_blank'}
-      rel={showAsDownload ? undefined : 'noopener noreferrer'}
-      className={`inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 no-underline ${className}`}
-    >
-      {showAsDownload ? <>Download PDF</> : <>View PDF</>}
-    </a>
   );
 };

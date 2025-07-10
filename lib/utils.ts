@@ -103,3 +103,26 @@ export function getLawyersByCategoryAndCategories(
 
   return [finalLawyersByCategory, categories];
 }
+
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+
+export type PdfFile = {
+  asset: {
+    _ref: string;
+  };
+};
+
+export const getPdfUrl = (pdfFile: PdfFile) => {
+  if (!pdfFile) {
+    return null;
+  }
+
+  // Extract the file ID from the reference
+  const fileId = pdfFile.asset?._ref.replace('file-', '').replace('-pdf', '');
+
+  // Construct the Sanity CDN URL for the PDF
+  const pdfUrl = `https://cdn.sanity.io/files/${projectId}/${dataset}/${fileId}.pdf`;
+
+  return pdfUrl;
+};

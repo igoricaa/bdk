@@ -1373,7 +1373,7 @@ export type ABOUT_US_PAGE_QUERYResult = {
   } | null;
 };
 // Variable: CAREER_PAGE_QUERY
-// Query: {  "careerPage": *[_type == "careerPage"][0] {    title,    hero {      heading,      description,      backgroundImage,      openPositionsSection {        heading,        openPositions[]->{          _id,          title,          description,          location,          pdfFile        }      }    },    coursesSection {      heading,      courses[]->{        _id,        title,      }    }  }}
+// Query: {  "careerPage": *[_type == "careerPage"][0] {    title,    hero {      heading,      description,      backgroundImage,      openPositionsSection {        heading,        openPositions[]->{          _id,          title,          description,          location,          pdfFile        }      }    },    coursesSection {      subtitle,      title,      courses    }  }}
 export type CAREER_PAGE_QUERYResult = {
   careerPage: {
     title: string;
@@ -1413,8 +1413,23 @@ export type CAREER_PAGE_QUERYResult = {
       };
     };
     coursesSection: {
-      heading: null;
-      courses: Array<null> | null;
+      subtitle: string;
+      title: string;
+      courses: Array<{
+        title: string;
+        pdfFile?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+          };
+          media?: unknown;
+          _type: "file";
+        };
+        _type: "course";
+        _key: string;
+      }> | null;
     };
   } | null;
 };
@@ -3023,7 +3038,7 @@ declare module "@sanity/client" {
     "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  },\n}": HOME_PAGE_QUERYResult;
     "{\n  \"peoplePage\": *[_type == \"peoplePage\"][0],\n}": PEOPLE_PAGE_QUERYResult;
     "{\n  \"aboutUsPage\": *[_type == \"aboutUsPage\"][0],\n}": ABOUT_US_PAGE_QUERYResult;
-    "{\n  \"careerPage\": *[_type == \"careerPage\"][0] {\n    title,\n    hero {\n      heading,\n      description,\n      backgroundImage,\n      openPositionsSection {\n        heading,\n        openPositions[]->{\n          _id,\n          title,\n          description,\n          location,\n          pdfFile\n        }\n      }\n    },\n    coursesSection {\n      heading,\n      courses[]->{\n        _id,\n        title,\n      }\n    }\n  }\n}": CAREER_PAGE_QUERYResult;
+    "{\n  \"careerPage\": *[_type == \"careerPage\"][0] {\n    title,\n    hero {\n      heading,\n      description,\n      backgroundImage,\n      openPositionsSection {\n        heading,\n        openPositions[]->{\n          _id,\n          title,\n          description,\n          location,\n          pdfFile\n        }\n      }\n    },\n    coursesSection {\n      subtitle,\n      title,\n      courses\n    }\n  }\n}": CAREER_PAGE_QUERYResult;
     "{\n  \"posts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{\n    title,\n    slug,\n    date,\n  }\n}": POSTS_BY_CATEGORY_QUERYResult;
     "{\n  \"lawyers\": *[_type == \"lawyer\"]{\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug,\n      order\n    },\n    contactInfo\n  }\n}": LAWYERS_QUERYResult;
     "{\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{\n    title,\n    slug\n  }\n}": SERVICES_QUERYResult;

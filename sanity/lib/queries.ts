@@ -34,11 +34,9 @@ export const CAREER_PAGE_QUERY = defineQuery(`{
       }
     },
     coursesSection {
-      heading,
-      courses[]->{
-        _id,
-        title,
-      }
+      subtitle,
+      title,
+      courses
     }
   }
 }`);
