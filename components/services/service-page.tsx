@@ -27,8 +27,6 @@ const ServicePage = ({
     return <div>No {serviceType} found</div>;
   }
 
-  console.log(currentService);
-
   const newsroomPosts = (
     currentService.newsroom && currentService.newsroom.length > 0
       ? currentService.newsroom

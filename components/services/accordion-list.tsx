@@ -5,11 +5,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '../ui/accordion';
-import Link from 'next/link';
-import { ArrowRight, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import ServicesIcon from '../ui/icons/services-icon';
 import IndustriesIcon from '../ui/icons/industries-icon';
 import ForeignDesksIcon from '../ui/icons/foreign-desks-icon';
+import { LinkWithArrow } from '../ui/link-arrow';
 
 interface AccordionData {
   title: string;
@@ -106,18 +106,12 @@ const PracticeAccordionItem = ({
       <AccordionContent className='pl-13 2xl:pl-15 py-4 2xl:py-8'>
         <ul className='space-y-4 2xl:space-y-4.75'>
           {data.map((item, index) => (
-            <li key={item.slug.current} className='overflow-hidden'>
-              <Link
+            <li key={item.slug.current}>
+              <LinkWithArrow
                 href={`${basePath}/${item.slug.current}`}
-                className='flex items-center gap-x-2 transition-[translate,color] text-sm 2xl:text-lg hover:text-light-blue -translate-x-6 hover:translate-x-0 duration-300'
-              >
-                <ArrowRight
-                  strokeWidth={1}
-                  stroke='var(--color-light-blue)'
-                  className='min-w-6 max-w-6'
-                />
-                {item.title}
-              </Link>
+                label={item.title}
+                iconSize={24}
+              />
             </li>
           ))}
         </ul>
