@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn, ComputedLawyersData } from '@/lib/utils';
 import LawyersNavbar from './lawyers-navbar';
+import LinkedinIcon from '../ui/icons/linkedin-icon';
 
 const LawyersGrid = ({
   computedLawyersData,
@@ -104,18 +105,46 @@ const LawyerCard = ({
             className='w-full h-full'
           />
         </motion.div>
-        <motion.div
-          className='py-5 md:py-3 md:px-2.5 xl:py-5 xl:px-4'
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.3 }}
-        >
-          <h2 className='text-dark-blue text-lg 2xl:text-xl'>{lawyer.name}</h2>
-          <p className='mt-2 md:mt-3 text-grey-text text-xxs md:text-sm 2xl:text-base'>
-            {lawyer.title}
-          </p>
-        </motion.div>
       </Link>
+      <motion.div
+        className='py-5 md:py-3 md:px-2.5 xl:py-5 xl:px-4'
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.3 }}
+      >
+        <div className='flex items-start gap-2 justify-between'>
+          <Link
+            href={`/people/${lawyer.slug?.current || ''}`}
+            className='block'
+          >
+            <h2 className='text-dark-blue text-lg 2xl:text-xl'>
+              {lawyer.name}
+            </h2>
+          </Link>
+          {lawyer.contactInfo?.linkedin && (
+            <Link
+              href={lawyer.contactInfo.linkedin}
+              target='_blank'
+              className='hidden md:block'
+            >
+              <LinkedinIcon className='min-w-5 min-h-5 w-5 h-5 2xl:w-5.5 2xl:h-5.5 2xl:min-w-5.5 2xl:min-h-5.5' />
+            </Link>
+          )}
+        </div>
+
+        <p className='mt-2 md:mt-3 text-grey-text text-xxs md:text-sm 2xl:text-base'>
+          {lawyer.title}
+        </p>
+        {lawyer.contactInfo?.linkedin && (
+          <Link
+            href={lawyer.contactInfo.linkedin}
+            target='_blank'
+            className='block mt-4 md:hidden'
+          >
+            <LinkedinIcon className='w-4 h-4' />
+          </Link>
+        )}
+      </motion.div>
     </motion.article>
   );
 };

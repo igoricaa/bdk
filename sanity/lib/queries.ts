@@ -81,7 +81,9 @@ export const LAWYERS_BY_CATEGORY_QUERY = defineQuery(`{
       title,
       picture,
       slug,
-      contactInfo
+      contactInfo {
+        linkedin
+      }
     }
   }
 }`);
@@ -320,6 +322,9 @@ export const LAWYER_QUERY = defineQuery(`{
     title,
     picture,
     slug,
+    contactInfo {
+      linkedin
+    }
   },
   "categoryInfo": *[_type == "lawyerCategory" && _id == *[_type == "lawyer" && slug.current == $slug][0].category._ref][0]{
     _id,

@@ -4,6 +4,7 @@ import TestimonialsCarousel from '@/components/services/testimonials-carousel';
 import ArrowUpRight from '@/components/ui/arrow-up-right';
 import BackToButton from '@/components/ui/buttons/back-to-button';
 import { FooterBackgroundHandler } from '@/components/ui/footer-background-handler';
+import LinkedinIcon from '@/components/ui/icons/linkedin-icon';
 import PortableText from '@/components/ui/portable-text';
 import Section from '@/components/ui/section';
 import SectionHeader from '@/components/ui/section-header/section-header';
@@ -85,18 +86,31 @@ const LawyerPage = async ({
                   {lawyer.title}
                 </p>
               </div>
-              <a
-                href={`tel:${lawyer.contactInfo?.phone}`}
-                className='text-grey-text mt-4 2xl:mt-5 sm:text-lg 2xl:text-2xl underline block'
-              >
-                {lawyer.contactInfo?.phone}
-              </a>
-              <a
-                href={`mailto:${lawyer.contactInfo?.email}`}
-                className='text-grey-text mt-1 sm:mt-2 2xl:mt-3 sm:text-lg 2xl:text-2xl underline block'
-              >
-                {lawyer.contactInfo?.email}
-              </a>
+              {lawyer.contactInfo?.phone && (
+                <a
+                  href={`tel:${lawyer.contactInfo.phone}`}
+                  className='text-grey-text mt-4 2xl:mt-5 sm:text-lg 2xl:text-2xl underline block'
+                >
+                  {lawyer.contactInfo.phone}
+                </a>
+              )}
+              {lawyer.contactInfo?.email && (
+                <a
+                  href={`mailto:${lawyer.contactInfo.email}`}
+                  className='text-grey-text mt-1 sm:mt-2 2xl:mt-3 sm:text-lg 2xl:text-2xl underline block'
+                >
+                  {lawyer.contactInfo.email}
+                </a>
+              )}
+              {lawyer.contactInfo?.linkedin && (
+                <Link
+                  href={lawyer.contactInfo.linkedin}
+                  target='_blank'
+                  className='block mt-5 md:mt-6'
+                >
+                  <LinkedinIcon className='w-6 h-6 xl:w-5.5 xl:h-5.5 2xl:w-6 2xl:h-6' />
+                </Link>
+              )}
             </div>
           </div>
         </section>

@@ -81,6 +81,16 @@ export const lawyerType = defineType({
           type: 'string',
           validation: (rule) => rule.required(),
         }),
+        defineField({
+          name: 'linkedin',
+          title: 'LinkedIn',
+          type: 'url',
+          validation: (rule) =>
+            rule.uri({
+              allowRelative: true,
+              scheme: ['https'],
+            }),
+        }),
       ],
     }),
     defineField({

@@ -6978,6 +6978,13 @@
                 "type": "string"
               },
               "optional": false
+            },
+            "linkedin": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
             }
           }
         },
