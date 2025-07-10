@@ -6,6 +6,7 @@ import {
   PEOPLE_PAGE_QUERY,
   SERVICE_QUERY,
   LAWYERS_QUERY,
+  LAWYERS_BY_CATEGORY_QUERY,
   AUTHORS_QUERY,
   SERVICES_QUERY,
   POSTS_BY_CATEGORY_QUERY,
@@ -19,6 +20,7 @@ import type {
   HOME_PAGE_QUERYResult,
   PEOPLE_PAGE_QUERYResult,
   LAWYERS_QUERYResult,
+  LAWYERS_BY_CATEGORY_QUERYResult,
   AUTHORS_QUERYResult,
   SERVICES_QUERYResult,
   POSTS_BY_CATEGORY_QUERYResult,
@@ -123,6 +125,17 @@ export const getLawyers = cache(async (): Promise<LAWYERS_QUERYResult> => {
     revalidate: 43200,
   });
 });
+
+// Enhanced lawyers by category with custom ordering (recommended for new implementations)
+export const getLawyersByCategory = cache(
+  async (): Promise<LAWYERS_BY_CATEGORY_QUERYResult> => {
+    return await sanityFetch({
+      query: LAWYERS_BY_CATEGORY_QUERY,
+      tags: ['lawyers', 'lawyer-categories'],
+      revalidate: 43200,
+    });
+  }
+);
 
 // All posts by category (used on home page)
 export const getPostsByCategory = cache(

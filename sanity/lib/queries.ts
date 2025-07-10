@@ -59,9 +59,30 @@ export const LAWYERS_QUERY = defineQuery(`{
       _id,
       title,
       slug,
-      order
+      order,
+      orderedLawyers[]->{
+        _id,
+        slug
+      }
     },
     contactInfo
+  }
+}`);
+
+export const LAWYERS_BY_CATEGORY_QUERY = defineQuery(`{
+  "categories": *[_type == "lawyerCategory"] | order(order asc) {
+    _id,
+    title,
+    slug,
+    order,
+    "orderedLawyers": orderedLawyers[]->{
+      _id,
+      name,
+      title,
+      picture,
+      slug,
+      contactInfo
+    }
   }
 }`);
 
@@ -293,12 +314,20 @@ export const GENERAL_INFO_QUERY = defineQuery(`{
 
 export const LAWYER_QUERY = defineQuery(`{
   "lawyer": *[_type == "lawyer" && slug.current == $slug][0],
-  "sameCategoryLawyers": *[_type == "lawyer" && category->_id == *[_type == "lawyer" && slug.current == $slug][0].category->_id && slug.current != $slug][0...100]{
+  "sameCategoryLawyers": *[_type == "lawyer" && category._ref == *[_type == "lawyer" && slug.current == $slug][0].category._ref && slug.current != $slug]{
     _id,
     name,
     title,
     picture,
     slug,
+  },
+  "categoryInfo": *[_type == "lawyerCategory" && _id == *[_type == "lawyer" && slug.current == $slug][0].category._ref][0]{
+    _id,
+    title,
+    "orderedLawyers": orderedLawyers[]->{
+      _id,
+      slug
+    }
   },
   "newsroomPosts": *[
     _type == "post" 

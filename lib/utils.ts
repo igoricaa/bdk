@@ -1,11 +1,22 @@
-import { LAWYERS_QUERYResult } from '@/sanity.types';
+import { LAWYERS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
 import { type ClassValue, clsx } from 'clsx';
 import { PortableTextBlock, toPlainText } from 'next-sanity';
 import { twMerge } from 'tailwind-merge';
+import { FilterOption } from '@/components/ui/filter-buttons';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+type LawyerFromQuery = NonNullable<
+  LAWYERS_BY_CATEGORY_QUERYResult['categories'][0]['orderedLawyers']
+>[0];
+
+export type ComputedLawyersData = {
+  allLawyers: LawyerFromQuery[];
+  lawyersByCategory: Record<string, LawyerFromQuery[]>;
+  filterOptions: FilterOption[];
+};
 
 /**
  * Invalidate TanStack Query cache for posts
@@ -48,62 +59,6 @@ export function calculateReadingTimeFromPortableText(
   return `${minutes || 1} min read`;
 }
 
-export type LawyersByCategory = Record<
-  string,
-  { lawyers: LAWYERS_QUERYResult['lawyers'] }
->;
-export type Categories = Array<{ id: string; label: string; order: number }>;
-
-export function getLawyersByCategoryAndCategories(
-  lawyers: LAWYERS_QUERYResult['lawyers']
-) {
-  const { lawyersByCategory, categories } = lawyers.reduce(
-    (
-      acc: {
-        lawyersByCategory: Record<string, { lawyers: typeof lawyers }>;
-        categories: Array<{ id: string; label: string; order: number }>;
-      },
-      lawyer: (typeof lawyers)[0]
-    ) => {
-      const categorySlug = lawyer.category.slug.current;
-      const categoryTitle = lawyer.category.title;
-      const categoryOrder = lawyer.category.order || 5;
-
-      if (!acc.lawyersByCategory[categorySlug]) {
-        acc.lawyersByCategory[categorySlug] = { lawyers: [] };
-
-        acc.categories.push({
-          id: categorySlug,
-          label: categoryTitle,
-          order: categoryOrder,
-        });
-      }
-
-      acc.lawyersByCategory[categorySlug].lawyers.push(lawyer);
-      return acc;
-    },
-    {
-      lawyersByCategory: {} as Record<string, { lawyers: typeof lawyers }>,
-      categories: [] as Array<{ id: string; label: string; order: number }>,
-    }
-  );
-
-  categories.sort(
-    (a: { order: number }, b: { order: number }) => a.order - b.order
-  );
-
-  const allLawyersSortedByCategory = categories.flatMap(
-    (category: { id: string }) => lawyersByCategory[category.id]?.lawyers || []
-  );
-
-  const finalLawyersByCategory = {
-    all: { lawyers: allLawyersSortedByCategory },
-    ...lawyersByCategory,
-  };
-
-  return [finalLawyersByCategory, categories];
-}
-
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
 
@@ -125,4 +80,32 @@ export const getPdfUrl = (pdfFile: PdfFile) => {
   const pdfUrl = `https://cdn.sanity.io/files/${projectId}/${dataset}/${fileId}.pdf`;
 
   return pdfUrl;
+};
+
+export const getComputedLawyersData = ({
+  categories,
+}: {
+  categories: LAWYERS_BY_CATEGORY_QUERYResult['categories'];
+}): ComputedLawyersData => {
+  const filterOptions: FilterOption[] = categories.map((category) => ({
+    id: category.slug.current,
+    label: category.title,
+    order: category.order || 99,
+  }));
+
+  // Pre-compute all lawyers for the "all" category
+  const allLawyers = categories.flatMap(
+    (category) => category.orderedLawyers || []
+  );
+
+  // Pre-compute lawyers by category for faster client-side filtering
+  const lawyersByCategory = categories.reduce(
+    (acc, category) => {
+      acc[category.slug.current] = category.orderedLawyers || [];
+      return acc;
+    },
+    {} as Record<string, typeof allLawyers>
+  );
+
+  return { allLawyers, lawyersByCategory, filterOptions };
 };

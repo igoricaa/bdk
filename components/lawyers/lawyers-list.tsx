@@ -1,23 +1,19 @@
 'use client';
 
-import { Lawyer } from '@/sanity.types';
 import LawyerCard from './lawyers-card';
-import { cn, LawyersByCategory } from '@/lib/utils';
+import { cn, ComputedLawyersData } from '@/lib/utils';
 import { useIsMobile } from '@/lib/hooks/use-mobile';
 import LawyersCarousel from './lawyers-carousel';
-import { FilterOption } from '../ui/filter-buttons';
 import LawyersNavbar from './lawyers-navbar';
 import { useState } from 'react';
 
 const LawyersList = ({
-  lawyersByCategory,
-  lawyersFilterOptions,
+  computedLawyersData,
   gridLimit = 6,
   className,
   listClassName,
 }: {
-  lawyersByCategory: LawyersByCategory;
-  lawyersFilterOptions: FilterOption[];
+  computedLawyersData: ComputedLawyersData;
   gridLimit?: number;
   className?: string;
   listClassName?: string;
@@ -25,12 +21,15 @@ const LawyersList = ({
   const isMobile = useIsMobile({ breakpoint: 1024 });
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
-  const filteredLawyers = lawyersByCategory[activeCategory]?.lawyers || [];
+  const currentLawyers =
+    activeCategory === 'all'
+      ? computedLawyersData.allLawyers
+      : computedLawyersData.lawyersByCategory[activeCategory] || [];
 
   return (
     <div className={className}>
       <LawyersNavbar
-        categories={lawyersFilterOptions}
+        categories={computedLawyersData.filterOptions}
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
       />
@@ -42,16 +41,16 @@ const LawyersList = ({
             listClassName
           )}
         >
-          {filteredLawyers.slice(0, gridLimit).map((lawyer, index) => (
+          {currentLawyers.slice(0, gridLimit).map((lawyer, index) => (
             <LawyerCard
               key={`${lawyer.slug.current}-${index}`}
-              lawyer={lawyer as unknown as Lawyer}
+              lawyer={lawyer as any}
             />
           ))}
         </div>
       ) : (
         <LawyersCarousel
-          lawyers={filteredLawyers as unknown as Lawyer[]}
+          lawyers={currentLawyers as any[]}
           className={listClassName}
         />
       )}

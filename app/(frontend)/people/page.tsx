@@ -1,31 +1,26 @@
 import NewsroomSection from '@/components/home/newsroom-section';
 import LawyersGrid from '@/components/lawyers/lawyers-grid';
-import { FilterOption } from '@/components/ui/filter-buttons';
-import {
-  getLawyersByCategoryAndCategories,
-  LawyersByCategory,
-} from '@/lib/utils';
 import { Post } from '@/sanity.types';
+import { ComputedLawyersData, getComputedLawyersData } from '@/lib/utils';
 import {
-  getLawyers,
+  getLawyersByCategory,
   getPeoplePageData,
   getPostsByCategory,
 } from '@/sanity/lib/cached-queries';
 
 const PeoplePage = async () => {
-  const [{ peoplePage }, { lawyers }, { posts: newsroomPosts }] =
+  const [{ peoplePage }, { categories }, { posts: newsroomPosts }] =
     await Promise.all([
       getPeoplePageData(),
-      getLawyers(),
+      getLawyersByCategory(),
       getPostsByCategory('newsroom', 4),
     ]);
 
-  if (!peoplePage || !lawyers || lawyers.length === 0 || !newsroomPosts) {
+  if (!peoplePage || !categories || categories.length === 0 || !newsroomPosts) {
     return <div>No people page found</div>;
   }
 
-  const [finalLawyersByCategory, categories] =
-    getLawyersByCategoryAndCategories(lawyers);
+  const computedLawyersData = getComputedLawyersData({ categories });
 
   return (
     <main className='pt-header'>
@@ -39,8 +34,7 @@ const PeoplePage = async () => {
       </section>
 
       <LawyersGrid
-        lawyersByCategory={finalLawyersByCategory as LawyersByCategory}
-        categories={categories as FilterOption[]}
+        computedLawyersData={computedLawyersData}
         className='xl:px-0 2xl:max-w-[1550px] xl:mx-auto'
       />
 

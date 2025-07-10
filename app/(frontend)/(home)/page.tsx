@@ -1,7 +1,7 @@
-import { Industry, LAWYERS_QUERYResult, Post, Practice } from '@/sanity.types';
+import { Industry, Post, Practice } from '@/sanity.types';
 import {
   getHomePageData,
-  getLawyers,
+  getLawyersByCategory,
   getPostsByCategory,
   getServicesData,
 } from '@/sanity/lib/cached-queries';
@@ -19,23 +19,19 @@ import SectionHeader from '@/components/ui/section-header/section-header';
 import NewsroomSection from '@/components/home/newsroom-section';
 import Section from '@/components/ui/section';
 import Hero from '@/components/home/hero';
-import { FilterOption } from '@/components/ui/filter-buttons';
-import {
-  getLawyersByCategoryAndCategories,
-  LawyersByCategory,
-} from '@/lib/utils';
+import { ComputedLawyersData, getComputedLawyersData } from '@/lib/utils';
 
 export default async function Home() {
   const [homePageResult, servicesResult, lawyersResult, newsroomPostsResult] =
     await Promise.all([
       getHomePageData(),
       getServicesData(),
-      getLawyers(),
+      getLawyersByCategory(),
       getPostsByCategory('newsroom', 4),
     ]);
 
   const { homePage: homePageData, blinkdraft: blinkdraftData } = homePageResult;
-  const { lawyers } = lawyersResult;
+  const { categories } = lawyersResult;
   const { industries, practices } = servicesResult;
   const { posts: newsroomPosts } = newsroomPostsResult;
 
@@ -43,8 +39,7 @@ export default async function Home() {
     return <div>No home page data found</div>;
   }
 
-  const [finalLawyersByCategory, categories] =
-    getLawyersByCategoryAndCategories(lawyers);
+  const computedLawyersData = getComputedLawyersData({ categories });
 
   return (
     <main id='home' className='bg-dark-blue pt-header'>
@@ -65,7 +60,7 @@ export default async function Home() {
         </div>
         <PortableText
           className='text-lightest-blue mt-8 xl:mt-12 2xl:mt-12 xl:max-w-1/2'
-          paragraphClassName='md:text-lg 2xl:text-2xl mt-4 md:mt-4.5 2xl:mt-6'
+          paragraphClassName='md:text-lg 2xl:text-2xl mt-4 md:mt-4.5 2xl:mt-6 text-lightest-blue'
           value={homePageData.about.description as PortableTextBlock[]}
         />
         <Link href='/about' className='text-white mt-10 2xl:mt-15 flex'>
@@ -100,8 +95,7 @@ export default async function Home() {
         />
 
         <LawyersList
-          lawyersByCategory={finalLawyersByCategory as LawyersByCategory}
-          lawyersFilterOptions={categories as FilterOption[]}
+          computedLawyersData={computedLawyersData}
           gridLimit={6}
           className='mt-4 md:mt-8 xl:mt-9 2xl:mt-18'
           listClassName='px-side lg:px-0 mt-4 md:mt-5 xl:mt-8 2xl:mt-16'

@@ -1,34 +1,32 @@
 'use client';
 
-import { LAWYERS_QUERYResult } from '@/sanity.types';
-import { useMemo, useState } from 'react';
-import { FilterOption } from '../ui/filter-buttons';
+import { LAWYERS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
+import { useState } from 'react';
 import { Image } from 'next-sanity/image';
 import { urlForWithHotspot } from '@/sanity/lib/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
-import { cn, LawyersByCategory } from '@/lib/utils';
+import { cn, ComputedLawyersData } from '@/lib/utils';
 import LawyersNavbar from './lawyers-navbar';
 
 const LawyersGrid = ({
-  lawyersByCategory,
-  categories,
+  computedLawyersData,
   className,
 }: {
-  lawyersByCategory: LawyersByCategory;
-  categories: FilterOption[];
+  computedLawyersData: ComputedLawyersData;
   className?: string;
 }) => {
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
-  const currentLawyers = useMemo(() => {
-    return lawyersByCategory[activeCategory]?.lawyers || [];
-  }, [activeCategory, lawyersByCategory]);
+  const currentLawyers =
+    activeCategory === 'all'
+      ? computedLawyersData.allLawyers
+      : computedLawyersData.lawyersByCategory[activeCategory] || [];
 
   return (
     <section className={cn(className)}>
       <LawyersNavbar
-        categories={categories as FilterOption[]}
+        categories={computedLawyersData.filterOptions}
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
       />
@@ -49,12 +47,8 @@ const LawyersGrid = ({
             },
           }}
         >
-          {currentLawyers.map((lawyer, index) => (
-            <LawyerCard
-              key={lawyer.slug.current}
-              lawyer={lawyer}
-              index={index}
-            />
+          {currentLawyers.map((lawyer) => (
+            <LawyerCard key={lawyer.slug.current} lawyer={lawyer} />
           ))}
         </motion.div>
       </AnimatePresence>
@@ -66,10 +60,10 @@ export default LawyersGrid;
 
 const LawyerCard = ({
   lawyer,
-  index,
 }: {
-  lawyer: LAWYERS_QUERYResult['lawyers'][number];
-  index: number;
+  lawyer: NonNullable<
+    LAWYERS_BY_CATEGORY_QUERYResult['categories'][0]['orderedLawyers']
+  >[0];
 }) => {
   return (
     <motion.article

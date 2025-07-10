@@ -31,6 +31,7 @@ const LawyerPage = async ({
   const {
     lawyer,
     sameCategoryLawyers,
+    categoryInfo,
     newsroomPosts,
     blogPosts,
     insightsPosts,
@@ -41,7 +42,19 @@ const LawyerPage = async ({
     return <div>Lawyer not found</div>;
   }
 
-  const hasTeamMembers = sameCategoryLawyers.length > 0;
+  const orderedCategoryLawyers = categoryInfo?.orderedLawyers
+    ? categoryInfo.orderedLawyers
+        .map((orderedLawyer: any) =>
+          sameCategoryLawyers?.find(
+            (lawyer: any) =>
+              lawyer?.slug?.current === orderedLawyer?.slug?.current
+          )
+        )
+        .filter(Boolean)
+    : sameCategoryLawyers || [];
+
+  const hasTeamMembers =
+    orderedCategoryLawyers && orderedCategoryLawyers.length > 0;
 
   return (
     <main id='lawyerPage' className='pt-header'>
@@ -50,39 +63,41 @@ const LawyerPage = async ({
         color='hsl(var(--dark-blue))'
       />
       <div className='px-side grid grid-cols-1 xl:grid-cols-12 gap-24 sm:gap-20 xl:gap-8 pb-24 md:pb-30 2xl:pb-42 pt-8 sm:pt-11 xl:pt-0'>
-        <section className='col-span-1 xl:col-span-5 2xl:col-span-4 flex flex-col gap-5 sm:gap-6 xl:gap-9 2xl:gap-18 sm:flex-row xl:flex-col w-full xl:w-[calc(80%+32px)]'>
-          <div className='w-full sm:w-1/2 xl:w-full h-auto rounded-br-[50px] xl:rounded-br-[150px] overflow-hidden aspect-[518/547]'>
-            <Image
-              src={urlForUncropped(lawyer.picture).url() || ''}
-              alt={lawyer?.name || ''}
-              width={777}
-              height={821}
-              quality={100}
-              priority
-              className='w-full h-full object-cover object-top'
-            />
-          </div>
-          <div className='sm:mt-auto xl:mt-0 sm:pb-12 xl:pb-0'>
-            <div className='flex flex-col gap-4 2xl:gap-8'>
-              <h1 className='text-dark-blue text-3xl sm:text-4xl xl:text-5xl 2xl:text-6xl'>
-                {lawyer.name}
-              </h1>
-              <p className='text-dark-blue sm:text-lg 2xl:text-2xl'>
-                {lawyer.title}
-              </p>
+        <section className='col-span-1 xl:col-span-5 2xl:col-span-4 w-full xl:w-[calc(80%+32px)]'>
+          <div className='xl:sticky xl:top-20 flex flex-col gap-5 sm:gap-6 xl:gap-9 2xl:gap-18 sm:flex-row xl:flex-col '>
+            <div className='w-full sm:w-1/2 xl:w-full h-auto rounded-br-[50px] xl:rounded-br-[150px] overflow-hidden aspect-[518/547]'>
+              <Image
+                src={urlForUncropped(lawyer.picture).url() || ''}
+                alt={lawyer?.name || ''}
+                width={777}
+                height={821}
+                quality={100}
+                priority
+                className='w-full h-full object-cover object-top'
+              />
             </div>
-            <a
-              href={`tel:${lawyer.contactInfo?.phone}`}
-              className='text-grey-text mt-4 2xl:mt-5 sm:text-lg 2xl:text-2xl underline block'
-            >
-              {lawyer.contactInfo?.phone}
-            </a>
-            <a
-              href={`mailto:${lawyer.contactInfo?.email}`}
-              className='text-grey-text mt-1 sm:mt-2 2xl:mt-3 sm:text-lg 2xl:text-2xl underline block'
-            >
-              {lawyer.contactInfo?.email}
-            </a>
+            <div className='sm:mt-auto xl:mt-0 sm:pb-12 xl:pb-0'>
+              <div className='flex flex-col gap-4 2xl:gap-8'>
+                <h1 className='text-dark-blue text-3xl sm:text-4xl xl:text-5xl 2xl:text-6xl'>
+                  {lawyer.name}
+                </h1>
+                <p className='text-dark-blue sm:text-lg 2xl:text-2xl'>
+                  {lawyer.title}
+                </p>
+              </div>
+              <a
+                href={`tel:${lawyer.contactInfo?.phone}`}
+                className='text-grey-text mt-4 2xl:mt-5 sm:text-lg 2xl:text-2xl underline block'
+              >
+                {lawyer.contactInfo?.phone}
+              </a>
+              <a
+                href={`mailto:${lawyer.contactInfo?.email}`}
+                className='text-grey-text mt-1 sm:mt-2 2xl:mt-3 sm:text-lg 2xl:text-2xl underline block'
+              >
+                {lawyer.contactInfo?.email}
+              </a>
+            </div>
           </div>
         </section>
         <section className='col-span-1 xl:col-span-7 xl:col-start-6 2xl:col-span-6 2xl:col-start-6 xl:pt-18 2xl:pt-23'>
@@ -133,7 +148,7 @@ const LawyerPage = async ({
             rightSideComponentClassName='hidden md:block'
           />
           <TeamMembersCarousel
-            lawyers={sameCategoryLawyers as Lawyer[]}
+            lawyers={orderedCategoryLawyers as Lawyer[]}
             className='mt-10 md:mt-13 xl:mt-12 2xl:mt-20'
             itemClassName='basis-50% sm:basis-[33%] xl:basis-[21.5%] 2xl:basis-[18%]'
           />

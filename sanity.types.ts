@@ -1107,6 +1107,13 @@ export type LawyerCategory = {
   slug: Slug;
   description?: string;
   order?: number;
+  orderedLawyers?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "lawyer";
+  }>;
 };
 
 export type BlockContent = Array<{
@@ -1443,7 +1450,7 @@ export type POSTS_BY_CATEGORY_QUERYResult = {
   }>;
 };
 // Variable: LAWYERS_QUERY
-// Query: {  "lawyers": *[_type == "lawyer"]{    name,    title,    picture,    slug,    category->{      _id,      title,      slug,      order    },    contactInfo  }}
+// Query: {  "lawyers": *[_type == "lawyer"]{    name,    title,    picture,    slug,    category->{      _id,      title,      slug,      order,      orderedLawyers[]->{        _id,        slug      }    },    contactInfo  }}
 export type LAWYERS_QUERYResult = {
   lawyers: Array<{
     name: string;
@@ -1467,11 +1474,48 @@ export type LAWYERS_QUERYResult = {
       title: string;
       slug: Slug;
       order: number | null;
+      orderedLawyers: Array<{
+        _id: string;
+        slug: Slug;
+      }> | null;
     };
     contactInfo: {
       email: string;
       phone: string;
     } | null;
+  }>;
+};
+// Variable: LAWYERS_BY_CATEGORY_QUERY
+// Query: {  "categories": *[_type == "lawyerCategory"] | order(order asc) {    _id,    title,    slug,    order,    "orderedLawyers": orderedLawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo    }  }}
+export type LAWYERS_BY_CATEGORY_QUERYResult = {
+  categories: Array<{
+    _id: string;
+    title: string;
+    slug: Slug;
+    order: number | null;
+    orderedLawyers: Array<{
+      _id: string;
+      name: string;
+      title: string;
+      picture: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      };
+      slug: Slug;
+      contactInfo: {
+        email: string;
+        phone: string;
+      } | null;
+    }> | null;
   }>;
 };
 // Variable: SERVICES_QUERY
@@ -2843,7 +2887,7 @@ export type GENERAL_INFO_QUERYResult = {
   } | null;
 };
 // Variable: LAWYER_QUERY
-// Query: {  "lawyer": *[_type == "lawyer" && slug.current == $slug][0],  "sameCategoryLawyers": *[_type == "lawyer" && category->_id == *[_type == "lawyer" && slug.current == $slug][0].category->_id && slug.current != $slug][0...100]{    _id,    name,    title,    picture,    slug,  },  "newsroomPosts": *[    _type == "post"     && status == "publish"    && references(*[_type=="category" && name=="Newsroom"]._id)    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0  ] | order(date desc)[0...4]{    title,    slug,    date  },  "blogPosts": *[    _type == "post"     && status == "publish"    && references(*[_type=="category" && name=="Blog"]._id)    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0  ] | order(date desc)[0...4]{    title,    slug,    date  },  "insightsPosts": *[    _type == "post"     && status == "publish"    && references(*[_type=="category" && name=="Insights"]._id)    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0  ] | order(date desc)[0...4]{    title,    slug,    date  },    "publications": *[    _type == "post"     && status == "publish"    && references(*[_type=="category" && name=="Publications"]._id)    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0  ] | order(date desc)[0...4]{    title,    slug,    date  },}
+// Query: {  "lawyer": *[_type == "lawyer" && slug.current == $slug][0],  "sameCategoryLawyers": *[_type == "lawyer" && category._ref == *[_type == "lawyer" && slug.current == $slug][0].category._ref && slug.current != $slug]{    _id,    name,    title,    picture,    slug,  },  "categoryInfo": *[_type == "lawyerCategory" && _id == *[_type == "lawyer" && slug.current == $slug][0].category._ref][0]{    _id,    title,    "orderedLawyers": orderedLawyers[]->{      _id,      slug    }  },  "newsroomPosts": *[    _type == "post"     && status == "publish"    && references(*[_type=="category" && name=="Newsroom"]._id)    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0  ] | order(date desc)[0...4]{    title,    slug,    date  },  "blogPosts": *[    _type == "post"     && status == "publish"    && references(*[_type=="category" && name=="Blog"]._id)    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0  ] | order(date desc)[0...4]{    title,    slug,    date  },  "insightsPosts": *[    _type == "post"     && status == "publish"    && references(*[_type=="category" && name=="Insights"]._id)    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0  ] | order(date desc)[0...4]{    title,    slug,    date  },    "publications": *[    _type == "post"     && status == "publish"    && references(*[_type=="category" && name=="Publications"]._id)    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0  ] | order(date desc)[0...4]{    title,    slug,    date  },}
 export type LAWYER_QUERYResult = {
   lawyer: {
     _id: string;
@@ -2936,6 +2980,14 @@ export type LAWYER_QUERYResult = {
     };
     slug: Slug;
   }>;
+  categoryInfo: {
+    _id: string;
+    title: string;
+    orderedLawyers: Array<{
+      _id: string;
+      slug: Slug;
+    }> | null;
+  } | null;
   newsroomPosts: Array<{
     title: string;
     slug: Slug;
@@ -3040,7 +3092,8 @@ declare module "@sanity/client" {
     "{\n  \"aboutUsPage\": *[_type == \"aboutUsPage\"][0],\n}": ABOUT_US_PAGE_QUERYResult;
     "{\n  \"careerPage\": *[_type == \"careerPage\"][0] {\n    title,\n    hero {\n      heading,\n      description,\n      backgroundImage,\n      openPositionsSection {\n        heading,\n        openPositions[]->{\n          _id,\n          title,\n          description,\n          location,\n          pdfFile\n        }\n      }\n    },\n    coursesSection {\n      subtitle,\n      title,\n      courses\n    }\n  }\n}": CAREER_PAGE_QUERYResult;
     "{\n  \"posts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{\n    title,\n    slug,\n    date,\n  }\n}": POSTS_BY_CATEGORY_QUERYResult;
-    "{\n  \"lawyers\": *[_type == \"lawyer\"]{\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug,\n      order\n    },\n    contactInfo\n  }\n}": LAWYERS_QUERYResult;
+    "{\n  \"lawyers\": *[_type == \"lawyer\"]{\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug,\n      order,\n      orderedLawyers[]->{\n        _id,\n        slug\n      }\n    },\n    contactInfo\n  }\n}": LAWYERS_QUERYResult;
+    "{\n  \"categories\": *[_type == \"lawyerCategory\"] | order(order asc) {\n    _id,\n    title,\n    slug,\n    order,\n    \"orderedLawyers\": orderedLawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    }\n  }\n}": LAWYERS_BY_CATEGORY_QUERYResult;
     "{\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{\n    title,\n    slug\n  }\n}": SERVICES_QUERYResult;
     "{\n  \"currentService\": *[_type == $type && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    description,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    },\n    testimonials[]{\n      text,\n      author\n    },\n    publications,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n}": SERVICE_QUERYResult;
     "{\n  \"currentForeignDesk\": *[_type == \"foreignDesk\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n}": FOREIGN_DESK_QUERYResult;
@@ -3049,7 +3102,7 @@ declare module "@sanity/client" {
     "{\n    \"allPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[3..-1] {\n      _id,\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    },\n    \"featuredPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...3] {\n      _id,\n      title,\n      slug,\n      excerpt,\n      featuredMedia,\n    }\n  }": POSTS_QUERYResult;
     "{\n    \"currentPost\": *[_type == \"post\" && slug.current == $slug && status == \"publish\"][0]{\n      _id,\n      title,\n      slug,\n      date,\n      modified,\n      status,\n      content,\n      excerpt,\n      featuredMedia,\n      authors[]->{\n        _id,\n        type,\n        lawyer->{\n          name,\n          title,\n          picture,\n          slug\n        },\n        customAuthor{\n          name,\n          slug\n        }\n      },\n      categories[]->{\n        _id,\n        name,\n        slug,\n        \"parentCategories\": parent[]->{\n          _id,\n          name,\n          slug,\n          \"parentCategories\": parent[]->{\n            _id,\n            name,\n            slug\n          }\n        }\n      }\n    },\n    \"previousPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date < *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0]{\n      slug\n    },\n    \"nextPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date > *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date asc)[0]{\n      slug\n    },\n    \"relatedPosts\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && slug.current != $slug\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0...12]{\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    }\n  }": POST_QUERYResult;
     "{\n  \"generalInfo\": *[_type == \"generalInfo\"][0]{\n    ...,\n    countries[]->{\n      _id,\n      name,\n      description,\n      countryIllustration,\n      address,\n      email,\n      phone,\n      note\n    }\n  },\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  }\n}": GENERAL_INFO_QUERYResult;
-    "{\n  \"lawyer\": *[_type == \"lawyer\" && slug.current == $slug][0],\n  \"sameCategoryLawyers\": *[_type == \"lawyer\" && category->_id == *[_type == \"lawyer\" && slug.current == $slug][0].category->_id && slug.current != $slug][0...100]{\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n  },\n  \"newsroomPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Newsroom\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"blogPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Blog\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"insightsPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Insights\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },  \n  \"publications\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Publications\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n}": LAWYER_QUERYResult;
+    "{\n  \"lawyer\": *[_type == \"lawyer\" && slug.current == $slug][0],\n  \"sameCategoryLawyers\": *[_type == \"lawyer\" && category._ref == *[_type == \"lawyer\" && slug.current == $slug][0].category._ref && slug.current != $slug]{\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n  },\n  \"categoryInfo\": *[_type == \"lawyerCategory\" && _id == *[_type == \"lawyer\" && slug.current == $slug][0].category._ref][0]{\n    _id,\n    title,\n    \"orderedLawyers\": orderedLawyers[]->{\n      _id,\n      slug\n    }\n  },\n  \"newsroomPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Newsroom\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"blogPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Blog\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"insightsPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Insights\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },  \n  \"publications\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Publications\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n}": LAWYER_QUERYResult;
     "{\n  \"featuredPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...3] {\n    _id,\n    title,\n    slug,\n    excerpt,\n    featuredMedia,\n  },\n  \"categories\": *[_type == \"category\" && count(parent[_ref in *[_type==\"category\" && slug.current == $slug]._id]) > 0 && count > 0] | order(name asc) {\n    _id,\n    name,\n    slug,\n    count\n  },\n  \"allPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[3...12] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n}": BDKNOWLEDGE_POSTS_QUERYResult;
   }
 }
