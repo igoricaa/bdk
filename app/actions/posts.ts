@@ -4,6 +4,10 @@ import { createSafeActionClient } from 'next-safe-action';
 import { z } from 'zod';
 import { sanityFetch } from '@/sanity/lib/client';
 import { defineQuery } from 'next-sanity';
+import {
+  getPostsByYear,
+  getPostsByYearCount,
+} from '@/sanity/lib/cached-queries';
 
 const POSTS_PER_PAGE = 9;
 const FEATURED_POSTS_COUNT = 3; // Skip first 3 posts as they're used for featured posts
@@ -89,6 +93,46 @@ export const fetchPaginatedPosts = createSafeActionClient()
       };
     } catch (error) {
       console.error('Error fetching paginated posts:', error);
+      return {
+        success: false,
+        error: 'Failed to fetch posts',
+      };
+    }
+  });
+
+// Schema for year-based filtering
+const fetchPostsByYearSchema = z.object({
+  categorySlug: z.string(), // Still need the category (newsroom)
+  year: z.number(), // The year to filter by (as number for dateTime comparison)
+  page: z.number().min(0).default(0),
+});
+
+export const fetchPostsByYear = createSafeActionClient()
+  .schema(fetchPostsByYearSchema)
+  .action(async ({ parsedInput: { categorySlug, year, page } }) => {
+    try {
+      const start =
+        page === 0 ? 0 : FEATURED_POSTS_COUNT + page * POSTS_PER_PAGE;
+      const end = start + POSTS_PER_PAGE - 1;
+
+      const [posts, totalCount] = await Promise.all([
+        getPostsByYear(categorySlug, year.toString(), page, start, end),
+        getPostsByYearCount(categorySlug, year.toString()),
+      ]);
+
+      const hasNextPage = start + POSTS_PER_PAGE < totalCount;
+
+      return {
+        success: true,
+        data: {
+          posts,
+          nextPage: hasNextPage ? page + 1 : null,
+          totalCount,
+          hasNextPage,
+        },
+      };
+    } catch (error) {
+      console.error('Error fetching posts by year:', error);
       return {
         success: false,
         error: 'Failed to fetch posts',

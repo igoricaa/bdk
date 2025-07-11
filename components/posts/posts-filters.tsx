@@ -1,16 +1,9 @@
 'use client';
 
-import FilterButtons from '@/components/ui/filter-buttons';
-
-interface FIlterOption {
-  name: string;
-  slug: {
-    current: string;
-  };
-}
+import FilterButtons, { FilterOption } from '@/components/ui/filter-buttons';
 
 interface PostsFiltersProps {
-  options: FIlterOption[];
+  options: FilterOption[];
   activeCategory: string;
   onCategoryChange: (categorySlug: string) => void;
   variant?: 'dark' | 'light';
@@ -22,14 +15,9 @@ export default function PostsFilters({
   onCategoryChange,
   variant = 'light',
 }: PostsFiltersProps) {
-  const filterOptions = options.map((option) => ({
-    id: option.slug.current,
-    label: option.name,
-  }));
-
   return (
     <FilterButtons
-      options={filterOptions}
+      options={options}
       activeOption={activeCategory}
       onOptionChange={onCategoryChange}
       variant={variant}

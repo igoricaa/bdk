@@ -41,13 +41,31 @@ export const CAREER_PAGE_QUERY = defineQuery(`{
   }
 }`);
 
-export const POSTS_BY_CATEGORY_QUERY = defineQuery(`{
+export const POSTS_PREVIEW_BY_CATEGORY_QUERY = defineQuery(`{
   "posts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{
     title,
     slug,
     date,
   }
 }`);
+
+export const POSTS_BY_YEAR_DATETIME_QUERY = defineQuery(`
+  *[_type == "post" && status == "publish" && references(*[_type=="category" && slug.current == $categorySlug]._id) && date match $year + "-*"] | order(date desc)[$start...$end] {
+    _id,
+    title,
+    slug,
+    date,
+    categories[]->{
+      _id,
+      name,
+      slug
+    }
+  }
+`);
+
+export const POSTS_BY_YEAR_COUNT_QUERY = defineQuery(`
+  count(*[_type == "post" && status == "publish" && references(*[_type=="category" && slug.current == $categorySlug]._id) && date match $year + "-*"])
+`);
 
 export const LAWYERS_QUERY = defineQuery(`{
   "lawyers": *[_type == "lawyer"]{
@@ -197,29 +215,6 @@ export const POSTS_QUERY_WITH_SLUGS =
   defineQuery(`*[_type == "post" && status == "publish"]{
   slug
 }`);
-
-export const POSTS_QUERY = defineQuery(
-  `{
-    "allPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[3..-1] {
-      _id,
-      title,
-      slug,
-      date,
-      categories[]->{
-        _id,
-        name,
-        slug
-      }
-    },
-    "featuredPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...3] {
-      _id,
-      title,
-      slug,
-      excerpt,
-      featuredMedia,
-    }
-  }`
-);
 
 export const POST_QUERY = defineQuery(`{
     "currentPost": *[_type == "post" && slug.current == $slug && status == "publish"][0]{
@@ -384,19 +379,13 @@ export const LAWYER_QUERY = defineQuery(`{
 
 // -----------------
 
-export const BDKNOWLEDGE_POSTS_QUERY = defineQuery(`{
+export const POSTS_BY_CATEGORY_QUERY = defineQuery(`{
   "featuredPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...3] {
     _id,
     title,
     slug,
     excerpt,
     featuredMedia,
-  },
-  "categories": *[_type == "category" && count(parent[_ref in *[_type=="category" && slug.current == $slug]._id]) > 0 && count > 0] | order(name asc) {
-    _id,
-    name,
-    slug,
-    count
   },
   "allPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[3...12] {
     _id,
@@ -410,3 +399,16 @@ export const BDKNOWLEDGE_POSTS_QUERY = defineQuery(`{
     }
   }
 }`);
+
+export const YEARS_BY_CATEGORY_QUERY = defineQuery(`
+  *[_type == "post" && status == "publish" && references(*[_type=="category" && slug.current == $slug]._id)].date | order(@ desc)
+`);
+
+// export const POST_CATEGORIES_QUERY = defineQuery(`{
+//   "categories": *[_type == "category" && count(parent[_ref in *[_type=="category" && slug.current == $slug]._id]) > 0 && count > 0] | order(name asc) {
+//     _id,
+//     name,
+//     slug,
+//     count
+//   }
+// }`);

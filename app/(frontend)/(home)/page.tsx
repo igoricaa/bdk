@@ -7,7 +7,7 @@ import {
 import {
   getHomePageData,
   getLawyersByCategory,
-  getPostsByCategory,
+  getPostsPreviewByCategory,
   getServicesData,
   getGeneralInfoData,
 } from '@/sanity/lib/cached-queries';
@@ -38,7 +38,7 @@ export default async function Home() {
     getHomePageData(),
     getServicesData(),
     getLawyersByCategory(),
-    getPostsByCategory('newsroom', 4),
+    getPostsPreviewByCategory('newsroom', 4),
     getGeneralInfoData(),
   ]);
 

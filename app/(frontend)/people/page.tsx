@@ -5,7 +5,7 @@ import { ComputedLawyersData, getComputedLawyersData } from '@/lib/utils';
 import {
   getLawyersByCategory,
   getPeoplePageData,
-  getPostsByCategory,
+  getPostsPreviewByCategory,
 } from '@/sanity/lib/cached-queries';
 
 const PeoplePage = async () => {
@@ -13,7 +13,7 @@ const PeoplePage = async () => {
     await Promise.all([
       getPeoplePageData(),
       getLawyersByCategory(),
-      getPostsByCategory('newsroom', 4),
+      getPostsPreviewByCategory('newsroom', 4),
     ]);
 
   if (!peoplePage || !categories || categories.length === 0 || !newsroomPosts) {

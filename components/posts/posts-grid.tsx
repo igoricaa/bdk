@@ -8,33 +8,36 @@ import PostCard from './post-card';
 import PostsFilters from './posts-filters';
 import { Button } from '../ui/button';
 import { useIsMobile } from '@/lib/hooks/use-mobile';
-import { fetchPaginatedPosts } from '@/app/actions/posts';
+import { fetchPaginatedPosts, fetchPostsByYear } from '@/app/actions/posts';
 import { cn } from '@/lib/utils';
 import PostSkeleton from './post-card-skeleton';
-
-interface Category {
-  _id: string;
-  name: string;
-  slug: {
-    current: string;
-  };
-  count: number | null;
-}
+import { FilterOption } from '../ui/filter-buttons';
+import { POSTS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
 
 interface PostsGridProps {
-  categories: Category[];
-  initialPosts: any[];
+  heading: string;
+  filterOptions: FilterOption[];
+  initialPosts: POSTS_BY_CATEGORY_QUERYResult['allPosts'];
   allPostsCount: number;
   className?: string;
+  filterType?: 'category' | 'year';
+  categorySlug?: string; // For year filtering, we need to know the category
+  newestYear: string;
 }
 
 const PostsGrid = ({
-  categories,
+  heading,
+  filterOptions,
   initialPosts,
   allPostsCount,
   className,
+  filterType = 'category',
+  categorySlug = 'bdknowledge',
+  newestYear,
 }: PostsGridProps) => {
-  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeFilter, setActiveFilter] = useState(
+    filterType === 'category' ? 'all' : newestYear
+  );
   const isMobile = useIsMobile({ breakpoint: 1024 });
   const intersectionRef = useRef(null);
   const isInView = useInView(intersectionRef, {
@@ -52,12 +55,22 @@ const PostsGrid = ({
     isError,
     error,
   } = useInfiniteQuery({
-    queryKey: ['posts', activeCategory],
+    queryKey: ['posts', filterType, categorySlug, activeFilter],
     queryFn: async ({ pageParam = 0 }) => {
-      const result = await fetchPaginatedPosts({
-        categorySlug: activeCategory,
-        page: pageParam,
-      });
+      let result;
+
+      if (filterType === 'year' && activeFilter !== 'all') {
+        result = await fetchPostsByYear({
+          categorySlug,
+          year: parseInt(activeFilter),
+          page: pageParam,
+        });
+      } else {
+        result = await fetchPaginatedPosts({
+          categorySlug: filterType === 'year' ? categorySlug : activeFilter,
+          page: pageParam,
+        });
+      }
 
       if (!result?.data?.success) {
         throw new Error(result?.data?.error || 'Failed to fetch posts');
@@ -68,7 +81,7 @@ const PostsGrid = ({
     getNextPageParam: (lastPage) => lastPage?.nextPage ?? undefined,
     initialPageParam: 0,
     initialData:
-      activeCategory === 'all'
+      activeFilter === 'all'
         ? {
             pages: [
               {
@@ -109,7 +122,7 @@ const PostsGrid = ({
           className
         )}
       >
-        <SectionHeader heading='BDKnowledge' colorVariant='dark' />
+        <SectionHeader heading={heading} colorVariant='dark' />
         <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 justify-center grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 xl:gap-9'>
           {Array.from({ length: 9 }).map((_, index) => (
             <PostSkeleton key={`skeleton-${index}`} className='col-span-1' />
@@ -127,7 +140,7 @@ const PostsGrid = ({
           className
         )}
       >
-        <SectionHeader heading='BDKnowledge' colorVariant='dark' />
+        <SectionHeader heading={heading} colorVariant='dark' />
         <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 flex justify-center'>
           <div className='text-red-500'>
             Error: {error?.message || 'Failed to load posts'}
@@ -145,14 +158,14 @@ const PostsGrid = ({
       )}
     >
       <SectionHeader
-        heading='BDKnowledge'
+        heading={heading}
         colorVariant='dark'
         className='md:items-center'
         rightSideComponent={
           <PostsFilters
-            options={categories}
-            activeCategory={activeCategory}
-            onCategoryChange={setActiveCategory}
+            options={filterOptions}
+            activeCategory={activeFilter}
+            onCategoryChange={setActiveFilter}
             variant='dark'
           />
         }

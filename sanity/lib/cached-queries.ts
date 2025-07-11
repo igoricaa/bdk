@@ -14,6 +14,9 @@ import {
   ABOUT_US_PAGE_QUERY,
   CAREER_PAGE_QUERY,
   LAWYER_QUERY,
+  POSTS_PREVIEW_BY_CATEGORY_QUERY,
+  POSTS_BY_YEAR_DATETIME_QUERY,
+  POSTS_BY_YEAR_COUNT_QUERY,
 } from './queries';
 import type {
   GENERAL_INFO_QUERYResult,
@@ -29,6 +32,9 @@ import type {
   ABOUT_US_PAGE_QUERYResult,
   CAREER_PAGE_QUERYResult,
   LAWYER_QUERYResult,
+  POSTS_PREVIEW_BY_CATEGORY_QUERYResult,
+  POSTS_BY_YEAR_DATETIME_QUERYResult,
+  POSTS_BY_YEAR_COUNT_QUERYResult,
 } from '@/sanity.types';
 
 // Dont need to cache these, it's not used on multiple pages§
@@ -106,6 +112,45 @@ export const getForeignDeskPageData = async (
   });
 };
 
+export const getPostsByCategory = async (
+  slug: string,
+  limit: number = 9
+): Promise<POSTS_BY_CATEGORY_QUERYResult> => {
+  return await sanityFetch({
+    query: POSTS_BY_CATEGORY_QUERY,
+    params: { slug, limit },
+    tags: [`posts-by-category-${slug}`],
+    revalidate: 43200,
+  });
+};
+
+export const getPostsByYear = async (
+  categorySlug: string,
+  year: string,
+  page: number = 0,
+  start: number,
+  end: number
+): Promise<POSTS_BY_YEAR_DATETIME_QUERYResult> => {
+  return await sanityFetch({
+    query: POSTS_BY_YEAR_DATETIME_QUERY,
+    params: { categorySlug, year, page, start, end },
+    tags: [`posts-by-year-${categorySlug}-${year}`],
+    revalidate: 43200,
+  });
+};
+
+export const getPostsByYearCount = async (
+  categorySlug: string,
+  year: string
+): Promise<POSTS_BY_YEAR_COUNT_QUERYResult> => {
+  return await sanityFetch({
+    query: POSTS_BY_YEAR_COUNT_QUERY,
+    params: { categorySlug, year },
+    tags: [`posts-by-year-${categorySlug}-${year}`],
+    revalidate: 43200,
+  });
+};
+
 // General site information and settings (used on all pages)
 export const getGeneralInfoData = cache(
   async (): Promise<GENERAL_INFO_QUERYResult> => {
@@ -137,14 +182,14 @@ export const getLawyersByCategory = cache(
   }
 );
 
-// All posts by category (used on home page)
-export const getPostsByCategory = cache(
+// Posts preview by category (used on home page)
+export const getPostsPreviewByCategory = cache(
   async (
     slug: string,
     limit: number = 9
-  ): Promise<POSTS_BY_CATEGORY_QUERYResult> => {
+  ): Promise<POSTS_PREVIEW_BY_CATEGORY_QUERYResult> => {
     return await sanityFetch({
-      query: POSTS_BY_CATEGORY_QUERY,
+      query: POSTS_PREVIEW_BY_CATEGORY_QUERY,
       params: { slug, limit },
       tags: [`posts-by-category-${slug}`],
       revalidate: 43200,

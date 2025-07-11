@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 export interface FilterOption {
-  id: string;
+  slug: string;
   label: string;
 }
 
@@ -14,7 +14,6 @@ interface FilterButtonsProps {
   onOptionChange: (optionId: string) => void;
   variant?: 'dark' | 'light';
   className?: string;
-  showAllOption?: boolean;
 }
 
 export default function FilterButtons({
@@ -23,15 +22,10 @@ export default function FilterButtons({
   onOptionChange,
   variant = 'light',
   className,
-  showAllOption = true,
 }: FilterButtonsProps) {
-  if (options.length <= 1) {
+  if (options.length === 0) {
     return null;
   }
-
-  const allOptions = showAllOption
-    ? [{ id: 'all', label: 'All' }, ...options]
-    : options;
 
   const getButtonStyles = (isActive: boolean) => {
     const baseStyles =
@@ -62,12 +56,12 @@ export default function FilterButtons({
         className
       )}
     >
-      {allOptions.map((option) => (
+      {options.map((option) => (
         <Button
-          key={option.id}
+          key={option.slug}
           size='sm'
-          onClick={() => onOptionChange(option.id)}
-          className={getButtonStyles(activeOption === option.id)}
+          onClick={() => onOptionChange(option.slug)}
+          className={getButtonStyles(activeOption === option.slug)}
         >
           {option.label}
         </Button>
