@@ -1,19 +1,13 @@
-import { POSTS_BY_CATEGORY_QUERY } from '@/sanity/lib/queries';
-import { sanityFetch } from '@/sanity/lib/client';
-import { Post, POSTS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
+import { Post } from '@/sanity.types';
 import FeaturedPostsSection from '@/components/posts/featured-posts-section';
 import PostsGrid from '@/components/posts/posts-grid';
 import { FilterOption } from '@/components/ui/filter-buttons';
+import { getPostsByCategory } from '@/sanity/lib/cached-queries';
 
 const BDKnowledgePage = async () => {
-  const { featuredPosts, allPosts }: POSTS_BY_CATEGORY_QUERYResult =
-    await sanityFetch({
-      query: POSTS_BY_CATEGORY_QUERY,
-      params: {
-        slug: 'bdknowledge',
-      },
-      tags: ['posts', 'bdknowledge'],
-    });
+  const [{ featuredPosts, allPosts }] = await Promise.all([
+    getPostsByCategory('bdknowledge'),
+  ]);
 
   if (!featuredPosts || !allPosts) {
     return <div>No posts found</div>;

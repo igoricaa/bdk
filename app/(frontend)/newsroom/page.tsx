@@ -1,29 +1,16 @@
-import {
-  POSTS_BY_CATEGORY_QUERY,
-  YEARS_BY_CATEGORY_QUERY,
-} from '@/sanity/lib/queries';
-import { sanityFetch } from '@/sanity/lib/client';
-import { Post, POSTS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
+import { Post } from '@/sanity.types';
 import FeaturedPostsSection from '@/components/posts/featured-posts-section';
 import PostsGrid from '@/components/posts/posts-grid';
 import { FilterOption } from '@/components/ui/filter-buttons';
+import {
+  getPostsByCategory,
+  getYearsByCategory,
+} from '@/sanity/lib/cached-queries';
 
 const NewsroomPage = async () => {
   const [{ featuredPosts, allPosts }, postDates] = await Promise.all([
-    sanityFetch({
-      query: POSTS_BY_CATEGORY_QUERY,
-      params: {
-        slug: 'newsroom',
-      },
-      tags: ['newsroom'],
-    }) as Promise<POSTS_BY_CATEGORY_QUERYResult>,
-    sanityFetch({
-      query: YEARS_BY_CATEGORY_QUERY,
-      params: {
-        slug: 'newsroom',
-      },
-      tags: ['newsroom-years'],
-    }) as Promise<string[]>,
+    getPostsByCategory('newsroom'),
+    getYearsByCategory('newsroom'),
   ]);
 
   if (!featuredPosts || !allPosts) {

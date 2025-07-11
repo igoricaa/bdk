@@ -17,6 +17,7 @@ import {
   POSTS_PREVIEW_BY_CATEGORY_QUERY,
   POSTS_BY_YEAR_DATETIME_QUERY,
   POSTS_BY_YEAR_COUNT_QUERY,
+  YEARS_BY_CATEGORY_QUERY,
 } from './queries';
 import type {
   GENERAL_INFO_QUERYResult,
@@ -35,6 +36,7 @@ import type {
   POSTS_PREVIEW_BY_CATEGORY_QUERYResult,
   POSTS_BY_YEAR_DATETIME_QUERYResult,
   POSTS_BY_YEAR_COUNT_QUERYResult,
+  YEARS_BY_CATEGORY_QUERYResult,
 } from '@/sanity.types';
 
 // Dont need to cache these, it's not used on multiple pages§
@@ -135,7 +137,7 @@ export const getPostsByYear = async (
     query: POSTS_BY_YEAR_DATETIME_QUERY,
     params: { categorySlug, year, page, start, end },
     tags: [`posts-by-year-${categorySlug}-${year}`],
-    revalidate: 43200,
+    revalidate: false,
   });
 };
 
@@ -157,7 +159,7 @@ export const getGeneralInfoData = cache(
     return await sanityFetch({
       query: GENERAL_INFO_QUERY,
       tags: ['general-info', 'blinkdraft'],
-      revalidate: 43200,
+      revalidate: false,
     });
   }
 );
@@ -197,6 +199,16 @@ export const getPostsPreviewByCategory = cache(
   }
 );
 
+export const getYearsByCategory = cache(
+  async (slug: string): Promise<YEARS_BY_CATEGORY_QUERYResult> => {
+    return await sanityFetch({
+      query: YEARS_BY_CATEGORY_QUERY,
+      params: { slug },
+      tags: [`years-by-category-${slug}`],
+      revalidate: false,
+    });
+  }
+);
 // Services data (industries, practices, foreign desks with full details)
 export const getServicesData = cache(
   async (): Promise<SERVICES_QUERYResult> => {

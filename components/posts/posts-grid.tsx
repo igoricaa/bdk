@@ -22,7 +22,7 @@ interface PostsGridProps {
   className?: string;
   filterType?: 'category' | 'year';
   categorySlug?: string; // For year filtering, we need to know the category
-  newestYear: string;
+  newestYear?: string;
 }
 
 const PostsGrid = ({
@@ -36,7 +36,7 @@ const PostsGrid = ({
   newestYear,
 }: PostsGridProps) => {
   const [activeFilter, setActiveFilter] = useState(
-    filterType === 'category' ? 'all' : newestYear
+    filterType === 'category' ? 'all' : newestYear!
   );
   const isMobile = useIsMobile({ breakpoint: 1024 });
   const intersectionRef = useRef(null);
