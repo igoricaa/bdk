@@ -43,7 +43,7 @@ export default function PostsSwitcher({
 
     return categoryConfig
       .filter(({ posts }) => posts && posts.length > 0)
-      .map(({ id, label }) => ({ id, label }));
+      .map(({ id, label }) => ({ slug: id, label }));
   }, [newsroomPosts, blogPosts, insightsPosts, publications]);
 
   const getDefaultCategory = () => {

@@ -3085,6 +3085,24 @@ export type POSTS_BY_CATEGORY_QUERYResult = {
 // Variable: YEARS_BY_CATEGORY_QUERY
 // Query: *[_type == "post" && status == "publish" && references(*[_type=="category" && slug.current == $slug]._id)].date | order(@ desc)
 export type YEARS_BY_CATEGORY_QUERYResult = Array<string>;
+// Variable: NESTED_CATEGORIES_QUERY
+// Query: {  "rootCategory": *[_type == "category" && slug.current == $categorySlug][0]{    _id,    name,    slug,    "postCount": count(*[_type == "post" && status == "publish" && references(^._id)])  },  "allCategories": *[    _type == "category"     && count(*[_type == "post" && status == "publish" && references(^._id)]) > 0  ]{    _id,    name,    slug,    "parentRefs": parent[]._ref,    "postCount": count(*[_type == "post" && status == "publish" && references(^._id)]),    "hasChildren": count(*[_type == "category" && references(^._id) && count(*[_type == "post" && status == "publish" && references(^._id)]) > 0]) > 0  } | order(name asc)}
+export type NESTED_CATEGORIES_QUERYResult = {
+  rootCategory: {
+    _id: string;
+    name: string;
+    slug: Slug;
+    postCount: number;
+  } | null;
+  allCategories: Array<{
+    _id: string;
+    name: string;
+    slug: Slug;
+    parentRefs: Array<string> | null;
+    postCount: number;
+    hasChildren: boolean;
+  }>;
+};
 
 // Query TypeMap
 import "@sanity/client";
@@ -3111,5 +3129,6 @@ declare module "@sanity/client" {
     "{\n  \"lawyer\": *[_type == \"lawyer\" && slug.current == $slug][0],\n  \"sameCategoryLawyers\": *[_type == \"lawyer\" && category._ref == *[_type == \"lawyer\" && slug.current == $slug][0].category._ref && slug.current != $slug]{\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n    contactInfo {\n      linkedin\n    }\n  },\n  \"categoryInfo\": *[_type == \"lawyerCategory\" && _id == *[_type == \"lawyer\" && slug.current == $slug][0].category._ref][0]{\n    _id,\n    title,\n    \"orderedLawyers\": orderedLawyers[]->{\n      _id,\n      slug\n    }\n  },\n  \"newsroomPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Newsroom\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"blogPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Blog\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"insightsPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Insights\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },  \n  \"publications\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Publications\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n}": LAWYER_QUERYResult;
     "{\n  \"featuredPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...3] {\n    _id,\n    title,\n    slug,\n    excerpt,\n    featuredMedia,\n  },\n  \"allPosts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[3...12] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n}": POSTS_BY_CATEGORY_QUERYResult;
     "\n  *[_type == \"post\" && status == \"publish\" && references(*[_type==\"category\" && slug.current == $slug]._id)].date | order(@ desc)\n": YEARS_BY_CATEGORY_QUERYResult;
+    "{\n  \"rootCategory\": *[_type == \"category\" && slug.current == $categorySlug][0]{\n    _id,\n    name,\n    slug,\n    \"postCount\": count(*[_type == \"post\" && status == \"publish\" && references(^._id)])\n  },\n  \"allCategories\": *[\n    _type == \"category\" \n    && count(*[_type == \"post\" && status == \"publish\" && references(^._id)]) > 0\n  ]{\n    _id,\n    name,\n    slug,\n    \"parentRefs\": parent[]._ref,\n    \"postCount\": count(*[_type == \"post\" && status == \"publish\" && references(^._id)]),\n    \"hasChildren\": count(*[_type == \"category\" && references(^._id) && count(*[_type == \"post\" && status == \"publish\" && references(^._id)]) > 0]) > 0\n  } | order(name asc)\n}": NESTED_CATEGORIES_QUERYResult;
   }
 }

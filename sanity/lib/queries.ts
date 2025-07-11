@@ -404,11 +404,22 @@ export const YEARS_BY_CATEGORY_QUERY = defineQuery(`
   *[_type == "post" && status == "publish" && references(*[_type=="category" && slug.current == $slug]._id)].date | order(@ desc)
 `);
 
-// export const POST_CATEGORIES_QUERY = defineQuery(`{
-//   "categories": *[_type == "category" && count(parent[_ref in *[_type=="category" && slug.current == $slug]._id]) > 0 && count > 0] | order(name asc) {
-//     _id,
-//     name,
-//     slug,
-//     count
-//   }
-// }`);
+export const NESTED_CATEGORIES_QUERY = defineQuery(`{
+  "rootCategory": *[_type == "category" && slug.current == $categorySlug][0]{
+    _id,
+    name,
+    slug,
+    "postCount": count(*[_type == "post" && status == "publish" && references(^._id)])
+  },
+  "allCategories": *[
+    _type == "category" 
+    && count(*[_type == "post" && status == "publish" && references(^._id)]) > 0
+  ]{
+    _id,
+    name,
+    slug,
+    "parentRefs": parent[]._ref,
+    "postCount": count(*[_type == "post" && status == "publish" && references(^._id)]),
+    "hasChildren": count(*[_type == "category" && references(^._id) && count(*[_type == "post" && status == "publish" && references(^._id)]) > 0]) > 0
+  } | order(name asc)
+}`);

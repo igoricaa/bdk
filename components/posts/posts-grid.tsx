@@ -9,10 +9,12 @@ import PostsFilters from './posts-filters';
 import { Button } from '../ui/button';
 import { useIsMobile } from '@/lib/hooks/use-mobile';
 import { fetchPaginatedPosts, fetchPostsByYear } from '@/app/actions/posts';
-import { cn } from '@/lib/utils';
+import { CategoryWithChildren, cn } from '@/lib/utils';
 import PostSkeleton from './post-card-skeleton';
 import { FilterOption } from '../ui/filter-buttons';
 import { POSTS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
+import GenericSidebar from '../ui/generic-sidebar';
+import { transformCategoriesData } from '@/lib/utils/sidebar-transformers';
 
 interface PostsGridProps {
   heading: string;
@@ -23,6 +25,7 @@ interface PostsGridProps {
   filterType?: 'category' | 'year';
   categorySlug?: string; // For year filtering, we need to know the category
   newestYear?: string;
+  categoryTree?: CategoryWithChildren;
 }
 
 const PostsGrid = ({
@@ -34,6 +37,7 @@ const PostsGrid = ({
   filterType = 'category',
   categorySlug = 'bdknowledge',
   newestYear,
+  categoryTree,
 }: PostsGridProps) => {
   const [activeFilter, setActiveFilter] = useState(
     filterType === 'category' ? 'all' : newestYear!
@@ -171,50 +175,78 @@ const PostsGrid = ({
         }
       />
 
-      <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 xl:gap-9'>
-        {isCategorySwitching
-          ? Array.from({ length: 9 }).map((_, index) => (
-              <PostSkeleton key={`skeleton-${index}`} />
-            ))
-          : allPosts.map((post: any) => (
-              <PostCard key={post._id} post={post} />
-            ))}
-      </div>
+      <div
+        id='blogGrid'
+        className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-8 2xl:gap-10'
+      >
+        {/* Category Navigation */}
+        {categoryTree &&
+          (() => {
+            const { sections, mobileTitle } =
+              transformCategoriesData(categoryTree);
+            return (
+              <GenericSidebar
+                sections={sections}
+                mobileTitle={mobileTitle}
+                className='col-span-full xl:col-span-4 xl:max-w-8/10 bg-white xl:sticky xl:top-28'
+                mobileOnly={isMobile}
+              />
+            );
+          })()}
 
-      {isFetchingNextPage && (
-        <div className='mt-12 flex justify-center'>
-          <p className='text-light-blue'>Loading more posts...</p>
-        </div>
-      )}
+        {/* Posts Grid */}
+        <section
+          className={cn(
+            'grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 xl:gap-9',
+            categoryTree
+              ? 'col-span-full xl:col-span-8 xl:grid-cols-2'
+              : 'col-span-full xl:grid-cols-3'
+          )}
+        >
+          {isCategorySwitching
+            ? Array.from({ length: 9 }).map((_, index) => (
+                <PostSkeleton key={`skeleton-${index}`} />
+              ))
+            : allPosts.map((post: any) => (
+                <PostCard key={post._id} post={post} />
+              ))}
+        </section>
 
-      {/* Mobile: Infinite scroll trigger - Always render to ensure ref is attached */}
-      <div ref={intersectionRef} className='lg:hidden h-10'>
-        {/* {isMobile && hasNextPage && !isCategorySwitching ? (
+        {isFetchingNextPage && (
+          <div className='mt-12 flex justify-center'>
+            <p className='text-light-blue'>Loading more posts...</p>
+          </div>
+        )}
+
+        {/* Mobile: Infinite scroll trigger - Always render to ensure ref is attached */}
+        <div ref={intersectionRef} className='lg:hidden h-10'>
+          {/* {isMobile && hasNextPage && !isCategorySwitching ? (
           <p className='text-light-blue'>Scroll for more</p>
         ) : (
           <div className='h-10' />
         )} */}
-      </div>
-
-      {/* Desktop: Load More button */}
-      {!isMobile && hasNextPage && !isCategorySwitching && (
-        <div className='mt-12 flex justify-center'>
-          <Button
-            onClick={handleLoadMore}
-            disabled={isFetchingNextPage}
-            className='bg-light-blue hover:bg-light-blue/80 text-white px-8 py-3'
-          >
-            {isFetchingNextPage ? 'Loading...' : 'Load More'}
-          </Button>
         </div>
-      )}
 
-      {/* No more posts message */}
-      {/* {!hasNextPage && allPosts.length > 0 && !isCategorySwitching && (
+        {/* Desktop: Load More button */}
+        {!isMobile && hasNextPage && !isCategorySwitching && (
+          <div className='mt-12 flex justify-center'>
+            <Button
+              onClick={handleLoadMore}
+              disabled={isFetchingNextPage}
+              className='bg-light-blue hover:bg-light-blue/80 text-white px-8 py-3'
+            >
+              {isFetchingNextPage ? 'Loading...' : 'Load More'}
+            </Button>
+          </div>
+        )}
+
+        {/* No more posts message */}
+        {/* {!hasNextPage && allPosts.length > 0 && !isCategorySwitching && (
         <div className='mt-12 flex justify-center'>
           <p className='text-light-blue'>You've reached the end of the posts</p>
         </div>
       )} */}
+      </div>
     </section>
   );
 };

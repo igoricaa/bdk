@@ -13,8 +13,9 @@ const StickyHeaderWrapper = ({ children }: StickyHeaderWrapperProps) => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const servicesTopbar = document.getElementById('servicesTopbar');
+      const stickyTopbar = document.getElementById('stickyTopbar');
       const serviceHeroSection = document.getElementById('serviceHeroSection');
+      const blogGrid = document.getElementById('blogGrid');
 
       if (currentScrollY === 0) {
         setIsHeaderVisible(true);
@@ -24,15 +25,18 @@ const StickyHeaderWrapper = ({ children }: StickyHeaderWrapperProps) => {
         setIsHeaderVisible(false);
       }
 
-      // Sidebar translation logic
-      if (servicesTopbar && serviceHeroSection) {
-        const heroRect = serviceHeroSection.getBoundingClientRect();
-        const isTopPastHeroBottom = heroRect.bottom < 0;
+      const isPastRef = serviceHeroSection
+        ? serviceHeroSection.getBoundingClientRect().bottom < 0
+        : blogGrid
+          ? blogGrid?.getBoundingClientRect()?.top < 0
+          : null;
 
-        if (isHeaderVisible && isTopPastHeroBottom) {
-          servicesTopbar.classList.add('translated');
+      // Sidebar translation logic
+      if (stickyTopbar && isPastRef !== null) {
+        if (isHeaderVisible && isPastRef) {
+          stickyTopbar.classList.add('translated');
         } else {
-          servicesTopbar.classList.remove('translated');
+          stickyTopbar.classList.remove('translated');
         }
       }
 

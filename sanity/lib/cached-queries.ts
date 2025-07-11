@@ -18,6 +18,7 @@ import {
   POSTS_BY_YEAR_DATETIME_QUERY,
   POSTS_BY_YEAR_COUNT_QUERY,
   YEARS_BY_CATEGORY_QUERY,
+  NESTED_CATEGORIES_QUERY,
 } from './queries';
 import type {
   GENERAL_INFO_QUERYResult,
@@ -37,6 +38,7 @@ import type {
   POSTS_BY_YEAR_DATETIME_QUERYResult,
   POSTS_BY_YEAR_COUNT_QUERYResult,
   YEARS_BY_CATEGORY_QUERYResult,
+  NESTED_CATEGORIES_QUERYResult,
 } from '@/sanity.types';
 
 // Dont need to cache these, it's not used on multiple pages§
@@ -209,6 +211,19 @@ export const getYearsByCategory = cache(
     });
   }
 );
+
+// Nested categories with post counts (used for category navigation)
+export const getNestedCategories = cache(
+  async (categorySlug: string): Promise<NESTED_CATEGORIES_QUERYResult> => {
+    return await sanityFetch({
+      query: NESTED_CATEGORIES_QUERY,
+      params: { categorySlug },
+      tags: [`nested-categories-${categorySlug}`, 'categories', 'posts'],
+      revalidate: 43200,
+    });
+  }
+);
+
 // Services data (industries, practices, foreign desks with full details)
 export const getServicesData = cache(
   async (): Promise<SERVICES_QUERYResult> => {
