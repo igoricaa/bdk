@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  useState,
-  useEffect,
-  createContext,
-  useContext,
-  ReactNode,
-} from 'react';
+import { useState, createContext, useContext, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
@@ -31,7 +25,6 @@ interface TransitionLinkProps {
   [key: string]: any;
 }
 
-// Context for managing transitions
 const TransitionContext = createContext<TransitionContextType | undefined>(
   undefined
 );
@@ -60,6 +53,7 @@ export function TransitionLink({
   children,
   pageName,
   className,
+  onClick,
   ...props
 }: TransitionLinkProps) {
   const router = useRouter();
@@ -74,18 +68,14 @@ export function TransitionLink({
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
-    // Get page name from href if not provided
     const name = pageName || getPageName(href);
 
-    // Start transition
     setTargetPage(name);
     setIsTransitioning(true);
 
-    // Navigate after transition starts
     setTimeout(() => {
       router.push(href);
 
-      // End transition after navigation
       setTimeout(() => {
         setIsTransitioning(false);
       }, 550);
@@ -93,13 +83,22 @@ export function TransitionLink({
   };
 
   return (
-    <Link href={href} onClick={handleClick} className={className} {...props}>
+    <Link
+      href={href}
+      onClick={(e) => {
+        handleClick(e);
+        if (onClick) {
+          onClick(e);
+        }
+      }}
+      className={className}
+      {...props}
+    >
       {children}
     </Link>
   );
 }
 
-// Transition overlay component
 function TransitionOverlay() {
   const context = useContext(TransitionContext);
 
@@ -132,7 +131,6 @@ function TransitionOverlay() {
   );
 }
 
-// Helper function to get page name from path
 function getPageName(href: string): string {
   if (href === '/') return 'Home';
 
