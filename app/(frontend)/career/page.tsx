@@ -1,10 +1,11 @@
 import SplitSection from '@/components/ui/split-section';
-import type { CAREER_PAGE_QUERYResult, OpenPosition } from '@/sanity.types';
+import type { CAREER_PAGE_QUERYResult } from '@/sanity.types';
 import { getCareerPageData } from '@/sanity/lib/cached-queries';
 import ArrowUpRight from '@/components/ui/arrow-up-right';
 import Section from '@/components/ui/section';
 import SectionHeader from '@/components/ui/section-header/section-header';
 import { cn, getPdfUrl, PdfFile } from '@/lib/utils';
+import { Clock } from 'lucide-react';
 
 type Course = {
   title: string;
@@ -13,6 +14,7 @@ type Course = {
       _ref: string;
     };
   };
+  readingTime: number;
 };
 
 const CareerPage = async () => {
@@ -98,14 +100,20 @@ const ProgrammesSection = ({
                   className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18'
                 >
                   <div className='flex flex-col justify-between h-full'>
-                    {/* <div> */}
-                    {/* <p className='text-sm 2xl:text-base text-light-blue'>
-                      {formatDate(post.date)}
-                    </p> */}
-                    <h3 className='text-2xl 2xl:text-[2rem] mt-5'>
-                      {course.title}
-                    </h3>
-                    {/* </div> */}
+                    <div className='flex flex-col gap-5'>
+                      <div className='flex items-center gap-2'>
+                        <span className='text-light-blue text-xxs xl:text-sm 2xl:text-base flex items-center gap-2'>
+                          <Clock className='w-4 h-4' />
+                          {course.readingTime}
+                          {course.readingTime === 1
+                            ? ' minute read'
+                            : ' minutes read'}
+                        </span>
+                      </div>
+                      <h3 className='text-2xl 2xl:text-[2rem]'>
+                        {course.title}
+                      </h3>
+                    </div>
                     <ArrowUpRight />
                   </div>
                 </a>

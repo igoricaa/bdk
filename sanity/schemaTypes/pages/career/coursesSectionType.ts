@@ -42,6 +42,13 @@ export const coursesSectionType = defineType({
               validation: (rule) => rule.required(),
             }),
             defineField({
+              name: 'readingTime',
+              title: 'Reading Time',
+              type: 'number',
+              description: 'Reading time in minutes',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
               name: 'pdfFile',
               title: 'PDF File',
               type: 'file',

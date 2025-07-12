@@ -50,6 +50,7 @@ export type CoursesSection = {
   title: string;
   courses?: Array<{
     title: string;
+    readingTime: number;
     pdfFile?: {
       asset?: {
         _ref: string;
@@ -516,56 +517,6 @@ export type LatestPostsSection = {
   heading: string;
   subtitle: string;
   description: string;
-  illustrations: {
-    blogIllustration: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
-    digitalWatchIllustration: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
-    insightsIllustration: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
-    publicationsIllustration: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
-  };
 };
 
 export type NewsroomSection = {
@@ -1513,6 +1464,7 @@ export type CAREER_PAGE_QUERYResult = {
       title: string;
       courses: Array<{
         title: string;
+        readingTime: number;
         pdfFile?: {
           asset?: {
             _ref: string;
