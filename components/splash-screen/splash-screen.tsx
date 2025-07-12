@@ -2,6 +2,7 @@
 
 import { AnimatePresence, easeOut, motion } from 'motion/react';
 import { useState, useEffect } from 'react';
+import SlideAnimatedLogo from './slide-in-logo';
 
 export default function SplashScreen({
   children,
@@ -13,8 +14,7 @@ export default function SplashScreen({
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 3000);
-
+    }, 4300);
     return () => clearTimeout(timer);
   }, []);
 
@@ -45,11 +45,13 @@ export default function SplashScreen({
               borderBottomRightRadius: '2rem',
             }}
           >
-            <img
-              src='/your-logo.png'
-              alt='Logo'
-              className='max-w-xs max-h-xs object-contain'
-            />
+            {/* <div className='flex items-center justify-center gap-11'>
+              <Bdk className='' />
+              <Divider className='' />
+              <LawyersText className='' />
+            </div> */}
+            {/* <AnimatedLogo /> */}
+            <SlideAnimatedLogo />
           </div>
         </motion.div>
       )}

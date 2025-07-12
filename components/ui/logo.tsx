@@ -1,7 +1,14 @@
 import { cn } from '@/lib/utils';
 import { urlFor } from '@/sanity/lib/image';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
-const Logo = ({ logo, className }: { logo: any; className?: string }) => {
+const Logo = ({
+  logo,
+  className,
+}: {
+  logo: SanityImageSource;
+  className?: string;
+}) => {
   return (
     <div className={cn('w-24 xl:w-30', className)}>
       <img

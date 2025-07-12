@@ -124,7 +124,7 @@ function TransitionOverlay() {
             borderRadius: '2rem',
           }}
         >
-          <h1 className='text-4xl font-bold text-white'>{targetPage}</h1>
+          <h1 className='text-4xl sm:text-5xl md:text-5xl xl:text-7xl text-white'>{targetPage}</h1>
         </motion.div>
       )}
     </AnimatePresence>
