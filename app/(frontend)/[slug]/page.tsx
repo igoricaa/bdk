@@ -156,7 +156,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
             <BackToButton
               href='/bdknowledge'
               text='Back to Blog'
-              bgColor='bg-light-blue'
+              iconClassName='bg-light-blue'
               className='hidden md:flex'
             />
 

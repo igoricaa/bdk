@@ -118,7 +118,7 @@ const LawyerPage = async ({
           <BackToButton
             href='/people'
             text='Back to People'
-            bgColor='bg-dark-blue'
+            iconClassName='bg-dark-blue'
             className='hidden xl:flex ml-auto 2xl:translate-x-[calc((100vw-2*(var(--padding-side)))/12)]'
           />
           <div className='xl:mt-18 2xl:mt-43'>

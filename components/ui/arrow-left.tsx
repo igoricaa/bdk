@@ -1,7 +1,13 @@
 import { ArrowLeft as ArrowIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const ArrowLeft = ({ className }: { className?: string }) => {
+const ArrowLeft = ({
+  className,
+  strokeColor = '#fff',
+}: {
+  className?: string;
+  strokeColor?: string;
+}) => {
   return (
     <div
       className={cn(
@@ -9,7 +15,12 @@ const ArrowLeft = ({ className }: { className?: string }) => {
         className
       )}
     >
-      <ArrowIcon size={32} strokeWidth={1} className='w-8 h-8' />
+      <ArrowIcon
+        size={32}
+        strokeWidth={1}
+        className='w-8 h-8'
+        stroke={strokeColor}
+      />
     </div>
   );
 };

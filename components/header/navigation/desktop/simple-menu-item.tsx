@@ -1,12 +1,15 @@
 'use client';
 
-import { NavigationRoute } from '@/lib/utils/navigation-routes';
-import { NavigationMenuItem, NavigationMenuLink } from '../../navigation-menu';
+import { HrefRoute } from '@/lib/utils/navigation-routes';
+import {
+  NavigationMenuItem,
+  NavigationMenuLink,
+} from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const SimpleNavigationItem = ({ route }: { route: NavigationRoute }) => {
+const SimpleNavigationItem = ({ route }: { route: HrefRoute }) => {
   const pathname = usePathname();
 
   const isActive = (href: string) => {

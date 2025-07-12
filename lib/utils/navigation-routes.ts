@@ -4,10 +4,8 @@ import {
   getServicesData,
 } from '@/sanity/lib/cached-queries';
 
-export interface NavigationRoute {
+interface NavigationRouteBase {
   label: string;
-  href: string;
-  subRoutes?: NavigationRoute[];
   illustration?: {
     desktop?: any;
     tablet?: any;
@@ -15,10 +13,23 @@ export interface NavigationRoute {
   };
 }
 
+export interface HrefRoute extends NavigationRouteBase {
+  href: string;
+  subRoutes?: never;
+}
+
+export interface SubRoutesRoute extends NavigationRouteBase {
+  href?: string;
+  subRoutes: NavigationRoute[];
+}
+
+export type NavigationRoute = HrefRoute | SubRoutesRoute;
+
 export const getHeaderData = async (): Promise<{
   navigationRoutes: NavigationRoute[];
   logo: any;
   blinkdraftLogo: any;
+  socials: NonNullable<GENERAL_INFO_QUERYResult['generalInfo']>['socials'];
 }> => {
   const [{ industries, practices, foreignDesks }, { generalInfo, blinkdraft }] =
     await Promise.all([getServicesData(), getGeneralInfoData()]);
@@ -28,6 +39,7 @@ export const getHeaderData = async (): Promise<{
       navigationRoutes: [],
       logo: null,
       blinkdraftLogo: null,
+      socials: [],
     };
   }
 
@@ -38,8 +50,11 @@ export const getHeaderData = async (): Promise<{
     },
     {
       label: 'About Us',
-      href: '/about-us',
       subRoutes: [
+        {
+          label: 'Our Firm',
+          href: '/about-us',
+        },
         {
           label: 'Career',
           href: '/career',
@@ -52,7 +67,6 @@ export const getHeaderData = async (): Promise<{
     },
     {
       label: 'Services',
-      href: '/services',
       illustration: {
         mobile: generalInfo?.servicesCategoryIllustrations
           .servicesIllustration as NonNullable<
@@ -62,7 +76,6 @@ export const getHeaderData = async (): Promise<{
       subRoutes: [
         {
           label: 'Practices',
-          href: '/practices',
           illustration: {
             mobile: generalInfo?.servicesCategoryIllustrations
               .practicesIllustration as NonNullable<
@@ -79,7 +92,6 @@ export const getHeaderData = async (): Promise<{
         },
         {
           label: 'Industries',
-          href: '/industries',
           illustration: {
             mobile: generalInfo?.servicesCategoryIllustrations
               .industriesIllustration as NonNullable<
@@ -96,7 +108,6 @@ export const getHeaderData = async (): Promise<{
         },
         {
           label: 'Foreign Desks',
-          href: '/foreign-desks',
           illustration: {
             mobile: generalInfo?.servicesCategoryIllustrations
               .foreignDesksIllustration as NonNullable<
@@ -142,5 +153,6 @@ export const getHeaderData = async (): Promise<{
     navigationRoutes: routes,
     logo: generalInfo?.logo || null,
     blinkdraftLogo: blinkdraft?.logo || null,
+    socials: generalInfo?.socials || [],
   };
 };

@@ -6,7 +6,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuTrigger,
-} from '../../navigation-menu';
+} from '@/components/ui/navigation-menu';
 import Link from 'next/link';
 import { NavigationRoute } from '@/lib/utils/navigation-routes';
 import { cn } from '@/lib/utils';
@@ -27,7 +27,6 @@ const BDKnowledgeMenu = ({
   const [activeItem, setActiveItem] = useState<NavigationRoute>({
     label: 'BDKnowledge',
     href: '',
-    subRoutes: [],
   });
 
   const isBDKnowledgeActive = () => {
@@ -48,7 +47,11 @@ const BDKnowledgeMenu = ({
           isBDKnowledgeActive() && 'bg-light-blue-bg text-light-blue'
         )}
       >
-        <Link href={bdknowledgeRoute.href}>{bdknowledgeRoute.label}</Link>
+        {bdknowledgeRoute.href ? (
+          <Link href={bdknowledgeRoute.href}>{bdknowledgeRoute.label}</Link>
+        ) : (
+          <span>{bdknowledgeRoute.label}</span>
+        )}
       </NavigationMenuTrigger>
       <NavigationMenuContent className='fixed! left-1/2 -translate-x-1/2 top-24! mt-0!'>
         <div className='grid gap-5 min-w-3xl w-3xl lg:grid-cols-[270px_1fr_1fr]'>
@@ -91,9 +94,13 @@ const BDKnowledgeMenu = ({
                 </NavigationMenuLink>
               </li> */}
               {bdknowledgeRoute.subRoutes?.slice(0, 2).map((subRoute) => (
-                <li key={subRoute.href} className=''>
+                <li key={subRoute.label} className=''>
                   <NavigationMenuLink asChild>
-                    <Link href={subRoute.href}>{subRoute.label}</Link>
+                    {subRoute.href ? (
+                      <Link href={subRoute.href}>{subRoute.label}</Link>
+                    ) : (
+                      <span>{subRoute.label}</span>
+                    )}
                   </NavigationMenuLink>
                 </li>
               ))}
@@ -103,9 +110,13 @@ const BDKnowledgeMenu = ({
           <div className='row-span-3'>
             <ul className='grid gap-5 h-full'>
               {bdknowledgeRoute.subRoutes?.slice(2, 4).map((subRoute) => (
-                <li key={subRoute.href}>
+                <li key={subRoute.label}>
                   <NavigationMenuLink asChild>
-                    <Link href={subRoute.href}>{subRoute.label}</Link>
+                    {subRoute.href ? (
+                      <Link href={subRoute.href}>{subRoute.label}</Link>
+                    ) : (
+                      <span>{subRoute.label}</span>
+                    )}
                   </NavigationMenuLink>
                 </li>
               ))}

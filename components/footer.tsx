@@ -11,6 +11,7 @@ import {
 } from './ui/accordion';
 import { ChevronDown } from 'lucide-react';
 import { getGeneralInfoData } from '@/sanity/lib/cached-queries';
+import SocialBgIcon from './ui/icons/social-bg-icon';
 
 const Footer = async () => {
   const { generalInfo, blinkdraft } = await getGeneralInfoData();
@@ -87,13 +88,7 @@ const FooterSocial = ({ social }: { social: Social }) => {
   return (
     <li key={social.name}>
       <Link href={social.link} className='flex items-center gap-2.5'>
-        <div className='flex items-center justify-center min-w-7.5 min-h-7.5 w-7.5 h-7.5 rounded-full bg-light-blue p-2'>
-          <img
-            src={urlFor(social.icon).url()}
-            alt={social.name}
-            className='object-cover'
-          />
-        </div>
+        <SocialBgIcon social={social} />
         <span className='hidden md:block text-light-blue text-xs xl:text-sm 2xl:text-lg whitespace-nowrap'>
           Follow us on {social.name}
         </span>
@@ -134,7 +129,7 @@ const CountryCard = ({
       )}
       <Link
         href={`mailto:${country.email}`}
-        className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3'
+        className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3 wrap-break-word'
       >
         {country.email}
       </Link>
@@ -164,16 +159,21 @@ const MobileLinks = ({
           </FooterLink>
         </MobileAccordionItem>
         <MobileAccordionItem title='People'>
-          <FooterLink href='/'>Partners & Counsels</FooterLink>
-          <FooterLink href='/'>Attroneys at Law</FooterLink>
-          <FooterLink href='/'>Consultants</FooterLink>
-          <FooterLink href='/'>Junior Associates</FooterLink>
+          <FooterLink href='/people#partners'>Partners & Counsels</FooterLink>
+          <FooterLink href='/people#attorneys'>Attorneys at Law</FooterLink>
+          <FooterLink href='/people#consultants'>Consultants</FooterLink>
+          <FooterLink href='/people#juniorAssociates'>
+            Junior Associates
+          </FooterLink>
           <FooterLink href='/career'>Career</FooterLink>
         </MobileAccordionItem>
         <MobileAccordionItem title='Services'>
-          <FooterLink href='/'>Practices</FooterLink>
-          <FooterLink href='/'>Industries</FooterLink>
-          <FooterLink href='/about-us#countries'>Countries</FooterLink>
+          <FooterLink href='/practices/banking-and-finance'>
+            Practices
+          </FooterLink>
+          <FooterLink href='/industries/energy-and-natural-resources'>
+            Industries
+          </FooterLink>
         </MobileAccordionItem>
         <MobileAccordionItem title='Newsroom'>
           <FooterLink href='/bdknowledge'>BDKnowledge</FooterLink>
@@ -250,19 +250,24 @@ const DesktopLinks = ({
       <div>
         <FooterHeading>People</FooterHeading>
         <ul className='flex flex-col gap-y-6 mt-6'>
-          <FooterLink href='/'>Partners & Counsels</FooterLink>
-          <FooterLink href='/'>Attroneys at Law</FooterLink>
-          <FooterLink href='/'>Consultants</FooterLink>
-          <FooterLink href='/'>Junior Associates</FooterLink>
+          <FooterLink href='/people#partners'>Partners & Counsels</FooterLink>
+          <FooterLink href='/people#attorneys'>Attorneys at Law</FooterLink>
+          <FooterLink href='/people#consultants'>Consultants</FooterLink>
+          <FooterLink href='/people#juniorAssociates'>
+            Junior Associates
+          </FooterLink>
           <FooterLink href='/career'>Career</FooterLink>
         </ul>
       </div>
       <div>
         <FooterHeading>Services</FooterHeading>
         <ul className='flex flex-col gap-y-6 mt-6'>
-          <FooterLink href='/'>Practices</FooterLink>
-          <FooterLink href='/'>Industries</FooterLink>
-          <FooterLink href='/about-us#countries'>Countries</FooterLink>
+          <FooterLink href='/practices/banking-and-finance'>
+            Practices
+          </FooterLink>
+          <FooterLink href='/industries/energy-and-natural-resources'>
+            Industries
+          </FooterLink>
         </ul>
       </div>
       <div>

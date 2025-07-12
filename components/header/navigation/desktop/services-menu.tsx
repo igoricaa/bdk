@@ -6,7 +6,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuTrigger,
-} from '../../navigation-menu';
+} from '@/components/ui/navigation-menu';
 import Link from 'next/link';
 import { Image } from 'next-sanity/image';
 import { cn } from '@/lib/utils';
@@ -28,7 +28,6 @@ const ServicesMenu = ({
   const [activeService, setActiveService] = useState<NavigationRoute>({
     label: 'Services',
     href: '',
-    subRoutes: [],
     illustration: {
       mobile: servicesRoute.illustration?.mobile,
     },

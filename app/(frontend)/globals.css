@@ -18,6 +18,7 @@
   --color-gradient-end: var(--gradient-end);
   --color-grey-text: hsl(var(--grey-text));
   --color-grey-darker: hsl(var(--grey-darker));
+  --color-grey-light: hsl(var(--grey-light));
 
   --animate-aurora: aurora 60s linear infinite;
   @keyframes aurora {
@@ -97,6 +98,7 @@
   --gradient-end: #091321;
   --grey-text: 0 0% 40%;
   --grey-darker: 219, 9%, 30%;
+  --grey-light: 218, 7%, 76%;
 
   --radius: 0.625rem;
   --background: oklch(1 0 0);
