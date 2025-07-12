@@ -170,7 +170,7 @@ const AuthorsBlock = ({
                   <p className='text-dark-blue 2xl:text-xl whitespace-nowrap'>
                     {author.lawyer.name}
                   </p>
-                  <p className='text-[#898A8D] mt-1 text-sm 2xl:text-base'>
+                  <p className='text-grey-random mt-1 text-sm 2xl:text-base'>
                     {author.lawyer.title}
                   </p>
                 </div>

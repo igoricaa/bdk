@@ -32,7 +32,7 @@ const LawyerCard = ({ lawyer }: { lawyer: Lawyer }) => {
         )}
       </div>
 
-      <p className='text-[#898A8D] text-xs md:text-sm 2xl:text-base mt-2 md:mt-[10px]'>
+      <p className='text-grey-random text-xs md:text-sm 2xl:text-base mt-2 md:mt-[10px]'>
         {lawyer.title}
       </p>
 

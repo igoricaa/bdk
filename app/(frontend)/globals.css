@@ -19,6 +19,7 @@
   --color-grey-text: hsl(var(--grey-text));
   --color-grey-darker: hsl(var(--grey-darker));
   --color-grey-light: hsl(var(--grey-light));
+  --color-grey-random: hsl(var(--grey-random));
 
   --animate-aurora: aurora 60s linear infinite;
   @keyframes aurora {
@@ -99,6 +100,7 @@
   --grey-text: 0 0% 40%;
   --grey-darker: 219, 9%, 30%;
   --grey-light: 218, 7%, 76%;
+  --grey-random: 225, 2%, 55%;
 
   --radius: 0.625rem;
   --background: oklch(1 0 0);

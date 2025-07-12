@@ -8,6 +8,7 @@ import QueryProvider from '@/components/providers/query-client-provider';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import ScrollHandler from '@/components/scroll-handler';
 import { Suspense } from 'react';
+import BackToTop from '@/components/ui/back-to-top';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -38,6 +39,7 @@ export default function RootLayout({
               <Suspense>
                 <ScrollHandler />
               </Suspense>
+              <BackToTop />
             </Lenis>
           </QueryProvider>
         </NuqsAdapter>
