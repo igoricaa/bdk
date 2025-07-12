@@ -3,6 +3,7 @@ import {
   getGeneralInfoData,
   getServicesData,
 } from '@/sanity/lib/cached-queries';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface NavigationRouteBase {
   label: string;
@@ -27,8 +28,11 @@ export type NavigationRoute = HrefRoute | SubRoutesRoute;
 
 export const getHeaderData = async (): Promise<{
   navigationRoutes: NavigationRoute[];
-  logo: any;
-  blinkdraftLogo: any;
+  logo: {
+    logoBlack: SanityImageSource | null;
+    logoWhite: SanityImageSource | null;
+  };
+  blinkdraftLogo: SanityImageSource | null;
   socials: NonNullable<GENERAL_INFO_QUERYResult['generalInfo']>['socials'];
 }> => {
   const [{ industries, practices, foreignDesks }, { generalInfo, blinkdraft }] =
@@ -37,7 +41,10 @@ export const getHeaderData = async (): Promise<{
   if (!industries && !practices && !foreignDesks && !generalInfo) {
     return {
       navigationRoutes: [],
-      logo: null,
+      logo: {
+        logoBlack: null,
+        logoWhite: null,
+      },
       blinkdraftLogo: null,
       socials: [],
     };
@@ -151,8 +158,13 @@ export const getHeaderData = async (): Promise<{
 
   return {
     navigationRoutes: routes,
-    logo: generalInfo?.logo || null,
-    blinkdraftLogo: blinkdraft?.logo || null,
-    socials: generalInfo?.socials || [],
+    logo: {
+      logoBlack: generalInfo?.logo?.logoBlack as SanityImageSource,
+      logoWhite: generalInfo?.logo?.logoWhite as SanityImageSource,
+    },
+    blinkdraftLogo: blinkdraft?.logo as SanityImageSource,
+    socials: generalInfo?.socials as NonNullable<
+      GENERAL_INFO_QUERYResult['generalInfo']
+    >['socials'],
   };
 };

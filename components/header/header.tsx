@@ -11,7 +11,12 @@ const Header = async () => {
   const { logo, blinkdraftLogo, socials, navigationRoutes } =
     await getHeaderData();
 
-  if (!logo || !blinkdraftLogo || !navigationRoutes) {
+  if (
+    !logo.logoBlack ||
+    !logo.logoWhite ||
+    !blinkdraftLogo ||
+    !navigationRoutes
+  ) {
     return null;
   }
 
@@ -19,7 +24,7 @@ const Header = async () => {
     <StickyHeaderWrapper>
       <header className='px-side h-15 md:h-20 flex justify-between items-center bg-white'>
         <Link href='/'>
-          <Logo logo={logo} className='w-24 xl:w-30' />
+          <Logo logo={logo.logoBlack} className='w-24 xl:w-30' />
         </Link>
 
         <DesktopNavigation
@@ -36,7 +41,7 @@ const Header = async () => {
             className='flex xl:hidden'
             navigationRoutes={navigationRoutes}
             socials={socials}
-            logo={logo}
+            logo={logo.logoWhite}
           />
         </div>
       </header>

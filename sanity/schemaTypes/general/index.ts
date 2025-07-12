@@ -34,11 +34,27 @@ export const generalInfoType = defineType({
     }),
     defineField({
       name: 'logo',
-      title: 'Company logo',
-      type: 'image',
-      description: 'Main company or organization logo',
-      validation: (rule) => rule.required().error('Company logo is required'),
+      title: 'Logo',
+      type: 'object',
+      description: 'Main black and white logo',
+      validation: (rule) => rule.required().error('Logo is required'),
       group: 'branding',
+      fields: [
+        defineField({
+          name: 'logoBlack',
+          title: 'Black logo',
+          type: 'image',
+          description: 'Black logo',
+          validation: (rule) => rule.required().error('Black logo is required'),
+        }),
+        defineField({
+          name: 'logoWhite',
+          title: 'White logo',
+          type: 'image',
+          description: 'White logo',
+          validation: (rule) => rule.required().error('White logo is required'),
+        }),
+      ],
     }),
     defineField({
       name: 'servicesCategoryIllustrations',

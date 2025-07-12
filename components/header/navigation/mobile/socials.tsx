@@ -15,7 +15,8 @@ const Socials = ({
       {socials.map((social) => (
         <Link href={social.link} key={social.name}>
           <SocialBgIcon
-            social={social}
+            socialName={social.name}
+            socialIcon={social.icons.iconLight}
             className='w-10 h-10'
             iconClassName='w-4 h-4'
           />

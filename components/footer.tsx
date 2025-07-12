@@ -88,7 +88,10 @@ const FooterSocial = ({ social }: { social: Social }) => {
   return (
     <li key={social.name}>
       <Link href={social.link} className='flex items-center gap-2.5'>
-        <SocialBgIcon social={social} />
+        <SocialBgIcon
+          socialName={social.name}
+          socialIcon={social.icons.iconDark}
+        />
         <span className='hidden md:block text-light-blue text-xs xl:text-sm 2xl:text-lg whitespace-nowrap'>
           Follow us on {social.name}
         </span>

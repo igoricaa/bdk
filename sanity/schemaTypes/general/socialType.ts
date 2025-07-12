@@ -27,12 +27,27 @@ export const socialType = defineType({
         rule.required().error('Slug is required for URL generation'),
     }),
     defineField({
-      name: 'icon',
-      title: 'Platform icon',
-      type: 'image',
-      description: 'Select the social media platform icon',
-      validation: (rule) =>
-        rule.required().error('Platform icon selection is required'),
+      name: 'icons',
+      title: 'Icons',
+      type: 'object',
+      description: 'Social media icons',
+      validation: (rule) => rule.required().error('Icons are required'),
+      fields: [
+        defineField({
+          name: 'iconLight',
+          title: 'Light icon',
+          type: 'image',
+          description: 'Light icon',
+          validation: (rule) => rule.required().error('Light icon is required'),
+        }),
+        defineField({
+          name: 'iconDark',
+          title: 'Dark icon',
+          type: 'image',
+          description: 'Dark icon',
+          validation: (rule) => rule.required().error('Dark icon is required'),
+        }),
+      ],
     }),
     defineField({
       name: 'link',
@@ -52,7 +67,7 @@ export const socialType = defineType({
     select: {
       title: 'name',
       subtitle: 'link',
-      icon: 'icon',
+      icon: 'icons.iconLight',
     },
     prepare({ title, subtitle, icon }) {
       return {

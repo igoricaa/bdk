@@ -1,13 +1,15 @@
 import { cn } from '@/lib/utils';
-import { Social } from '@/sanity.types';
 import { urlFor } from '@/sanity/lib/image';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 const SocialBgIcon = ({
-  social,
+  socialName,
+  socialIcon,
   className,
   iconClassName,
 }: {
-  social: Social;
+  socialName: string;
+  socialIcon: SanityImageSource;
   className?: string;
   iconClassName?: string;
 }) => (
@@ -18,8 +20,8 @@ const SocialBgIcon = ({
     )}
   >
     <img
-      src={urlFor(social.icon).url()}
-      alt={social.name}
+      src={urlFor(socialIcon).url()}
+      alt={socialName}
       className={cn('object-contain', iconClassName)}
     />
   </div>
