@@ -7,7 +7,7 @@ const PostCard = ({
   post,
   className,
 }: {
-  post: POSTS_BY_CATEGORY_QUERYResult['allPosts'][number];
+  post: POSTS_BY_CATEGORY_QUERYResult['posts'][number];
   className?: string;
 }) => {
   return (
@@ -31,14 +31,22 @@ const PostCard = ({
             {post.title}
           </h3>
           <div className='mt-5 flex gap-2 flex-wrap'>
-            {post.categories.slice(0, 3).map((category: { _id: string; name: string; slug: { current: string } }) => (
-              <span
-                key={category._id}
-                className='flex items-center justify-center whitespace-nowrap text-xxs 2xl:text-sm text-dark-blue bg-dark-blue/20 rounded-[500px] h-7.5 px-3'
-              >
-                {category.name}
-              </span>
-            ))}
+            {post.categories
+              .slice(0, 3)
+              .map(
+                (category: {
+                  _id: string;
+                  name: string;
+                  slug: { current: string };
+                }) => (
+                  <span
+                    key={category._id}
+                    className='flex items-center justify-center whitespace-nowrap text-xxs 2xl:text-sm text-dark-blue bg-dark-blue/20 rounded-[500px] h-7.5 px-3'
+                  >
+                    {category.name}
+                  </span>
+                )
+              )}
           </div>
         </div>
 

@@ -2,14 +2,20 @@ import { Post } from '@/sanity.types';
 import FeaturedPostsSection from '@/components/posts/featured-posts-section';
 import PostsGrid from '@/components/posts/posts-grid';
 import { FilterOption } from '@/components/ui/filter-buttons';
-import { getPostsByCategory } from '@/sanity/lib/cached-queries';
+import {
+  getGlobalFeaturedPosts,
+  getPostsByCategory,
+} from '@/sanity/lib/cached-queries';
+import { Suspense } from 'react';
 
 const BDKnowledgePage = async () => {
-  const [{ featuredPosts, allPosts }] = await Promise.all([
-    getPostsByCategory('bdknowledge'),
+  const slug = 'bdknowledge';
+  const [featuredPosts, { posts }] = await Promise.all([
+    getGlobalFeaturedPosts(slug),
+    getPostsByCategory(slug),
   ]);
 
-  if (!featuredPosts || !allPosts) {
+  if (!featuredPosts || !posts) {
     return <div>No posts found</div>;
   }
 
@@ -27,12 +33,15 @@ const BDKnowledgePage = async () => {
         featuredPosts={featuredPosts as Post[]}
         className='mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35 '
       />
-      <PostsGrid
-        heading='BDKnowledge'
-        filterOptions={filterOptions}
-        initialPosts={allPosts}
-        allPostsCount={allPosts.length}
-      />
+      <Suspense fallback={<div>Loading posts...</div>}>
+        <PostsGrid
+          heading='BDKnowledge'
+          categorySlug={slug}
+          filterOptions={filterOptions}
+          initialPosts={posts}
+          allPostsCount={posts.length}
+        />
+      </Suspense>
     </main>
   );
 };

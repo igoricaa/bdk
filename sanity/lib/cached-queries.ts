@@ -19,6 +19,7 @@ import {
   POSTS_BY_YEAR_COUNT_QUERY,
   YEARS_BY_CATEGORY_QUERY,
   NESTED_CATEGORIES_QUERY,
+  GLOBAL_FEATURED_POSTS_QUERY,
 } from './queries';
 import type {
   GENERAL_INFO_QUERYResult,
@@ -39,6 +40,7 @@ import type {
   POSTS_BY_YEAR_COUNT_QUERYResult,
   YEARS_BY_CATEGORY_QUERYResult,
   NESTED_CATEGORIES_QUERYResult,
+  GLOBAL_FEATURED_POSTS_QUERYResult,
 } from '@/sanity.types';
 
 // Dont need to cache these, it's not used on multiple pages§
@@ -230,6 +232,18 @@ export const getServicesData = cache(
     return await sanityFetch({
       query: SERVICES_QUERY,
       tags: ['services', 'industries', 'practices', 'foreign-desks'],
+      revalidate: 43200,
+    });
+  }
+);
+
+// Global featured posts (used on blog page - always the same)
+export const getGlobalFeaturedPosts = cache(
+  async (slug: string): Promise<GLOBAL_FEATURED_POSTS_QUERYResult> => {
+    return await sanityFetch({
+      query: GLOBAL_FEATURED_POSTS_QUERY,
+      params: { slug },
+      tags: ['global-featured-posts'],
       revalidate: 43200,
     });
   }

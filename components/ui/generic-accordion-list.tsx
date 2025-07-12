@@ -82,26 +82,17 @@ const SidebarItemRenderer = ({
   basePath: string;
   level: number;
 }) => {
-  // Generate the correct margin class for nested levels
   const getMarginClass = (level: number) => {
-    const marginClasses = [
-      '', // level 0
-      'ml-4', // level 1
-      'ml-8', // level 2
-      'ml-12', // level 3
-      'ml-16', // level 4
-    ];
+    const marginClasses = ['', 'ml-4', 'ml-8', 'ml-12', 'ml-16'];
     return marginClasses[Math.min(level, marginClasses.length - 1)] || 'ml-16';
   };
+
+  const href = basePath.endsWith('=') ? `${basePath}${item.slug}` : basePath;
 
   return (
     <li>
       <div className={level > 0 ? getMarginClass(level) : ''}>
-        <LinkWithArrow
-          href={`${basePath}/${item.slug}`}
-          label={item.title}
-          iconSize={24}
-        />
+        <LinkWithArrow href={href} label={item.title} iconSize={24} />
       </div>
       {item.children && item.children.length > 0 && (
         <ul className='space-y-4 2xl:space-y-4.75 mt-4 2xl:mt-4.75'>

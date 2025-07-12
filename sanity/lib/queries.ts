@@ -380,14 +380,7 @@ export const LAWYER_QUERY = defineQuery(`{
 // -----------------
 
 export const POSTS_BY_CATEGORY_QUERY = defineQuery(`{
-  "featuredPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...3] {
-    _id,
-    title,
-    slug,
-    excerpt,
-    featuredMedia,
-  },
-  "allPosts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[3...12] {
+  "posts": *[_type == "post" && status == "publish" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[3...12] {
     _id,
     title,
     slug,
@@ -423,3 +416,14 @@ export const NESTED_CATEGORIES_QUERY = defineQuery(`{
     "hasChildren": count(*[_type == "category" && references(^._id) && count(*[_type == "post" && status == "publish" && references(^._id)]) > 0]) > 0
   } | order(name asc)
 }`);
+
+// New queries for client-side filtering approach
+export const GLOBAL_FEATURED_POSTS_QUERY = defineQuery(`
+  *[_type == "post" && status == "publish" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...3] {
+    _id,
+    title,
+    slug,
+    excerpt,
+    featuredMedia,
+  }
+`);

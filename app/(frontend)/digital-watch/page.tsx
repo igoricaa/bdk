@@ -3,17 +3,22 @@ import FeaturedPostsSection from '@/components/posts/featured-posts-section';
 import PostsGrid from '@/components/posts/posts-grid';
 import { FilterOption } from '@/components/ui/filter-buttons';
 import {
+  getGlobalFeaturedPosts,
   getPostsByCategory,
   getYearsByCategory,
 } from '@/sanity/lib/cached-queries';
+import { Suspense } from 'react';
 
 const DigitalWatchPage = async () => {
-  const [{ featuredPosts, allPosts }, postDates] = await Promise.all([
-    getPostsByCategory('digital-watch'),
-    getYearsByCategory('digital-watch'),
+  const slug = 'digital-watch';
+
+  const [featuredPosts, { posts }, postDates] = await Promise.all([
+    getGlobalFeaturedPosts(slug),
+    getPostsByCategory(slug),
+    getYearsByCategory(slug),
   ]);
 
-  if (!featuredPosts || !allPosts) {
+  if (!featuredPosts || !posts) {
     return <div>No posts found</div>;
   }
   // Extract years from dates, filter from 2015 onwards, get unique values, and sort descending
@@ -41,15 +46,17 @@ const DigitalWatchPage = async () => {
         featuredPosts={featuredPosts as Post[]}
         className='mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35 '
       />
-      <PostsGrid
-        heading='Digital Watch'
-        filterOptions={filterOptions}
-        initialPosts={allPosts}
-        allPostsCount={allPosts.length}
-        newestYear={newestYear}
-        filterType='year'
-        categorySlug='digital-watch'
-      />
+      <Suspense fallback={<div>Loading posts...</div>}>
+        <PostsGrid
+          heading='Digital Watch'
+          categorySlug={slug}
+          filterOptions={filterOptions}
+          initialPosts={posts}
+          allPostsCount={posts.length}
+          newestYear={newestYear}
+          filterType='year'
+        />
+      </Suspense>
     </main>
   );
 };

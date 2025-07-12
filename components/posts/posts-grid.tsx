@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, Suspense } from 'react';
+import { useQueryStates, parseAsFloat, parseAsString } from 'nuqs';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'motion/react';
 import SectionHeader from '../ui/section-header/section-header';
@@ -19,7 +20,7 @@ import { transformCategoriesData } from '@/lib/utils/sidebar-transformers';
 interface PostsGridProps {
   heading: string;
   filterOptions: FilterOption[];
-  initialPosts: POSTS_BY_CATEGORY_QUERYResult['allPosts'];
+  initialPosts: POSTS_BY_CATEGORY_QUERYResult['posts'];
   allPostsCount: number;
   className?: string;
   filterType?: 'category' | 'year';
@@ -39,6 +40,13 @@ const PostsGrid = ({
   newestYear,
   categoryTree,
 }: PostsGridProps) => {
+  const [category, setCategory] = useQueryStates({
+    category: parseAsString,
+  });
+  // const [year, setYear] = useQueryStates({
+  //   year: parseAsFloat,
+  // });
+
   const [activeFilter, setActiveFilter] = useState(
     filterType === 'category' ? 'all' : newestYear!
   );
@@ -114,6 +122,13 @@ const PostsGrid = ({
 
   const allPosts = data?.pages?.flatMap((page) => page?.posts || []) || [];
 
+  let sectionsLocal, mobileTitleLocal;
+  if (categoryTree) {
+    const { sections, mobileTitle } = transformCategoriesData(categoryTree);
+    sectionsLocal = sections;
+    mobileTitleLocal = mobileTitle;
+  }
+
   const isInitialLoading = isLoading && !data;
   const isCategorySwitching =
     isFetching && !isFetchingNextPage && !isInitialLoading;
@@ -127,10 +142,37 @@ const PostsGrid = ({
         )}
       >
         <SectionHeader heading={heading} colorVariant='dark' />
-        <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 justify-center grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 xl:gap-9'>
-          {Array.from({ length: 9 }).map((_, index) => (
-            <PostSkeleton key={`skeleton-${index}`} className='col-span-1' />
-          ))}
+        <div
+          className={cn(
+            'mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-8 2xl:gap-10'
+          )}
+        >
+          {categoryTree &&
+            (() => {
+              // const { sections, mobileTitle } =
+              //   transformCategoriesData(categoryTree);
+              return (
+                <GenericSidebar
+                  sections={sectionsLocal!}
+                  mobileTitle={mobileTitleLocal!}
+                  className='col-span-full xl:col-span-4 xl:max-w-8/10 bg-white xl:sticky xl:top-28'
+                  mobileOnly={isMobile}
+                />
+              );
+            })()}
+
+          <section
+            className={cn(
+              'grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 xl:gap-9',
+              categoryTree
+                ? 'col-span-full xl:col-span-8 xl:grid-cols-2'
+                : 'col-span-full xl:grid-cols-3'
+            )}
+          >
+            {Array.from({ length: 9 }).map((_, index) => (
+              <PostSkeleton key={`skeleton-${index}`} className='col-span-1' />
+            ))}
+          </section>
         </div>
       </section>
     );
@@ -182,12 +224,10 @@ const PostsGrid = ({
         {/* Category Navigation */}
         {categoryTree &&
           (() => {
-            const { sections, mobileTitle } =
-              transformCategoriesData(categoryTree);
             return (
               <GenericSidebar
-                sections={sections}
-                mobileTitle={mobileTitle}
+                sections={sectionsLocal!}
+                mobileTitle={mobileTitleLocal!}
                 className='col-span-full xl:col-span-4 xl:max-w-8/10 bg-white xl:sticky xl:top-28'
                 mobileOnly={isMobile}
               />

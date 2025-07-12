@@ -3,28 +3,26 @@ import FeaturedPostsSection from '@/components/posts/featured-posts-section';
 import PostsGrid from '@/components/posts/posts-grid';
 import { FilterOption } from '@/components/ui/filter-buttons';
 import {
-  getPostsByCategory,
+  getGlobalFeaturedPosts,
   getYearsByCategory,
   getNestedCategories,
+  getPostsByCategory,
 } from '@/sanity/lib/cached-queries';
-import { buildCategoryTree, CategoryWithChildren } from '@/lib/utils';
+import { buildCategoryTree } from '@/lib/utils';
+import { Suspense } from 'react';
 
-interface BlogPageProps {
-  searchParams?: Promise<{ category?: string }>;
-}
+const BlogPage = async () => {
+  const slug = 'blog';
 
-const BlogPage = async ({ searchParams }: BlogPageProps) => {
-  const params = await searchParams;
-  const selectedCategory = params?.category || 'blog';
-
-  const [{ featuredPosts, allPosts }, postDates, nestedCategoriesData] =
+  const [featuredPosts, { posts }, postDates, nestedCategoriesData] =
     await Promise.all([
-      getPostsByCategory(selectedCategory),
-      getYearsByCategory(selectedCategory),
-      getNestedCategories('blog'),
+      getGlobalFeaturedPosts(slug),
+      getPostsByCategory(slug),
+      getYearsByCategory(slug),
+      getNestedCategories(slug),
     ]);
 
-  if (!featuredPosts || !allPosts) {
+  if (!featuredPosts || !posts) {
     return <div>No posts found</div>;
   }
 
@@ -60,16 +58,18 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
         className='mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35 '
       />
 
-      <PostsGrid
-        heading='Blog'
-        filterOptions={filterOptions}
-        initialPosts={allPosts}
-        allPostsCount={allPosts.length}
-        newestYear={newestYear}
-        filterType='year'
-        categorySlug={selectedCategory}
-        categoryTree={categoryTree || undefined}
-      />
+      <Suspense fallback={<div>Loading posts...</div>}>
+        <PostsGrid
+          heading='Blog'
+          categorySlug={slug}
+          filterOptions={filterOptions}
+          initialPosts={posts}
+          allPostsCount={posts.length}
+          newestYear={newestYear}
+          filterType='year'
+          categoryTree={categoryTree || undefined}
+        />
+      </Suspense>
     </main>
   );
 };

@@ -1,5 +1,3 @@
-'use client';
-
 import FilterButtons, { FilterOption } from '@/components/ui/filter-buttons';
 
 interface PostsFiltersProps {

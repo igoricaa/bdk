@@ -3,17 +3,21 @@ import FeaturedPostsSection from '@/components/posts/featured-posts-section';
 import PostsGrid from '@/components/posts/posts-grid';
 import { FilterOption } from '@/components/ui/filter-buttons';
 import {
+  getGlobalFeaturedPosts,
   getPostsByCategory,
   getYearsByCategory,
 } from '@/sanity/lib/cached-queries';
+import { Suspense } from 'react';
 
 const NewsroomPage = async () => {
-  const [{ featuredPosts, allPosts }, postDates] = await Promise.all([
-    getPostsByCategory('newsroom'),
+  const slug = 'newsroom';
+  const [featuredPosts, { posts }, postDates] = await Promise.all([
+    getGlobalFeaturedPosts(slug),
+    getPostsByCategory(slug),
     getYearsByCategory('newsroom'),
   ]);
 
-  if (!featuredPosts || !allPosts) {
+  if (!featuredPosts || !posts) {
     return <div>No posts found</div>;
   }
   // Extract years from dates, filter from 2015 onwards, get unique values, and sort descending
@@ -41,15 +45,17 @@ const NewsroomPage = async () => {
         featuredPosts={featuredPosts as Post[]}
         className='mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35 '
       />
-      <PostsGrid
-        heading='Newsroom'
-        filterOptions={filterOptions}
-        initialPosts={allPosts}
-        allPostsCount={allPosts.length}
-        newestYear={newestYear}
-        filterType='year'
-        categorySlug='newsroom'
-      />
+      <Suspense fallback={<div>Loading posts...</div>}>
+        <PostsGrid
+          heading='Newsroom'
+          categorySlug={slug}
+          filterOptions={filterOptions}
+          initialPosts={posts}
+          allPostsCount={posts.length}
+          newestYear={newestYear}
+          filterType='year'
+        />
+      </Suspense>
     </main>
   );
 };
