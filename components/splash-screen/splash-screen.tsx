@@ -3,6 +3,7 @@
 import { AnimatePresence, easeOut, motion } from 'motion/react';
 import { useState, useEffect } from 'react';
 import SlideAnimatedLogo from './slide-in-logo';
+import BestAnimatedLogo from './bestOne';
 
 export default function SplashScreen({
   children,
@@ -51,7 +52,8 @@ export default function SplashScreen({
               <LawyersText className='' />
             </div> */}
             {/* <AnimatedLogo /> */}
-            <SlideAnimatedLogo />
+            {/* <SlideAnimatedLogo /> */}
+            <BestAnimatedLogo />
           </div>
         </motion.div>
       )}
