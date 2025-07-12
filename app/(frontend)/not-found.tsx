@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 import { ArrowLeftIcon } from 'lucide-react';
 
 export default function NotFound() {
@@ -13,19 +13,19 @@ export default function NotFound() {
           The page you're looking for doesn't exist or has been moved.
         </p>
         <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-          <Link
+          <TransitionLink
             href='/'
             className='inline-flex items-center gap-2 px-6 py-3 bg-dark-blue text-white rounded-full hover:bg-dark-blue/90 transition-colors'
           >
             <ArrowLeftIcon className='w-4 h-4' />
             Go to Home
-          </Link>
-          <Link
+          </TransitionLink>
+          <TransitionLink
             href='/bdknowledge'
             className='inline-flex items-center gap-2 px-6 py-3 border border-dark-blue text-dark-blue rounded-full hover:bg-dark-blue hover:text-white transition-colors'
           >
             Browse Posts
-          </Link>
+          </TransitionLink>
         </div>
       </div>
     </div>

@@ -7,13 +7,13 @@ import {
   NavigationMenuLink,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import Link from 'next/link';
 import { Image } from 'next-sanity/image';
 import { cn } from '@/lib/utils';
 import { urlFor } from '@/sanity/lib/image';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import MenuItemLink from './menu-item-link';
+import { TransitionLink } from '@/components/transition-link';
 
 const navMenuTriggerClasses = cn(
   'group inline-flex h-9 gap-x-1 w-max items-center justify-center rounded-md bg-background text-sm font-medium hover:bg-light-blue-bg hover:text-light-blue focus:bg-light-blue-bg focus:text-light-blue disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-light-blue-bg data-[state=open]:text-light-blue data-[state=open]:focus:bg-light-blue-bg data-[state=open]:bg-light-blue-bg/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1'
@@ -57,7 +57,7 @@ const ServicesMenu = ({
           {/* Column 1: Featured Illustration */}
           <div className='row-span-3'>
             <NavigationMenuLink asChild>
-              <Link
+              <TransitionLink
                 className='flex h-full w-full select-none flex-col rounded-md bg-gradient-to-b from-light-blue-bg/50 to-light-blue-bg p-6 no-underline outline-none focus:shadow-md'
                 href={activeService?.href || ''}
               >
@@ -79,7 +79,7 @@ const ServicesMenu = ({
                 Comprehensive legal solutions across all practice areas
                 and industries.
               </p> */}
-              </Link>
+              </TransitionLink>
             </NavigationMenuLink>
           </div>
 

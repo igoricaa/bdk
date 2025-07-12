@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 
 const MenuFooter = ({ className }: { className?: string }) => {
   return (
@@ -9,12 +9,15 @@ const MenuFooter = ({ className }: { className?: string }) => {
         className
       )}
     >
-      <Link href='/privacy-notice' className='text-grey-light text-sm'>
+      <TransitionLink
+        href='/privacy-notice'
+        className='text-grey-light text-sm'
+      >
         Privacy Notice
-      </Link>
-      <Link href='/cookie-policy' className='text-grey-light text-sm'>
+      </TransitionLink>
+      <TransitionLink href='/cookie-policy' className='text-grey-light text-sm'>
         Cookie Policy
-      </Link>
+      </TransitionLink>
     </footer>
   );
 };

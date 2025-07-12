@@ -1,13 +1,10 @@
 'use client';
 
 import { HrefRoute } from '@/lib/utils/navigation-routes';
-import {
-  NavigationMenuItem,
-  NavigationMenuLink,
-} from '@/components/ui/navigation-menu';
+import { NavigationMenuItem } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { TransitionLink } from '@/components/transition-link';
 
 const SimpleNavigationItem = ({ route }: { route: HrefRoute }) => {
   const pathname = usePathname();
@@ -21,15 +18,15 @@ const SimpleNavigationItem = ({ route }: { route: HrefRoute }) => {
 
   return (
     <NavigationMenuItem key={route.href}>
-      <NavigationMenuLink
-        asChild
+      <TransitionLink
+        href={route.href}
         className={cn(
           'inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium hover:bg-light-blue-bg hover:text-light-blue focus:bg-light-blue-bg focus:text-light-blue disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1',
           isActive(route.href) && 'bg-light-blue-bg text-light-blue'
         )}
       >
-        <Link href={route.href}>{route.label}</Link>
-      </NavigationMenuLink>
+        {route.label}
+      </TransitionLink>
     </NavigationMenuItem>
   );
 };

@@ -1,5 +1,5 @@
 import { POST_QUERYResult } from '@/sanity.types';
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 import FbIcon from '../ui/icons/fb-icon';
 import LnIcon from '../ui/icons/ln-icon';
 import { cn } from '@/lib/utils';
@@ -32,24 +32,24 @@ const ShareButtons = ({
       <p className='text-dark-blue 2xl:text-xl'>Share</p>
       <ul className='flex xl:flex-col items-center xl:items-start gap-4 2xl:gap-6'>
         <li>
-          <Link
+          <TransitionLink
             href={facebookShareUrl}
             target='_blank'
             rel='noopener noreferrer'
             className='flex items-center justify-center min-w-9 min-h-9 w-9 h-9 2xl:min-w-11 2xl:min-h-11 2xl:w-11 2xl:h-11 rounded-[10px] bg-lightest-blue/75'
           >
             <FbIcon className='w-4 h-4 2xl:w-6 2xl:h-6 text-dark-blue' />
-          </Link>
+          </TransitionLink>
         </li>
         <li>
-          <Link
+          <TransitionLink
             href={linkedinShareUrl}
             target='_blank'
             rel='noopener noreferrer'
             className='flex items-center justify-center min-w-9 min-h-9 w-9 h-9 2xl:min-w-11 2xl:min-h-11 2xl:w-11 2xl:h-11 rounded-[10px] bg-lightest-blue/75'
           >
             <LnIcon className='w-4 h-4 2xl:w-6 2xl:h-6 text-dark-blue' />
-          </Link>
+          </TransitionLink>
         </li>
       </ul>
     </div>

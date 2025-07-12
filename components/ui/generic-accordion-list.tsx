@@ -63,7 +63,7 @@ const GenericAccordionItem = ({ section }: { section: SidebarSection }) => {
             <SidebarItemRenderer
               key={item.id}
               item={item}
-              basePath={section.basePath}
+              basePath={`${section.basePath}/${item.slug}`}
               level={0}
             />
           ))}

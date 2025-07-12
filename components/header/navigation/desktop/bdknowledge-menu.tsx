@@ -5,13 +5,13 @@ import {
   NavigationMenuItem,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import Link from 'next/link';
 import { NavigationRoute } from '@/lib/utils/navigation-routes';
 import { cn } from '@/lib/utils';
 import { urlFor } from '@/sanity/lib/image';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { TransitionLink } from '@/components/transition-link';
 
 const navMenuTriggerClasses = cn(
   'group inline-flex h-9 gap-x-1 w-max items-center justify-center rounded-md bg-background text-sm font-medium hover:bg-light-blue-bg hover:text-light-blue focus:bg-light-blue-bg focus:text-light-blue disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-light-blue-bg data-[state=open]:text-light-blue data-[state=open]:focus:bg-light-blue-bg data-[state=open]:bg-light-blue-bg/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1'
@@ -49,7 +49,7 @@ const BDKnowledgeMenu = ({
         <span>{bdknowledgeRoute.label}</span>
       </NavigationMenuTrigger>
       <NavigationMenuContent className='absolute! top-19! mt-0!'>
-        <Link href={bdknowledgeRoute.href as string}>
+        <TransitionLink href={bdknowledgeRoute.href as string}>
           <article
             key={bdknowledgeRoute.label}
             className={`relative bg-dark-blue rounded-2xl overflow-hidden p-4 w-full h-30 cursor-pointer`}
@@ -63,7 +63,7 @@ const BDKnowledgeMenu = ({
             />
             <h3 className='text-lg text-white'>{bdknowledgeRoute.label}</h3>
           </article>
-        </Link>
+        </TransitionLink>
         <div className='grid grid-cols-[min-content_min-content] gap-2 mt-2'>
           {bdknowledgeRoute.subRoutes?.map((item, index) => {
             const borderRadius =
@@ -81,7 +81,7 @@ const BDKnowledgeMenu = ({
                     : 'w-50 aspect-[251/231] right-0 top-1/2 -translate-y-1/2';
 
             return (
-              <Link href={item.href as string} key={item.label}>
+              <TransitionLink href={item.href as string} key={item.label}>
                 <article
                   className={`relative bg-dark-blue ${borderRadius} overflow-hidden p-4 aspect-[530/308] h-30 cursor-pointer`}
                 >
@@ -94,7 +94,7 @@ const BDKnowledgeMenu = ({
                   />
                   <h3 className='text-lg text-white'>{item.label}</h3>
                 </article>
-              </Link>
+              </TransitionLink>
             );
           })}
         </div>

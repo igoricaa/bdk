@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import { cn, formatDate } from '@/lib/utils';
 import ArrowUpRight from '@/components/ui/arrow-up-right';
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 import { Slug } from '@/sanity.types';
 import CategoriesFilter from './categories-filter';
 import SectionHeader from '../ui/section-header/section-header';
@@ -104,7 +104,7 @@ export default function PostsSwitcher({
               index === 3 && 'hidden sm:max-xl:block'
             )}
           >
-            <Link
+            <TransitionLink
               href={`/${post.slug.current}`}
               className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18'
             >
@@ -119,17 +119,17 @@ export default function PostsSwitcher({
                 </div>
                 <ArrowUpRight />
               </div>
-            </Link>
+            </TransitionLink>
           </article>
         ))}
       </div>
 
-      <Link
+      <TransitionLink
         href={`/${activeCategory}`}
         className='text-light-blue hover:text-light-blue/80 transition-colors text-lg w-fit mx-auto block mt-12 2xl:mt-30'
       >
         View All Posts
-      </Link>
+      </TransitionLink>
     </div>
   );
 }

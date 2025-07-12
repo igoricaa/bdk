@@ -4,7 +4,6 @@ import { POST_QUERYResult, POSTS_QUERY_WITH_SLUGSResult } from '@/sanity.types';
 import { ArrowLeftIcon, ArrowRightIcon, Calendar, Clock } from 'lucide-react';
 import { Image } from 'next-sanity/image';
 import { urlFor, urlForUncropped } from '@/sanity/lib/image';
-import Link from 'next/link';
 import PortableText from '@/components/ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
 import {
@@ -18,6 +17,7 @@ import BackToButton from '@/components/ui/buttons/back-to-button';
 import { ScrollProgress } from '@/components/ui/scroll-progress';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { TransitionLink } from '@/components/transition-link';
 
 export async function generateStaticParams() {
   const posts: POSTS_QUERY_WITH_SLUGSResult = await sanityFetch({
@@ -216,7 +216,7 @@ const AuthorsBlock = ({
         {authors.map((author) => (
           <div key={author._id}>
             {author.type === 'lawyer' && author.lawyer && (
-              <Link
+              <TransitionLink
                 href={`/people/${author.lawyer.slug?.current}`}
                 className='flex items-center gap-4 2xl:gap-5'
               >
@@ -238,15 +238,15 @@ const AuthorsBlock = ({
                     {author.lawyer.title}
                   </p>
                 </div>
-              </Link>
+              </TransitionLink>
             )}
             {author.type === 'custom' && author.customAuthor && (
-              <Link
+              <TransitionLink
                 href={`/people/${author.customAuthor.slug.current}`}
                 className='text-dark-blue 2xl:text-xl whitespace-nowrap'
               >
                 {author.customAuthor.name}
-              </Link>
+              </TransitionLink>
             )}
           </div>
         ))}
@@ -383,7 +383,7 @@ const PostNavigationLink = ({
   direction: 'previous' | 'next';
 }) => {
   return (
-    <Link
+    <TransitionLink
       href={href}
       className={cn(
         'border border-[#BEC1C6] rounded-[500px] text-[#BEC1C6] text-lg flex gap-2.5 items-center h-12.5',
@@ -400,6 +400,6 @@ const PostNavigationLink = ({
         )}
       </div>
       {children}
-    </Link>
+    </TransitionLink>
   );
 };

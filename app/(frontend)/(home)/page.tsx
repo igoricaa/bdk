@@ -15,7 +15,7 @@ import { urlFor } from '@/sanity/lib/image';
 import PortableText from '@/components/ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
 import Subtitle from '@/components/ui/subtitle';
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 import { TextGradientScroll } from '@/components/ui/text-gradient-scroll';
 import LawyersList from '@/components/lawyers/lawyers-list';
 import ArrowUpRight from '@/components/ui/arrow-up-right';
@@ -77,9 +77,12 @@ export default async function Home() {
           paragraphClassName='md:text-lg 2xl:text-2xl mt-4 md:mt-4.5 2xl:mt-6 text-lightest-blue'
           value={homePageData.about.description as PortableTextBlock[]}
         />
-        <Link href='/about' className='text-white mt-10 2xl:mt-15 flex'>
+        <TransitionLink
+          href='/about'
+          className='text-white mt-10 2xl:mt-15 flex'
+        >
           {homePageData.about.buttonText}
-        </Link>
+        </TransitionLink>
         <div className='absolute -bottom-8 sm:-bottom-40 xl:bottom-10 2xl:bottom-15 -right-[20vw] sm:right-0 2xl:-right-6 aspect-[936/622] w-[calc(120vw)] sm:w-screen xl:w-2/5 2xl:w-[45%]'>
           <img
             src={urlFor(homePageData.about.backgroundIllustration).url()}
@@ -174,18 +177,18 @@ export default async function Home() {
           className='mt-4 text-center text-grey-text md:text-xl xl:text-2xl 2xl:text-3xl md:mt-7.5 xl:max-w-1/2'
         />
         <div className='flex gap-3 mt-4 md:mt-9 xl:mt-11 2xl:mt-18'>
-          <Link
+          <TransitionLink
             href='/blinkdraft'
             className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
           >
             English <ArrowUpRight className='bg-light-blue' />
-          </Link>
-          <Link
+          </TransitionLink>
+          <TransitionLink
             href='/blinkdraft/sr'
             className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
           >
             Serbian <ArrowUpRight className='bg-light-blue' />
-          </Link>
+          </TransitionLink>
         </div>
       </Section>
     </main>

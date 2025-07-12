@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 import { Country, GENERAL_INFO_QUERYResult, Social } from '@/sanity.types';
 import { urlFor } from '@/sanity/lib/image';
 import PortableText from './ui/portable-text';
@@ -48,12 +48,18 @@ const Footer = async () => {
         </section>
         <section className='flex flex-col gap-19 md:flex-row md:justify-between border-t border-lightest-blue pt-3 md:pt-9 xl:pt-8 2xl:pt-10 mt-8 md:mt-10 xl:mt-9 2xl:mt-22'>
           <div className='flex justify-between items-center gap-4 md:gap-8'>
-            <Link href='/' className='text-[#BEC1C6] text-sm 2xl:text-lg'>
+            <TransitionLink
+              href='/'
+              className='text-[#BEC1C6] text-sm 2xl:text-lg'
+            >
               Privacy Notice
-            </Link>
-            <Link href='/' className='text-[#BEC1C6] text-sm 2xl:text-lg'>
+            </TransitionLink>
+            <TransitionLink
+              href='/'
+              className='text-[#BEC1C6] text-sm 2xl:text-lg'
+            >
               Cookie Policy
-            </Link>
+            </TransitionLink>
           </div>
           <p className='text-[#BEC1C6] text-sm text-center 2xl:text-lg'>
             Copyright © BDK Advokati 2025
@@ -75,7 +81,7 @@ const FooterLink = ({
 }) => {
   return (
     <li className='text-grey-text text-xs xl:text-sm 2xl:text-lg'>
-      <Link href={href}>{children}</Link>
+      <TransitionLink href={href}>{children}</TransitionLink>
     </li>
   );
 };
@@ -87,7 +93,7 @@ const FooterHeading = ({ children }: { children: React.ReactNode }) => {
 const FooterSocial = ({ social }: { social: Social }) => {
   return (
     <li key={social.name}>
-      <Link href={social.link} className='flex items-center gap-2.5'>
+      <TransitionLink href={social.link} className='flex items-center gap-2.5'>
         <SocialBgIcon
           socialName={social.name}
           socialIcon={social.icons.iconDark}
@@ -95,7 +101,7 @@ const FooterSocial = ({ social }: { social: Social }) => {
         <span className='hidden md:block text-light-blue text-xs xl:text-sm 2xl:text-lg whitespace-nowrap'>
           Follow us on {social.name}
         </span>
-      </Link>
+      </TransitionLink>
     </li>
   );
 };
@@ -123,19 +129,19 @@ const CountryCard = ({
         paragraphClassName='mt-0! md:text-sm! 2xl:text-base! 3xl:text-lg!'
       />
       {country.phone && (
-        <Link
+        <TransitionLink
           href={`tel:${country.phone}`}
           className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3'
         >
           {country.phone}
-        </Link>
+        </TransitionLink>
       )}
-      <Link
+      <TransitionLink
         href={`mailto:${country.email}`}
         className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3 wrap-break-word'
       >
         {country.email}
-      </Link>
+      </TransitionLink>
       {country.note && (
         <p className='text-light-blue md:text-sm 2xl:text-base 3xl:text-lg mt-3 '>
           {country.note}

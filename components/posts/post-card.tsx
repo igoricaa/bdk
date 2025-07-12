@@ -1,5 +1,5 @@
 import { POSTS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 import ArrowUpRight from '../ui/arrow-up-right';
 import { cn, formatDate } from '@/lib/utils';
 
@@ -19,7 +19,7 @@ const PostCard = ({
         className
       )}
     >
-      <Link
+      <TransitionLink
         href={`/${post.slug.current}`}
         className='flex flex-col gap-8 md:gap-7.5 2xl:gap-13 justify-between h-full px-side py-7 md:px-5 md:py-7.5 2xl:py-10 2xl:px-7'
       >
@@ -51,7 +51,7 @@ const PostCard = ({
         </div>
 
         <ArrowUpRight />
-      </Link>
+      </TransitionLink>
     </article>
   );
 };

@@ -5,7 +5,7 @@ import { NavigationRoute, SubRoutesRoute } from '@/lib/utils/navigation-routes';
 import Burger from '../../burger';
 import { useEffect, useRef, useState } from 'react';
 import Logo from '@/components/ui/logo';
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 import { ChevronDown, Search } from 'lucide-react';
 import { GENERAL_INFO_QUERYResult } from '@/sanity.types';
 import {
@@ -157,13 +157,13 @@ const MobileNavigationItem = ({
           menuRef={menuRef}
         />
       ) : (
-        <Link
+        <TransitionLink
           href={route.href || ''}
           className={sharedClasses}
           onClick={toggleMenu}
         >
           {route.label}
-        </Link>
+        </TransitionLink>
       )}
     </li>
   );
@@ -253,13 +253,13 @@ const MobileNavigationDropdownSubItem = ({
           </button>
         </>
       ) : (
-        <Link
+        <TransitionLink
           href={route.href || ''}
           className={sharedClasses}
           onClick={toggleMenu}
         >
           {route.label}
-        </Link>
+        </TransitionLink>
       )}
     </li>
   );
@@ -297,13 +297,13 @@ const MobileSubNavigation = ({
         <ul className='px-2.5 mt-4'>
           {route.subRoutes.map((subRoute) => (
             <li key={subRoute.label}>
-              <Link
+              <TransitionLink
                 href={subRoute.href || ''}
                 className='block text-xl leading-7 text-lightest-blue py-2'
                 onClick={toggleMenu}
               >
                 {subRoute.label}
-              </Link>
+              </TransitionLink>
             </li>
           ))}
         </ul>

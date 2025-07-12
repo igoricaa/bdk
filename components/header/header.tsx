@@ -1,7 +1,7 @@
 import { urlFor } from '@/sanity/lib/image';
 import Search from './search';
 import StickyHeaderWrapper from './sticky-header-wrapper';
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 import { getHeaderData } from '@/lib/utils/navigation-routes';
 import DesktopNavigation from './navigation/desktop/desktop-navigation';
 import MobileNavigation from './navigation/mobile/mobile-navigation';
@@ -26,9 +26,9 @@ const Header = async () => {
         id='top'
         className='px-side h-15 md:h-20 flex justify-between items-center bg-white'
       >
-        <Link href='/'>
+        <TransitionLink href='/'>
           <Logo logo={logo.logoBlack} className='w-24 xl:w-30' />
-        </Link>
+        </TransitionLink>
 
         <DesktopNavigation
           className='hidden xl:flex'

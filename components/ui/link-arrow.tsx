@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+import { TransitionLink } from '../transition-link';
 
 export const LinkWithArrow = ({
   href,
@@ -18,7 +18,7 @@ export const LinkWithArrow = ({
   iconSize?: number;
 }) => {
   return (
-    <Link
+    <TransitionLink
       href={href}
       className={cn(
         'flex items-center w-fit gap-x-2 transition-[translate,color] text-sm leading-6 2xl:text-lg 2xl:leading-7 hover:text-light-blue duration-300 relative overflow-hidden group/arrow',
@@ -42,6 +42,6 @@ export const LinkWithArrow = ({
       <span className='transition-transform duration-300 -translate-x-7 group-hover/arrow:translate-x-0'>
         {label}
       </span>
-    </Link>
+    </TransitionLink>
   );
 };

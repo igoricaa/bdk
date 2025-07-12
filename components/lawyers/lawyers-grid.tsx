@@ -4,7 +4,7 @@ import { LAWYERS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
 import { useState } from 'react';
 import { Image } from 'next-sanity/image';
 import { urlForWithHotspot } from '@/sanity/lib/image';
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn, ComputedLawyersData } from '@/lib/utils';
 import LawyersNavbar from './lawyers-navbar';
@@ -92,7 +92,10 @@ const LawyerCard = ({
         duration: 0.6,
       }}
     >
-      <Link href={`/people/${lawyer.slug?.current || ''}`} className='block'>
+      <TransitionLink
+        href={`/people/${lawyer.slug?.current || ''}`}
+        className='block'
+      >
         <motion.div
           className='w-full rounded-lg md:rounded-2xl overflow-hidden aspect-[314/323]'
           transition={{ duration: 0.3 }}
@@ -105,7 +108,7 @@ const LawyerCard = ({
             className='w-full h-full'
           />
         </motion.div>
-      </Link>
+      </TransitionLink>
       <motion.div
         className='py-5 md:py-3 md:px-2.5 xl:py-5 xl:px-4'
         initial={{ opacity: 0, y: 10 }}
@@ -113,22 +116,22 @@ const LawyerCard = ({
         transition={{ delay: 0.2, duration: 0.3 }}
       >
         <div className='flex items-start gap-2 justify-between'>
-          <Link
+          <TransitionLink
             href={`/people/${lawyer.slug?.current || ''}`}
             className='block'
           >
             <h2 className='text-dark-blue text-lg 2xl:text-xl'>
               {lawyer.name}
             </h2>
-          </Link>
+          </TransitionLink>
           {lawyer.contactInfo?.linkedin && (
-            <Link
+            <TransitionLink
               href={lawyer.contactInfo.linkedin}
               target='_blank'
               className='hidden md:block'
             >
               <LinkedinIcon className='min-w-5 min-h-5 w-5 h-5 2xl:w-5.5 2xl:h-5.5 2xl:min-w-5.5 2xl:min-h-5.5' />
-            </Link>
+            </TransitionLink>
           )}
         </div>
 
@@ -136,13 +139,13 @@ const LawyerCard = ({
           {lawyer.title}
         </p>
         {lawyer.contactInfo?.linkedin && (
-          <Link
+          <TransitionLink
             href={lawyer.contactInfo.linkedin}
             target='_blank'
             className='block mt-4 md:hidden'
           >
             <LinkedinIcon className='w-4 h-4' />
-          </Link>
+          </TransitionLink>
         )}
       </motion.div>
     </motion.article>

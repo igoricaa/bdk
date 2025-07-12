@@ -15,7 +15,7 @@ import { urlForUncropped } from '@/sanity/lib/image';
 import { Testimonial } from '@/sanity/schemaTypes/services/testimonialTypes';
 import { PortableTextBlock } from 'next-sanity';
 import { Image } from 'next-sanity/image';
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 
 export async function generateStaticParams() {
   const lawyers = await getLawyers();
@@ -103,13 +103,13 @@ const LawyerPage = async ({
                 </a>
               )}
               {lawyer.contactInfo?.linkedin && (
-                <Link
+                <TransitionLink
                   href={lawyer.contactInfo.linkedin}
                   target='_blank'
                   className='block mt-5 md:mt-6'
                 >
                   <LinkedinIcon className='w-6 h-6 xl:w-5.5 xl:h-5.5 2xl:w-6 2xl:h-6' />
-                </Link>
+                </TransitionLink>
               )}
             </div>
           </div>
@@ -189,7 +189,7 @@ const ViewAllButton = ({
   className?: string;
 }) => {
   return (
-    <Link
+    <TransitionLink
       href={href}
       className={cn(
         'w-fit h-fit text-light-blue flex items-center gap-4 2xl:gap-6 text-lg 2xl:text-2xl',
@@ -197,6 +197,6 @@ const ViewAllButton = ({
       )}
     >
       <ArrowUpRight /> {text}
-    </Link>
+    </TransitionLink>
   );
 };

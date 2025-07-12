@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 import ArrowUpRight from './arrow-up-right';
 import { Image } from 'next-sanity/image';
 import PortableText from './portable-text';
@@ -88,13 +88,13 @@ const SplitSection = ({
         {customComponent && customComponent}
 
         {link && (
-          <Link
+          <TransitionLink
             href={`/${link}`}
             className='mt-10 xl:mt-12 2xl:mt-15 text-lg 2xl:text-2xl text-light-blue underline decoration-light-blue flex items-center gap-4 capitalize w-fit'
           >
             <ArrowUpRight />
             {linkText && linkText.length > 0 && linkText}
-          </Link>
+          </TransitionLink>
         )}
       </div>
 

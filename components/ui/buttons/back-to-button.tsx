@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 import ArrowLeft from '../arrow-left';
 import { cn } from '@/lib/utils';
 
@@ -23,13 +23,13 @@ const BackToButton = ({
   return (
     <>
       {href && (
-        <Link href={href} className={cn(sharedClasses, className)}>
+        <TransitionLink href={href} className={cn(sharedClasses, className)}>
           <ArrowLeft
             className={cn(iconClassName)}
             strokeColor={iconStrokeColor}
           />{' '}
           {text}
-        </Link>
+        </TransitionLink>
       )}
       {onClick && (
         <button onClick={onClick} className={cn(sharedClasses, className)}>

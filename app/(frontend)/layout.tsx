@@ -9,6 +9,8 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import ScrollHandler from '@/components/scroll-handler';
 import { Suspense } from 'react';
 import BackToTop from '@/components/ui/back-to-top';
+import SplashScreen from '@/components/splash-screen';
+import { TransitionProvider } from '@/components/transition-link';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -30,19 +32,23 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={`${dmSans.variable} antialiased`}>
-        <NuqsAdapter>
-          <QueryProvider>
-            <Lenis>
-              <Header />
-              {children}
-              <Footer />
-              <Suspense>
-                <ScrollHandler />
-              </Suspense>
-              <BackToTop />
-            </Lenis>
-          </QueryProvider>
-        </NuqsAdapter>
+        <TransitionProvider>
+          <NuqsAdapter>
+            <QueryProvider>
+              <Lenis>
+                <SplashScreen>
+                  <Header />
+                  {children}
+                  <Footer />
+                  <Suspense>
+                    <ScrollHandler />
+                  </Suspense>
+                  <BackToTop />
+                </SplashScreen>
+              </Lenis>
+            </QueryProvider>
+          </NuqsAdapter>
+        </TransitionProvider>
       </body>
     </html>
   );

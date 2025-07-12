@@ -1,7 +1,7 @@
 import SocialBgIcon from '@/components/ui/icons/social-bg-icon';
 import { cn } from '@/lib/utils';
 import { GENERAL_INFO_QUERYResult } from '@/sanity.types';
-import Link from 'next/link';
+import { TransitionLink } from '@/components/transition-link';
 
 const Socials = ({
   socials,
@@ -13,14 +13,14 @@ const Socials = ({
   return (
     <div className={cn('flex items-center gap-2.5 pb-20', className)}>
       {socials.map((social) => (
-        <Link href={social.link} key={social.name}>
+        <TransitionLink href={social.link} key={social.name}>
           <SocialBgIcon
             socialName={social.name}
             socialIcon={social.icons.iconLight}
             className='w-10 h-10'
             iconClassName='w-4 h-4'
           />
-        </Link>
+        </TransitionLink>
       ))}
     </div>
   );
