@@ -1,18 +1,16 @@
 import ArrowUpRight from '@/components/ui/arrow-up-right';
 import SectionHeader from '@/components/ui/section-header/section-header';
-import SectionHeading from '@/components/ui/section-header/section-heading';
-import SectionParagraph from '@/components/ui/section-header/section-paragraph';
-import Subtitle from '@/components/ui/subtitle';
 import { urlFor } from '@/sanity/lib/image';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface LatestPostsSectionProps {
   subtitle: string;
   heading: string;
   description: string;
-  blogIllustrationUrl: any;
-  digitalWatchIllustrationUrl: any;
-  insightsIllustrationUrl: any;
-  publicationsIllustrationUrl: any;
+  blogIllustrationUrl: SanityImageSource;
+  digitalWatchIllustrationUrl: SanityImageSource;
+  insightsIllustrationUrl: SanityImageSource;
+  publicationsIllustrationUrl: SanityImageSource;
 }
 
 const LatestPostsSection = ({

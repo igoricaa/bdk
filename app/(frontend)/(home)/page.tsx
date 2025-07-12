@@ -26,6 +26,7 @@ import NewsroomSection from '@/components/home/newsroom-section';
 import Section from '@/components/ui/section';
 import Hero from '@/components/home/hero';
 import { ComputedLawyersData, getComputedLawyersData } from '@/lib/utils';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 export default async function Home() {
   const [
@@ -132,16 +133,20 @@ export default async function Home() {
         heading={homePageData.latestPosts.heading}
         description={homePageData.latestPosts.description}
         blogIllustrationUrl={
-          homePageData.latestPosts.illustrations.blogIllustration
+          generalInfo?.postCategoriesIllustrations
+            .blogIllustration as SanityImageSource
         }
         digitalWatchIllustrationUrl={
-          homePageData.latestPosts.illustrations.digitalWatchIllustration
+          generalInfo?.postCategoriesIllustrations
+            .digitalWatchIllustration as SanityImageSource
         }
         insightsIllustrationUrl={
-          homePageData.latestPosts.illustrations.insightsIllustration
+          generalInfo?.postCategoriesIllustrations
+            .insightsIllustration as SanityImageSource
         }
         publicationsIllustrationUrl={
-          homePageData.latestPosts.illustrations.publicationsIllustration
+          generalInfo?.postCategoriesIllustrations
+            .publicationsIllustration as SanityImageSource
         }
       />
 

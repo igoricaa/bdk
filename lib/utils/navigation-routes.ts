@@ -135,22 +135,52 @@ export const getHeaderData = async (): Promise<{
     {
       label: 'BDKnowledge',
       href: '/bdknowledge',
+      illustration: {
+        desktop: generalInfo?.postCategoriesIllustrations
+          .bdknowledgeIllustration as NonNullable<
+          GENERAL_INFO_QUERYResult['generalInfo']
+        >['postCategoriesIllustrations']['bdknowledgeIllustration'],
+      },
       subRoutes: [
         {
           label: 'Blog',
           href: '/blog',
+          illustration: {
+            desktop: generalInfo?.postCategoriesIllustrations
+              .blogIllustration as NonNullable<
+              GENERAL_INFO_QUERYResult['generalInfo']
+            >['postCategoriesIllustrations']['blogIllustration'],
+          },
         },
         {
           label: 'Digital Watch',
           href: '/digital-watch',
+          illustration: {
+            desktop: generalInfo?.postCategoriesIllustrations
+              .digitalWatchIllustration as NonNullable<
+              GENERAL_INFO_QUERYResult['generalInfo']
+            >['postCategoriesIllustrations']['digitalWatchIllustration'],
+          },
         },
         {
           label: 'Insights',
           href: '/insights',
+          illustration: {
+            desktop: generalInfo?.postCategoriesIllustrations
+              .insightsIllustration as NonNullable<
+              GENERAL_INFO_QUERYResult['generalInfo']
+            >['postCategoriesIllustrations']['insightsIllustration'],
+          },
         },
         {
           label: 'Publications',
           href: '/publications',
+          illustration: {
+            desktop: generalInfo?.postCategoriesIllustrations
+              .publicationsIllustration as NonNullable<
+              GENERAL_INFO_QUERYResult['generalInfo']
+            >['postCategoriesIllustrations']['publicationsIllustration'],
+          },
         },
       ],
     },

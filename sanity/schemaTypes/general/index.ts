@@ -14,6 +14,10 @@ export const generalInfoType = defineType({
       title: 'Services Category Illustrations',
     },
     {
+      name: 'posts',
+      title: 'Post Categories Illustrations',
+    },
+    {
       name: 'social',
       title: 'Social Media',
     },
@@ -94,6 +98,52 @@ export const generalInfoType = defineType({
       ],
       validation: (rule) =>
         rule.required().error('Services category illustrations are required'),
+    }),
+    defineField({
+      name: 'postCategoriesIllustrations',
+      title: 'Post Categories Illustrations',
+      type: 'object',
+      description: 'General illustrations for each main post category',
+      group: 'posts',
+      fields: [
+        defineField({
+          name: 'bdknowledgeIllustration',
+          title: 'BDKnowledge',
+          type: 'image',
+          description: 'General illustration for the BDKnowledge category',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'blogIllustration',
+          title: 'Blog',
+          type: 'image',
+          description: 'General illustration for the blog category',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'digitalWatchIllustration',
+          title: 'Digital Watch',
+          type: 'image',
+          description: 'General illustration for the digital watch category',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'insightsIllustration',
+          title: 'Insights',
+          type: 'image',
+          description: 'General illustration for the insights category',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'publicationsIllustration',
+          title: 'Publications',
+          type: 'image',
+          description: 'General illustration for the publications category',
+          validation: (rule) => rule.required(),
+        }),
+      ],
+      validation: (rule) =>
+        rule.required().error('Post categories illustrations are required'),
     }),
     defineField({
       name: 'socials',
