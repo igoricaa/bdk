@@ -4,8 +4,10 @@ import './globals.css';
 import Lenis from '@/components/lenis';
 import Footer from '@/components/footer';
 import Header from '@/components/header/header';
-import { getGeneralInfoData } from '@/sanity/lib/cached-queries';
 import QueryProvider from '@/components/providers/query-client-provider';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import ScrollHandler from '@/components/scroll-handler';
+import { Suspense } from 'react';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -19,33 +21,26 @@ export const metadata: Metadata = {
   description: 'BDK Law Firm',
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { generalInfo, blinkdraft } = await getGeneralInfoData();
-
-  if (!generalInfo || !blinkdraft) {
-    return <div>No general info or blinkdraft data found</div>;
-  }
-
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={`${dmSans.variable} antialiased`}>
-        <QueryProvider>
-          <Lenis>
-            <Header
-              bdkLogo={generalInfo?.logo}
-              blinkdraftLogo={blinkdraft.logo}
-            />
-            {children}
-            <Footer
-              generalInfo={generalInfo}
-              blinkdraftLogo={blinkdraft.logo}
-            />
-          </Lenis>
-        </QueryProvider>
+        <NuqsAdapter>
+          <QueryProvider>
+            <Lenis>
+              <Header />
+              {children}
+              <Footer />
+              <Suspense>
+                <ScrollHandler />
+              </Suspense>
+            </Lenis>
+          </QueryProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

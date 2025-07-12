@@ -10,15 +10,12 @@ import {
   AccordionTrigger,
 } from './ui/accordion';
 import { ChevronDown } from 'lucide-react';
+import { getGeneralInfoData } from '@/sanity/lib/cached-queries';
 
-const Footer = ({
-  generalInfo,
-  blinkdraftLogo,
-}: {
-  generalInfo: GENERAL_INFO_QUERYResult['generalInfo'];
-  blinkdraftLogo: any;
-}) => {
-  if (!generalInfo) {
+const Footer = async () => {
+  const { generalInfo, blinkdraft } = await getGeneralInfoData();
+
+  if (!generalInfo || !blinkdraft) {
     return null;
   }
 
@@ -26,11 +23,11 @@ const Footer = ({
     <footer id='footer' className='bg-dark-blue'>
       <div className='bg-white rounded-t-main px-side pt-8 pb-8 md:pt-18 md:pb-10 xl:pt-22 xl:pb-20 2xl:pt-36 2xl:pb-34'>
         <MobileLinks
-          blinkdraftLogo={blinkdraftLogo}
+          blinkdraftLogo={blinkdraft.logo}
           generalInfo={generalInfo}
         />
         <DesktopLinks
-          blinkdraftLogo={blinkdraftLogo}
+          blinkdraftLogo={blinkdraft.logo}
           generalInfo={generalInfo}
         />
         <section className='mt-8 xl:mt-20'>
@@ -128,13 +125,19 @@ const CountryCard = ({
         paragraphClassName='mt-0! md:text-sm! 2xl:text-base! 3xl:text-lg!'
       />
       {country.phone && (
-        <p className='text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3'>
+        <Link
+          href={`tel:${country.phone}`}
+          className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3'
+        >
           {country.phone}
-        </p>
+        </Link>
       )}
-      <p className='text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3'>
+      <Link
+        href={`mailto:${country.email}`}
+        className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3'
+      >
         {country.email}
-      </p>
+      </Link>
       {country.note && (
         <p className='text-light-blue md:text-sm 2xl:text-base 3xl:text-lg mt-3 '>
           {country.note}
@@ -155,27 +158,29 @@ const MobileLinks = ({
     <section className='grid grid-cols-1 md:hidden'>
       <Accordion type='single' collapsible>
         <MobileAccordionItem title='Company'>
-          <FooterLink href='/'>About us</FooterLink>
-          <FooterLink href='/'>Independent reviews</FooterLink>
+          <FooterLink href='/about-us'>About us</FooterLink>
+          <FooterLink href='/about-us#independentReviews'>
+            Independent reviews
+          </FooterLink>
         </MobileAccordionItem>
         <MobileAccordionItem title='People'>
           <FooterLink href='/'>Partners & Counsels</FooterLink>
           <FooterLink href='/'>Attroneys at Law</FooterLink>
           <FooterLink href='/'>Consultants</FooterLink>
           <FooterLink href='/'>Junior Associates</FooterLink>
-          <FooterLink href='/'>Careers</FooterLink>
+          <FooterLink href='/career'>Career</FooterLink>
         </MobileAccordionItem>
         <MobileAccordionItem title='Services'>
           <FooterLink href='/'>Practices</FooterLink>
           <FooterLink href='/'>Industries</FooterLink>
-          <FooterLink href='/'>Countries</FooterLink>
+          <FooterLink href='/about-us#countries'>Countries</FooterLink>
         </MobileAccordionItem>
         <MobileAccordionItem title='Newsroom'>
-          <FooterLink href='/'>BDKnowledge</FooterLink>
-          <FooterLink href='/'>Blog</FooterLink>
-          <FooterLink href='/'>Digital Watch</FooterLink>
-          <FooterLink href='/'>Insight</FooterLink>
-          <FooterLink href='/'>Publications</FooterLink>
+          <FooterLink href='/bdknowledge'>BDKnowledge</FooterLink>
+          <FooterLink href='/blog'>Blog</FooterLink>
+          <FooterLink href='/digital-watch'>Digital Watch</FooterLink>
+          <FooterLink href='/insights'>Insight</FooterLink>
+          <FooterLink href='/publications'>Publications</FooterLink>
         </MobileAccordionItem>
       </Accordion>
 
@@ -236,8 +241,10 @@ const DesktopLinks = ({
       <div>
         <FooterHeading>Company</FooterHeading>
         <ul className='flex flex-col gap-y-6 mt-6'>
-          <FooterLink href='/'>About us</FooterLink>
-          <FooterLink href='/'>Independent reviews</FooterLink>
+          <FooterLink href='/about-us'>About us</FooterLink>
+          <FooterLink href='/about-us#independentReviews'>
+            Independent reviews
+          </FooterLink>
         </ul>
       </div>
       <div>
@@ -247,7 +254,7 @@ const DesktopLinks = ({
           <FooterLink href='/'>Attroneys at Law</FooterLink>
           <FooterLink href='/'>Consultants</FooterLink>
           <FooterLink href='/'>Junior Associates</FooterLink>
-          <FooterLink href='/'>Careers</FooterLink>
+          <FooterLink href='/career'>Career</FooterLink>
         </ul>
       </div>
       <div>
@@ -255,17 +262,17 @@ const DesktopLinks = ({
         <ul className='flex flex-col gap-y-6 mt-6'>
           <FooterLink href='/'>Practices</FooterLink>
           <FooterLink href='/'>Industries</FooterLink>
-          <FooterLink href='/'>Countries</FooterLink>
+          <FooterLink href='/about-us#countries'>Countries</FooterLink>
         </ul>
       </div>
       <div>
         <FooterHeading>Newsroom</FooterHeading>
         <ul className='flex flex-col gap-y-6 mt-6'>
-          <FooterLink href='/'>BDKnowledge</FooterLink>
-          <FooterLink href='/'>Blog</FooterLink>
-          <FooterLink href='/'>Digital Watch</FooterLink>
-          <FooterLink href='/'>Insight</FooterLink>
-          <FooterLink href='/'>Publications</FooterLink>
+          <FooterLink href='/bdknowledge'>BDKnowledge</FooterLink>
+          <FooterLink href='/blog'>Blog</FooterLink>
+          <FooterLink href='/digital-watch'>Digital Watch</FooterLink>
+          <FooterLink href='/insights'>Insight</FooterLink>
+          <FooterLink href='/publications'>Publications</FooterLink>
         </ul>
       </div>
       <div className='flex justify-between md:flex-col md:justify-normal gap-4 md:gap-10 mt-11 md:mt-0'>

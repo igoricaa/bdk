@@ -15,12 +15,20 @@ export interface NavigationRoute {
   };
 }
 
-export const getNavigationRoutes = async (): Promise<NavigationRoute[]> => {
-  const [{ industries, practices, foreignDesks }, { generalInfo }] =
+export const getHeaderData = async (): Promise<{
+  navigationRoutes: NavigationRoute[];
+  logo: any;
+  blinkdraftLogo: any;
+}> => {
+  const [{ industries, practices, foreignDesks }, { generalInfo, blinkdraft }] =
     await Promise.all([getServicesData(), getGeneralInfoData()]);
 
   if (!industries && !practices && !foreignDesks && !generalInfo) {
-    return [];
+    return {
+      navigationRoutes: [],
+      logo: null,
+      blinkdraftLogo: null,
+    };
   }
 
   const routes: NavigationRoute[] = [
@@ -130,5 +138,9 @@ export const getNavigationRoutes = async (): Promise<NavigationRoute[]> => {
     },
   ];
 
-  return routes;
+  return {
+    navigationRoutes: routes,
+    logo: generalInfo?.logo || null,
+    blinkdraftLogo: blinkdraft?.logo || null,
+  };
 };

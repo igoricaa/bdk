@@ -21,6 +21,7 @@ const IndependentReviewsSection = ({
 
   return (
     <Section
+      id='independentReviews'
       variant='dark'
       className='px-side grid grid-cols-1 md:grid-cols-6 xl:grid-cols-12 gap-4 md:gap-6 xl:gap-10'
     >

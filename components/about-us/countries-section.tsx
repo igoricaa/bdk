@@ -24,7 +24,7 @@ export const CountriesSection = ({
   const [activeCountry, setActiveCountry] = useState(countries[0]);
 
   return (
-    <Section variant='blue'>
+    <Section id='countries' variant='blue'>
       <Subtitle variation='dark'>Countries</Subtitle>
 
       <div className='flex xl:gap-18 2xl:gap-24 mt-6 md:mt-7.5 xl:mt-12 2xl:mt-17'>
