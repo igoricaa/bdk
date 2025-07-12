@@ -17,7 +17,7 @@ const Header = async () => {
 
   return (
     <StickyHeaderWrapper>
-      <header className='px-side h-15 md:h-20 flex justify-between items-center bg-background'>
+      <header className='px-side h-15 md:h-20 flex justify-between items-center bg-white'>
         <Link href='/'>
           <Logo logo={logo} className='w-24 xl:w-30' />
         </Link>

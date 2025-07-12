@@ -11,7 +11,7 @@ const Socials = ({
   className?: string;
 }) => {
   return (
-    <div className={cn('flex items-center gap-2.5 pb-4', className)}>
+    <div className={cn('flex items-center gap-2.5 pb-20', className)}>
       {socials.map((social) => (
         <Link href={social.link} key={social.name}>
           <SocialBgIcon

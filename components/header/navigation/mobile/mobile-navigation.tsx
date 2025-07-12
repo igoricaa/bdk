@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { NavigationRoute, SubRoutesRoute } from '@/lib/utils/navigation-routes';
 import Burger from '../../burger';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Logo from '@/components/ui/logo';
 import Link from 'next/link';
 import { ChevronDown, Search } from 'lucide-react';
@@ -17,7 +17,8 @@ import {
 import BackToButton from '@/components/ui/buttons/back-to-button';
 import Socials from './socials';
 import MenuFooter from './menu-footer';
-import { useLenis } from 'lenis/react';
+import { AnimatePresence, motion } from 'motion/react';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 const MobileNavigation = ({
   className,
@@ -28,58 +29,57 @@ const MobileNavigation = ({
   className?: string;
   navigationRoutes: NavigationRoute[];
   socials: NonNullable<GENERAL_INFO_QUERYResult['generalInfo']>['socials'];
-  logo: any;
+  logo: SanityImageSource;
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
-  const lenis = useLenis();
+  const [activeSubNavigationRoute, setActiveSubNavigationRoute] =
+    useState<SubRoutesRoute | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null!);
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    setIsMenuOpen(!isMenuOpen);
     setOpenAccordion(null);
+    setActiveSubNavigationRoute(null);
   };
 
   const handleToggle = (label: string) => {
     setOpenAccordion(openAccordion === label ? null : label);
   };
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      if (lenis) {
-        lenis.stop();
-      }
-    } else {
-      document.body.style.overflow = '';
-      if (lenis) {
-        lenis.start();
-      }
-    }
+  const handleSubmenuHide = () => {
+    setActiveSubNavigationRoute(null);
+    menuRef.current?.classList.toggle('no-scroll');
+  };
 
-    return () => {
-      document.body.style.overflow = '';
-      if (lenis) {
-        lenis.start();
-      }
-    };
-  }, [isOpen, lenis]);
+  useEffect(() => {
+    const body = document.body as HTMLElement;
+    body.style.overflow = isMenuOpen ? 'hidden' : '';
+
+    if (isMenuOpen) {
+      body.setAttribute('data-lenis-prevent', 'true');
+    } else {
+      body.removeAttribute('data-lenis-prevent');
+    }
+  }, [isMenuOpen]);
 
   return (
     <>
       <Burger onClickHandler={toggleMenu} />
 
       <nav
+        ref={menuRef}
         className={cn(
-          'h-screen w-screen px-side bg-dark-blue flex flex-col fixed inset-0 z-100 transition-all duration-300 overflow-y-auto',
-          isOpen ? 'translate-x-0' : 'translate-x-full',
+          'h-screen w-screen px-side bg-dark-blue flex flex-col fixed inset-0 z-100 transition-all duration-300 overflow-x-hidden',
+          isMenuOpen ? 'translate-x-0' : 'translate-x-full',
           className
         )}
       >
-        <header className='h-15 flex items-center'>
+        <header className='min-h-15 h-15 flex items-center sticky top-0'>
           <Logo logo={logo} className='w-24' />
         </header>
 
-        <div className='pt-8 sm:pt-12'>
+        <div className='pt-8 sm:pt-12 overflow-y-auto flex flex-col h-full'>
           <div className='border-b border-lightest-blue pb-4'>
             <div className='flex items-center justify-center w-10 h-10 border border-white rounded-full'>
               <Search className='w-4.5 h-4.5' strokeWidth={1.5} stroke='#fff' />
@@ -94,7 +94,8 @@ const MobileNavigation = ({
                 toggleMenu={toggleMenu}
                 openAccordion={openAccordion}
                 onToggle={handleToggle}
-                socials={socials}
+                setActiveSubNavigationRoute={setActiveSubNavigationRoute}
+                menuRef={menuRef}
               />
             ))}
           </ul>
@@ -102,29 +103,44 @@ const MobileNavigation = ({
           {socials && socials.length > 0 && (
             <Socials socials={socials} className='pt-4' />
           )}
-        </div>
 
-        <MenuFooter />
+          <MenuFooter />
+        </div>
       </nav>
+
+      <AnimatePresence>
+        {activeSubNavigationRoute && (
+          <MobileSubNavigation
+            route={activeSubNavigationRoute}
+            toggleMenu={toggleMenu}
+            backButtonClick={handleSubmenuHide}
+            socials={socials}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };
 
 export default MobileNavigation;
 
+interface MobileNavigationItemProps {
+  route: NavigationRoute;
+  toggleMenu: () => void;
+  openAccordion: string | null;
+  onToggle: (label: string) => void;
+  setActiveSubNavigationRoute: (route: SubRoutesRoute) => void;
+  menuRef: React.RefObject<HTMLDivElement>;
+}
+
 const MobileNavigationItem = ({
   route,
   toggleMenu,
   openAccordion,
   onToggle,
-  socials,
-}: {
-  route: NavigationRoute;
-  toggleMenu: () => void;
-  openAccordion: string | null;
-  onToggle: (label: string) => void;
-  socials: NonNullable<GENERAL_INFO_QUERYResult['generalInfo']>['socials'];
-}) => {
+  setActiveSubNavigationRoute,
+  menuRef,
+}: MobileNavigationItemProps) => {
   const sharedClasses =
     'w-full text-white text-2xl flex justify-between items-center cursor-pointer';
 
@@ -137,7 +153,8 @@ const MobileNavigationItem = ({
           toggleMenu={toggleMenu}
           openAccordion={openAccordion}
           onToggle={onToggle}
-          socials={socials}
+          setActiveSubNavigationRoute={setActiveSubNavigationRoute}
+          menuRef={menuRef}
         />
       ) : (
         <Link
@@ -152,21 +169,25 @@ const MobileNavigationItem = ({
   );
 };
 
+interface MobileNavigationAccordionItemProps {
+  route: SubRoutesRoute;
+  className: string;
+  toggleMenu: () => void;
+  openAccordion: string | null;
+  onToggle: (label: string) => void;
+  setActiveSubNavigationRoute: (route: SubRoutesRoute) => void;
+  menuRef: React.RefObject<HTMLDivElement>;
+}
+
 const MobileNavigationAccordionItem = ({
   route,
   className,
   toggleMenu,
   openAccordion,
   onToggle,
-  socials,
-}: {
-  route: SubRoutesRoute;
-  className: string;
-  toggleMenu: () => void;
-  openAccordion: string | null;
-  onToggle: (label: string) => void;
-  socials: NonNullable<GENERAL_INFO_QUERYResult['generalInfo']>['socials'];
-}) => {
+  setActiveSubNavigationRoute,
+  menuRef,
+}: MobileNavigationAccordionItemProps) => {
   return (
     <Accordion
       type='single'
@@ -191,7 +212,8 @@ const MobileNavigationAccordionItem = ({
                 key={subRoute.label}
                 route={subRoute}
                 toggleMenu={toggleMenu}
-                socials={socials}
+                setActiveSubNavigationRoute={setActiveSubNavigationRoute}
+                menuRef={menuRef}
               />
             ))}
           </ul>
@@ -201,42 +223,34 @@ const MobileNavigationAccordionItem = ({
   );
 };
 
+interface MobileNavigationDropdownSubItemProps {
+  route: NavigationRoute;
+  toggleMenu: () => void;
+  setActiveSubNavigationRoute: (route: SubRoutesRoute) => void;
+  menuRef: React.RefObject<HTMLDivElement>;
+}
+
 const MobileNavigationDropdownSubItem = ({
   route,
   toggleMenu,
-  socials,
-}: {
-  route: NavigationRoute;
-  toggleMenu: () => void;
-  socials: NonNullable<GENERAL_INFO_QUERYResult['generalInfo']>['socials'];
-}) => {
-  const [isSubNavigationOpen, setIsSubNavigationOpen] = useState(false);
-
+  setActiveSubNavigationRoute,
+  menuRef,
+}: MobileNavigationDropdownSubItemProps) => {
   const sharedClasses =
-    'flex justify-between text-lightest-blue text-2xl py-2.5 px-4 bg-lightest-blue/10 rounded-md w-full cursor-pointer';
+    'flex justify-between text-lightest-blue text-xl py-2 px-4 bg-lightest-blue/10 rounded-md w-full cursor-pointer';
 
-  const handleLinkClick = () => {
-    setIsSubNavigationOpen(false);
-    toggleMenu();
+  const handleSubmenuShow = () => {
+    setActiveSubNavigationRoute(route as SubRoutesRoute);
+    menuRef.current?.classList.toggle('no-scroll');
   };
 
   return (
     <li>
       {route.subRoutes && route.subRoutes.length > 0 ? (
         <>
-          <button
-            className={sharedClasses}
-            onClick={() => setIsSubNavigationOpen(!isSubNavigationOpen)}
-          >
+          <button className={sharedClasses} onClick={handleSubmenuShow}>
             {route.label}
           </button>
-          <MobileSubNavigation
-            route={route}
-            isOpen={isSubNavigationOpen}
-            toggleMenu={handleLinkClick}
-            backButtonClick={() => setIsSubNavigationOpen(false)}
-            socials={socials}
-          />
         </>
       ) : (
         <Link
@@ -253,23 +267,22 @@ const MobileNavigationDropdownSubItem = ({
 
 const MobileSubNavigation = ({
   route,
-  isOpen,
   toggleMenu,
   backButtonClick,
   socials,
 }: {
   route: SubRoutesRoute;
-  isOpen: boolean;
   toggleMenu: () => void;
   backButtonClick: () => void;
   socials: NonNullable<GENERAL_INFO_QUERYResult['generalInfo']>['socials'];
 }) => {
   return (
-    <div
-      className={cn(
-        'h-[calc(100vh-60px)] px-side pt-8 w-screen flex flex-col bg-dark-blue fixed top-15 left-0 z-105 transition-all duration-300 overflow-y-auto',
-        isOpen ? 'translate-x-0' : 'translate-x-full'
-      )}
+    <motion.div
+      initial={{ x: '100%' }}
+      animate={{ x: 0 }}
+      exit={{ x: '100%' }}
+      transition={{ ease: 'easeOut', duration: 0.3 }}
+      className='h-[calc(100vh-60px)] w-screen px-side pt-8 flex flex-col bg-dark-blue fixed top-15 left-0 z-105 overflow-y-auto overflow-x-hidden transform'
     >
       <BackToButton
         onClick={backButtonClick}
@@ -278,7 +291,6 @@ const MobileSubNavigation = ({
         iconStrokeColor='hsl(var(--light-blue))'
         className='text-light-blue'
       />
-
       <div className='pt-4 mt-4 border-t border-lightest-blue'>
         <p className='text-white text-2xl'>{route.label}</p>
 
@@ -300,6 +312,6 @@ const MobileSubNavigation = ({
         )}
       </div>
       <MenuFooter />
-    </div>
+    </motion.div>
   );
 };

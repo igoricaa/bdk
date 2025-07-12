@@ -253,6 +253,10 @@
   .no-scrollbar {
     @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
   }
+
+  .no-scroll {
+    overflow: hidden !important;
+  }
 }
 
 #home,
