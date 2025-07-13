@@ -4,36 +4,48 @@ import PostsGrid from '@/components/posts/posts-grid';
 import { FilterOption } from '@/components/ui/filter-buttons';
 import {
   getGlobalFeaturedPosts,
-  getPostsByCategory,
   getYearsByCategory,
+  getNestedCategories,
+  getPostsByCategory,
 } from '@/sanity/lib/cached-queries';
+import { buildCategoryTree, CategoryWithChildren } from '@/lib/utils';
 import { Suspense } from 'react';
 
-const DigitalWatchPage = async () => {
-  const slug = 'digital-watch';
-  const [featuredPosts, { posts }, postDates] = await Promise.all([
-    getGlobalFeaturedPosts(slug),
-    getPostsByCategory(slug),
-    getYearsByCategory(slug),
-  ]);
+const PublicationsPage = async () => {
+  const slug = 'publications';
+
+  const [featuredPosts, { posts }, postDates, nestedCategoriesData] =
+    await Promise.all([
+      getGlobalFeaturedPosts(slug),
+      getPostsByCategory(slug),
+      getYearsByCategory(slug),
+      getNestedCategories(slug),
+    ]);
 
   if (!featuredPosts || !posts) {
     return <div>No posts found</div>;
   }
 
-  const availableYears = Array.from(
-    new Set(
-      postDates
-        .map((date) => new Date(date).getFullYear().toString())
-        .filter((year) => parseInt(year) >= 2015)
-    )
-  ).sort((a, b) => parseInt(b) - parseInt(a));
+  // Build nested category tree
+  const categoryTree = buildCategoryTree(
+    nestedCategoriesData?.rootCategory || null,
+    nestedCategoriesData?.allCategories || []
+  );
+
+  // Simple year filtering - fixed types
+  const years = (postDates || [])
+    .map((date: any) => new Date(date).getFullYear().toString())
+    .filter((year: string) => parseInt(year) >= 2015);
+
+  const availableYears = Array.from(new Set(years)).sort(
+    (a, b) => parseInt(b) - parseInt(a)
+  );
 
   const latestYear = availableYears[0] || new Date().getFullYear().toString();
 
   const filterOptions: FilterOption[] = [
     { slug: latestYear, label: 'Latest' },
-    ...availableYears.slice(1).map((year) => ({
+    ...availableYears.slice(1).map((year: string) => ({
       slug: year,
       label: year,
     })),
@@ -45,17 +57,19 @@ const DigitalWatchPage = async () => {
         featuredPosts={featuredPosts as Post[]}
         className='mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35 '
       />
+
       <Suspense fallback={<div>Loading posts...</div>}>
         <PostsGrid
-          heading='Digital Watch'
+          heading='Publications'
           categorySlug={slug}
           filterOptions={filterOptions}
           initialPosts={posts}
           latestYear={latestYear}
+          categoryTree={categoryTree as CategoryWithChildren}
         />
       </Suspense>
     </main>
   );
 };
 
-export default DigitalWatchPage;
+export default PublicationsPage;

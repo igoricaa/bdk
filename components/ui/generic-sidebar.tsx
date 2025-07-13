@@ -8,12 +8,14 @@ import { ChevronDown } from 'lucide-react';
 import GenericAccordionList from './generic-accordion-list';
 import { GenericSidebarProps } from '@/types/sidebar';
 import { cn } from '@/lib/utils';
+import PostCategoriesAccordion from './post-categories-accordion';
 
 const GenericSidebar = ({
   sections,
   mobileTitle,
   className,
   mobileOnly,
+  forPosts = false,
 }: GenericSidebarProps) => {
   return (
     <div
@@ -38,13 +40,30 @@ const GenericSidebar = ({
             {mobileTitle}
           </AccordionTrigger>
           <AccordionContent className='pt-5 pb-2 md:pt-6 md:pb-0'>
-            <GenericAccordionList sections={sections} mobileOnly={mobileOnly} />
+            {forPosts ? (
+              <PostCategoriesAccordion
+                sections={sections}
+                mobileOnly={mobileOnly}
+              />
+            ) : (
+              <GenericAccordionList
+                sections={sections}
+                mobileOnly={mobileOnly}
+              />
+            )}
           </AccordionContent>
         </AccordionItem>
       </Accordion>
 
       <div className='hidden xl:block'>
-        <GenericAccordionList sections={sections} />
+        {forPosts ? (
+          <PostCategoriesAccordion
+            sections={sections}
+            mobileOnly={mobileOnly}
+          />
+        ) : (
+          <GenericAccordionList sections={sections} mobileOnly={mobileOnly} />
+        )}
       </div>
     </div>
   );

@@ -22,8 +22,7 @@ export interface GenericSidebarProps {
   mobileTitle: string;
   mobileOnly?: boolean;
   className?: string;
-  onCategoryClick?: (categorySlug: string) => void; // For client-side category selection
-  isClientSide?: boolean; // Whether to use client-side clicks instead of links
+  forPosts?: boolean;
 }
 
 export interface CategoriesTransformResult {

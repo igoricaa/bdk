@@ -14,13 +14,13 @@ const NewsroomPage = async () => {
   const [featuredPosts, { posts }, postDates] = await Promise.all([
     getGlobalFeaturedPosts(slug),
     getPostsByCategory(slug),
-    getYearsByCategory('newsroom'),
+    getYearsByCategory(slug),
   ]);
 
   if (!featuredPosts || !posts) {
     return <div>No posts found</div>;
   }
-  // Extract years from dates, filter from 2015 onwards, get unique values, and sort descending
+
   const availableYears = Array.from(
     new Set(
       postDates
@@ -29,10 +29,10 @@ const NewsroomPage = async () => {
     )
   ).sort((a, b) => parseInt(b) - parseInt(a));
 
-  const newestYear = availableYears[0] || new Date().getFullYear().toString();
+  const latestYear = availableYears[0] || new Date().getFullYear().toString();
 
   const filterOptions: FilterOption[] = [
-    { slug: newestYear, label: 'Latest' },
+    { slug: latestYear, label: 'Latest' },
     ...availableYears.slice(1).map((year) => ({
       slug: year,
       label: year,
@@ -51,9 +51,7 @@ const NewsroomPage = async () => {
           categorySlug={slug}
           filterOptions={filterOptions}
           initialPosts={posts}
-          allPostsCount={posts.length}
-          newestYear={newestYear}
-          filterType='year'
+          latestYear={latestYear}
         />
       </Suspense>
     </main>

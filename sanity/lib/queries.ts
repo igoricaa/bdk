@@ -380,7 +380,7 @@ export const LAWYER_QUERY = defineQuery(`{
 // -----------------
 
 export const POSTS_BY_CATEGORY_QUERY = defineQuery(`{
-  "posts": *[_type == "post" && status == "publish" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[3...12] {
+  "posts": *[_type == "post" && status == "publish" && ($slug == "all" || $slug == null || references(*[_type=="category" && slug.current == $slug]._id))] | order(date desc)[0...9] {
     _id,
     title,
     slug,
@@ -419,11 +419,48 @@ export const NESTED_CATEGORIES_QUERY = defineQuery(`{
 
 // New queries for client-side filtering approach
 export const GLOBAL_FEATURED_POSTS_QUERY = defineQuery(`
-  *[_type == "post" && status == "publish" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...3] {
+  *[_type == "post" && status == "publish" && ($slug == "all" || $slug == null || references(*[_type=="category" && slug.current == $slug]._id))] | order(date desc)[0...3] {
     _id,
     title,
     slug,
     excerpt,
     featuredMedia,
   }
+`);
+
+export const PAGINATED_FILTERED_POSTS_QUERY = defineQuery(`
+  *[ 
+    _type == "post"
+    && status == "publish"
+    // This part filters by category.
+    // If $categorySlug is "all" or null, this condition is effectively ignored.
+    // Otherwise, it checks if the post references the specified category.
+    && ($categorySlug == "all" || $categorySlug == null || references(*[_type=="category" && slug.current == $categorySlug]._id))
+    
+    // This part filters by year.
+    // If $year is null, this condition is ignored.
+    // Otherwise, it checks if the post's date starts with the given year string (e.g., "2023-").
+    && ($year == null || $year == "all" || string(date) match $year + "*")
+  ] | order(date desc)[$start...$end] {
+    _id,
+    title,
+    slug,
+    date,
+    categories[]->{
+      _id,
+      name,
+      slug
+    }
+  }
+`);
+
+// This query counts the total number of posts matching the same dynamic filters.
+// It's crucial for calculating pagination (i.e., if there is a next page).
+export const PAGINATED_FILTERED_POSTS_COUNT_QUERY = defineQuery(`
+  count(*[
+    _type == "post"
+    && status == "publish"
+    && ($categorySlug == "all" || $categorySlug == null || references(*[_type=="category" && slug.current == $categorySlug]._id))
+    && ($year == null || $year == "all" || string(date) match $year + "*")
+  ])
 `);

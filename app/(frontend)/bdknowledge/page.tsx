@@ -9,10 +9,10 @@ import {
 import { Suspense } from 'react';
 
 const BDKnowledgePage = async () => {
-  const slug = 'bdknowledge';
+  const slug = 'all';
   const [featuredPosts, { posts }] = await Promise.all([
     getGlobalFeaturedPosts(slug),
-    getPostsByCategory(slug),
+    getPostsByCategory('all'),
   ]);
 
   if (!featuredPosts || !posts) {
@@ -39,7 +39,6 @@ const BDKnowledgePage = async () => {
           categorySlug={slug}
           filterOptions={filterOptions}
           initialPosts={posts}
-          allPostsCount={posts.length}
         />
       </Suspense>
     </main>

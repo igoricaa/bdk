@@ -1,15 +1,15 @@
 'use client';
 
-import { useState, useRef, useEffect, Suspense } from 'react';
-import { useQueryStates, parseAsFloat, parseAsString } from 'nuqs';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useRef, useEffect } from 'react';
+import { parseAsString, useQueryState } from 'nuqs';
+import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'motion/react';
 import SectionHeader from '../ui/section-header/section-header';
 import PostCard from './post-card';
 import PostsFilters from './posts-filters';
 import { Button } from '../ui/button';
 import { useIsMobile } from '@/lib/hooks/use-mobile';
-import { fetchPaginatedPosts, fetchPostsByYear } from '@/app/actions/posts';
+import { fetchFilteredPosts } from '@/app/actions/posts';
 import { CategoryWithChildren, cn } from '@/lib/utils';
 import PostSkeleton from './post-card-skeleton';
 import { FilterOption } from '../ui/filter-buttons';
@@ -19,37 +19,32 @@ import { transformCategoriesData } from '@/lib/utils/sidebar-transformers';
 
 interface PostsGridProps {
   heading: string;
-  filterOptions: FilterOption[];
+  categorySlug?: string;
   initialPosts: POSTS_BY_CATEGORY_QUERYResult['posts'];
-  allPostsCount: number;
-  className?: string;
-  filterType?: 'category' | 'year';
-  categorySlug?: string; // For year filtering, we need to know the category
-  newestYear?: string;
   categoryTree?: CategoryWithChildren;
+  filterOptions: FilterOption[]; // These are the YEAR filters
+  latestYear?: string;
+  className?: string;
 }
 
 const PostsGrid = ({
   heading,
-  filterOptions,
+  categorySlug = 'all',
   initialPosts,
-  allPostsCount,
-  className,
-  filterType = 'category',
-  categorySlug = 'bdknowledge',
-  newestYear,
   categoryTree,
+  filterOptions,
+  latestYear,
+  className,
 }: PostsGridProps) => {
-  const [category, setCategory] = useQueryStates({
-    category: parseAsString,
-  });
-  // const [year, setYear] = useQueryStates({
-  //   year: parseAsFloat,
-  // });
-
-  const [activeFilter, setActiveFilter] = useState(
-    filterType === 'category' ? 'all' : newestYear!
+  const [category, setCategory] = useQueryState(
+    'category',
+    parseAsString.withDefault(categorySlug || 'all')
   );
+  const [year, setYear] = useQueryState(
+    'year',
+    parseAsString.withDefault(latestYear || 'all')
+  );
+
   const isMobile = useIsMobile({ breakpoint: 1024 });
   const intersectionRef = useRef(null);
   const isInView = useInView(intersectionRef, {
@@ -67,22 +62,13 @@ const PostsGrid = ({
     isError,
     error,
   } = useInfiniteQuery({
-    queryKey: ['posts', filterType, categorySlug, activeFilter],
+    queryKey: ['posts', category, year],
     queryFn: async ({ pageParam = 0 }) => {
-      let result;
-
-      if (filterType === 'year' && activeFilter !== 'all') {
-        result = await fetchPostsByYear({
-          categorySlug,
-          year: parseInt(activeFilter),
-          page: pageParam,
-        });
-      } else {
-        result = await fetchPaginatedPosts({
-          categorySlug: filterType === 'year' ? categorySlug : activeFilter,
-          page: pageParam,
-        });
-      }
+      const result = await fetchFilteredPosts({
+        categorySlug: category,
+        year: year,
+        page: pageParam,
+      });
 
       if (!result?.data?.success) {
         throw new Error(result?.data?.error || 'Failed to fetch posts');
@@ -92,20 +78,26 @@ const PostsGrid = ({
     },
     getNextPageParam: (lastPage) => lastPage?.nextPage ?? undefined,
     initialPageParam: 0,
-    initialData:
-      activeFilter === 'all'
-        ? {
-            pages: [
-              {
-                posts: initialPosts,
-                nextPage: initialPosts.length >= 9 ? 1 : null,
-                totalCount: allPostsCount,
-                hasNextPage: initialPosts.length >= 9,
-              },
-            ],
-            pageParams: [0],
-          }
-        : undefined,
+    initialData: () => {
+      const isDefaultFilterState =
+        category === 'all' && year === (latestYear || 'all');
+      if (isDefaultFilterState) {
+        return {
+          pages: [
+            {
+              posts: initialPosts,
+              nextPage: initialPosts.length >= 9 ? 1 : null,
+              totalCount: initialPosts.length,
+              hasNextPage: initialPosts.length >= 9,
+            },
+          ],
+          pageParams: [0],
+        };
+      }
+      return undefined;
+    },
+    placeholderData: keepPreviousData,
+    staleTime: Infinity,
   });
 
   useEffect(() => {
@@ -157,6 +149,7 @@ const PostsGrid = ({
                   mobileTitle={mobileTitleLocal!}
                   className='col-span-full xl:col-span-4 xl:max-w-8/10 bg-white xl:sticky xl:top-28'
                   mobileOnly={isMobile}
+                  forPosts={true}
                 />
               );
             })()}
@@ -210,8 +203,8 @@ const PostsGrid = ({
         rightSideComponent={
           <PostsFilters
             options={filterOptions}
-            activeCategory={activeFilter}
-            onCategoryChange={setActiveFilter}
+            activeCategory={latestYear ? year : category}
+            onCategoryChange={latestYear ? setYear : setCategory}
             variant='dark'
           />
         }
@@ -230,6 +223,7 @@ const PostsGrid = ({
                 mobileTitle={mobileTitleLocal!}
                 className='col-span-full xl:col-span-4 xl:max-w-8/10 bg-white xl:sticky xl:top-28'
                 mobileOnly={isMobile}
+                forPosts={true}
               />
             );
           })()}

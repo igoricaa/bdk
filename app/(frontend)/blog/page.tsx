@@ -8,7 +8,7 @@ import {
   getNestedCategories,
   getPostsByCategory,
 } from '@/sanity/lib/cached-queries';
-import { buildCategoryTree } from '@/lib/utils';
+import { buildCategoryTree, CategoryWithChildren } from '@/lib/utils';
 import { Suspense } from 'react';
 
 const BlogPage = async () => {
@@ -41,10 +41,10 @@ const BlogPage = async () => {
     (a, b) => parseInt(b) - parseInt(a)
   );
 
-  const newestYear = availableYears[0] || new Date().getFullYear().toString();
+  const latestYear = availableYears[0] || new Date().getFullYear().toString();
 
   const filterOptions: FilterOption[] = [
-    { slug: newestYear, label: 'Latest' },
+    { slug: latestYear, label: 'Latest' },
     ...availableYears.slice(1).map((year: string) => ({
       slug: year,
       label: year,
@@ -64,10 +64,8 @@ const BlogPage = async () => {
           categorySlug={slug}
           filterOptions={filterOptions}
           initialPosts={posts}
-          allPostsCount={posts.length}
-          newestYear={newestYear}
-          filterType='year'
-          categoryTree={categoryTree || undefined}
+          latestYear={latestYear}
+          categoryTree={categoryTree as CategoryWithChildren}
         />
       </Suspense>
     </main>

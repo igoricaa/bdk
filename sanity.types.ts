@@ -1336,24 +1336,6 @@ export type SanityAssetSourceData = {
 
 export type AllSanitySchemaTypes = OpenPosition | CareerPage | CoursesSection | CareerHeroSection | AboutUsPage | IndependentReviewsSection | AboutUsHeroSection | PeoplePage | PeopleHeroSection | Blinkdraft | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | Author | Category | Post | Industry | Practice | Illustration | Lawyer | LawyerCategory | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: app/actions/posts.ts
-// Variable: PAGINATED_POSTS_QUERY
-// Query: *[_type == "post" && references(*[_type=="category" && slug.current == $categorySlug]._id)]   | order(date desc)[$start...$end] {    _id,    title,    slug,    date,    categories[]->{      _id,      name,      slug    }  }
-export type PAGINATED_POSTS_QUERYResult = Array<{
-  _id: string;
-  title: string;
-  slug: Slug;
-  date: string;
-  categories: Array<{
-    _id: string;
-    name: string;
-    slug: Slug;
-  }>;
-}>;
-// Variable: POSTS_COUNT_QUERY
-// Query: count(*[_type == "post" && references(*[_type=="category" && slug.current == $categorySlug]._id)])
-export type POSTS_COUNT_QUERYResult = number;
-
 // Source: sanity/lib/queries.ts
 // Variable: HOME_PAGE_QUERY
 // Query: {  "homePage": *[_type == "homePage"][0],  "blinkdraft": *[_type == "blinkdraft"][0]{    logo  },}
@@ -3136,7 +3118,7 @@ export type LAWYER_QUERYResult = {
   }>;
 };
 // Variable: POSTS_BY_CATEGORY_QUERY
-// Query: {  "posts": *[_type == "post" && status == "publish" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[3...12] {    _id,    title,    slug,    date,    categories[]->{      _id,      name,      slug    }  }}
+// Query: {  "posts": *[_type == "post" && status == "publish" && ($slug == "all" || $slug == null || references(*[_type=="category" && slug.current == $slug]._id))] | order(date desc)[0...9] {    _id,    title,    slug,    date,    categories[]->{      _id,      name,      slug    }  }}
 export type POSTS_BY_CATEGORY_QUERYResult = {
   posts: Array<{
     _id: string;
@@ -3172,7 +3154,7 @@ export type NESTED_CATEGORIES_QUERYResult = {
   }>;
 };
 // Variable: GLOBAL_FEATURED_POSTS_QUERY
-// Query: *[_type == "post" && status == "publish" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...3] {    _id,    title,    slug,    excerpt,    featuredMedia,  }
+// Query: *[_type == "post" && status == "publish" && ($slug == "all" || $slug == null || references(*[_type=="category" && slug.current == $slug]._id))] | order(date desc)[0...3] {    _id,    title,    slug,    excerpt,    featuredMedia,  }
 export type GLOBAL_FEATURED_POSTS_QUERYResult = Array<{
   _id: string;
   title: string;
@@ -3223,13 +3205,27 @@ export type GLOBAL_FEATURED_POSTS_QUERYResult = Array<{
     _type: "image";
   };
 }>;
+// Variable: PAGINATED_FILTERED_POSTS_QUERY
+// Query: *[     _type == "post"    && status == "publish"    // This part filters by category.    // If $categorySlug is "all" or null, this condition is effectively ignored.    // Otherwise, it checks if the post references the specified category.    && ($categorySlug == "all" || $categorySlug == null || references(*[_type=="category" && slug.current == $categorySlug]._id))        // This part filters by year.    // If $year is null, this condition is ignored.    // Otherwise, it checks if the post's date starts with the given year string (e.g., "2023-").    && ($year == null || $year == "all" || string(date) match $year + "*")  ] | order(date desc)[$start...$end] {    _id,    title,    slug,    date,    categories[]->{      _id,      name,      slug    }  }
+export type PAGINATED_FILTERED_POSTS_QUERYResult = Array<{
+  _id: string;
+  title: string;
+  slug: Slug;
+  date: string;
+  categories: Array<{
+    _id: string;
+    name: string;
+    slug: Slug;
+  }>;
+}>;
+// Variable: PAGINATED_FILTERED_POSTS_COUNT_QUERY
+// Query: count(*[    _type == "post"    && status == "publish"    && ($categorySlug == "all" || $categorySlug == null || references(*[_type=="category" && slug.current == $categorySlug]._id))    && ($year == null || $year == "all" || string(date) match $year + "*")  ])
+export type PAGINATED_FILTERED_POSTS_COUNT_QUERYResult = number;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "\n  *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $categorySlug]._id)] \n  | order(date desc)[$start...$end] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n": PAGINATED_POSTS_QUERYResult;
-    "\n  count(*[_type == \"post\" && references(*[_type==\"category\" && slug.current == $categorySlug]._id)])\n": POSTS_COUNT_QUERYResult;
     "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  },\n}": HOME_PAGE_QUERYResult;
     "{\n  \"peoplePage\": *[_type == \"peoplePage\"][0],\n}": PEOPLE_PAGE_QUERYResult;
     "{\n  \"aboutUsPage\": *[_type == \"aboutUsPage\"][0],\n}": ABOUT_US_PAGE_QUERYResult;
@@ -3247,9 +3243,11 @@ declare module "@sanity/client" {
     "{\n    \"currentPost\": *[_type == \"post\" && slug.current == $slug && status == \"publish\"][0]{\n      _id,\n      title,\n      slug,\n      date,\n      modified,\n      status,\n      content,\n      excerpt,\n      featuredMedia,\n      authors[]->{\n        _id,\n        type,\n        lawyer->{\n          name,\n          title,\n          picture,\n          slug\n        },\n        customAuthor{\n          name,\n          slug\n        }\n      },\n      categories[]->{\n        _id,\n        name,\n        slug,\n        \"parentCategories\": parent[]->{\n          _id,\n          name,\n          slug,\n          \"parentCategories\": parent[]->{\n            _id,\n            name,\n            slug\n          }\n        }\n      }\n    },\n    \"previousPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date < *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0]{\n      slug\n    },\n    \"nextPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date > *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date asc)[0]{\n      slug\n    },\n    \"relatedPosts\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && slug.current != $slug\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0...12]{\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    }\n  }": POST_QUERYResult;
     "{\n  \"generalInfo\": *[_type == \"generalInfo\"][0]{\n    ...,\n    servicesCategoryIllustrations{\n      servicesIllustration,\n      practicesIllustration,\n      industriesIllustration,\n      foreignDesksIllustration\n    },\n    countries[]->{\n      _id,\n      name,\n      description,\n      countryIllustration,\n      address,\n      email,\n      phone,\n      note\n    }\n  },\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  }\n}": GENERAL_INFO_QUERYResult;
     "{\n  \"lawyer\": *[_type == \"lawyer\" && slug.current == $slug][0],\n  \"sameCategoryLawyers\": *[_type == \"lawyer\" && category._ref == *[_type == \"lawyer\" && slug.current == $slug][0].category._ref && slug.current != $slug]{\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n    contactInfo {\n      linkedin\n    }\n  },\n  \"categoryInfo\": *[_type == \"lawyerCategory\" && _id == *[_type == \"lawyer\" && slug.current == $slug][0].category._ref][0]{\n    _id,\n    title,\n    \"orderedLawyers\": orderedLawyers[]->{\n      _id,\n      slug\n    }\n  },\n  \"newsroomPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Newsroom\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"blogPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Blog\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"insightsPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Insights\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },  \n  \"publications\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Publications\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n}": LAWYER_QUERYResult;
-    "{\n  \"posts\": *[_type == \"post\" && status == \"publish\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[3...12] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n}": POSTS_BY_CATEGORY_QUERYResult;
+    "{\n  \"posts\": *[_type == \"post\" && status == \"publish\" && ($slug == \"all\" || $slug == null || references(*[_type==\"category\" && slug.current == $slug]._id))] | order(date desc)[0...9] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n}": POSTS_BY_CATEGORY_QUERYResult;
     "\n  *[_type == \"post\" && status == \"publish\" && references(*[_type==\"category\" && slug.current == $slug]._id)].date | order(@ desc)\n": YEARS_BY_CATEGORY_QUERYResult;
     "{\n  \"rootCategory\": *[_type == \"category\" && slug.current == $categorySlug][0]{\n    _id,\n    name,\n    slug,\n    \"postCount\": count(*[_type == \"post\" && status == \"publish\" && references(^._id)])\n  },\n  \"allCategories\": *[\n    _type == \"category\" \n    && count(*[_type == \"post\" && status == \"publish\" && references(^._id)]) > 0\n  ]{\n    _id,\n    name,\n    slug,\n    \"parentRefs\": parent[]._ref,\n    \"postCount\": count(*[_type == \"post\" && status == \"publish\" && references(^._id)]),\n    \"hasChildren\": count(*[_type == \"category\" && references(^._id) && count(*[_type == \"post\" && status == \"publish\" && references(^._id)]) > 0]) > 0\n  } | order(name asc)\n}": NESTED_CATEGORIES_QUERYResult;
-    "\n  *[_type == \"post\" && status == \"publish\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...3] {\n    _id,\n    title,\n    slug,\n    excerpt,\n    featuredMedia,\n  }\n": GLOBAL_FEATURED_POSTS_QUERYResult;
+    "\n  *[_type == \"post\" && status == \"publish\" && ($slug == \"all\" || $slug == null || references(*[_type==\"category\" && slug.current == $slug]._id))] | order(date desc)[0...3] {\n    _id,\n    title,\n    slug,\n    excerpt,\n    featuredMedia,\n  }\n": GLOBAL_FEATURED_POSTS_QUERYResult;
+    "\n  *[ \n    _type == \"post\"\n    && status == \"publish\"\n    // This part filters by category.\n    // If $categorySlug is \"all\" or null, this condition is effectively ignored.\n    // Otherwise, it checks if the post references the specified category.\n    && ($categorySlug == \"all\" || $categorySlug == null || references(*[_type==\"category\" && slug.current == $categorySlug]._id))\n    \n    // This part filters by year.\n    // If $year is null, this condition is ignored.\n    // Otherwise, it checks if the post's date starts with the given year string (e.g., \"2023-\").\n    && ($year == null || $year == \"all\" || string(date) match $year + \"*\")\n  ] | order(date desc)[$start...$end] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n": PAGINATED_FILTERED_POSTS_QUERYResult;
+    "\n  count(*[\n    _type == \"post\"\n    && status == \"publish\"\n    && ($categorySlug == \"all\" || $categorySlug == null || references(*[_type==\"category\" && slug.current == $categorySlug]._id))\n    && ($year == null || $year == \"all\" || string(date) match $year + \"*\")\n  ])\n": PAGINATED_FILTERED_POSTS_COUNT_QUERYResult;
   }
 }
