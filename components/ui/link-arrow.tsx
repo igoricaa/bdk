@@ -41,6 +41,7 @@ export const LinkWithArrow = ({
       ) : (
         <TransitionLink
           href={href}
+          pageName={label}
           className={cn(buttonClassName)}
           onMouseEnter={onMouseEnter}
         >

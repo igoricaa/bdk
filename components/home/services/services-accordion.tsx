@@ -95,6 +95,7 @@ const ServicesAccordionItem = ({
             <li key={item.title} onMouseEnter={() => setActiveService(item)}>
               <TransitionLink
                 href={`/${slug}/${item.slug.current}`}
+                pageName={item.title}
                 className='text-dark-blue text-lg 2xl:text-2xl flex gap-10 justify-between pt-[10px] h-14 md:h-16 xl:h-14 2xl:h-17 border-t border-t-[rgba(137, 138, 141, 0.5)]'
               >
                 {item.title}

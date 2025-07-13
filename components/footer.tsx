@@ -12,6 +12,7 @@ import {
 import { ChevronDown } from 'lucide-react';
 import { getGeneralInfoData } from '@/sanity/lib/cached-queries';
 import SocialBgIcon from './ui/icons/social-bg-icon';
+import Link from 'next/link';
 
 const Footer = async () => {
   const { generalInfo, blinkdraft } = await getGeneralInfoData();
@@ -49,13 +50,13 @@ const Footer = async () => {
         <section className='flex flex-col gap-19 md:flex-row md:justify-between border-t border-lightest-blue pt-3 md:pt-9 xl:pt-8 2xl:pt-10 mt-8 md:mt-10 xl:mt-9 2xl:mt-22'>
           <div className='flex justify-between items-center gap-4 md:gap-8'>
             <TransitionLink
-              href='/'
+              href='/privacy-notice'
               className='text-[#BEC1C6] text-sm 2xl:text-lg'
             >
               Privacy Notice
             </TransitionLink>
             <TransitionLink
-              href='/'
+              href='/cookie-policy'
               className='text-[#BEC1C6] text-sm 2xl:text-lg'
             >
               Cookie Policy
@@ -75,9 +76,11 @@ export default Footer;
 const FooterLink = ({
   children,
   href,
+  pageName,
 }: {
   children: React.ReactNode;
   href: string;
+  pageName?: string;
 }) => {
   return (
     <li className='text-grey-text text-xs xl:text-sm 2xl:text-lg'>
@@ -129,19 +132,19 @@ const CountryCard = ({
         paragraphClassName='mt-0! md:text-sm! 2xl:text-base! 3xl:text-lg!'
       />
       {country.phone && (
-        <TransitionLink
+        <Link
           href={`tel:${country.phone}`}
           className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3'
         >
           {country.phone}
-        </TransitionLink>
+        </Link>
       )}
-      <TransitionLink
+      <Link
         href={`mailto:${country.email}`}
         className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3 wrap-break-word'
       >
         {country.email}
-      </TransitionLink>
+      </Link>
       {country.note && (
         <p className='text-light-blue md:text-sm 2xl:text-base 3xl:text-lg mt-3 '>
           {country.note}
@@ -163,31 +166,51 @@ const MobileLinks = ({
       <Accordion type='single' collapsible>
         <MobileAccordionItem title='Company'>
           <FooterLink href='/about-us'>About us</FooterLink>
-          <FooterLink href='/about-us#independentReviews'>
+          <FooterLink
+            href='/about-us#independentReviews'
+            pageName='Independent reviews'
+          >
             Independent reviews
           </FooterLink>
         </MobileAccordionItem>
         <MobileAccordionItem title='People'>
-          <FooterLink href='/people#partners'>Partners & Counsels</FooterLink>
-          <FooterLink href='/people#attorneys'>Attorneys at Law</FooterLink>
-          <FooterLink href='/people#consultants'>Consultants</FooterLink>
-          <FooterLink href='/people#juniorAssociates'>
+          <FooterLink href='/people#partners' pageName='Partners & Counsels'>
+            Partners & Counsels
+          </FooterLink>
+          <FooterLink href='/people#attorneys' pageName='Attorneys at Law'>
+            Attorneys at Law
+          </FooterLink>
+          <FooterLink href='/people#consultants' pageName='Consultants'>
+            Consultants
+          </FooterLink>
+          <FooterLink
+            href='/people#juniorAssociates'
+            pageName='Junior Associates'
+          >
             Junior Associates
           </FooterLink>
           <FooterLink href='/career'>Career</FooterLink>
         </MobileAccordionItem>
         <MobileAccordionItem title='Services'>
-          <FooterLink href='/practices/banking-and-finance'>
+          <FooterLink
+            href='/practices/banking-and-finance'
+            pageName='Practices'
+          >
             Practices
           </FooterLink>
-          <FooterLink href='/industries/energy-and-natural-resources'>
+          <FooterLink
+            href='/industries/energy-and-natural-resources'
+            pageName='Industries'
+          >
             Industries
           </FooterLink>
         </MobileAccordionItem>
         <MobileAccordionItem title='Newsroom'>
           <FooterLink href='/bdknowledge'>BDKnowledge</FooterLink>
           <FooterLink href='/blog'>Blog</FooterLink>
-          <FooterLink href='/digital-watch'>Digital Watch</FooterLink>
+          <FooterLink href='/digital-watch' pageName='Digital Watch'>
+            Digital Watch
+          </FooterLink>
           <FooterLink href='/insights'>Insight</FooterLink>
           <FooterLink href='/publications'>Publications</FooterLink>
         </MobileAccordionItem>
@@ -251,7 +274,10 @@ const DesktopLinks = ({
         <FooterHeading>Company</FooterHeading>
         <ul className='flex flex-col gap-y-6 mt-6'>
           <FooterLink href='/about-us'>About us</FooterLink>
-          <FooterLink href='/about-us#independentReviews'>
+          <FooterLink
+            href='/about-us#independentReviews'
+            pageName='Independent reviews'
+          >
             Independent reviews
           </FooterLink>
         </ul>
@@ -259,10 +285,19 @@ const DesktopLinks = ({
       <div>
         <FooterHeading>People</FooterHeading>
         <ul className='flex flex-col gap-y-6 mt-6'>
-          <FooterLink href='/people#partners'>Partners & Counsels</FooterLink>
-          <FooterLink href='/people#attorneys'>Attorneys at Law</FooterLink>
-          <FooterLink href='/people#consultants'>Consultants</FooterLink>
-          <FooterLink href='/people#juniorAssociates'>
+          <FooterLink href='/people#partners' pageName='Partners & Counsels'>
+            Partners & Counsels
+          </FooterLink>
+          <FooterLink href='/people#attorneys' pageName='Attorneys at Law'>
+            Attorneys at Law
+          </FooterLink>
+          <FooterLink href='/people#consultants' pageName='Consultants'>
+            Consultants
+          </FooterLink>
+          <FooterLink
+            href='/people#juniorAssociates'
+            pageName='Junior Associates'
+          >
             Junior Associates
           </FooterLink>
           <FooterLink href='/career'>Career</FooterLink>
@@ -271,10 +306,16 @@ const DesktopLinks = ({
       <div>
         <FooterHeading>Services</FooterHeading>
         <ul className='flex flex-col gap-y-6 mt-6'>
-          <FooterLink href='/practices/banking-and-finance'>
+          <FooterLink
+            href='/practices/banking-and-finance'
+            pageName='Practices'
+          >
             Practices
           </FooterLink>
-          <FooterLink href='/industries/energy-and-natural-resources'>
+          <FooterLink
+            href='/industries/energy-and-natural-resources'
+            pageName='Industries'
+          >
             Industries
           </FooterLink>
         </ul>
@@ -284,7 +325,9 @@ const DesktopLinks = ({
         <ul className='flex flex-col gap-y-6 mt-6'>
           <FooterLink href='/bdknowledge'>BDKnowledge</FooterLink>
           <FooterLink href='/blog'>Blog</FooterLink>
-          <FooterLink href='/digital-watch'>Digital Watch</FooterLink>
+          <FooterLink href='/digital-watch' pageName='Digital Watch'>
+            Digital Watch
+          </FooterLink>
           <FooterLink href='/insights'>Insight</FooterLink>
           <FooterLink href='/publications'>Publications</FooterLink>
         </ul>

@@ -13,14 +13,13 @@ const PostCard = ({
   return (
     <article
       className={cn(
-        // aspect-[520/467]
-        // sm:max-h-[calc(367/350*100%)]
         'bg-white rounded-br-[2.5rem] xl:rounded-br-[3rem] overflow-hidden min-h-[calc(354/362*(100vw-2*var(--padding-side)))] sm:min-h-auto md:aspect-[367/350] xl:aspect-[397/350]',
         className
       )}
     >
       <TransitionLink
         href={`/${post.slug.current}`}
+        pageName={post.title}
         className='flex flex-col gap-8 md:gap-7.5 2xl:gap-13 justify-between h-full px-side py-7 md:px-5 md:py-7.5 2xl:py-10 2xl:px-7'
       >
         <div className='flex flex-col'>

@@ -158,7 +158,8 @@ const MobileNavigationItem = ({
         />
       ) : (
         <TransitionLink
-          href={route.href || ''}
+          href={route.href as string}
+          pageName={route.label}
           className={sharedClasses}
           onClick={toggleMenu}
         >
@@ -208,7 +209,8 @@ const MobileNavigationAccordionItem = ({
         <AccordionContent>
           <ul className='flex flex-col gap-y-2.5 mt-4'>
             <TransitionLink
-              href={route.href || ''}
+              href={route.href as string}
+              pageName={route.label}
               className='flex justify-between text-lightest-blue text-xl py-2 px-4 bg-lightest-blue/10 rounded-md w-full cursor-pointer'
               onClick={toggleMenu}
             >
@@ -261,7 +263,8 @@ const MobileNavigationDropdownSubItem = ({
         </>
       ) : (
         <TransitionLink
-          href={route.href || ''}
+          href={route.href as string}
+          pageName={route.label}
           className={sharedClasses}
           onClick={toggleMenu}
         >
@@ -305,7 +308,8 @@ const MobileSubNavigation = ({
           {route.subRoutes.map((subRoute) => (
             <li key={subRoute.label}>
               <TransitionLink
-                href={subRoute.href || ''}
+                href={subRoute.href as string}
+                pageName={subRoute.label}
                 className='block text-xl leading-7 text-lightest-blue py-2'
                 onClick={toggleMenu}
               >

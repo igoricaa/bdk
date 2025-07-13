@@ -2,7 +2,7 @@ import Section from '../ui/section';
 import SectionHeader from '../ui/section-header/section-header';
 import ArrowUpRight from '../ui/arrow-up-right';
 import { ABOUT_US_PAGE_QUERYResult } from '@/sanity.types';
-import { TransitionLink } from '@/components/transition-link';
+import Link from 'next/link';
 
 const IndependentReviewsSection = ({
   heading,
@@ -42,19 +42,19 @@ const IndependentReviewsSection = ({
               : 'rounded-tl-[2.5rem] md:rounded-tl-[30px] xl:rounded-tl-[50px] rounded-br-[2.5rem] md:rounded-br-[30px] xl:rounded-br-[50px]';
 
           return (
-            <article key={item.title}>
-              <TransitionLink
-                href={item.link}
-                className={`${borderRadius} overflow-hidden cursor-pointer flex flex-col bg-white/5 relative px-8 py-9 2xl:px-10 2xl:py-12`}
-                target='_blank'
-              >
+            <Link
+              href={item.link}
+              className={`${borderRadius} overflow-hidden cursor-pointer flex flex-col bg-white/5 relative px-8 py-9 2xl:px-10 2xl:py-12`}
+              target='_blank'
+            >
+              <article key={item.title}>
                 <h3 className='text-2xl text-white'>{item.title}</h3>
                 <p className='text-lg text-white mt-4 2xl:mt-5'>
                   {item.description}
                 </p>
                 <ArrowUpRight className='absolute top-8 2xl:top-10 right-8 2xl:right-10' />
-              </TransitionLink>
-            </article>
+              </article>
+            </Link>
           );
         })}
       </div>

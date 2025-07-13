@@ -81,7 +81,11 @@ const BDKnowledgeMenu = ({
                     : 'w-50 aspect-[251/231] right-0 top-1/2 -translate-y-1/2';
 
             return (
-              <TransitionLink href={item.href as string} key={item.label}>
+              <TransitionLink
+                href={item.href as string}
+                key={item.label}
+                pageName={item.label}
+              >
                 <article
                   className={`relative bg-dark-blue ${borderRadius} overflow-hidden p-4 aspect-[530/308] h-30 cursor-pointer`}
                 >
