@@ -13,6 +13,16 @@
  */
 
 // Source: schema.json
+export type BlinkdraftSubscriptionPlan = {
+  _type: "blinkdraftSubscriptionPlan";
+  note: string;
+  title: string;
+  features: Array<{
+    description: string;
+    _key: string;
+  }>;
+};
+
 export type OpenPosition = {
   _id: string;
   _type: "openPosition";
@@ -157,26 +167,6 @@ export type PeopleHeroSection = {
   _type: "peopleHeroSection";
   heading: string;
   description: string;
-};
-
-export type Blinkdraft = {
-  _id: string;
-  _type: "blinkdraft";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  logo: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
 };
 
 export type Country = {
@@ -1216,6 +1206,190 @@ export type BlockContent = Array<{
   _key: string;
 } & ExternalImage>;
 
+export type MuxVideo = {
+  _type: "mux.video";
+  asset?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "mux.videoAsset";
+  };
+};
+
+export type MuxVideoAsset = {
+  _id: string;
+  _type: "mux.videoAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  status?: string;
+  assetId?: string;
+  playbackId?: string;
+  filename?: string;
+  thumbTime?: number;
+  data?: MuxAssetData;
+};
+
+export type MuxAssetData = {
+  _type: "mux.assetData";
+  resolution_tier?: string;
+  upload_id?: string;
+  created_at?: string;
+  id?: string;
+  status?: string;
+  max_stored_resolution?: string;
+  passthrough?: string;
+  encoding_tier?: string;
+  master_access?: string;
+  aspect_ratio?: string;
+  duration?: number;
+  max_stored_frame_rate?: number;
+  mp4_support?: string;
+  max_resolution_tier?: string;
+  tracks?: Array<{
+    _key: string;
+  } & MuxTrack>;
+  playback_ids?: Array<{
+    _key: string;
+  } & MuxPlaybackId>;
+  static_renditions?: MuxStaticRenditions;
+};
+
+export type MuxStaticRenditions = {
+  _type: "mux.staticRenditions";
+  status?: string;
+  files?: Array<{
+    _key: string;
+  } & MuxStaticRenditionFile>;
+};
+
+export type MuxStaticRenditionFile = {
+  _type: "mux.staticRenditionFile";
+  ext?: string;
+  name?: string;
+  width?: number;
+  bitrate?: number;
+  filesize?: number;
+  height?: number;
+};
+
+export type MuxPlaybackId = {
+  _type: "mux.playbackId";
+  id?: string;
+  policy?: string;
+};
+
+export type MuxTrack = {
+  _type: "mux.track";
+  id?: string;
+  type?: string;
+  max_width?: number;
+  max_frame_rate?: number;
+  duration?: number;
+  max_height?: number;
+};
+
+export type TranslationMetadata = {
+  _id: string;
+  _type: "translation.metadata";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  translations?: Array<{
+    _key: string;
+  } & InternationalizedArrayReferenceValue>;
+  schemaTypes?: Array<string>;
+};
+
+export type InternationalizedArrayReferenceValue = {
+  _type: "internationalizedArrayReferenceValue";
+  value?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "blinkdraft";
+  };
+};
+
+export type Blinkdraft = {
+  _id: string;
+  _type: "blinkdraft";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  logo: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  title: string;
+  slug: Slug;
+  heroSection: BlinkdraftHeroSection;
+  demoSection: BlinkdraftDemoSection;
+  whatIsSection: BlinkdraftWhatIsSection;
+  subscriptionPlansSection: BlinkdraftSubscriptionPlansSection;
+  ctaSection: BlinkdraftCtaSection;
+};
+
+export type BlinkdraftCtaSection = {
+  _type: "blinkdraftCtaSection";
+  heading: string;
+  buttonText: string;
+};
+
+export type BlinkdraftSubscriptionPlansSection = {
+  _type: "blinkdraftSubscriptionPlansSection";
+  heading: string;
+  subscriptionPlans: Array<{
+    _key: string;
+  } & BlinkdraftSubscriptionPlan>;
+};
+
+export type BlinkdraftWhatIsSection = {
+  _type: "blinkdraftWhatIsSection";
+  heading: string;
+  description: Array<{
+    title: string;
+    description: string;
+    _key: string;
+  }>;
+};
+
+export type BlinkdraftDemoSection = {
+  _type: "blinkdraftDemoSection";
+  subtitle: string;
+  heading: string;
+  demoVideo: MuxVideo;
+};
+
+export type BlinkdraftHeroSection = {
+  _type: "blinkdraftHeroSection";
+  heading: string;
+  backgroundImage: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+};
+
+export type InternationalizedArrayReference = Array<{
+  _key: string;
+} & InternationalizedArrayReferenceValue>;
+
 export type SanityImagePaletteSwatch = {
   _type: "sanity.imagePaletteSwatch";
   background?: string;
@@ -1334,8 +1508,69 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = OpenPosition | CareerPage | CoursesSection | CareerHeroSection | AboutUsPage | IndependentReviewsSection | AboutUsHeroSection | PeoplePage | PeopleHeroSection | Blinkdraft | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | Author | Category | Post | Industry | Practice | Illustration | Lawyer | LawyerCategory | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = BlinkdraftSubscriptionPlan | OpenPosition | CareerPage | CoursesSection | CareerHeroSection | AboutUsPage | IndependentReviewsSection | AboutUsHeroSection | PeoplePage | PeopleHeroSection | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | Author | Category | Post | Industry | Practice | Illustration | Lawyer | LawyerCategory | BlockContent | MuxVideo | MuxVideoAsset | MuxAssetData | MuxStaticRenditions | MuxStaticRenditionFile | MuxPlaybackId | MuxTrack | TranslationMetadata | InternationalizedArrayReferenceValue | Blinkdraft | BlinkdraftCtaSection | BlinkdraftSubscriptionPlansSection | BlinkdraftWhatIsSection | BlinkdraftDemoSection | BlinkdraftHeroSection | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
+// Source: app/api/search/all/route.ts
+// Variable: GLOBAL_SEARCH_QUERY
+// Query: *[_type in ["post", "lawyer", "industry", "practice", "foreignDesk"] && (      title match $searchQuery + "*" ||      name match $searchQuery + "*" ||      pt::text(content) match $searchQuery + "*"    )  ] | order(_score desc) [0...10] {    _id,    _type,    title,    "slug": slug.current,    "details": select(_type == "lawyer" => name, null)  }
+export type GLOBAL_SEARCH_QUERYResult = Array<{
+  _id: string;
+  _type: "foreignDesk";
+  title: string;
+  slug: string;
+  details: null;
+} | {
+  _id: string;
+  _type: "industry";
+  title: string;
+  slug: string;
+  details: null;
+} | {
+  _id: string;
+  _type: "lawyer";
+  title: string;
+  slug: string;
+  details: string;
+} | {
+  _id: string;
+  _type: "post";
+  title: string;
+  slug: string;
+  details: null;
+} | {
+  _id: string;
+  _type: "practice";
+  title: string;
+  slug: string;
+  details: null;
+}>;
+
+// Source: app/api/search/lawyers/route.ts
+// Variable: LAWYER_SEARCH_QUERY
+// Query: *[_type == "lawyer" && name match $searchQuery + "*" && ($category == "all" || category->slug.current == $category)] {    _id,    name,    title,    picture,    slug,    contactInfo {      linkedin    }  }
+export type LAWYER_SEARCH_QUERYResult = Array<{
+  _id: string;
+  name: string;
+  title: string;
+  picture: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  slug: Slug;
+  contactInfo: {
+    linkedin: string | null;
+  } | null;
+}>;
+
 // Source: sanity/lib/queries.ts
 // Variable: HOME_PAGE_QUERY
 // Query: {  "homePage": *[_type == "homePage"][0],  "blinkdraft": *[_type == "blinkdraft"][0]{    logo  },}
@@ -1701,8 +1936,8 @@ export type SERVICE_QUERYResult = {
   } | {
     _id: string;
     _type: "blinkdraft";
-    title: null;
-    slug: null;
+    title: string;
+    slug: Slug;
     description: null;
     illustration: null;
     testimonials: null;
@@ -2172,6 +2407,29 @@ export type SERVICE_QUERYResult = {
     }>;
   } | {
     _id: string;
+    _type: "mux.videoAsset";
+    title: null;
+    slug: null;
+    description: null;
+    illustration: null;
+    testimonials: null;
+    publications: null;
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
     _type: "openPosition";
     title: string;
     slug: null;
@@ -2409,6 +2667,29 @@ export type SERVICE_QUERYResult = {
     title: string | null;
     slug: null;
     description: string | null;
+    illustration: null;
+    testimonials: null;
+    publications: null;
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "translation.metadata";
+    title: null;
+    slug: null;
+    description: null;
     illustration: null;
     testimonials: null;
     publications: null;
@@ -3226,6 +3507,8 @@ export type PAGINATED_FILTERED_POSTS_COUNT_QUERYResult = number;
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
+    "\n  *[_type in [\"post\", \"lawyer\", \"industry\", \"practice\", \"foreignDesk\"] && (\n      title match $searchQuery + \"*\" ||\n      name match $searchQuery + \"*\" ||\n      pt::text(content) match $searchQuery + \"*\"\n    )\n  ] | order(_score desc) [0...10] {\n    _id,\n    _type,\n    title,\n    \"slug\": slug.current,\n    \"details\": select(_type == \"lawyer\" => name, null)\n  }\n": GLOBAL_SEARCH_QUERYResult;
+    "\n  *[_type == \"lawyer\" && name match $searchQuery + \"*\" && ($category == \"all\" || category->slug.current == $category)] {\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n    contactInfo {\n      linkedin\n    }\n  }\n": LAWYER_SEARCH_QUERYResult;
     "{\n  \"homePage\": *[_type == \"homePage\"][0],\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  },\n}": HOME_PAGE_QUERYResult;
     "{\n  \"peoplePage\": *[_type == \"peoplePage\"][0],\n}": PEOPLE_PAGE_QUERYResult;
     "{\n  \"aboutUsPage\": *[_type == \"aboutUsPage\"][0],\n}": ABOUT_US_PAGE_QUERYResult;

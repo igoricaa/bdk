@@ -19,7 +19,15 @@ import {
 } from './pages/home';
 import { generalInfoType } from './general';
 import { socialType } from './general/socialType';
-import { blinkdraftType } from './blinkdraft';
+import {
+  blinkdraftCtaSectionType,
+  blinkdraftDemoSectionType,
+  blinkdraftHeroSectionType,
+  blinkdraftSubscriptionPlansSectionType,
+  blinkdraftSubscriptionPlanType,
+  blinkdraftType,
+  blinkdraftWhatIsSectionType,
+} from './blinkdraft';
 import { peopleHeroSectionType, peoplePageType } from './pages/people';
 import { countryType } from './countries';
 import {
@@ -66,6 +74,12 @@ const schemaTypes = [
   careerHeroSectionType,
   openPositionType,
   coursesSectionType,
+  blinkdraftHeroSectionType,
+  blinkdraftDemoSectionType,
+  blinkdraftWhatIsSectionType,
+  blinkdraftSubscriptionPlansSectionType,
+  blinkdraftCtaSectionType,
+  blinkdraftSubscriptionPlanType,
 ];
 
 export default schemaTypes;

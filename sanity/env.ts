@@ -11,6 +11,11 @@ export const projectId = assertValue(
   'Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID'
 );
 
+// export const recaptchaSiteKey = assertValue(
+//   process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+//   'Missing environment variable: RECAPTCHA_SITE_KEY'
+// );
+
 export const token = process.env.SANITY_TOKEN;
 
 function assertValue<T>(v: T | undefined, errorMessage: string): T {
