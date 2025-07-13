@@ -9,6 +9,28 @@ import { cn, ComputedLawyersData } from '@/lib/utils';
 import LawyersNavbar from './lawyers-navbar';
 import LinkedinIcon from '../ui/icons/linkedin-icon';
 import { useQueryState } from 'nuqs';
+import { useMemo, useState } from 'react';
+import Link from 'next/link';
+
+// type SearchedLawyer = NonNullable<
+//   LAWYERS_BY_CATEGORY_QUERYResult['categories'][0]['orderedLawyers']
+// >[0];
+
+// const fetchSearchedLawyers = async (
+//   query: string,
+//   category: string
+// ): Promise<SearchedLawyer[]> => {
+//   if (!query || query.trim().length < 2) {
+//     return [];
+//   }
+//   const response = await fetch(
+//     `/api/search/lawyers?q=${query}&category=${category}`
+//   );
+//   if (!response.ok) {
+//     throw new Error('Network response was not ok');
+//   }
+//   return response.json();
+// };
 
 const LawyersGrid = ({
   computedLawyersData,
@@ -20,11 +42,49 @@ const LawyersGrid = ({
   const [activeCategory, setActiveCategory] = useQueryState('category', {
     defaultValue: 'all',
   });
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const currentLawyers =
-    activeCategory === 'all'
-      ? computedLawyersData.allLawyers
-      : computedLawyersData.lawyersByCategory[activeCategory] || [];
+  const displayedLawyers = useMemo(() => {
+    const categoryFilteredLawyers =
+      activeCategory === 'all'
+        ? computedLawyersData.allLawyers
+        : computedLawyersData.lawyersByCategory[activeCategory] || [];
+
+    if (!searchTerm || searchTerm.trim() === '') {
+      return categoryFilteredLawyers;
+    }
+
+    const lowercasedSearchTerm = searchTerm.toLowerCase();
+    return categoryFilteredLawyers.filter((lawyer) =>
+      lawyer.name.toLowerCase().includes(lowercasedSearchTerm)
+    );
+  }, [activeCategory, searchTerm, computedLawyersData]);
+
+  // const currentLawyers =
+  //   activeCategory === 'all'
+  //     ? computedLawyersData.allLawyers
+  //     : computedLawyersData.lawyersByCategory[activeCategory] || [];
+
+  // const {
+  //   data: searchedLawyers,
+  //   isLoading,
+  //   isError,
+  // } = useQuery<SearchedLawyer[]>({
+  //   // The queryKey now uses the local searchTerm state
+  //   queryKey: ['lawyers', 'search', searchTerm, activeCategory],
+  //   queryFn: () => fetchSearchedLawyers(searchTerm, activeCategory),
+  //   enabled: isSearching,
+  // });
+
+  // let currentLawyers: SearchedLawyer[];
+  // if (isSearching) {
+  //   currentLawyers = searchedLawyers || [];
+  // } else {
+  //   currentLawyers =
+  //     activeCategory === 'all'
+  //       ? computedLawyersData.allLawyers
+  //       : computedLawyersData.lawyersByCategory[activeCategory] || [];
+  // }
 
   return (
     <section className={cn(className)}>
@@ -32,6 +92,7 @@ const LawyersGrid = ({
         categories={computedLawyersData.filterOptions}
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
+        onSearchChange={setSearchTerm}
       />
 
       <AnimatePresence mode='wait'>
@@ -50,7 +111,7 @@ const LawyersGrid = ({
             },
           }}
         >
-          {currentLawyers.map((lawyer) => (
+          {displayedLawyers.map((lawyer) => (
             <LawyerCard key={lawyer.slug.current} lawyer={lawyer} />
           ))}
         </motion.div>
@@ -95,7 +156,8 @@ const LawyerCard = ({
       }}
     >
       <TransitionLink
-        href={`/people/${lawyer.slug?.current || ''}`}
+        href={`/people/${lawyer.slug.current}`}
+        pageName={lawyer.name}
         className='block'
       >
         <motion.div
@@ -119,7 +181,8 @@ const LawyerCard = ({
       >
         <div className='flex items-start gap-2 justify-between'>
           <TransitionLink
-            href={`/people/${lawyer.slug?.current || ''}`}
+            href={`/people/${lawyer.slug?.current}`}
+            pageName={lawyer.name}
             className='block'
           >
             <h2 className='text-dark-blue text-lg 2xl:text-xl'>
@@ -127,13 +190,13 @@ const LawyerCard = ({
             </h2>
           </TransitionLink>
           {lawyer.contactInfo?.linkedin && (
-            <TransitionLink
+            <Link
               href={lawyer.contactInfo.linkedin}
               target='_blank'
               className='hidden md:block'
             >
               <LinkedinIcon className='min-w-5 min-h-5 w-5 h-5 2xl:w-5.5 2xl:h-5.5 2xl:min-w-5.5 2xl:min-h-5.5' />
-            </TransitionLink>
+            </Link>
           )}
         </div>
 
@@ -141,13 +204,13 @@ const LawyerCard = ({
           {lawyer.title}
         </p>
         {lawyer.contactInfo?.linkedin && (
-          <TransitionLink
+          <Link
             href={lawyer.contactInfo.linkedin}
             target='_blank'
             className='block mt-4 md:hidden'
           >
             <LinkedinIcon className='w-4 h-4' />
-          </TransitionLink>
+          </Link>
         )}
       </motion.div>
     </motion.article>

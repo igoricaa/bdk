@@ -19,7 +19,7 @@ export default function PostsFilters({
       activeOption={activeCategory}
       onOptionChange={onCategoryChange}
       variant={variant}
-      className='pl-side md:pl-0 md:pr-side'
+      className='w-full pl-side md:pl-0 lg:w-fit'
     />
   );
 }

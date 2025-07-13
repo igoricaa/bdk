@@ -16,6 +16,7 @@ import { Testimonial } from '@/sanity/schemaTypes/services/testimonialTypes';
 import { PortableTextBlock } from 'next-sanity';
 import { Image } from 'next-sanity/image';
 import { TransitionLink } from '@/components/transition-link';
+import Link from 'next/link';
 
 export async function generateStaticParams() {
   const lawyers = await getLawyers();
@@ -103,13 +104,13 @@ const LawyerPage = async ({
                 </a>
               )}
               {lawyer.contactInfo?.linkedin && (
-                <TransitionLink
+                <Link
                   href={lawyer.contactInfo.linkedin}
                   target='_blank'
                   className='block mt-5 md:mt-6'
                 >
                   <LinkedinIcon className='w-6 h-6 xl:w-5.5 xl:h-5.5 2xl:w-6 2xl:h-6' />
-                </TransitionLink>
+                </Link>
               )}
             </div>
           </div>

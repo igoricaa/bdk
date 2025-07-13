@@ -6,15 +6,17 @@ const LawyersNavbar = ({
   categories,
   activeCategory,
   onCategoryChange,
+  onSearchChange,
 }: {
   categories: FilterOption[];
   activeCategory: string;
   onCategoryChange: (category: string) => void;
+  onSearchChange: (query: string) => void;
 }) => {
   return (
     <div className='pl-side md:px-side flex flex-col md:flex-row gap-4 xl:gap-10 md:justify-between md:items-center'>
       <div className='lg:w-full lg:max-w-[calc((100%-2*20px)/3)] xl:max-w-[calc((100%-2*24px)/3)] 2xl:max-w-[calc((100%-3*28px)/4)] pr-side md:pr-0'>
-        <SearchBar />
+        <SearchBar onSearchChange={onSearchChange} />
       </div>
       <LawyersFilter
         categories={categories}

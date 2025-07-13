@@ -5,7 +5,7 @@ import { cn, ComputedLawyersData } from '@/lib/utils';
 import { useIsMobile } from '@/lib/hooks/use-mobile';
 import LawyersCarousel from './lawyers-carousel';
 import LawyersNavbar from './lawyers-navbar';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 const LawyersList = ({
   computedLawyersData,
@@ -20,11 +20,23 @@ const LawyersList = ({
 }) => {
   const isMobile = useIsMobile({ breakpoint: 1024 });
   const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const currentLawyers =
-    activeCategory === 'all'
-      ? computedLawyersData.allLawyers
-      : computedLawyersData.lawyersByCategory[activeCategory] || [];
+  const displayedLawyers = useMemo(() => {
+    const categoryFilteredLawyers =
+      activeCategory === 'all'
+        ? computedLawyersData.allLawyers
+        : computedLawyersData.lawyersByCategory[activeCategory] || [];
+
+    if (!searchTerm || searchTerm.trim() === '') {
+      return categoryFilteredLawyers;
+    }
+
+    const lowercasedSearchTerm = searchTerm.toLowerCase();
+    return categoryFilteredLawyers.filter((lawyer) =>
+      lawyer.name.toLowerCase().includes(lowercasedSearchTerm)
+    );
+  }, [activeCategory, searchTerm, computedLawyersData]);
 
   return (
     <div className={className}>
@@ -32,6 +44,7 @@ const LawyersList = ({
         categories={computedLawyersData.filterOptions}
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
+        onSearchChange={setSearchTerm}
       />
 
       {isMobile ? (
@@ -41,7 +54,7 @@ const LawyersList = ({
             listClassName
           )}
         >
-          {currentLawyers.slice(0, gridLimit).map((lawyer, index) => (
+          {displayedLawyers.slice(0, gridLimit).map((lawyer, index) => (
             <LawyerCard
               key={`${lawyer.slug.current}-${index}`}
               lawyer={lawyer as any}
@@ -50,7 +63,7 @@ const LawyersList = ({
         </div>
       ) : (
         <LawyersCarousel
-          lawyers={currentLawyers as any[]}
+          lawyers={displayedLawyers as any[]}
           className={listClassName}
         />
       )}

@@ -1,11 +1,11 @@
 import { urlFor } from '@/sanity/lib/image';
-import Search from './search';
 import StickyHeaderWrapper from './sticky-header-wrapper';
 import { TransitionLink } from '@/components/transition-link';
 import { getHeaderData } from '@/lib/utils/navigation-routes';
 import DesktopNavigation from './navigation/desktop/desktop-navigation';
 import MobileNavigation from './navigation/mobile/mobile-navigation';
 import Logo from '../ui/logo';
+import { MainSearch } from '../search-main';
 
 const Header = async () => {
   const { logo, blinkdraftLogo, socials, navigationRoutes } =
@@ -39,7 +39,7 @@ const Header = async () => {
           <div className='hidden sm:block w-27'>
             <img src={urlFor(blinkdraftLogo).url()} alt='BDK Blinkdraft Logo' />
           </div>
-          {/* <Search /> */}
+          <MainSearch />
           <MobileNavigation
             className='flex xl:hidden'
             navigationRoutes={navigationRoutes}

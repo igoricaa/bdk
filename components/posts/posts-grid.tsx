@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState, useMemo } from 'react';
 import { parseAsString, useQueryState } from 'nuqs';
 import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'motion/react';
@@ -16,17 +16,14 @@ import { FilterOption } from '../ui/filter-buttons';
 import { POSTS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
 import GenericSidebar from '../ui/generic-sidebar';
 import { transformCategoriesData } from '@/lib/utils/sidebar-transformers';
+import SearchBar from '../ui/search-bar';
 
 interface PostsGridProps {
   heading: string;
   initialPosts: POSTS_BY_CATEGORY_QUERYResult['posts'];
   className?: string;
-
-  // Configuration Props
   showSidebar?: boolean;
   categoryTree?: CategoryWithChildren;
-
-  // Filter-specific props
   yearFilterOptions?: FilterOption[];
   categoryFilterOptions?: FilterOption[];
   initialCategory?: string;
@@ -52,6 +49,7 @@ const PostsGrid = ({
     'year',
     parseAsString.withDefault(initialYear || 'all')
   );
+  const [searchTerm, setSearchTerm] = useState('');
 
   const isMobile = useIsMobile({ breakpoint: 1024 });
   const intersectionRef = useRef(null);
@@ -127,6 +125,17 @@ const PostsGrid = ({
   const sidebarData =
     showSidebar && categoryTree ? transformCategoriesData(categoryTree) : null;
 
+  const displayedPosts = useMemo(() => {
+    if (!searchTerm || searchTerm.trim() === '') {
+      return allPosts;
+    }
+
+    const lowercasedSearchTerm = searchTerm.toLowerCase();
+    return allPosts.filter((post) =>
+      post.title.toLowerCase().includes(lowercasedSearchTerm)
+    );
+  }, [category, year, searchTerm, allPosts]);
+
   const activeFilters = yearFilterOptions ? (
     <PostsFilters
       options={yearFilterOptions}
@@ -142,6 +151,17 @@ const PostsGrid = ({
       variant='dark'
     />
   ) : null;
+
+  const filterAndSearchComponent = (
+    <div className='flex flex-col md:flex-row xl:flex-row-reverse items-center gap-4 md:gap-2.5 md:justify-between xl:justify-end lg:px-side lg:w-full xl:px-0'>
+      <SearchBar
+        onSearchChange={setSearchTerm}
+        className='px-side md:pr-0 lg:px-0 lg:w-fit'
+        inputClassName='bg-white! md:max-w-[calc((100vw-2*var(--padding-side)-24px)/2)] flex-shrink-1'
+      />
+      {activeFilters}
+    </div>
+  );
 
   const renderSkeletons = (count: number) =>
     Array.from({ length: count }).map((_, index) => (
@@ -206,9 +226,10 @@ const PostsGrid = ({
       <SectionHeader
         heading={heading}
         colorVariant='dark'
-        className='md:items-center'
+        className='md:flex-col md:items-start! xl:flex-row xl:items-center! xl:justify-between'
         headingClassName='pl-side'
-        rightSideComponent={activeFilters}
+        rightSideComponent={filterAndSearchComponent}
+        rightSideComponentClassName='w-full xl:w-fit xl:pr-side'
       />
 
       <div
@@ -236,7 +257,7 @@ const PostsGrid = ({
         >
           {isFiltering
             ? renderSkeletons(9)
-            : allPosts.map((post: any) => (
+            : displayedPosts.map((post) => (
                 <PostCard key={post._id} post={post} />
               ))}
         </section>
