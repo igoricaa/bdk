@@ -207,6 +207,13 @@ const MobileNavigationAccordionItem = ({
         </AccordionTrigger>
         <AccordionContent>
           <ul className='flex flex-col gap-y-2.5 mt-4'>
+            <TransitionLink
+              href={route.href || ''}
+              className='flex justify-between text-lightest-blue text-xl py-2 px-4 bg-lightest-blue/10 rounded-md w-full cursor-pointer'
+              onClick={toggleMenu}
+            >
+              {route.label}
+            </TransitionLink>
             {route.subRoutes.map((subRoute) => (
               <MobileNavigationDropdownSubItem
                 key={subRoute.label}

@@ -148,15 +148,19 @@ const PostsGrid = ({
       <PostSkeleton key={`skeleton-${index}`} className='col-span-1' />
     ));
 
+  const sectionSharedClasses = cn(
+    'pt-19 pb-25 sm:pt-25 sm:pb-28 xl:py-30 2xl:py-42 bg-light-blue-bg rounded-t-main',
+    className
+  );
+
   if (isInitialLoading) {
     return (
-      <section
-        className={cn(
-          'px-side pt-19 pb-25 sm:pt-25 sm:pb-28 xl:py-30 2xl:py-42 bg-light-blue-bg rounded-t-main',
-          className
-        )}
-      >
-        <SectionHeader heading={heading} colorVariant='dark' />
+      <section className={sectionSharedClasses}>
+        <SectionHeader
+          heading={heading}
+          colorVariant='dark'
+          headingClassName='pl-side'
+        />
         <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-8 2xl:gap-10'>
           {showSidebar && sidebarData && (
             <GenericSidebar
@@ -184,13 +188,12 @@ const PostsGrid = ({
 
   if (isError) {
     return (
-      <section
-        className={cn(
-          'px-side pt-19 pb-25 sm:pt-25 sm:pb-28 xl:py-30 2xl:py-42 bg-light-blue-bg rounded-t-main',
-          className
-        )}
-      >
-        <SectionHeader heading={heading} colorVariant='dark' />
+      <section className={sectionSharedClasses}>
+        <SectionHeader
+          heading={heading}
+          colorVariant='dark'
+          headingClassName='pl-side'
+        />
         <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 flex justify-center text-red-500'>
           Error: {error?.message || 'Failed to load posts'}
         </div>
@@ -199,22 +202,18 @@ const PostsGrid = ({
   }
 
   return (
-    <section
-      className={cn(
-        'px-side pt-19 pb-25 sm:pt-25 sm:pb-28 xl:py-30 2xl:py-42 bg-light-blue-bg rounded-t-main',
-        className
-      )}
-    >
+    <section className={sectionSharedClasses}>
       <SectionHeader
         heading={heading}
         colorVariant='dark'
         className='md:items-center'
+        headingClassName='pl-side'
         rightSideComponent={activeFilters}
       />
 
       <div
         id='blogGrid'
-        className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-8 2xl:gap-10'
+        className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-8 2xl:gap-10 px-side'
       >
         {showSidebar && sidebarData && (
           <GenericSidebar
