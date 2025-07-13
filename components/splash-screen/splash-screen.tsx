@@ -15,7 +15,7 @@ export default function SplashScreen({
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 4300);
+    }, 3200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -42,8 +42,8 @@ export default function SplashScreen({
             className='absolute inset-0 flex items-center justify-center'
             style={{
               backgroundColor: 'hsl(216 43% 12%)',
-              borderBottomLeftRadius: '2rem',
-              borderBottomRightRadius: '2rem',
+              borderBottomLeftRadius: 'var(--radius-main)',
+              borderBottomRightRadius: 'var(--radius-main)',
             }}
           >
             {/* <div className='flex items-center justify-center gap-11'>
@@ -60,8 +60,8 @@ export default function SplashScreen({
       {showSplash === false && (
         <motion.div
           key='content'
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: '100' }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
           {children}
