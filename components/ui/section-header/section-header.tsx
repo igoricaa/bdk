@@ -2,6 +2,19 @@ import { cn } from '@/lib/utils';
 import SectionHeading from './section-heading';
 import SectionParagraph from './section-paragraph';
 import Subtitle from '../subtitle';
+import { memo } from 'react';
+
+interface SectionHeaderProps {
+  heading: string;
+  description?: string;
+  subtitle?: string;
+  rightSideComponent?: React.ReactNode;
+  className?: string;
+  headingClassName?: string;
+  descriptionClassName?: string;
+  rightSideComponentClassName?: string;
+  colorVariant?: 'dark' | 'light';
+}
 
 const SectionHeader = ({
   heading,
@@ -13,17 +26,7 @@ const SectionHeader = ({
   descriptionClassName,
   rightSideComponentClassName,
   colorVariant = 'light',
-}: {
-  heading: string;
-  description?: string;
-  subtitle?: string;
-  rightSideComponent?: React.ReactNode;
-  className?: string;
-  headingClassName?: string;
-  descriptionClassName?: string;
-  rightSideComponentClassName?: string;
-  colorVariant?: 'dark' | 'light';
-}) => {
+}: SectionHeaderProps) => {
   return (
     <div
       className={cn(
@@ -69,4 +72,4 @@ const SectionHeader = ({
   );
 };
 
-export default SectionHeader;
+export default memo(SectionHeader);
