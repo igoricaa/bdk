@@ -1,20 +1,23 @@
 import { Post } from '@/sanity.types';
 import FeaturedPostsSection from '@/components/posts/featured-posts-section';
 import PostsGrid from '@/components/posts/posts-grid';
-import { FilterOption } from '@/components/ui/filter-buttons';
 import {
   getGlobalFeaturedPosts,
   getYearsByCategory,
   getNestedCategories,
   getPostsByCategory,
 } from '@/sanity/lib/cached-queries';
-import { buildCategoryTree, CategoryWithChildren } from '@/lib/utils';
+import {
+  buildCategoryTree,
+  CategoryWithChildren,
+  getYearsFilterOptions,
+} from '@/lib/utils';
 import { Suspense } from 'react';
 
 const BlogPage = async () => {
   const slug = 'blog';
 
-  const [featuredPosts, { posts }, postDates, nestedCategoriesData] =
+  const [featuredPosts, { posts }, postYears, nestedCategoriesData] =
     await Promise.all([
       getGlobalFeaturedPosts(slug),
       getPostsByCategory(slug),
@@ -26,30 +29,12 @@ const BlogPage = async () => {
     return <div>No posts found</div>;
   }
 
-  // Build nested category tree
   const categoryTree = buildCategoryTree(
     nestedCategoriesData?.rootCategory || null,
     nestedCategoriesData?.allCategories || []
   );
 
-  // Simple year filtering - fixed types
-  const years = (postDates || [])
-    .map((date: any) => new Date(date).getFullYear().toString())
-    .filter((year: string) => parseInt(year) >= 2015);
-
-  const availableYears = Array.from(new Set(years)).sort(
-    (a, b) => parseInt(b) - parseInt(a)
-  );
-
-  const latestYear = availableYears[0] || new Date().getFullYear().toString();
-
-  const filterOptions: FilterOption[] = [
-    { slug: latestYear, label: 'Latest' },
-    ...availableYears.slice(1).map((year: string) => ({
-      slug: year,
-      label: year,
-    })),
-  ];
+  const yearFilterOptions = getYearsFilterOptions(postYears);
 
   return (
     <main id='blogPage' className='pt-header'>
@@ -61,11 +46,12 @@ const BlogPage = async () => {
       <Suspense fallback={<div>Loading posts...</div>}>
         <PostsGrid
           heading='Blog'
-          categorySlug={slug}
-          filterOptions={filterOptions}
           initialPosts={posts}
-          latestYear={latestYear}
+          showSidebar={true}
           categoryTree={categoryTree as CategoryWithChildren}
+          yearFilterOptions={yearFilterOptions}
+          initialCategory={slug}
+          initialYear='all'
         />
       </Suspense>
     </main>

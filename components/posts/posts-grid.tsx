@@ -19,30 +19,38 @@ import { transformCategoriesData } from '@/lib/utils/sidebar-transformers';
 
 interface PostsGridProps {
   heading: string;
-  categorySlug?: string;
   initialPosts: POSTS_BY_CATEGORY_QUERYResult['posts'];
-  categoryTree?: CategoryWithChildren;
-  filterOptions: FilterOption[]; // These are the YEAR filters
-  latestYear?: string;
   className?: string;
+
+  // Configuration Props
+  showSidebar?: boolean;
+  categoryTree?: CategoryWithChildren;
+
+  // Filter-specific props
+  yearFilterOptions?: FilterOption[];
+  categoryFilterOptions?: FilterOption[];
+  initialCategory?: string;
+  initialYear?: string;
 }
 
 const PostsGrid = ({
   heading,
-  categorySlug = 'all',
   initialPosts,
-  categoryTree,
-  filterOptions,
-  latestYear,
   className,
+  showSidebar = false,
+  categoryTree,
+  yearFilterOptions,
+  categoryFilterOptions,
+  initialCategory = 'all',
+  initialYear = 'all',
 }: PostsGridProps) => {
   const [category, setCategory] = useQueryState(
     'category',
-    parseAsString.withDefault(categorySlug || 'all')
+    parseAsString.withDefault(initialCategory || 'all')
   );
   const [year, setYear] = useQueryState(
     'year',
-    parseAsString.withDefault(latestYear || 'all')
+    parseAsString.withDefault(initialYear || 'all')
   );
 
   const isMobile = useIsMobile({ breakpoint: 1024 });
@@ -80,7 +88,7 @@ const PostsGrid = ({
     initialPageParam: 0,
     initialData: () => {
       const isDefaultFilterState =
-        category === 'all' && year === (latestYear || 'all');
+        category === initialCategory && year === initialYear;
       if (isDefaultFilterState) {
         return {
           pages: [
@@ -113,17 +121,32 @@ const PostsGrid = ({
   };
 
   const allPosts = data?.pages?.flatMap((page) => page?.posts || []) || [];
-
-  let sectionsLocal, mobileTitleLocal;
-  if (categoryTree) {
-    const { sections, mobileTitle } = transformCategoriesData(categoryTree);
-    sectionsLocal = sections;
-    mobileTitleLocal = mobileTitle;
-  }
-
   const isInitialLoading = isLoading && !data;
-  const isCategorySwitching =
-    isFetching && !isFetchingNextPage && !isInitialLoading;
+  const isFiltering = isFetching && !isFetchingNextPage && !isInitialLoading;
+
+  const sidebarData =
+    showSidebar && categoryTree ? transformCategoriesData(categoryTree) : null;
+
+  const activeFilters = yearFilterOptions ? (
+    <PostsFilters
+      options={yearFilterOptions}
+      activeCategory={year}
+      onCategoryChange={setYear}
+      variant='dark'
+    />
+  ) : categoryFilterOptions ? (
+    <PostsFilters
+      options={categoryFilterOptions}
+      activeCategory={category}
+      onCategoryChange={setCategory}
+      variant='dark'
+    />
+  ) : null;
+
+  const renderSkeletons = (count: number) =>
+    Array.from({ length: count }).map((_, index) => (
+      <PostSkeleton key={`skeleton-${index}`} className='col-span-1' />
+    ));
 
   if (isInitialLoading) {
     return (
@@ -134,37 +157,25 @@ const PostsGrid = ({
         )}
       >
         <SectionHeader heading={heading} colorVariant='dark' />
-        <div
-          className={cn(
-            'mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-8 2xl:gap-10'
+        <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-8 2xl:gap-10'>
+          {showSidebar && sidebarData && (
+            <GenericSidebar
+              sections={sidebarData.sections}
+              mobileTitle={sidebarData.mobileTitle}
+              className='col-span-full xl:col-span-4 xl:max-w-8/10 bg-white xl:sticky xl:top-28'
+              mobileOnly={isMobile}
+              forPosts={true}
+            />
           )}
-        >
-          {categoryTree &&
-            (() => {
-              // const { sections, mobileTitle } =
-              //   transformCategoriesData(categoryTree);
-              return (
-                <GenericSidebar
-                  sections={sectionsLocal!}
-                  mobileTitle={mobileTitleLocal!}
-                  className='col-span-full xl:col-span-4 xl:max-w-8/10 bg-white xl:sticky xl:top-28'
-                  mobileOnly={isMobile}
-                  forPosts={true}
-                />
-              );
-            })()}
-
           <section
             className={cn(
               'grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 xl:gap-9',
-              categoryTree
+              showSidebar
                 ? 'col-span-full xl:col-span-8 xl:grid-cols-2'
                 : 'col-span-full xl:grid-cols-3'
             )}
           >
-            {Array.from({ length: 9 }).map((_, index) => (
-              <PostSkeleton key={`skeleton-${index}`} className='col-span-1' />
-            ))}
+            {renderSkeletons(9)}
           </section>
         </div>
       </section>
@@ -180,10 +191,8 @@ const PostsGrid = ({
         )}
       >
         <SectionHeader heading={heading} colorVariant='dark' />
-        <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 flex justify-center'>
-          <div className='text-red-500'>
-            Error: {error?.message || 'Failed to load posts'}
-          </div>
+        <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 flex justify-center text-red-500'>
+          Error: {error?.message || 'Failed to load posts'}
         </div>
       </section>
     );
@@ -200,86 +209,54 @@ const PostsGrid = ({
         heading={heading}
         colorVariant='dark'
         className='md:items-center'
-        rightSideComponent={
-          <PostsFilters
-            options={filterOptions}
-            activeCategory={latestYear ? year : category}
-            onCategoryChange={latestYear ? setYear : setCategory}
-            variant='dark'
-          />
-        }
+        rightSideComponent={activeFilters}
       />
 
       <div
         id='blogGrid'
         className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-8 2xl:gap-10'
       >
-        {/* Category Navigation */}
-        {categoryTree &&
-          (() => {
-            return (
-              <GenericSidebar
-                sections={sectionsLocal!}
-                mobileTitle={mobileTitleLocal!}
-                className='col-span-full xl:col-span-4 xl:max-w-8/10 bg-white xl:sticky xl:top-28'
-                mobileOnly={isMobile}
-                forPosts={true}
-              />
-            );
-          })()}
+        {showSidebar && sidebarData && (
+          <GenericSidebar
+            sections={sidebarData.sections}
+            mobileTitle={sidebarData.mobileTitle}
+            className='col-span-full xl:col-span-4 xl:max-w-8/10 bg-white xl:sticky xl:top-28'
+            mobileOnly={isMobile}
+            forPosts={true}
+          />
+        )}
 
         {/* Posts Grid */}
         <section
           className={cn(
             'grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 xl:gap-9',
-            categoryTree
+            showSidebar
               ? 'col-span-full xl:col-span-8 xl:grid-cols-2'
               : 'col-span-full xl:grid-cols-3'
           )}
         >
-          {isCategorySwitching
-            ? Array.from({ length: 9 }).map((_, index) => (
-                <PostSkeleton key={`skeleton-${index}`} />
-              ))
+          {isFiltering
+            ? renderSkeletons(9)
             : allPosts.map((post: any) => (
                 <PostCard key={post._id} post={post} />
               ))}
         </section>
 
-        {isFetchingNextPage && (
-          <div className='mt-12 flex justify-center'>
+        <div className='col-span-full mt-12 flex justify-center'>
+          {isFetchingNextPage ? (
             <p className='text-light-blue'>Loading more posts...</p>
-          </div>
-        )}
-
-        {/* Mobile: Infinite scroll trigger - Always render to ensure ref is attached */}
-        <div ref={intersectionRef} className='lg:hidden h-10'>
-          {/* {isMobile && hasNextPage && !isCategorySwitching ? (
-          <p className='text-light-blue'>Scroll for more</p>
-        ) : (
-          <div className='h-10' />
-        )} */}
-        </div>
-
-        {/* Desktop: Load More button */}
-        {!isMobile && hasNextPage && !isCategorySwitching && (
-          <div className='mt-12 flex justify-center'>
+          ) : !isMobile && hasNextPage && !isFiltering ? (
             <Button
               onClick={handleLoadMore}
               disabled={isFetchingNextPage}
               className='bg-light-blue hover:bg-light-blue/80 text-white px-8 py-3'
             >
-              {isFetchingNextPage ? 'Loading...' : 'Load More'}
+              Load More
             </Button>
-          </div>
-        )}
-
-        {/* No more posts message */}
-        {/* {!hasNextPage && allPosts.length > 0 && !isCategorySwitching && (
-        <div className='mt-12 flex justify-center'>
-          <p className='text-light-blue'>You've reached the end of the posts</p>
+          ) : null}
         </div>
-      )} */}
+
+        <div ref={intersectionRef} className='col-span-full lg:hidden h-10' />
       </div>
     </section>
   );

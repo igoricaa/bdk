@@ -72,8 +72,6 @@ export const fetchFilteredPosts = createSafeActionClient()
         end,
       };
 
-      console.log('queryParams', queryParams);
-
       const [posts, totalCount] = await Promise.all([
         sanityFetch({
           query: PAGINATED_FILTERED_POSTS_QUERY,

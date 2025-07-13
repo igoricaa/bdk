@@ -12,14 +12,14 @@ const BDKnowledgePage = async () => {
   const slug = 'all';
   const [featuredPosts, { posts }] = await Promise.all([
     getGlobalFeaturedPosts(slug),
-    getPostsByCategory('all'),
+    getPostsByCategory(slug),
   ]);
 
   if (!featuredPosts || !posts) {
     return <div>No posts found</div>;
   }
 
-  const filterOptions: FilterOption[] = [
+  const categoryFilterOptions: FilterOption[] = [
     { slug: 'all', label: 'All' },
     { slug: 'blog', label: 'Blog' },
     { slug: 'digital-watch', label: 'Digital Watch' },
@@ -36,9 +36,11 @@ const BDKnowledgePage = async () => {
       <Suspense fallback={<div>Loading posts...</div>}>
         <PostsGrid
           heading='BDKnowledge'
-          categorySlug={slug}
-          filterOptions={filterOptions}
           initialPosts={posts}
+          showSidebar={false}
+          categoryFilterOptions={categoryFilterOptions}
+          initialCategory='all'
+          initialYear='all'
         />
       </Suspense>
     </main>

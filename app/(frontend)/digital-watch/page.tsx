@@ -1,17 +1,17 @@
 import { Post } from '@/sanity.types';
 import FeaturedPostsSection from '@/components/posts/featured-posts-section';
 import PostsGrid from '@/components/posts/posts-grid';
-import { FilterOption } from '@/components/ui/filter-buttons';
 import {
   getGlobalFeaturedPosts,
   getPostsByCategory,
   getYearsByCategory,
 } from '@/sanity/lib/cached-queries';
 import { Suspense } from 'react';
+import { getYearsFilterOptions } from '@/lib/utils';
 
 const DigitalWatchPage = async () => {
   const slug = 'digital-watch';
-  const [featuredPosts, { posts }, postDates] = await Promise.all([
+  const [featuredPosts, { posts }, postYears] = await Promise.all([
     getGlobalFeaturedPosts(slug),
     getPostsByCategory(slug),
     getYearsByCategory(slug),
@@ -21,23 +21,7 @@ const DigitalWatchPage = async () => {
     return <div>No posts found</div>;
   }
 
-  const availableYears = Array.from(
-    new Set(
-      postDates
-        .map((date) => new Date(date).getFullYear().toString())
-        .filter((year) => parseInt(year) >= 2015)
-    )
-  ).sort((a, b) => parseInt(b) - parseInt(a));
-
-  const latestYear = availableYears[0] || new Date().getFullYear().toString();
-
-  const filterOptions: FilterOption[] = [
-    { slug: latestYear, label: 'Latest' },
-    ...availableYears.slice(1).map((year) => ({
-      slug: year,
-      label: year,
-    })),
-  ];
+  const yearFilterOptions = getYearsFilterOptions(postYears);
 
   return (
     <main id='blogPage' className='pt-header'>
@@ -48,10 +32,11 @@ const DigitalWatchPage = async () => {
       <Suspense fallback={<div>Loading posts...</div>}>
         <PostsGrid
           heading='Digital Watch'
-          categorySlug={slug}
-          filterOptions={filterOptions}
           initialPosts={posts}
-          latestYear={latestYear}
+          showSidebar={false}
+          yearFilterOptions={yearFilterOptions}
+          initialCategory={slug}
+          initialYear='all'
         />
       </Suspense>
     </main>

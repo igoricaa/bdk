@@ -1,4 +1,7 @@
-import { LAWYERS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
+import {
+  LAWYERS_BY_CATEGORY_QUERYResult,
+  YEARS_BY_CATEGORY_QUERYResult,
+} from '@/sanity.types';
 import { type ClassValue, clsx } from 'clsx';
 import { PortableTextBlock, toPlainText } from 'next-sanity';
 import { twMerge } from 'tailwind-merge';
@@ -220,3 +223,27 @@ export function buildCategoryTree(
 
   return root;
 }
+
+export const getYearsFilterOptions = (
+  postYears: YEARS_BY_CATEGORY_QUERYResult
+) => {
+  const years = (postYears || [])
+    .map((date: any) => new Date(date).getFullYear().toString())
+    .filter((year: string) => parseInt(year) >= 2015);
+
+  const availableYears = Array.from(new Set(years)).sort(
+    (a, b) => parseInt(b) - parseInt(a)
+  );
+
+  const yearFilterOptions = [
+    { slug: 'all', label: 'Latest' },
+    ...(availableYears.length > 1
+      ? availableYears.map((year: string) => ({
+          slug: year,
+          label: year,
+        }))
+      : []),
+  ];
+
+  return yearFilterOptions;
+};
