@@ -7,6 +7,7 @@ import {
   getPeoplePageData,
   getPostsPreviewByCategory,
 } from '@/sanity/lib/cached-queries';
+import { Suspense } from 'react';
 
 const PeoplePage = async () => {
   const [{ peoplePage }, { categories }, { posts: newsroomPosts }] =
@@ -33,10 +34,12 @@ const PeoplePage = async () => {
         </p>
       </section>
 
-      <LawyersGrid
-        computedLawyersData={computedLawyersData}
-        className='xl:px-0 2xl:max-w-[1550px] xl:mx-auto'
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <LawyersGrid
+          computedLawyersData={computedLawyersData}
+          className='xl:px-0 2xl:max-w-[1550px] xl:mx-auto'
+        />
+      </Suspense>
 
       <NewsroomSection
         heading={peoplePage.newsroom.heading}

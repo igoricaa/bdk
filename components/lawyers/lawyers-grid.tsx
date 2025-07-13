@@ -1,7 +1,6 @@
 'use client';
 
 import { LAWYERS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
-import { useState } from 'react';
 import { Image } from 'next-sanity/image';
 import { urlForWithHotspot } from '@/sanity/lib/image';
 import { TransitionLink } from '@/components/transition-link';
@@ -18,7 +17,6 @@ const LawyersGrid = ({
   computedLawyersData: ComputedLawyersData;
   className?: string;
 }) => {
-  // const [activeCategory, setActiveCategory] = useState<string>('all');
   const [activeCategory, setActiveCategory] = useQueryState('category', {
     defaultValue: 'all',
   });
