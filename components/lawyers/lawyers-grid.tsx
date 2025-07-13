@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn, ComputedLawyersData } from '@/lib/utils';
 import LawyersNavbar from './lawyers-navbar';
 import LinkedinIcon from '../ui/icons/linkedin-icon';
+import { useQueryState } from 'nuqs';
 
 const LawyersGrid = ({
   computedLawyersData,
@@ -17,7 +18,10 @@ const LawyersGrid = ({
   computedLawyersData: ComputedLawyersData;
   className?: string;
 }) => {
-  const [activeCategory, setActiveCategory] = useState<string>('all');
+  // const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [activeCategory, setActiveCategory] = useQueryState('category', {
+    defaultValue: 'all',
+  });
 
   const currentLawyers =
     activeCategory === 'all'

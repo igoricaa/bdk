@@ -76,10 +76,8 @@ export const getPdfUrl = (pdfFile: PdfFile) => {
     return null;
   }
 
-  // Extract the file ID from the reference
   const fileId = pdfFile.asset?._ref.replace('file-', '').replace('-pdf', '');
 
-  // Construct the Sanity CDN URL for the PDF
   const pdfUrl = `https://cdn.sanity.io/files/${projectId}/${dataset}/${fileId}.pdf`;
 
   return pdfUrl;
@@ -93,15 +91,17 @@ export const getComputedLawyersData = ({
   const filterOptions: FilterOption[] = categories.map((category) => ({
     slug: category.slug.current,
     label: category.title,
-    order: category.order || 99,
   }));
 
-  // Pre-compute all lawyers for the "all" category
+  filterOptions.unshift({
+    slug: 'all',
+    label: 'All',
+  });
+
   const allLawyers = categories.flatMap(
     (category) => category.orderedLawyers || []
   );
 
-  // Pre-compute lawyers by category for faster client-side filtering
   const lawyersByCategory = categories.reduce(
     (acc, category) => {
       acc[category.slug.current] = category.orderedLawyers || [];
