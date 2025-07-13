@@ -19,6 +19,7 @@ import Socials from './socials';
 import MenuFooter from './menu-footer';
 import { AnimatePresence, motion } from 'motion/react';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { MainSearch } from '@/components/search-main';
 
 const MobileNavigation = ({
   className,
@@ -81,9 +82,13 @@ const MobileNavigation = ({
 
         <div className='pt-8 sm:pt-12 overflow-y-auto flex flex-col h-full'>
           <div className='border-b border-lightest-blue pb-4'>
-            <div className='flex items-center justify-center w-10 h-10 border border-white rounded-full'>
+            {/* <div className='flex items-center justify-center w-10 h-10 border border-white rounded-full'>
               <Search className='w-4.5 h-4.5' strokeWidth={1.5} stroke='#fff' />
-            </div>
+            </div> */}
+            <MainSearch
+              className='w-full'
+              inputFieldClassName='bg-lightest-blue!'
+            />
           </div>
 
           <ul>

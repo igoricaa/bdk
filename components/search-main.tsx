@@ -16,6 +16,7 @@ import {
   XIcon,
 } from 'lucide-react';
 import { useOnClickOutside } from '@/lib/hooks/use-on-click-outside';
+import { cn } from '@/lib/utils';
 
 export type SearchResult = {
   _id: string;
@@ -36,10 +37,16 @@ const fetchSearchResults = async (query: string): Promise<SearchResult[]> => {
   return response.json();
 };
 
-export const MainSearch = () => {
+export const MainSearch = ({
+  className,
+  inputFieldClassName,
+}: {
+  className?: string;
+  inputFieldClassName?: string;
+}) => {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
-  const [debouncedQuery] = useDebounce(query, 300); // 300ms debounce delay
+  const [debouncedQuery] = useDebounce(query, 300);
 
   const searchRef = useRef<HTMLDivElement>(null);
 
@@ -60,7 +67,7 @@ export const MainSearch = () => {
   const showDropdown = isFocused && query.length > 0;
 
   return (
-    <div className='relative w-full max-w-md' ref={searchRef}>
+    <div className={cn('relative w-full max-w-md', className)} ref={searchRef}>
       <div className='relative'>
         {query ? (
           <XIcon
@@ -81,7 +88,10 @@ export const MainSearch = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
-          className='w-full rounded-[500px] flex items-center gap-16 justify-between bg-lightest-blue/25! border-none focus-visible:border-none! focus-visible:ring-0! outline-none shadow-none h-12.5 md:h-7.5 2xl:h-10 pl-6 pr-12 text-grey-text md:text-sm'
+          className={cn(
+            'w-full rounded-[500px] flex items-center gap-16 justify-between bg-lightest-blue/25! border-none focus-visible:border-none! focus-visible:ring-0! outline-none shadow-none h-12.5 md:h-7.5 2xl:h-10 pl-6 pr-12 text-grey-text md:text-sm',
+            inputFieldClassName
+          )}
         />
       </div>
       {showDropdown && (

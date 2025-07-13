@@ -39,7 +39,7 @@ const Header = async () => {
           <div className='hidden sm:block w-27'>
             <img src={urlFor(blinkdraftLogo).url()} alt='BDK Blinkdraft Logo' />
           </div>
-          <MainSearch />
+          <MainSearch className='hidden md:block md:max-w-40' />
           <MobileNavigation
             className='flex xl:hidden'
             navigationRoutes={navigationRoutes}
