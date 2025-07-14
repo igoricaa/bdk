@@ -61,6 +61,15 @@ export const generalInfoType = defineType({
       ],
     }),
     defineField({
+      name: 'blinkdraftLogo',
+      title: 'Blinkdraft Logo',
+      type: 'image',
+      description: 'Blinkdraft logo',
+      validation: (rule) =>
+        rule.required().error('Blinkdraft logo is required'),
+      group: 'branding',
+    }),
+    defineField({
       name: 'servicesCategoryIllustrations',
       title: 'Services Category Illustrations',
       type: 'object',

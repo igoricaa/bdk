@@ -29,7 +29,7 @@ import {
   blinkdraftWhatIsSectionType,
   blinkdraftPackageDetailsSectionType,
   blinkdraftAdditionalFeaturesSectionType,
-} from './blinkdraft';
+} from './pages/blinkdraft';
 import { peopleHeroSectionType, peoplePageType } from './pages/people';
 import { countryType } from './countries';
 import {

@@ -1,18 +1,24 @@
 import { ArrowUpRight as ArrowIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const ArrowUpRight = ({ className }: { className?: string }) => {
+const ArrowUpRight = ({
+  className,
+  arrowClassName,
+}: {
+  className?: string;
+  arrowClassName?: string;
+}) => {
   return (
     <div
       className={cn(
-        'bg-light-blue text-white rounded-full flex items-center justify-center w-9 h-9 2xl:w-11 2xl:h-11',
+        'bg-light-blue text-white rounded-full flex items-center justify-center size-9 2xl:size-11',
         className
       )}
     >
       <ArrowIcon
         size={32}
         strokeWidth={1}
-        className='w-8 h-8 2xl:w-11 2xl:h-11'
+        className={cn('size-8 2xl:size-11', arrowClassName)}
       />
     </div>
   );

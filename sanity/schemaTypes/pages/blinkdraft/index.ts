@@ -10,16 +10,9 @@ import { blinkdraftAdditionalFeaturesSectionType } from './blinkdraftAdditionalF
 
 export const blinkdraftType = defineType({
   name: 'blinkdraft',
-  title: 'Blinkdraft',
+  title: 'Blinkdraft Page',
   type: 'document',
   fields: [
-    defineField({
-      name: 'logo',
-      title: 'Logo',
-      type: 'image',
-      description: 'Blinkdraft logo',
-      validation: (rule) => rule.required(),
-    }),
     defineField({
       name: 'title',
       title: 'Page Title',
@@ -85,7 +78,7 @@ export const blinkdraftType = defineType({
       type: 'string',
       readOnly: true,
       hidden: true,
-    })
+    }),
   ],
 });
 

@@ -122,11 +122,6 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .child(S.documentTypeList('country').title('Countries')),
       S.divider(),
       S.listItem()
-        .title('Blinkdraft')
-        .icon(GlobeIcon)
-        .child(S.document().schemaType('blinkdraft').documentId('blinkdraft')),
-      S.divider(),
-      S.listItem()
         .title('General')
         .icon(GlobeIcon)
         .child(
@@ -152,7 +147,6 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             'country',
             'careerPage',
             'openPosition',
-            'blinkdraft',
           ].includes(listItem.getId()!)
       ),
     ]);

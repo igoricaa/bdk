@@ -325,6 +325,18 @@ export type GeneralInfo = {
       _type: "image";
     };
   };
+  blinkdraftLogo: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
   servicesCategoryIllustrations: {
     servicesIllustration: {
       asset?: {
@@ -1317,25 +1329,39 @@ export type Blinkdraft = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  logo: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
   title: string;
-  slug: Slug;
   heroSection: BlinkdraftHeroSection;
   demoSection: BlinkdraftDemoSection;
   whatIsSection: BlinkdraftWhatIsSection;
   subscriptionPlansSection: BlinkdraftSubscriptionPlansSection;
   ctaSection: BlinkdraftCtaSection;
+  packageDetailsSection: BlinkdraftPackageDetailsSection;
+  additionalFeaturesSection: BlinkdraftAdditionalFeaturesSection;
+  language?: string;
+};
+
+export type BlinkdraftAdditionalFeaturesSection = {
+  _type: "blinkdraftAdditionalFeaturesSection";
+  title: string;
+  additionalFeatures?: Array<{
+    title: string;
+    description: string;
+    _key: string;
+  }>;
+};
+
+export type BlinkdraftPackageDetailsSection = {
+  _type: "blinkdraftPackageDetailsSection";
+  heading: string;
+  description?: string;
+  packages?: Array<{
+    title: string;
+    features?: Array<{
+      text: string;
+      _key: string;
+    }>;
+    _key: string;
+  }>;
 };
 
 export type BlinkdraftCtaSection = {
@@ -1366,12 +1392,20 @@ export type BlinkdraftDemoSection = {
   _type: "blinkdraftDemoSection";
   subtitle: string;
   heading: string;
-  demoVideo: MuxVideo;
+  demoVideo?: MuxVideo;
 };
 
 export type BlinkdraftHeroSection = {
   _type: "blinkdraftHeroSection";
   heading: string;
+  buttons?: {
+    requestFreeTrialButton: {
+      text: string;
+    };
+    subscribeButton: {
+      text: string;
+    };
+  };
   backgroundImage: {
     asset?: {
       _ref: string;
@@ -1508,7 +1542,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = BlinkdraftSubscriptionPlan | OpenPosition | CareerPage | CoursesSection | CareerHeroSection | AboutUsPage | IndependentReviewsSection | AboutUsHeroSection | PeoplePage | PeopleHeroSection | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | Author | Category | Post | Industry | Practice | Illustration | Lawyer | LawyerCategory | BlockContent | MuxVideo | MuxVideoAsset | MuxAssetData | MuxStaticRenditions | MuxStaticRenditionFile | MuxPlaybackId | MuxTrack | TranslationMetadata | InternationalizedArrayReferenceValue | Blinkdraft | BlinkdraftCtaSection | BlinkdraftSubscriptionPlansSection | BlinkdraftWhatIsSection | BlinkdraftDemoSection | BlinkdraftHeroSection | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = BlinkdraftSubscriptionPlan | OpenPosition | CareerPage | CoursesSection | CareerHeroSection | AboutUsPage | IndependentReviewsSection | AboutUsHeroSection | PeoplePage | PeopleHeroSection | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | Author | Category | Post | Industry | Practice | Illustration | Lawyer | LawyerCategory | BlockContent | MuxVideo | MuxVideoAsset | MuxAssetData | MuxStaticRenditions | MuxStaticRenditionFile | MuxPlaybackId | MuxTrack | TranslationMetadata | InternationalizedArrayReferenceValue | Blinkdraft | BlinkdraftAdditionalFeaturesSection | BlinkdraftPackageDetailsSection | BlinkdraftCtaSection | BlinkdraftSubscriptionPlansSection | BlinkdraftWhatIsSection | BlinkdraftDemoSection | BlinkdraftHeroSection | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: app/api/search/all/route.ts
 // Variable: GLOBAL_SEARCH_QUERY
@@ -1590,18 +1624,7 @@ export type HOME_PAGE_QUERYResult = {
     blinkdraft: BlinkdraftSection;
   } | null;
   blinkdraft: {
-    logo: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
+    logo: null;
   } | null;
 };
 // Variable: PEOPLE_PAGE_QUERY
@@ -1696,6 +1719,26 @@ export type CAREER_PAGE_QUERYResult = {
         _key: string;
       }> | null;
     };
+  } | null;
+};
+// Variable: BLINKDRAFT_PAGE_QUERY
+// Query: {  "blinkdraftPage": *[_type == "blinkdraft"][0]}
+export type BLINKDRAFT_PAGE_QUERYResult = {
+  blinkdraftPage: {
+    _id: string;
+    _type: "blinkdraft";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    heroSection: BlinkdraftHeroSection;
+    demoSection: BlinkdraftDemoSection;
+    whatIsSection: BlinkdraftWhatIsSection;
+    subscriptionPlansSection: BlinkdraftSubscriptionPlansSection;
+    ctaSection: BlinkdraftCtaSection;
+    packageDetailsSection: BlinkdraftPackageDetailsSection;
+    additionalFeaturesSection: BlinkdraftAdditionalFeaturesSection;
+    language?: string;
   } | null;
 };
 // Variable: POSTS_PREVIEW_BY_CATEGORY_QUERY
@@ -1937,7 +1980,7 @@ export type SERVICE_QUERYResult = {
     _id: string;
     _type: "blinkdraft";
     title: string;
-    slug: Slug;
+    slug: null;
     description: null;
     illustration: null;
     testimonials: null;
@@ -3020,7 +3063,7 @@ export type POST_QUERYResult = {
   }>;
 };
 // Variable: GENERAL_INFO_QUERY
-// Query: {  "generalInfo": *[_type == "generalInfo"][0]{    ...,    servicesCategoryIllustrations{      servicesIllustration,      practicesIllustration,      industriesIllustration,      foreignDesksIllustration    },    countries[]->{      _id,      name,      description,      countryIllustration,      address,      email,      phone,      note    }  },  "blinkdraft": *[_type == "blinkdraft"][0]{    logo  }}
+// Query: {  "generalInfo": *[_type == "generalInfo"][0]{    ...,    servicesCategoryIllustrations{      servicesIllustration,      practicesIllustration,      industriesIllustration,      foreignDesksIllustration    },    countries[]->{      _id,      name,      description,      countryIllustration,      address,      email,      phone,      note    }  },}
 export type GENERAL_INFO_QUERYResult = {
   generalInfo: {
     _id: string;
@@ -3054,6 +3097,18 @@ export type GENERAL_INFO_QUERYResult = {
         crop?: SanityImageCrop;
         _type: "image";
       };
+    };
+    blinkdraftLogo: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
     };
     servicesCategoryIllustrations: {
       servicesIllustration: {
@@ -3255,20 +3310,6 @@ export type GENERAL_INFO_QUERYResult = {
       phone: string | null;
       note: string | null;
     }>;
-  } | null;
-  blinkdraft: {
-    logo: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
   } | null;
 };
 // Variable: LAWYER_QUERY
@@ -3513,6 +3554,7 @@ declare module "@sanity/client" {
     "{\n  \"peoplePage\": *[_type == \"peoplePage\"][0],\n}": PEOPLE_PAGE_QUERYResult;
     "{\n  \"aboutUsPage\": *[_type == \"aboutUsPage\"][0],\n}": ABOUT_US_PAGE_QUERYResult;
     "{\n  \"careerPage\": *[_type == \"careerPage\"][0] {\n    title,\n    hero {\n      heading,\n      description,\n      backgroundImage,\n      openPositionsSection {\n        heading,\n        openPositions[]->{\n          _id,\n          title,\n          description,\n          location,\n          pdfFile\n        }\n      }\n    },\n    coursesSection {\n      subtitle,\n      title,\n      courses\n    }\n  }\n}": CAREER_PAGE_QUERYResult;
+    "{\n  \"blinkdraftPage\": *[_type == \"blinkdraft\"][0]\n}": BLINKDRAFT_PAGE_QUERYResult;
     "{\n  \"posts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{\n    title,\n    slug,\n    date,\n  }\n}": POSTS_PREVIEW_BY_CATEGORY_QUERYResult;
     "\n  *[_type == \"post\" && status == \"publish\" && references(*[_type==\"category\" && slug.current == $categorySlug]._id) && date match $year + \"-*\"] | order(date desc)[$start...$end] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n": POSTS_BY_YEAR_DATETIME_QUERYResult;
     "\n  count(*[_type == \"post\" && status == \"publish\" && references(*[_type==\"category\" && slug.current == $categorySlug]._id) && date match $year + \"-*\"])\n": POSTS_BY_YEAR_COUNT_QUERYResult;
@@ -3524,7 +3566,7 @@ declare module "@sanity/client" {
     "*[_type == \"author\"]": AUTHORS_QUERYResult;
     "*[_type == \"post\" && status == \"publish\"]{\n  slug\n}": POSTS_QUERY_WITH_SLUGSResult;
     "{\n    \"currentPost\": *[_type == \"post\" && slug.current == $slug && status == \"publish\"][0]{\n      _id,\n      title,\n      slug,\n      date,\n      modified,\n      status,\n      content,\n      excerpt,\n      featuredMedia,\n      authors[]->{\n        _id,\n        type,\n        lawyer->{\n          name,\n          title,\n          picture,\n          slug\n        },\n        customAuthor{\n          name,\n          slug\n        }\n      },\n      categories[]->{\n        _id,\n        name,\n        slug,\n        \"parentCategories\": parent[]->{\n          _id,\n          name,\n          slug,\n          \"parentCategories\": parent[]->{\n            _id,\n            name,\n            slug\n          }\n        }\n      }\n    },\n    \"previousPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date < *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0]{\n      slug\n    },\n    \"nextPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date > *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date asc)[0]{\n      slug\n    },\n    \"relatedPosts\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && slug.current != $slug\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0...12]{\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    }\n  }": POST_QUERYResult;
-    "{\n  \"generalInfo\": *[_type == \"generalInfo\"][0]{\n    ...,\n    servicesCategoryIllustrations{\n      servicesIllustration,\n      practicesIllustration,\n      industriesIllustration,\n      foreignDesksIllustration\n    },\n    countries[]->{\n      _id,\n      name,\n      description,\n      countryIllustration,\n      address,\n      email,\n      phone,\n      note\n    }\n  },\n  \"blinkdraft\": *[_type == \"blinkdraft\"][0]{\n    logo\n  }\n}": GENERAL_INFO_QUERYResult;
+    "{\n  \"generalInfo\": *[_type == \"generalInfo\"][0]{\n    ...,\n    servicesCategoryIllustrations{\n      servicesIllustration,\n      practicesIllustration,\n      industriesIllustration,\n      foreignDesksIllustration\n    },\n    countries[]->{\n      _id,\n      name,\n      description,\n      countryIllustration,\n      address,\n      email,\n      phone,\n      note\n    }\n  },\n}": GENERAL_INFO_QUERYResult;
     "{\n  \"lawyer\": *[_type == \"lawyer\" && slug.current == $slug][0],\n  \"sameCategoryLawyers\": *[_type == \"lawyer\" && category._ref == *[_type == \"lawyer\" && slug.current == $slug][0].category._ref && slug.current != $slug]{\n    _id,\n    name,\n    title,\n    picture,\n    slug,\n    contactInfo {\n      linkedin\n    }\n  },\n  \"categoryInfo\": *[_type == \"lawyerCategory\" && _id == *[_type == \"lawyer\" && slug.current == $slug][0].category._ref][0]{\n    _id,\n    title,\n    \"orderedLawyers\": orderedLawyers[]->{\n      _id,\n      slug\n    }\n  },\n  \"newsroomPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Newsroom\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"blogPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Blog\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n  \"insightsPosts\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Insights\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },  \n  \"publications\": *[\n    _type == \"post\" \n    && status == \"publish\"\n    && references(*[_type==\"category\" && name==\"Publications\"]._id)\n    && count(authors[]->{type, lawyer}[type == \"lawyer\" && lawyer._ref == ^.^.^._id]) > 0\n  ] | order(date desc)[0...4]{\n    title,\n    slug,\n    date\n  },\n}": LAWYER_QUERYResult;
     "{\n  \"posts\": *[_type == \"post\" && status == \"publish\" && ($slug == \"all\" || $slug == null || references(*[_type==\"category\" && slug.current == $slug]._id))] | order(date desc)[0...9] {\n    _id,\n    title,\n    slug,\n    date,\n    categories[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n}": POSTS_BY_CATEGORY_QUERYResult;
     "\n  *[_type == \"post\" && status == \"publish\" && references(*[_type==\"category\" && slug.current == $slug]._id)].date | order(@ desc)\n": YEARS_BY_CATEGORY_QUERYResult;

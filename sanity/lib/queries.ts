@@ -41,6 +41,10 @@ export const CAREER_PAGE_QUERY = defineQuery(`{
   }
 }`);
 
+export const BLINKDRAFT_PAGE_QUERY = defineQuery(`{
+  "blinkdraftPage": *[_type == "blinkdraft"][0]
+}`);
+
 export const POSTS_PREVIEW_BY_CATEGORY_QUERY = defineQuery(`{
   "posts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{
     title,
@@ -310,9 +314,6 @@ export const GENERAL_INFO_QUERY = defineQuery(`{
       note
     }
   },
-  "blinkdraft": *[_type == "blinkdraft"][0]{
-    logo
-  }
 }`);
 
 export const LAWYER_QUERY = defineQuery(`{

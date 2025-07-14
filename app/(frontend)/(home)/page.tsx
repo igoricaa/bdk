@@ -162,7 +162,7 @@ export default async function Home() {
         {blinkdraftData && (
           <div className='w-28 md:w-34 2xl:w-45'>
             <img
-              src={urlFor(blinkdraftData.logo).url()}
+              src={urlFor(generalInfo?.blinkdraftLogo as SanityImageSource).url()}
               alt='BDK - Blinkdraft'
               className='w-full h-full object-cover'
             />

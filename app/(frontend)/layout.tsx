@@ -37,13 +37,13 @@ export default function RootLayout({
             <QueryProvider>
               <Lenis>
                 <SplashScreen>
-                  <Header />
-                  {children}
-                  <Footer />
-                  <Suspense>
-                    <ScrollHandler />
-                  </Suspense>
-                  <BackToTop />
+                <Header />
+                {children}
+                <Footer />
+                <Suspense>
+                  <ScrollHandler />
+                </Suspense>
+                <BackToTop />
                 </SplashScreen>
               </Lenis>
             </QueryProvider>

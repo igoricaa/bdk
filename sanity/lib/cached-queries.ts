@@ -20,6 +20,7 @@ import {
   YEARS_BY_CATEGORY_QUERY,
   NESTED_CATEGORIES_QUERY,
   GLOBAL_FEATURED_POSTS_QUERY,
+  BLINKDRAFT_PAGE_QUERY,
 } from './queries';
 import type {
   GENERAL_INFO_QUERYResult,
@@ -41,6 +42,7 @@ import type {
   YEARS_BY_CATEGORY_QUERYResult,
   NESTED_CATEGORIES_QUERYResult,
   GLOBAL_FEATURED_POSTS_QUERYResult,
+  BLINKDRAFT_PAGE_QUERYResult,
 } from '@/sanity.types';
 
 // Dont need to cache these, it's not used on multiple pages§
@@ -106,6 +108,15 @@ export const getServicePageData = async (
     revalidate: 43200,
   });
 };
+
+export const getBlinkdraftPageData =
+  async (): Promise<BLINKDRAFT_PAGE_QUERYResult> => {
+    return await sanityFetch({
+      query: BLINKDRAFT_PAGE_QUERY,
+      tags: ['blinkdraft-page-data'],
+      revalidate: 43200,
+    });
+  };
 
 export const getForeignDeskPageData = async (
   slug: string
