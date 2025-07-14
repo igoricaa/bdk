@@ -2,9 +2,9 @@
 
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
-import { dataset, projectId } from './sanity/env';
-import { structure } from './sanity/structure';
-import schemaTypes from './sanity/schemaTypes';
+import { dataset, projectId } from './src/sanity/env';
+import { structure } from './src/sanity/structure';
+import schemaTypes from './src/sanity/schemaTypes';
 import { documentInternationalization } from '@sanity/document-internationalization';
 import { muxInput } from 'sanity-plugin-mux-input';
 

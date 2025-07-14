@@ -1,0 +1,55 @@
+import type { Metadata } from 'next';
+import { DM_Sans } from 'next/font/google';
+import './globals.css';
+import Lenis from '@/src/components/lenis';
+import Footer from '@/src/components/footer';
+import Header from '@/src/components/header/header';
+import QueryProvider from '@/src/components/providers/query-client-provider';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import ScrollHandler from '@/src/components/scroll-handler';
+import { Suspense } from 'react';
+import BackToTop from '@/src/components/ui/back-to-top';
+import SplashScreen from '@/src/components/splash-screen/splash-screen';
+import { TransitionProvider } from '@/src/components/transition-link';
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  weight: ['300', '400', '500'],
+  style: ['normal', 'italic'],
+  variable: '--font-dm-sans',
+});
+
+export const metadata: Metadata = {
+  title: 'BDK',
+  description: 'BDK Law Firm',
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang='en' suppressHydrationWarning>
+      <body className={`${dmSans.variable} antialiased`}>
+        <TransitionProvider>
+          <NuqsAdapter>
+            <QueryProvider>
+              <Lenis>
+                {/* <SplashScreen> */}
+                <Header />
+                {children}
+                <Footer />
+                <Suspense>
+                  <ScrollHandler />
+                </Suspense>
+                <BackToTop />
+                {/* </SplashScreen> */}
+              </Lenis>
+            </QueryProvider>
+          </NuqsAdapter>
+        </TransitionProvider>
+      </body>
+    </html>
+  );
+}
