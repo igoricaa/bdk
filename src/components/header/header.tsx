@@ -39,7 +39,7 @@ const Header = async () => {
         <div className='flex items-center gap-8'>
           <TransitionLink
             href='/blinkdraft/en'
-            className='hidden sm:block w-27'
+            className='hidden sm:block min-w-25 w-25'
           >
             <Image
               src={urlFor(blinkdraftLogo).url()}

@@ -33,7 +33,7 @@ const SimpleMenuDropdown = ({ route }: { route: NavigationRoute }) => {
     <NavigationMenuItem className='relative' value={route.label}>
       <NavigationMenuTrigger
         className={cn(
-          'group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium hover:bg-light-blue-bg hover:text-light-blue focus:bg-light-blue-bg focus:text-light-blue disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-light-blue-bg data-[state=open]:text-light-blue data-[state=open]:focus:bg-light-blue-bg data-[state=open]:bg-light-blue-bg/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1',
+          'group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium hover:bg-light-blue-bg hover:text-light-blue focus:bg-light-blue-bg focus:text-light-blue disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-light-blue-bg data-[state=open]:text-light-blue data-[state=open]:focus:bg-light-blue-bg data-[state=open]:bg-light-blue-bg/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1',
 
           isActive(route) && 'bg-light-blue-bg text-light-blue'
         )}
@@ -41,7 +41,7 @@ const SimpleMenuDropdown = ({ route }: { route: NavigationRoute }) => {
         {route.label}
       </NavigationMenuTrigger>
 
-      <NavigationMenuContent className='absolute top-18.5! mt-0! left-0 pl-3'>
+      <NavigationMenuContent className='absolute top-18.5! mt-0! left-0 pl-3 bg-white'>
         <ul className='grid w-[200px]'>
           {route.subRoutes?.map((subRoute) => (
             <li key={subRoute.href}>

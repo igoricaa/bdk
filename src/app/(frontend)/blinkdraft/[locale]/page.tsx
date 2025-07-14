@@ -50,7 +50,10 @@ const BlinkDraftPage = async ({
     <NextIntlClientProvider locale={locale}>
       <main id='blinkdraftPage' className='pt-header'>
         <section className='flex flex-col-reverse md:flex-row relative px-side gap-15 md:gap-12 xl:gap-30 3xl:gap-40 pb-16 md:pb-31 xl:pb-37 2xl:pb-42 pt-16 md:pt-20 xl:pt-18 2xl:pt-35'>
-          <LanguageSwitcher locale={locale} className='absolute top-4 md:top-6 xl:top-18 2xl:top-35 left-side' />
+          <LanguageSwitcher
+            locale={locale}
+            className='absolute top-4 md:top-6 xl:top-18 2xl:top-35 left-side'
+          />
           <div className='flex flex-col sm:justify-end xl:pb-19 3xl:pb-37 gap-8 sm:gap-7 xl:gap-8 2xl:gap-18'>
             <div className='flex flex-col gap-8 sm:gap-7 2xl:gap-13'>
               {generalInfo?.blinkdraftLogo && (
@@ -92,7 +95,7 @@ const BlinkDraftPage = async ({
             </div>
           </div>
 
-          <div className='w-full overflow-hidden rounded-tl-[5rem] rounded-br-[5rem]'>
+          <div className='w-full overflow-hidden rounded-tl-[80px] rounded-br-[80px] md:rounded-tl-[120px] md:rounded-br-[120px] xl:rounded-tl-[150px] xl:rounded-br-[150px] 2xl:rounded-tl-[200px] 2xl:rounded-br-[200px] aspect-[656/731] max-w-5/12'>
             <Image
               src={urlFor(blinkdraftPageData.heroSection.backgroundImage).url()}
               alt={blinkdraftPageData.heroSection.heading}

@@ -16,7 +16,7 @@ import MenuItemLink from './menu-item-link';
 import { TransitionLink } from '@/src/components/transition-link';
 
 const navMenuTriggerClasses = cn(
-  'group inline-flex h-9 gap-x-1 w-max items-center justify-center rounded-md bg-background text-sm font-medium hover:bg-light-blue-bg hover:text-light-blue focus:bg-light-blue-bg focus:text-light-blue disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-light-blue-bg data-[state=open]:text-light-blue data-[state=open]:focus:bg-light-blue-bg data-[state=open]:bg-light-blue-bg/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1'
+  'group inline-flex h-9 gap-x-1 w-max items-center justify-center rounded-md text-sm font-medium hover:bg-light-blue-bg hover:text-light-blue focus:bg-light-blue-bg focus:text-light-blue disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-light-blue-bg data-[state=open]:text-light-blue data-[state=open]:focus:bg-light-blue-bg data-[state=open]:bg-light-blue-bg/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1'
 );
 
 const BDKnowledgeMenu = ({
@@ -53,7 +53,7 @@ const BDKnowledgeMenu = ({
         {bdknowledgeRoute.label}
       </NavigationMenuTrigger>
       {/* fixed! left-1/2 -translate-x-1/2 top-24! mt-0! */}
-      <NavigationMenuContent className='absolute! top-19! right-0 left-auto mt-0!'>
+      <NavigationMenuContent className='absolute! top-19! right-0 left-auto mt-0! bg-white'>
         <div className='grid gap-5 w-lg lg:grid-cols-[270px_1fr] h-full'>
           <div className='row-span-3'>
             <NavigationMenuLink asChild>
