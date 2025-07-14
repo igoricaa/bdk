@@ -8,8 +8,10 @@ import { urlFor } from '@/sanity/lib/image';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import Section from '@/components/ui/section';
 import Subtitle from '@/components/ui/subtitle';
-import WhatIfSection from '@/components/blinkdraft/whatIfSection';
-import SubscriptionsSection from '@/components/blinkdraft/subscriptionsSection';
+import WhatIfSection from '@/components/blinkdraft/whatIf-section';
+import SubscriptionsSection from '@/components/blinkdraft/subscriptions-section';
+import PackageDetailsSection from '@/components/blinkdraft/package-details-section';
+import AdditionalFeaturesSection from '@/components/blinkdraft/additional-features-section';
 
 const BlinkDraftPage = async () => {
   const [blinkdraftPage, { generalInfo }] = await Promise.all([
@@ -24,7 +26,7 @@ const BlinkDraftPage = async () => {
   const { blinkdraftPage: blinkdraftPageData } = blinkdraftPage;
 
   return (
-    <main className='pt-header'>
+    <main id='blinkdraftPage' className='pt-header'>
       <section className='flex flex-col-reverse md:flex-row gap-15 px-side md:gap-12 xl:gap-30 3xl:gap-40 pb-16 md:pb-31 xl:pb-37 2xl:pb-42 pt-7.5 md:pt-11 xl:pt-18 2xl:pt-35'>
         <div className='flex flex-col sm:justify-end xl:pb-19 3xl:pb-37 gap-8 sm:gap-7 xl:gap-8 2xl:gap-18'>
           <div className='flex flex-col gap-8 sm:gap-7 2xl:gap-13'>
@@ -89,7 +91,7 @@ const BlinkDraftPage = async () => {
         </h2>
 
         {/* {blinkdraftPageData.demoSection.demoVideo && ( */}
-        <div className='grid grid-cols-6 xl:grid-cols-12 gap-4 xl:gap-10 mt-7.5'>
+        <div className='grid grid-cols-6 xl:grid-cols-12 gap-4 xl:gap-10 mt-8 xl:mt-9 2xl:mt-14'>
           <div className='bg-white w-full h-full aspect-[1656/932] col-span-full sm:col-span-4 sm:col-start-2 lg:col-span-8 lg:col-start-3 rounded-2xl 2xl:rounded-[20px]'></div>
           {/* <Image
               src={urlFor(
@@ -112,6 +114,36 @@ const BlinkDraftPage = async () => {
         heading={blinkdraftPageData.subscriptionPlansSection.heading}
         subscriptionPlans={
           blinkdraftPageData.subscriptionPlansSection.subscriptionPlans
+        }
+      />
+
+      <Section
+        variant='dark'
+        underColor='bg-lightest-blue'
+        className='flex flex-col gap-19 sm:gap-18 xl:gap-10 2xl:gap-15'
+      >
+        <h2 className='sm:max-w-9/10 lg:max-w-7/10 2xl:max-w-6/10 text-white text-3xl sm:text-4xl xl:text-5xl 2xl:text-6xl'>
+          {blinkdraftPageData.ctaSection.heading}
+        </h2>
+        <IconButton
+          href='#'
+          text={blinkdraftPageData.ctaSection.buttonText}
+          className='w-fit'
+        />
+      </Section>
+
+      <PackageDetailsSection
+        heading={blinkdraftPageData.packageDetailsSection.heading}
+        description={
+          blinkdraftPageData.packageDetailsSection.description as string
+        }
+        packageDetails={blinkdraftPageData.packageDetailsSection.packages}
+      />
+
+      <AdditionalFeaturesSection
+        heading={blinkdraftPageData.additionalFeaturesSection.title}
+        features={
+          blinkdraftPageData.additionalFeaturesSection.additionalFeatures
         }
       />
     </main>
