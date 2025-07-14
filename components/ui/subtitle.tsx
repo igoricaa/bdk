@@ -6,15 +6,19 @@ const Subtitle = ({
   children,
 }: {
   className?: string;
-  variation?: 'light' | 'dark';
+  variation?: 'light' | 'dark' | 'blue';
   children: React.ReactNode;
 }) => {
   return (
     <p
       className={cn(
         className,
-        variation === 'light' ? ' bg-white/10' : 'bg-dark-blue',
-        'text-white text-sm rounded-[500px] w-fit flex items-center justify-center h-7.5 2xl:h-10 px-4 2xl:px-5'
+        variation === 'light'
+          ? ' bg-white/10'
+          : variation === 'dark'
+            ? 'bg-dark-blue'
+            : 'bg-light-blue',
+        'text-white text-sm rounded-[500px] w-fit flex items-center justify-center min-h-7.5 h-7.5 2xl:min-h-10 2xl:h-10 px-4 2xl:px-5'
       )}
     >
       {children}

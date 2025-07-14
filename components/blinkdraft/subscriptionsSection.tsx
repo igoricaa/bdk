@@ -1,0 +1,93 @@
+import { BLINKDRAFT_PAGE_QUERYResult } from '@/sanity.types';
+import Section from '../ui/section';
+import Subtitle from '../ui/subtitle';
+import { cn } from '@/lib/utils';
+import { CheckIcon } from 'lucide-react';
+import IconButton from '../ui/buttons/icon-button';
+
+const SubscriptionsSection = ({
+  heading,
+  subscriptionPlans,
+}: {
+  heading: string;
+  subscriptionPlans: NonNullable<
+    BLINKDRAFT_PAGE_QUERYResult['blinkdraftPage']
+  >['subscriptionPlansSection']['subscriptionPlans'];
+}) => {
+  return (
+    <Section variant='blue'>
+      <h2 className='text-dark-blue whitespace-nowrap text-3xl sm:text-4xl xl:text-5xl 2xl:text-6xl'>
+        {heading}
+      </h2>
+      <div className='mt-8 sm:mt-11 2xl:mt-12 grid auto-rows-fr grid-cols-1 xl:grid-cols-3 gap-5 sm:gap-8 xl:gap-9'>
+        {subscriptionPlans.map((plan, index) => (
+          <SubscriptionPlanCard
+            key={plan._key}
+            subscriptionPlan={plan}
+            index={index}
+          />
+        ))}
+      </div>
+    </Section>
+  );
+};
+
+export default SubscriptionsSection;
+
+const SubscriptionPlanCard = ({
+  subscriptionPlan,
+  index,
+}: {
+  subscriptionPlan: NonNullable<
+    BLINKDRAFT_PAGE_QUERYResult['blinkdraftPage']
+  >['subscriptionPlansSection']['subscriptionPlans'][number];
+  index: number;
+}) => {
+  return (
+    <article className='bg-white flex flex-col sm:flex-row xl:flex-col rounded-br-[50px] pl-4 pr-6 pt-7.5 pb-9 sm:px-6 sm:py-7.5 xl:pb-9 2xl:py-14 2xl:px-9.5'>
+      <Subtitle variation={index === 1 ? 'blue' : 'dark'}>
+        {subscriptionPlan.note}
+      </Subtitle>
+      <h3 className='xl:min-h-20.5 2xl:min-h-25 text-dark-blue text-2xl sm:text-xl xl:text-3xl 2xl:text-4xl mt-5 xl:mt-6 2xl:mt-10 max-w-7/10'>
+        {subscriptionPlan.title}
+      </h3>
+      <div className='h-full mt-5 xl:mt-6 2xl:mt-10 flex flex-col gap-6 sm:gap-12 '>
+        <ul className='columns-1 sm:columns-2 xl:columns-1 space-y-4 xl:space-y-8'>
+          {subscriptionPlan.features.map((feature) => (
+            <li key={feature._key} className='flex gap-3.5 2xl:gap-4'>
+              <CheckmarkIcon className='mt-1.5 sm:mt-1 xl:mt-0' />
+              <p className='text-grey-text leading-snug text-sm sm:text-base xl:text-lg 2xl:text-2xl'>
+                {feature.description}
+              </p>
+            </li>
+          ))}
+        </ul>
+
+        <IconButton href='#' text='Subscribe' className='mt-auto w-fit' />
+      </div>
+    </article>
+  );
+};
+
+const CheckmarkIcon = ({
+  className,
+  checkmarkClassName,
+}: {
+  className?: string;
+  checkmarkClassName?: string;
+}) => {
+  return (
+    <div
+      className={cn(
+        'bg-light-blue text-white rounded-full flex items-center justify-center min-w-5 min-h-5 size-5 sm:min-w-6 sm:min-h-6 sm:size-6 2xl:min-w-8 2xl:min-h-8 2xl:size-8',
+        className
+      )}
+    >
+      <CheckIcon
+        size={16}
+        strokeWidth={1}
+        className={cn('size-4 sm:size-5 2xl:size-6', checkmarkClassName)}
+      />
+    </div>
+  );
+};
