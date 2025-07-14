@@ -27,6 +27,7 @@ import Section from '@/src/components/ui/section';
 import Hero from '@/src/components/home/hero';
 import { ComputedLawyersData, getComputedLawyersData } from '@/src/lib/utils';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { Image } from 'next-sanity/image';
 
 export default async function Home() {
   const [
@@ -161,10 +162,15 @@ export default async function Home() {
       >
         {blinkdraftData && (
           <div className='w-28 md:w-34 2xl:w-45'>
-            <img
-              src={urlFor(generalInfo?.blinkdraftLogo as SanityImageSource).url()}
+            <Image
+              src={urlFor(
+                generalInfo?.blinkdraftLogo as SanityImageSource
+              ).url()}
               alt='BDK - Blinkdraft'
+              width={454}
+              height={144}
               className='w-full h-full object-cover'
+              unoptimized={true}
             />
           </div>
         )}
@@ -178,7 +184,7 @@ export default async function Home() {
         />
         <div className='flex gap-3 mt-4 md:mt-9 xl:mt-11 2xl:mt-18'>
           <TransitionLink
-            href='/blinkdraft'
+            href='/blinkdraft/en'
             className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
           >
             English <ArrowUpRight className='bg-light-blue' />

@@ -1,7 +1,10 @@
 'use client';
 
 import { cn } from '@/src/lib/utils';
-import { NavigationRoute, SubRoutesRoute } from '@/src/lib/utils/navigation-routes';
+import {
+  NavigationRoute,
+  SubRoutesRoute,
+} from '@/src/lib/utils/navigation-routes';
 import Burger from '../../burger';
 import { useEffect, useRef, useState } from 'react';
 import Logo from '@/src/components/ui/logo';
@@ -20,17 +23,21 @@ import MenuFooter from './menu-footer';
 import { AnimatePresence, motion } from 'motion/react';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { MainSearch } from '@/src/components/search-main';
+import { Image } from 'next-sanity/image';
+import { urlFor } from '@/src/sanity/lib/image';
 
 const MobileNavigation = ({
   className,
   navigationRoutes,
   socials,
   logo,
+  blinkdraftLogo,
 }: {
   className?: string;
   navigationRoutes: NavigationRoute[];
   socials: NonNullable<GENERAL_INFO_QUERYResult['generalInfo']>['socials'];
   logo: SanityImageSource;
+  blinkdraftLogo: SanityImageSource;
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
@@ -82,9 +89,6 @@ const MobileNavigation = ({
 
         <div className='pt-8 sm:pt-12 overflow-y-auto flex flex-col h-full'>
           <div className='border-b border-lightest-blue pb-4'>
-            {/* <div className='flex items-center justify-center w-10 h-10 border border-white rounded-full'>
-              <Search className='w-4.5 h-4.5' strokeWidth={1.5} stroke='#fff' />
-            </div> */}
             <MainSearch
               className='w-full'
               inputFieldClassName='bg-lightest-blue!'
@@ -103,6 +107,18 @@ const MobileNavigation = ({
                 menuRef={menuRef}
               />
             ))}
+            <li className='py-4 border-b border-lightest-blue'>
+              <TransitionLink href='/blinkdraft/en'>
+                <Image
+                  src={urlFor(blinkdraftLogo as SanityImageSource).url()}
+                  alt='BDK - Blinkdraft'
+                  width={454}
+                  height={144}
+                  className='w-25 h-full'
+                  unoptimized={true}
+                />
+              </TransitionLink>
+            </li>
           </ul>
 
           {socials && socials.length > 0 && (

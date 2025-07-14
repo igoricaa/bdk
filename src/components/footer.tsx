@@ -1,5 +1,5 @@
 import { TransitionLink } from '@/src/components/transition-link';
-import { Country, GENERAL_INFO_QUERYResult, Social } from '@/sanity.types';
+import { Country, Social } from '@/sanity.types';
 import { urlFor } from '@/src/sanity/lib/image';
 import PortableText from './ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
@@ -220,14 +220,16 @@ const MobileLinks = ({
 
       <div className='flex justify-between md:flex-col md:justify-normal gap-4 md:gap-10 mt-11 md:mt-0'>
         {blinkdraftLogo && (
-          <Image
-            src={urlFor(blinkdraftLogo as SanityImageSource).url()}
-            alt='BDK - Blinkdraft'
-            width={454}
-            height={144}
-            className='object-cover w-27'
-            unoptimized={true}
-          />
+          <TransitionLink href='/blinkdraft/en'>
+            <Image
+              src={urlFor(blinkdraftLogo as SanityImageSource).url()}
+              alt='BDK - Blinkdraft'
+              width={454}
+              height={144}
+              className='object-cover w-27'
+              unoptimized={true}
+            />
+          </TransitionLink>
         )}
         <ul className='flex md:flex-col gap-4 md:gap-6 '>
           {socials.map((social: Social) => (
@@ -337,14 +339,16 @@ const DesktopLinks = ({
       </div>
       <div className='flex justify-between md:flex-col md:justify-normal gap-4 md:gap-10 mt-11 md:mt-0'>
         {blinkdraftLogo && (
-          <Image
-            src={urlFor(blinkdraftLogo as SanityImageSource).url()}
-            alt='BDK - Blinkdraft'
-            width={454}
-            height={144}
-            className='object-cover w-27'
-            unoptimized={true}
-          />
+          <TransitionLink href='/blinkdraft/en'>
+            <Image
+              src={urlFor(blinkdraftLogo as SanityImageSource).url()}
+              alt='BDK - Blinkdraft'
+              width={454}
+              height={144}
+              className='object-cover w-27'
+              unoptimized={true}
+            />
+          </TransitionLink>
         )}
         <ul className='flex md:flex-col gap-4 md:gap-6 '>
           {socials.map((social: Social) => (

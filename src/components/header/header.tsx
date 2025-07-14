@@ -36,15 +36,19 @@ const Header = async () => {
         />
 
         <div className='flex items-center gap-8'>
-          <div className='hidden sm:block w-27'>
+          <TransitionLink
+            href='/blinkdraft/en'
+            className='hidden sm:block w-27'
+          >
             <img src={urlFor(blinkdraftLogo).url()} alt='BDK Blinkdraft Logo' />
-          </div>
+          </TransitionLink>
           <MainSearch className='hidden md:block md:max-w-40' />
           <MobileNavigation
             className='flex xl:hidden'
             navigationRoutes={navigationRoutes}
             socials={socials}
             logo={logo.logoWhite}
+            blinkdraftLogo={blinkdraftLogo}
           />
         </div>
       </header>
