@@ -39,7 +39,7 @@ const LanguageSwitcherItem = ({
     <TransitionLink
       href={`/blinkdraft/${locale}`}
       className={cn(
-        'flex items-center justify-center border border-light-blue rounded-[500px] text-light-blue text-sm md:text-base xl:text-lg 2xl:text-xl px-4 h-8 md:h-10 xl:h-12 2xl:h-10 hover:bg-light-blue hover:text-white transition-all duration-300',
+        'flex items-center justify-center border border-light-blue rounded-[500px] text-light-blue text-sm md:text-base xl:text-lg 2xl:text-xl px-4 h-8 md:h-9 2xl:h-10 hover:bg-light-blue hover:text-white transition-all duration-300',
         locale === currentLocale &&
           'bg-light-blue text-white pointer-events-none cursor-auto'
       )}
