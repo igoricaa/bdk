@@ -13,11 +13,13 @@ import { ChevronDown } from 'lucide-react';
 import { getGeneralInfoData } from '@/sanity/lib/cached-queries';
 import SocialBgIcon from './ui/icons/social-bg-icon';
 import Link from 'next/link';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { Image } from 'next-sanity/image';
 
 const Footer = async () => {
-  const { generalInfo, blinkdraft } = await getGeneralInfoData();
+  const { generalInfo } = await getGeneralInfoData();
 
-  if (!generalInfo || !blinkdraft) {
+  if (!generalInfo) {
     return null;
   }
 
@@ -25,12 +27,12 @@ const Footer = async () => {
     <footer id='footer' className='bg-dark-blue'>
       <div className='bg-white rounded-t-main px-side pt-8 pb-8 md:pt-18 md:pb-10 xl:pt-22 xl:pb-20 2xl:pt-36 2xl:pb-34'>
         <MobileLinks
-          blinkdraftLogo={blinkdraft.logo}
-          generalInfo={generalInfo}
+          blinkdraftLogo={generalInfo.blinkdraftLogo}
+          socials={generalInfo.socials}
         />
         <DesktopLinks
-          blinkdraftLogo={blinkdraft.logo}
-          generalInfo={generalInfo}
+          blinkdraftLogo={generalInfo.blinkdraftLogo}
+          socials={generalInfo.socials}
         />
         <section className='mt-8 xl:mt-20'>
           <ul
@@ -156,10 +158,10 @@ const CountryCard = ({
 
 const MobileLinks = ({
   blinkdraftLogo,
-  generalInfo,
+  socials,
 }: {
-  blinkdraftLogo: any;
-  generalInfo: GENERAL_INFO_QUERYResult['generalInfo'];
+  blinkdraftLogo: SanityImageSource;
+  socials: Social[];
 }) => {
   return (
     <section className='grid grid-cols-1 md:hidden'>
@@ -218,16 +220,17 @@ const MobileLinks = ({
 
       <div className='flex justify-between md:flex-col md:justify-normal gap-4 md:gap-10 mt-11 md:mt-0'>
         {blinkdraftLogo && (
-          <div className='w-27'>
-            <img
-              src={urlFor(blinkdraftLogo).url()}
-              alt='BDK - Blinkdraft'
-              className='w-full h-full object-cover'
-            />
-          </div>
+          <Image
+            src={urlFor(blinkdraftLogo as SanityImageSource).url()}
+            alt='BDK - Blinkdraft'
+            width={454}
+            height={144}
+            className='object-cover w-27'
+            unoptimized={true}
+          />
         )}
         <ul className='flex md:flex-col gap-4 md:gap-6 '>
-          {generalInfo?.socials.map((social: Social) => (
+          {socials.map((social: Social) => (
             <FooterSocial key={social.name} social={social} />
           ))}
         </ul>
@@ -263,10 +266,10 @@ const MobileAccordionItem = ({
 
 const DesktopLinks = ({
   blinkdraftLogo,
-  generalInfo,
+  socials,
 }: {
-  blinkdraftLogo: any;
-  generalInfo: GENERAL_INFO_QUERYResult['generalInfo'];
+  blinkdraftLogo: SanityImageSource;
+  socials: Social[];
 }) => {
   return (
     <section className='hidden md:grid grid-cols-5 gap-x-5 xl:gap-x-8'>
@@ -334,16 +337,17 @@ const DesktopLinks = ({
       </div>
       <div className='flex justify-between md:flex-col md:justify-normal gap-4 md:gap-10 mt-11 md:mt-0'>
         {blinkdraftLogo && (
-          <div className='w-27'>
-            <img
-              src={urlFor(blinkdraftLogo).url()}
-              alt='BDK - Blinkdraft'
-              className='w-full h-full object-cover'
-            />
-          </div>
+          <Image
+            src={urlFor(blinkdraftLogo as SanityImageSource).url()}
+            alt='BDK - Blinkdraft'
+            width={454}
+            height={144}
+            className='object-cover w-27'
+            unoptimized={true}
+          />
         )}
         <ul className='flex md:flex-col gap-4 md:gap-6 '>
-          {generalInfo?.socials.map((social: Social) => (
+          {socials.map((social: Social) => (
             <FooterSocial key={social.name} social={social} />
           ))}
         </ul>

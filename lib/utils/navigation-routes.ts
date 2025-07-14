@@ -35,7 +35,7 @@ export const getHeaderData = async (): Promise<{
   blinkdraftLogo: SanityImageSource | null;
   socials: NonNullable<GENERAL_INFO_QUERYResult['generalInfo']>['socials'];
 }> => {
-  const [{ industries, practices, foreignDesks }, { generalInfo, blinkdraft }] =
+  const [{ industries, practices, foreignDesks }, { generalInfo }] =
     await Promise.all([getServicesData(), getGeneralInfoData()]);
 
   if (!industries && !practices && !foreignDesks && !generalInfo) {
@@ -192,7 +192,7 @@ export const getHeaderData = async (): Promise<{
       logoBlack: generalInfo?.logo?.logoBlack as SanityImageSource,
       logoWhite: generalInfo?.logo?.logoWhite as SanityImageSource,
     },
-    blinkdraftLogo: blinkdraft?.logo as SanityImageSource,
+    blinkdraftLogo: generalInfo?.blinkdraftLogo as SanityImageSource,
     socials: generalInfo?.socials as NonNullable<
       GENERAL_INFO_QUERYResult['generalInfo']
     >['socials'],
