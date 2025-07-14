@@ -2,7 +2,6 @@
 
 import { AnimatePresence, easeOut, motion } from 'motion/react';
 import { useState, useEffect } from 'react';
-import SlideAnimatedLogo from './slide-in-logo';
 import BestAnimatedLogo from './bestOne';
 
 export default function SplashScreen({
@@ -46,13 +45,6 @@ export default function SplashScreen({
               borderBottomRightRadius: 'var(--radius-main)',
             }}
           >
-            {/* <div className='flex items-center justify-center gap-11'>
-              <Bdk className='' />
-              <Divider className='' />
-              <LawyersText className='' />
-            </div> */}
-            {/* <AnimatedLogo /> */}
-            {/* <SlideAnimatedLogo /> */}
             <BestAnimatedLogo />
           </div>
         </motion.div>
