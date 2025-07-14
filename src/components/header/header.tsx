@@ -6,6 +6,7 @@ import DesktopNavigation from './navigation/desktop/desktop-navigation';
 import MobileNavigation from './navigation/mobile/mobile-navigation';
 import Logo from '../ui/logo';
 import { MainSearch } from '../search-main';
+import { Image } from 'next-sanity/image';
 
 const Header = async () => {
   const { logo, blinkdraftLogo, socials, navigationRoutes } =
@@ -40,7 +41,14 @@ const Header = async () => {
             href='/blinkdraft/en'
             className='hidden sm:block w-27'
           >
-            <img src={urlFor(blinkdraftLogo).url()} alt='BDK Blinkdraft Logo' />
+            <Image
+              src={urlFor(blinkdraftLogo).url()}
+              alt='BDK Blinkdraft Logo'
+              width={454}
+              height={144}
+              className='w-full h-full object-cover'
+              unoptimized={true}
+            />
           </TransitionLink>
           <MainSearch className='hidden md:block md:max-w-40' />
           <MobileNavigation

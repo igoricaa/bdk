@@ -16,6 +16,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
 import notFound from '../../not-found';
 import { routing } from '@/src/i18n/routing';
+import LanguageSwitcher from '@/src/components/blinkdraft/language-switcher';
 
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -48,7 +49,8 @@ const BlinkDraftPage = async ({
   return (
     <NextIntlClientProvider locale={locale}>
       <main id='blinkdraftPage' className='pt-header'>
-        <section className='flex flex-col-reverse md:flex-row gap-15 px-side md:gap-12 xl:gap-30 3xl:gap-40 pb-16 md:pb-31 xl:pb-37 2xl:pb-42 pt-7.5 md:pt-11 xl:pt-18 2xl:pt-35'>
+        <section className='flex flex-col-reverse md:flex-row relative px-side gap-15 md:gap-12 xl:gap-30 3xl:gap-40 pb-16 md:pb-31 xl:pb-37 2xl:pb-42 pt-16 md:pt-11 xl:pt-18 2xl:pt-35'>
+          <LanguageSwitcher locale={locale} className='absolute top-4 xl:top-header-height left-side' />
           <div className='flex flex-col sm:justify-end xl:pb-19 3xl:pb-37 gap-8 sm:gap-7 xl:gap-8 2xl:gap-18'>
             <div className='flex flex-col gap-8 sm:gap-7 2xl:gap-13'>
               {generalInfo?.blinkdraftLogo && (

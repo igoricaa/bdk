@@ -1,43 +1,50 @@
-'use client';
-
-import { useLocale } from 'next-intl';
+// import { useLocale } from 'next-intl';
+import { cn } from '@/src/lib/utils';
 import { TransitionLink } from '../transition-link';
 
-type Translation = {
-  i18n_lang: 'en' | 'sr';
-  slug: string;
-};
-
-interface LanguageSwitcherProps {
-  translations: Translation[];
-}
-
 export default function LanguageSwitcher({
-  translations,
-}: LanguageSwitcherProps) {
-  const currentLocale = useLocale();
+  locale,
+  className,
+}: {
+  locale: string;
+  className?: string;
+}) {
+  // const currentLocale = useLocale();
 
   return (
-    <div style={{ marginBottom: '2rem' }}>
-      {translations.map((translation) => {
-        const { i18n_lang, slug } = translation;
-
-        // Don't show a link for the current language
-        if (i18n_lang === currentLocale) {
-          return null;
-        }
-
-        return (
-          <TransitionLink
-            key={i18n_lang}
-            href={`/${slug}`}
-            locale={i18n_lang}
-            style={{ textTransform: 'uppercase', fontWeight: 'bold' }}
-          >
-            {i18n_lang}
-          </TransitionLink>
-        );
-      })}
+    <div className={cn('flex gap-0', className)}>
+      {/* <LanguageSwitcherItem locale={locale === 'sr' ? 'en' : 'sr'}>
+        {locale === 'sr' ? 'English' : 'Srpski'}
+      </LanguageSwitcherItem> */}
+      <LanguageSwitcherItem locale='en' currentLocale={locale}>
+        English
+      </LanguageSwitcherItem>
+      <LanguageSwitcherItem locale='sr' currentLocale={locale}>
+        Srpski
+      </LanguageSwitcherItem>
     </div>
   );
 }
+
+const LanguageSwitcherItem = ({
+  locale,
+  currentLocale,
+  children,
+}: {
+  locale: string;
+  currentLocale: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <TransitionLink
+      href={`/blinkdraft/${locale}`}
+      className={cn(
+        'flex items-center justify-center border border-light-blue rounded-[500px] text-light-blue text-sm md:text-base xl:text-lg 2xl:text-xl px-4 h-8 md:h-10 xl:h-12 2xl:h-10 hover:bg-light-blue hover:text-white transition-all duration-300',
+        locale === currentLocale &&
+          'bg-light-blue text-white pointer-events-none cursor-auto'
+      )}
+    >
+      {children}
+    </TransitionLink>
+  );
+};
