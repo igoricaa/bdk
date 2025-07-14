@@ -26,7 +26,6 @@ export const blinkdraftDemoSectionType = defineType({
       title: 'Demo Video',
       type: 'mux.video',
       description: 'Demo video that will be displayed in the demo section',
-      validation: (rule) => rule.required(),
     }),
   ],
   preview: {

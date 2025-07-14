@@ -1,4 +1,12 @@
 import { defineField, defineType } from 'sanity';
+import { blinkdraftCtaSectionType } from './blinkdraftCtaSection';
+import { blinkdraftDemoSectionType } from './blinkdraftDemoSection';
+import { blinkdraftHeroSectionType } from './blinkdraftHeroSection';
+import { blinkdraftPackageDetailsSectionType } from './blinkdraftPackageDetailsSection';
+import { blinkdraftSubscriptionPlansSectionType } from './blinkdraftSubscriptionPlansSection';
+import { blinkdraftWhatIsSectionType } from './blinkdraftWhatIsSection';
+import { blinkdraftSubscriptionPlanType } from './blinkdraftSubscriptionPlan';
+import { blinkdraftAdditionalFeaturesSectionType } from './blinkdraftAdditionalFeaturesSection';
 
 export const blinkdraftType = defineType({
   name: 'blinkdraft',
@@ -22,55 +30,72 @@ export const blinkdraftType = defineType({
       validation: (rule) => rule.required().error('Page title is required'),
     }),
     defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {
-        source: 'title',
-      },
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
       name: 'heroSection',
       title: 'Hero Section',
-      type: 'blinkdraftHeroSection',
+      type: blinkdraftHeroSectionType.name,
       description: 'Hero section at the top of the page',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'demoSection',
       title: 'Demo Section',
-      type: 'blinkdraftDemoSection',
+      type: blinkdraftDemoSectionType.name,
       description: 'Demo section with video',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'whatIsSection',
       title: 'What Is Section',
-      type: 'blinkdraftWhatIsSection',
+      type: blinkdraftWhatIsSectionType.name,
       description: 'What is section with title and description',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'subscriptionPlansSection',
       title: 'Subscription Plans Section',
-      type: 'blinkdraftSubscriptionPlansSection',
+      type: blinkdraftSubscriptionPlansSectionType.name,
       description: 'Subscription plans section with title and description',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'ctaSection',
       title: 'CTA Section',
-      type: 'blinkdraftCtaSection',
+      type: blinkdraftCtaSectionType.name,
       description: 'Call to action section with heading and button text',
       validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: 'packageDetailsSection',
+      title: 'Package Details Section',
+      type: blinkdraftPackageDetailsSectionType.name,
+      description:
+        'Section with package details, including heading, description, and a list of packages',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'additionalFeaturesSection',
+      title: 'Additional Features Section',
+      type: blinkdraftAdditionalFeaturesSectionType.name,
+      description:
+        'Section with additional features, including a title and a list of features',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
+    })
   ],
 });
 
-export { blinkdraftCtaSectionType } from './blinkdraftCtaSection';
-export { blinkdraftDemoSectionType } from './blinkdraftDemoSection';
-export { blinkdraftHeroSectionType } from './blinkdraftHeroSection';
-export { blinkdraftSubscriptionPlansSectionType } from './blinkdraftSubscriptionPlansSection';
-export { blinkdraftWhatIsSectionType } from './blinkdraftWhatIsSection';
-export { blinkdraftSubscriptionPlanType } from './blinkdraftSubscriptionPlan';
+export {
+  blinkdraftCtaSectionType,
+  blinkdraftDemoSectionType,
+  blinkdraftHeroSectionType,
+  blinkdraftSubscriptionPlansSectionType,
+  blinkdraftWhatIsSectionType,
+  blinkdraftSubscriptionPlanType,
+  blinkdraftPackageDetailsSectionType,
+  blinkdraftAdditionalFeaturesSectionType,
+};

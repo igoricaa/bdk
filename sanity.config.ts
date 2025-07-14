@@ -23,6 +23,7 @@ export default defineConfig({
         { id: 'en', title: 'English' },
         { id: 'sr', title: 'Serbian' },
       ],
+      languageField: 'language',
       schemaTypes: ['blinkdraft'],
     }),
     muxInput({ max_resolution_tier: '2160p' }),

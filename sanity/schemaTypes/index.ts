@@ -27,6 +27,8 @@ import {
   blinkdraftSubscriptionPlanType,
   blinkdraftType,
   blinkdraftWhatIsSectionType,
+  blinkdraftPackageDetailsSectionType,
+  blinkdraftAdditionalFeaturesSectionType,
 } from './blinkdraft';
 import { peopleHeroSectionType, peoplePageType } from './pages/people';
 import { countryType } from './countries';
@@ -80,6 +82,8 @@ const schemaTypes = [
   blinkdraftSubscriptionPlansSectionType,
   blinkdraftCtaSectionType,
   blinkdraftSubscriptionPlanType,
+  blinkdraftPackageDetailsSectionType,
+  blinkdraftAdditionalFeaturesSectionType,
 ];
 
 export default schemaTypes;
