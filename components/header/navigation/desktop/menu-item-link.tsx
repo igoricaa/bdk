@@ -7,12 +7,14 @@ const MenuItemLink = ({
   label,
   iconSize = 20,
   onMouseEnter,
+  isActive,
 }: {
   className?: string;
   href?: string;
   label: string;
   iconSize?: number;
   onMouseEnter?: () => void;
+  isActive?: boolean;
 }) => {
   return (
     <>
@@ -26,9 +28,15 @@ const MenuItemLink = ({
           )}
           iconSize={iconSize}
           onMouseEnter={onMouseEnter}
+          isActive={isActive}
         />
       ) : (
-        <span className='text-base leading-6.5 2xl:text-base text-grey-darker hover:bg-transparent hover:text-light-blue focus:bg-transparent focus:text-light-blue py-2'>
+        <span
+          className={cn(
+            'text-base leading-6.5 2xl:text-base text-grey-darker hover:bg-transparent hover:text-light-blue focus:bg-transparent focus:text-light-blue py-2',
+            isActive && 'bg-transparent text-light-blue'
+          )}
+        >
           {label}
         </span>
       )}

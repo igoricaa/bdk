@@ -1,16 +1,18 @@
 'use client';
 
+import { NavigationRoute } from '@/lib/utils/navigation-routes';
 import {
   NavigationMenuContent,
   NavigationMenuItem,
+  NavigationMenuLink,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { NavigationRoute } from '@/lib/utils/navigation-routes';
+import { Image } from 'next-sanity/image';
 import { cn } from '@/lib/utils';
 import { urlFor } from '@/sanity/lib/image';
-import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { usePathname } from 'next/navigation';
+import MenuItemLink from './menu-item-link';
 import { TransitionLink } from '@/components/transition-link';
 
 const navMenuTriggerClasses = cn(
@@ -23,10 +25,8 @@ const BDKnowledgeMenu = ({
   bdknowledgeRoute: NavigationRoute;
 }) => {
   const pathname = usePathname();
-  const [activeItem, setActiveItem] = useState<NavigationRoute>({
-    label: 'BDKnowledge',
-    href: '',
-  });
+  const [activeItem, setActiveItem] =
+    useState<NavigationRoute>(bdknowledgeRoute);
 
   const isBDKnowledgeActive = () => {
     return (
@@ -38,6 +38,10 @@ const BDKnowledgeMenu = ({
     );
   };
 
+  const isRouteActive = (route: NavigationRoute) => {
+    return activeItem.label === route.label;
+  };
+
   return (
     <NavigationMenuItem value='BDKnowledge'>
       <NavigationMenuTrigger
@@ -46,61 +50,60 @@ const BDKnowledgeMenu = ({
           isBDKnowledgeActive() && 'bg-light-blue-bg text-light-blue'
         )}
       >
-        <span>{bdknowledgeRoute.label}</span>
+        {bdknowledgeRoute.label}
       </NavigationMenuTrigger>
-      <NavigationMenuContent className='absolute! top-19! mt-0!'>
-        <TransitionLink href={bdknowledgeRoute.href as string}>
-          <article
-            key={bdknowledgeRoute.label}
-            className={`relative bg-dark-blue rounded-2xl overflow-hidden p-4 w-full h-30 cursor-pointer`}
-          >
-            <img
-              src={urlFor(
-                bdknowledgeRoute.illustration?.desktop as SanityImageSource
-              ).url()}
-              alt={bdknowledgeRoute.label}
-              className={`absolute object-cover right-10 bottom-0 h-full`}
-            />
-            <h3 className='text-lg text-white'>{bdknowledgeRoute.label}</h3>
-          </article>
-        </TransitionLink>
-        <div className='grid grid-cols-[min-content_min-content] gap-2 mt-2'>
-          {bdknowledgeRoute.subRoutes?.map((item, index) => {
-            const borderRadius =
-              index === 0 || index === 3
-                ? 'rounded-bl-[50px] rounded-tr-[50px]'
-                : 'rounded-tl-[50px] rounded-br-[50px]';
-
-            const bgImgClasses =
-              index === 0
-                ? 'h-full aspect-[156/309] right-12 top-0'
-                : index === 1
-                  ? 'bottom-0 right-15 w-47 aspect-[234/193]'
-                  : index === 2
-                    ? 'w-55 aspect-[271/151] right-0 bottom-0'
-                    : 'w-50 aspect-[251/231] right-0 top-1/2 -translate-y-1/2';
-
-            return (
+      {/* fixed! left-1/2 -translate-x-1/2 top-24! mt-0! */}
+      <NavigationMenuContent className='absolute! top-19! right-0 left-auto mt-0!'>
+        <div className='grid gap-5 w-lg lg:grid-cols-[270px_1fr] h-full'>
+          <div className='row-span-3'>
+            <NavigationMenuLink asChild>
               <TransitionLink
-                href={item.href as string}
-                key={item.label}
-                pageName={item.label}
+                className='flex h-full w-full select-none flex-col rounded-md bg-gradient-to-b from-light-blue-bg/50 to-light-blue-bg p-6 no-underline outline-none focus:shadow-md'
+                href={activeItem?.href || ''}
               >
-                <article
-                  className={`relative bg-dark-blue ${borderRadius} overflow-hidden p-4 aspect-[530/308] h-30 cursor-pointer`}
-                >
-                  <img
-                    src={urlFor(
-                      item.illustration?.desktop as SanityImageSource
-                    ).url()}
-                    alt={item.label}
-                    className={`absolute object-cover ${bgImgClasses}`}
-                  />
-                  <h3 className='text-lg text-white'>{item.label}</h3>
-                </article>
+                {activeItem.illustration?.desktop && (
+                  <div className='mb-4 bg-dark-blue aspect-[231/256] rounded-bl-[70px] overflow-hidden'>
+                    <Image
+                      src={urlFor(activeItem.illustration?.desktop).url()}
+                      alt='BDKnowledge'
+                      width={231}
+                      height={256}
+                      className='w-full h-full object-contain'
+                    />
+                  </div>
+                )}
+                <div className='mb-2 mt-4 text-lg font-medium'>
+                  {activeItem.label}
+                </div>
               </TransitionLink>
-            );
-          })}
+            </NavigationMenuLink>
+          </div>
+
+          {/* Column 2: Practices - Two Columns */}
+          <div className='space-y-5 pt-6 pl-2'>
+            <ul>
+              <MenuItemLink
+                href={bdknowledgeRoute.href}
+                label={bdknowledgeRoute.label}
+                onMouseEnter={() => {
+                  setActiveItem(bdknowledgeRoute);
+                }}
+                isActive={isRouteActive(bdknowledgeRoute)}
+              />
+              {bdknowledgeRoute.subRoutes?.map((subRoute) => (
+                <li key={subRoute.href}>
+                  <MenuItemLink
+                    href={subRoute.href}
+                    label={subRoute.label}
+                    onMouseEnter={() => {
+                      setActiveItem(subRoute);
+                    }}
+                    isActive={isRouteActive(subRoute)}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </NavigationMenuContent>
     </NavigationMenuItem>
