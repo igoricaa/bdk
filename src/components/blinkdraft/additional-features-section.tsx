@@ -61,8 +61,8 @@ const AdditionalFeatureCard = ({
       className={`bg-white flex gap-4 md:gap-6 xl:gap-8 2xl:gap-10 p-5 ${className}`}
     >
       <CheckmarkIcon
-        className='md:max-xl:hidden bg-transparent min-w-15 min-h-15 size-15 xl:2xl:min-w-21 xl:2xl:min-h-21 xl:2xl:size-21 border border-light-blue'
-        checkmarkClassName='text-light-blue size-7 xl:2xl:size-14'
+        className='md:max-xl:hidden bg-transparent min-w-15 min-h-15 size-15 lg:min-w-21 lg:min-h-21 lg:size-21 border border-light-blue'
+        checkmarkClassName='text-light-blue size-7 lg:size-14'
       />
       <div className='flex flex-col gap-2.5 md:gap-6'>
         <div className='flex items-center gap-6'>
