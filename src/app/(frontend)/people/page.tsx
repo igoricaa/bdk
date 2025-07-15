@@ -37,7 +37,7 @@ const PeoplePage = async () => {
       <Suspense fallback={<div>Loading...</div>}>
         <LawyersGrid
           computedLawyersData={computedLawyersData}
-          className='xl:px-0 2xl:max-w-[1550px] xl:mx-auto'
+          className='xl:px-0 2xl:max-w-[1550px] min-[1800px]:max-w-[1800px]! xl:mx-auto'
         />
       </Suspense>
 

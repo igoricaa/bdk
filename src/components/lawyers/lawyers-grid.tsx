@@ -12,26 +12,6 @@ import { useQueryState } from 'nuqs';
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 
-// type SearchedLawyer = NonNullable<
-//   LAWYERS_BY_CATEGORY_QUERYResult['categories'][0]['orderedLawyers']
-// >[0];
-
-// const fetchSearchedLawyers = async (
-//   query: string,
-//   category: string
-// ): Promise<SearchedLawyer[]> => {
-//   if (!query || query.trim().length < 2) {
-//     return [];
-//   }
-//   const response = await fetch(
-//     `/api/search/lawyers?q=${query}&category=${category}`
-//   );
-//   if (!response.ok) {
-//     throw new Error('Network response was not ok');
-//   }
-//   return response.json();
-// };
-
 const LawyersGrid = ({
   computedLawyersData,
   className,
@@ -59,32 +39,6 @@ const LawyersGrid = ({
       lawyer.name.toLowerCase().includes(lowercasedSearchTerm)
     );
   }, [activeCategory, searchTerm, computedLawyersData]);
-
-  // const currentLawyers =
-  //   activeCategory === 'all'
-  //     ? computedLawyersData.allLawyers
-  //     : computedLawyersData.lawyersByCategory[activeCategory] || [];
-
-  // const {
-  //   data: searchedLawyers,
-  //   isLoading,
-  //   isError,
-  // } = useQuery<SearchedLawyer[]>({
-  //   // The queryKey now uses the local searchTerm state
-  //   queryKey: ['lawyers', 'search', searchTerm, activeCategory],
-  //   queryFn: () => fetchSearchedLawyers(searchTerm, activeCategory),
-  //   enabled: isSearching,
-  // });
-
-  // let currentLawyers: SearchedLawyer[];
-  // if (isSearching) {
-  //   currentLawyers = searchedLawyers || [];
-  // } else {
-  //   currentLawyers =
-  //     activeCategory === 'all'
-  //       ? computedLawyersData.allLawyers
-  //       : computedLawyersData.lawyersByCategory[activeCategory] || [];
-  // }
 
   return (
     <section className={cn(className)}>
@@ -187,7 +141,7 @@ const LawyerCard = ({
             pageName={lawyer.name}
             className='block'
           >
-            <h2 className='text-dark-blue text-lg 2xl:text-xl'>
+            <h2 className='text-dark-blue text-lg xl:text-xl 2xl:text-[22px]'>
               {lawyer.name}
             </h2>
           </TransitionLink>
