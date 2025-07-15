@@ -17,8 +17,7 @@ const CheckmarkIcon = ({
     >
       <CheckIcon
         size={16}
-        strokeWidth={1}
-        className={cn('size-4 sm:size-5 2xl:size-6', checkmarkClassName)}
+        className={cn('size-4 sm:size-5 2xl:size-6 stroke-1', checkmarkClassName)}
       />
     </div>
   );
