@@ -12,10 +12,13 @@ export default function LanguageSwitcher({
   // const currentLocale = useLocale();
 
   return (
-    <div className={cn('flex gap-0', className)}>
+    <div className={cn('flex gap-0 items-center', className)}>
       {/* <LanguageSwitcherItem locale={locale === 'sr' ? 'en' : 'sr'}>
         {locale === 'sr' ? 'English' : 'Srpski'}
       </LanguageSwitcherItem> */}
+      <p className='text-grey-text text-base md:text-lg mr-4'>
+        {locale === 'sr' ? 'Odaberi jezik' : 'Choose Language'}
+      </p>
       <LanguageSwitcherItem
         locale='en'
         currentLocale={locale}
@@ -49,7 +52,7 @@ const LanguageSwitcherItem = ({
     <TransitionLink
       href={`/blinkdraft/${locale}`}
       className={cn(
-        'flex items-center justify-center border border-light-blue uppercase text-light-blue text-sm text-base h-6 md:h-7 2xl:h-8 hover:bg-light-blue hover:text-white transition-all duration-300',
+        'flex items-center justify-center border border-light-blue uppercase text-light-blue text-sm md:text-base h-6 md:h-7 2xl:h-8 hover:bg-light-blue hover:text-white transition-all duration-300',
         className,
         locale === currentLocale &&
           'bg-light-blue text-white pointer-events-none cursor-auto'
