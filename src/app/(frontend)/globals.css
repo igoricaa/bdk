@@ -21,6 +21,14 @@
   --color-grey-light: hsl(var(--grey-light));
   --color-grey-random: hsl(var(--grey-random));
 
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-border: var(--border);
+
   --animate-aurora: aurora 60s linear infinite;
   @keyframes aurora {
     from {
@@ -173,7 +181,7 @@
 
 @layer base {
   * {
-    @apply font-dm-sans;
+    @apply border-border outline-ring/50 font-dm-sans;
   }
 
   /* Heading Styles */

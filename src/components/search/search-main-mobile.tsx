@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, RefObject, useMemo, useEffect } from 'react';
+import { useState, useRef, RefObject, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'use-debounce';
 import { Input } from '@/src/components/ui/input';
@@ -42,33 +42,19 @@ const fetchSearchResults = async (query: string): Promise<SearchResult[]> => {
 export const MainSearchMobile = ({
   toggleMenu,
   backButtonClick,
-  menuRef,
 }: {
   toggleMenu: () => void;
   backButtonClick: () => void;
-  menuRef: React.RefObject<HTMLDivElement>;
 }) => {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [debouncedQuery] = useDebounce(query, 300);
-  const [isActive, setIsActive] = useState(false);
 
   const searchRef = useRef<HTMLDivElement>(null);
 
   useOnClickOutside(searchRef as RefObject<HTMLElement>, () =>
     setIsFocused(false)
   );
-
-  useEffect(() => {
-    const body = document.body as HTMLElement;
-    body.style.overflow = isActive ? 'hidden' : '';
-
-    if (isActive) {
-      body.setAttribute('data-lenis-prevent', 'true');
-    } else {
-      body.removeAttribute('data-lenis-prevent');
-    }
-  }, [isActive]);
 
   const {
     data: results,
@@ -108,7 +94,7 @@ export const MainSearchMobile = ({
       >
         {query ? (
           <XIcon
-            className='md:min-w-7 min-h-7 md:size-7 xl:min-w-8 xl:min-h-8 xl:size-8 absolute right-[calc(var(--padding-side)+1.5rem)] md:right-6 top-1/2 -translate-y-1/2 cursor-pointer'
+            className='md:min-w-7 min-h-7 md:size-7 xl:min-w-8 xl:min-h-8 xl:size-8 absolute right-4.5 top-1/2 -translate-y-1/2 cursor-pointer'
             strokeWidth={1}
             stroke='hsl(var(--grey-text))'
             onClick={() => setQuery('')}
@@ -118,7 +104,6 @@ export const MainSearchMobile = ({
             className={cn(
               'bg-transparent border border-lightest-blue rounded-full min-w-10 min-h-10 size-10 absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center'
             )}
-            onClick={() => setIsActive(true)}
           >
             <Search
               className='w-4.5 h-4.5'
@@ -145,7 +130,7 @@ export const MainSearchMobile = ({
           isError={isError}
           onClose={() => {
             setIsFocused(false);
-            setTimeout(() => {  
+            setTimeout(() => {
               toggleMenu();
             }, 1000);
           }}

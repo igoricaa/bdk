@@ -47,8 +47,19 @@ const MobileNavigation = ({
   const menuRef = useRef<HTMLDivElement>(null!);
 
   const handleSearchToggle = () => {
+    console.log('handleSearchToggle');
+    console.log(isSearchActive);
     setIsSearchActive(!isSearchActive);
-    menuRef.current?.classList.toggle('no-scroll');
+
+    console.log(isSearchActive);
+
+    if (!isSearchActive) {
+      // menuRef.current?.setAttribute('data-lenis-prevent', 'true');
+      menuRef.current?.classList.add('no-scroll');
+    } else {
+      // menuRef.current?.removeAttribute('data-lenis-prevent');
+      menuRef.current?.classList.remove('no-scroll');
+    }
   };
 
   const toggleMenu = () => {
@@ -96,7 +107,7 @@ const MobileNavigation = ({
         </header>
 
         <div className='pt-8 sm:pt-12 overflow-y-auto flex flex-col h-full'>
-          <div className='border-b border-lightest-blue pb-4'>
+          <div className='md:hidden border-b border-lightest-blue pb-4'>
             <button
               className={cn(
                 'bg-transparent border border-lightest-blue rounded-full min-w-10 min-h-10 size-10 flex items-center justify-center cursor-pointer'
@@ -114,7 +125,6 @@ const MobileNavigation = ({
               {isSearchActive && (
                 <MainSearchMobile
                   toggleMenu={toggleMenu}
-                  menuRef={menuRef}
                   backButtonClick={handleSearchToggle}
                 />
               )}
