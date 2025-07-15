@@ -4,7 +4,8 @@ const client = createClient({
   projectId: 'ozaurj4x',
   dataset: 'production',
   token:
-    'skijxDU9E6LZWYygPDndA38HN05p67IWY6ar4e1QgjRMZAS26JC5liB1QxixNEsnJzoFTMBD9IoEzjFRn6ei7a0jyTdT0AJEu8u59ejHhnG2ue3RkhNNTZoyPs6YUzw2Ylmg4K5IaAgEeNDjxh8FLeqY4SLcZPTlqLbZ6wfF0eGxNOTHcQbL',
+    'sk5bMcu8JNBCy0FR7LgHwXmNjHIoCpzoFVpkH4G2EoeOI7kypEBPbkNbKqPRSsARUb2Unh0bYCHpWo0IUKcvJIL5XvewCJNx28TwheEyQ2P6DLvMEyeRGsPsJsGCX8Mmgf46OmaOw0Fn43erIHJNlGxcSdKlhHUYVlFarewZvdtiPJY2uezM',
+  // 'skijxDU9E6LZWYygPDndA38HN05p67IWY6ar4e1QgjRMZAS26JC5liB1QxixNEsnJzoFTMBD9IoEzjFRn6ei7a0jyTdT0AJEu8u59ejHhnG2ue3RkhNNTZoyPs6YUzw2Ylmg4K5IaAgEeNDjxh8FLeqY4SLcZPTlqLbZ6wfF0eGxNOTHcQbL',
   useCdn: false,
   apiVersion: '2025-04-13',
 });

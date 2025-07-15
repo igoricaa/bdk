@@ -45,16 +45,37 @@ export const BLINKDRAFT_PAGE_QUERY = defineQuery(`{
   "blinkdraftPage": *[_type == "blinkdraft" && language == $locale][0]
 }`);
 
-// export const BLINKDRAFT_PAGE_QUERY = defineQuery(`{
-//   "blinkdraftPage": *[_type == "blinkdraft" && language == $locale][0]{
-//     ...,
-//     "translations": *[_type == "blinkdraft" && language == ^.language]{
-//       language,
-//       "slug": slug.current,
-//       "language": language
-//     }
-//   }
-// }`);
+export const AUTHOR_PAGE_QUERY = defineQuery(`
+  *[_type == "lawyer" && slug.current == $slug][0] {
+    _id,
+    name,
+    title,
+    picture,
+    slug,
+    bio,
+    contactInfo {
+      email,
+      phone,
+      linkedin
+    },
+    "authorId": (*[_type == "author" && lawyer._ref == ^._id]._id)[0],
+    "posts": *[
+      _type == "post" &&
+      status == "publish" &&
+      references(*[_type == "author" && lawyer._ref == ^.^._id]._id)
+    ] | order(date desc)[0...10] {
+      _id,
+      title,
+      slug,
+      date,
+      categories[]->{
+        _id,
+        name,
+        slug
+      }
+    }
+  }
+`);
 
 export const POSTS_PREVIEW_BY_CATEGORY_QUERY = defineQuery(`{
   "posts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{
@@ -245,16 +266,13 @@ export const POST_QUERY = defineQuery(`{
       authors[]->{
         _id,
         type,
+        name,
         lawyer->{
           name,
           title,
           picture,
           slug
         },
-        customAuthor{
-          name,
-          slug
-        }
       },
       categories[]->{
         _id,
@@ -453,6 +471,11 @@ export const PAGINATED_FILTERED_POSTS_QUERY = defineQuery(`
     // If $year is null, this condition is ignored.
     // Otherwise, it checks if the post's date starts with the given year string (e.g., "2023-").
     && ($year == null || $year == "all" || string(date) match $year + "*")
+
+    // This part filters by author.
+    // If $authorId is null, this condition is ignored.
+    // Otherwise, it checks if the post references the specified author.
+    && ($authorId == null || $authorId == "all" || references(*[_type=="author" && _id == $authorId]._id))
   ] | order(date desc)[$start...$end] {
     _id,
     title,
@@ -474,5 +497,6 @@ export const PAGINATED_FILTERED_POSTS_COUNT_QUERY = defineQuery(`
     && status == "publish"
     && ($categorySlug == "all" || $categorySlug == null || references(*[_type=="category" && slug.current == $categorySlug]._id))
     && ($year == null || $year == "all" || string(date) match $year + "*")
+    && ($authorId == null || $authorId == "all" || references(*[_type=="author" && _id == $authorId]._id))
   ])
 `);

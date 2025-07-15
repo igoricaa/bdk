@@ -253,7 +253,8 @@
 #home,
 #blogPage,
 #lawyerPage,
-#blinkdraftPage {
+#blinkdraftPage,
+#authorPage {
   ~ footer {
     @apply bg-light-blue-bg;
   }

@@ -18,6 +18,7 @@ import { ScrollProgress } from '@/src/components/ui/scroll-progress';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { TransitionLink } from '@/src/components/transition-link';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 export async function generateStaticParams() {
   const posts: POSTS_QUERY_WITH_SLUGSResult = await sanityFetch({
@@ -65,13 +66,7 @@ export async function generateMetadata({
       description,
       type: 'article',
       publishedTime: currentPost.date,
-      authors: currentPost.authors
-        ?.map((author: any) =>
-          author.type === 'lawyer'
-            ? author.lawyer?.name
-            : author.customAuthor?.name
-        )
-        .filter(Boolean) as string[],
+      authors: currentPost.authors?.map((author: any) => author.name),
       ...(currentPost.featuredMedia && {
         images: [
           {
@@ -167,7 +162,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
           </div>
         </div>
 
-        <article className='order-1 xl:order-2 w-full xl:col-span-7 xl:col-start-4 2xl:col-span-8 2xl:col-start-4'>
+        <article className='order-1 xl:order-2 w-full xl:col-span-8 xl:col-start-4'>
           <ScrollProgress />
           <PostHeader
             title={currentPost.title}
@@ -203,6 +198,13 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
 export default PostPage;
 
+type AuthorCustom = {
+  name: string;
+  slug?: string;
+  image?: SanityImageSource;
+  title?: string;
+};
+
 const AuthorsBlock = ({
   authors,
   currentPost,
@@ -210,46 +212,90 @@ const AuthorsBlock = ({
   authors: NonNullable<POST_QUERYResult['currentPost']>['authors'];
   currentPost: NonNullable<POST_QUERYResult['currentPost']>;
 }) => {
+  const hasCustomAuthor = authors.some((author) => author.type === 'custom');
+
+  const flatAuthors = hasCustomAuthor
+    ? authors.map((author) => {
+        if (author.type === 'custom') {
+          return {
+            name: author.name,
+          };
+        }
+        return {
+          name: author.name,
+          slug: author.lawyer!.slug.current,
+        };
+      })
+    : authors.map((author) => ({
+        name: author.lawyer!.name,
+        slug: author.lawyer!.slug.current,
+        title: author.lawyer!.title,
+        image: author.lawyer!.picture,
+      }));
+
   return (
     <div className='mt-2 md:mt-5 md:flex md:items-center md:justify-between xl:block'>
-      <div className='flex items-center gap-4 flex-wrap'>
-        {authors.map((author) => (
-          <div key={author._id}>
-            {author.type === 'lawyer' && author.lawyer && (
-              <TransitionLink
-                href={`/people/${author.lawyer.slug?.current}`}
-                className='flex items-center gap-4 2xl:gap-5'
-              >
-                <div className='w-12.5 h-12.5 2xl:h-16 2xl:w-16 rounded-full overflow-hidden'>
-                  <Image
-                    src={urlForUncropped(author.lawyer.picture).url() || ''}
-                    alt={author.lawyer?.name || ''}
-                    width={100}
-                    height={100}
-                    priority
-                    className='object-cover object-top h-full'
-                  />
-                </div>
-                <div>
-                  <p className='text-dark-blue 2xl:text-xl whitespace-nowrap'>
-                    {author.lawyer.name}
-                  </p>
-                  <p className='text-grey-random mt-1 text-sm 2xl:text-base'>
-                    {author.lawyer.title}
-                  </p>
-                </div>
-              </TransitionLink>
-            )}
-            {author.type === 'custom' && author.customAuthor && (
-              <TransitionLink
-                href={`/people/${author.customAuthor.slug.current}`}
-                className='text-dark-blue 2xl:text-xl whitespace-nowrap'
-              >
-                {author.customAuthor.name}
-              </TransitionLink>
-            )}
-          </div>
-        ))}
+      <div className='flex items-center gap-2 md:gap-5 lg:gap-6'>
+        {/* <span className='text-grey-text text-xs lg:text-sm xl:text-base'>Authors</span> */}
+        <div
+          className={cn(
+            'flex items-center gap-5 flex-wrap',
+            hasCustomAuthor ? 'gap-0' : ''
+          )}
+        >
+          {flatAuthors.map((author: AuthorCustom, index: number) => (
+            <div key={author.name}>
+              {!hasCustomAuthor && (
+                <TransitionLink
+                  href={`/authors/${author.slug}`}
+                  className='flex items-center gap-4 2xl:gap-5'
+                  pageName={author.name}
+                >
+                  <div className='w-12.5 h-12.5 2xl:h-16 2xl:w-16 rounded-full overflow-hidden'>
+                    <Image
+                      src={urlForUncropped(author.image!).url() || ''}
+                      alt={author.name || ''}
+                      width={100}
+                      height={100}
+                      priority
+                      className='object-cover object-top h-full'
+                    />
+                  </div>
+                  <div>
+                    <p className='text-dark-blue 2xl:text-xl whitespace-nowrap'>
+                      {author.name}
+                    </p>
+                    <p className='text-grey-random mt-1 text-sm 2xl:text-base'>
+                      {author.title}
+                    </p>
+                  </div>
+                </TransitionLink>
+              )}
+              {hasCustomAuthor && (
+                <>
+                  {author.slug ? (
+                    <TransitionLink
+                      href={`/authors/${author.slug}`}
+                      pageName={author.name}
+                      className='text-dark-blue 2xl:text-xl whitespace-nowrap'
+                    >
+                      {author.name}
+                    </TransitionLink>
+                  ) : (
+                    <span className='text-dark-blue 2xl:text-xl whitespace-nowrap'>
+                      {author.name}
+                    </span>
+                  )}
+                  {index === flatAuthors.length - 1 ? (
+                    ''
+                  ) : (
+                    <span>,&nbsp;&nbsp;</span>
+                  )}
+                </>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
       <ShareButtons
         postSlug={currentPost.slug.current}
@@ -309,7 +355,7 @@ const PostHeader = ({
 
         <AuthorsBlock authors={authors} currentPost={currentPost} />
 
-        <div className='mt-4 md:mt-19 xl:mt-7 2xl:mt-22'>
+        <div className='mt-4 md:mt-19 xl:mt-7 2xl:mt-14'>
           <div className='rounded-[10px] md:rounded-[1.25rem] overflow-hidden aspect-[361/270]'>
             <Image
               src={urlFor(featuredMedia).url() || ''}

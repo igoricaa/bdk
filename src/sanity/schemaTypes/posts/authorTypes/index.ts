@@ -8,6 +8,12 @@ export const authorType = defineType({
   icon: UserIcon,
   fields: [
     defineField({
+      name: 'name',
+      title: 'Name',
+      type: 'string',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: 'type',
       title: 'Author Type',
       type: 'string',
@@ -16,7 +22,9 @@ export const authorType = defineType({
           { title: 'Lawyer', value: 'lawyer' },
           { title: 'Custom Author', value: 'custom' },
         ],
+        layout: 'radio',
       },
+      initialValue: 'custom',
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -27,42 +35,25 @@ export const authorType = defineType({
       hidden: ({ document }) => document?.type !== 'lawyer',
     }),
     defineField({
-      name: 'customAuthor',
-      title: 'Custom Author Details',
-      type: 'object',
-      fields: [
-        defineField({
-          name: 'name',
-          type: 'string',
-          validation: (rule) => rule.required(),
-        }),
-        defineField({
-          name: 'slug',
-          type: 'slug',
-          validation: (rule) => rule.required(),
-        }),
-        defineField({ name: 'url', title: 'URL', type: 'url' }),
-      ],
+      name: 'url',
+      title: 'URL (for Custom Authors)',
+      type: 'url',
       hidden: ({ document }) => document?.type !== 'custom',
     }),
   ],
   preview: {
     select: {
-      type: 'type',
-      lawyer: 'lawyer.name',
-      customName: 'customAuthor.name',
+      title: 'name',
+      subtitle: 'type',
+      media: 'lawyer.picture',
     },
-    prepare(selection) {
-      if (selection.type === 'lawyer') {
-        return {
-          title: selection.lawyer,
-          subtitle: 'Lawyer',
-          media: UserIcon,
-        };
-      }
+    prepare({ title, subtitle, media }) {
       return {
-        title: selection.customName,
-        subtitle: 'Custom Author',
+        title: title || 'No name',
+        subtitle: subtitle
+          ? subtitle.charAt(0).toUpperCase() + subtitle.slice(1)
+          : '',
+        media: subtitle === 'lawyer' ? media : UserIcon,
       };
     },
   },

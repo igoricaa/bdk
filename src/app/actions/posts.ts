@@ -55,12 +55,13 @@ export const fetchPostsByYear = createSafeActionClient()
 const fetchFilteredPostsSchema = z.object({
   categorySlug: z.string().default('all'),
   year: z.string().optional(),
+  authorId: z.string().optional(),
   page: z.number().min(0).default(0),
 });
 
 export const fetchFilteredPosts = createSafeActionClient()
   .schema(fetchFilteredPostsSchema)
-  .action(async ({ parsedInput: { categorySlug, year, page } }) => {
+  .action(async ({ parsedInput: { categorySlug, year, page, authorId } }) => {
     try {
       const start = page === 0 ? 0 : 0 + page * POSTS_PER_PAGE;
       const end = start + POSTS_PER_PAGE;
@@ -70,7 +71,10 @@ export const fetchFilteredPosts = createSafeActionClient()
         year: year && year !== 'all' ? year : null,
         start,
         end,
+        authorId: authorId || null,
       };
+
+      console.log('queryParams', queryParams);
 
       const [posts, totalCount] = await Promise.all([
         sanityFetch({
@@ -86,6 +90,8 @@ export const fetchFilteredPosts = createSafeActionClient()
       ]);
 
       const hasNextPage = start + POSTS_PER_PAGE < totalCount;
+
+      console.log('posts', posts);
 
       return {
         success: true,

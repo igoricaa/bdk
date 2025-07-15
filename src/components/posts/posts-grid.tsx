@@ -6,13 +6,12 @@ import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'motion/react';
 import SectionHeader from '../ui/section-header/section-header';
 import PostCard from './post-card';
-import PostsFilters from './posts-filters';
 import { Button } from '../ui/button';
 import { useIsMobile } from '@/src/lib/hooks/use-mobile';
 import { fetchFilteredPosts } from '@/src/app/actions/posts';
 import { CategoryWithChildren, cn } from '@/src/lib/utils';
 import PostSkeleton from './post-card-skeleton';
-import { FilterOption } from '../ui/filter-buttons';
+import FilterButtons, { FilterOption } from '../ui/filter-buttons';
 import { POSTS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
 import GenericSidebar from '../ui/generic-sidebar';
 import { transformCategoriesData } from '@/src/lib/utils/sidebar-transformers';
@@ -137,18 +136,20 @@ const PostsGrid = ({
   }, [category, year, searchTerm, allPosts]);
 
   const activeFilters = yearFilterOptions ? (
-    <PostsFilters
+    <FilterButtons
       options={yearFilterOptions}
-      activeCategory={year}
-      onCategoryChange={setYear}
+      activeOption={year}
+      onOptionChange={setYear}
       variant='dark'
+      className='w-full pl-side md:pl-0 lg:w-fit'
     />
   ) : categoryFilterOptions ? (
-    <PostsFilters
+    <FilterButtons
       options={categoryFilterOptions}
-      activeCategory={category}
-      onCategoryChange={setCategory}
+      activeOption={category}
+      onOptionChange={setCategory}
       variant='dark'
+      className='w-full pl-side md:pl-0 lg:w-fit'
     />
   ) : null;
 
