@@ -1,6 +1,5 @@
 'use client';
 
-import { AUTHOR_PAGE_QUERYResult } from '@/sanity.types';
 import PostCard from '../posts/post-card';
 import { cn } from '@/src/lib/utils';
 import { useIsMobile } from '@/src/lib/hooks/use-mobile';
@@ -11,6 +10,7 @@ import { fetchFilteredPosts } from '@/src/app/actions/posts';
 import FilterButtons, { FilterOption } from '../ui/filter-buttons';
 import { Button } from '../ui/button';
 import PostCardSkeleton from '../posts/post-card-skeleton';
+import { UNIVERSAL_AUTHOR_PAGE_QUERYResult } from '@/sanity.types';
 
 const categoryFilterOptions: FilterOption[] = [
   { slug: 'all', label: 'All' },
@@ -24,10 +24,12 @@ const AuthorPostsSection = ({
   authorId,
   posts,
   className,
+  isLawyer,
 }: {
   authorId: string;
-  posts: NonNullable<AUTHOR_PAGE_QUERYResult>['posts'];
+  posts: NonNullable<UNIVERSAL_AUTHOR_PAGE_QUERYResult>['posts'];
   className?: string;
+  isLawyer: boolean;
 }) => {
   const [category, setCategory] = useState('all');
   const isMobile = useIsMobile({ breakpoint: 1024 });
@@ -104,7 +106,12 @@ const AuthorPostsSection = ({
     return (
       <section className={cn('', className)}>
         <div className='flex items-center justify-between'>
-          <h2 className='pl-side text-dark-blue text-2xl sm:text-3xl xl:text-4xl 2xl:text-5xl'>
+          <h2
+            className={cn(
+              'pl-side text-dark-blue text-2xl sm:text-3xl xl:text-4xl 2xl:text-5xl',
+              isLawyer ? 'xl:pl-0' : 'lg:pl-0'
+            )}
+          >
             Posts
           </h2>
           <FilterButtons
@@ -125,7 +132,12 @@ const AuthorPostsSection = ({
   return (
     <section className={cn('', className)}>
       <div className='flex flex-col md:flex-row md:items-center justify-between gap-4'>
-        <h2 className='pl-side xl:pl-0 text-dark-blue text-3xl xl:text-4xl 2xl:text-5xl'>
+        <h2
+          className={cn(
+            'pl-side text-dark-blue text-3xl xl:text-4xl 2xl:text-5xl',
+            isLawyer ? 'xl:pl-0' : 'lg:pl-0'
+          )}
+        >
           Posts
         </h2>
         <FilterButtons
@@ -133,11 +145,21 @@ const AuthorPostsSection = ({
           activeOption={category}
           onOptionChange={setCategory}
           variant='dark'
-          className='w-full pl-side md:pl-0 md:pr-side md:w-fit'
+          className={cn(
+            'w-full pl-side md:pl-0 md:pr-side md:w-fit',
+            isLawyer ? 'xl:pl-0' : 'lg:pl-0 lg:pr-0'
+          )}
         />
       </div>
 
-      <ul className='px-side xl:pl-0 grid auto-rows-max grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4 md:gap-6 xl:gap-8 2xl:gap-10 mt-6 md:mt-8 xl:mt-10 2xl:mt-15'>
+      <ul
+        className={cn(
+          'px-side  grid auto-rows-max grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 xl:gap-8 2xl:gap-10 mt-6 md:mt-8 xl:mt-10 2xl:mt-15',
+          isLawyer
+            ? 'xl:pl-0'
+            : 'lg:pl-0 lg:pr-0 lg:grid-cols-3 2xl:grid-cols-4'
+        )}
+      >
         {isFiltering
           ? Array.from({ length: posts.length > 10 ? 10 : posts.length }).map(
               (_, index) => <PostCardSkeleton key={`skeleton-${index}`} />

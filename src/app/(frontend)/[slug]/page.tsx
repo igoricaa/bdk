@@ -200,7 +200,7 @@ export default PostPage;
 
 type AuthorCustom = {
   name: string;
-  slug?: string;
+  slug: string;
   image?: SanityImageSource;
   title?: string;
 };
@@ -219,11 +219,14 @@ const AuthorsBlock = ({
         if (author.type === 'custom') {
           return {
             name: author.name,
+            slug: author.slug.current,
           };
         }
         return {
           name: author.name,
           slug: author.lawyer!.slug.current,
+          title: author.lawyer!.title,
+          image: author.lawyer!.picture,
         };
       })
     : authors.map((author) => ({
@@ -273,19 +276,14 @@ const AuthorsBlock = ({
               )}
               {hasCustomAuthor && (
                 <>
-                  {author.slug ? (
-                    <TransitionLink
-                      href={`/authors/${author.slug}`}
-                      pageName={author.name}
-                      className='text-dark-blue 2xl:text-xl whitespace-nowrap'
-                    >
-                      {author.name}
-                    </TransitionLink>
-                  ) : (
-                    <span className='text-dark-blue 2xl:text-xl whitespace-nowrap'>
-                      {author.name}
-                    </span>
-                  )}
+                  <TransitionLink
+                    href={`/authors/${author.slug}`}
+                    pageName={author.name}
+                    className='text-dark-blue 2xl:text-xl whitespace-nowrap'
+                  >
+                    {author.name}
+                  </TransitionLink>
+
                   {index === flatAuthors.length - 1 ? (
                     ''
                   ) : (

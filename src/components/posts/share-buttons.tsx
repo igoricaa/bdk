@@ -1,5 +1,3 @@
-import { POST_QUERYResult } from '@/sanity.types';
-import { TransitionLink } from '@/src/components/transition-link';
 import FbIcon from '../ui/icons/fb-icon';
 import LnIcon from '../ui/icons/ln-icon';
 import { cn } from '@/src/lib/utils';

@@ -21,7 +21,7 @@ import {
   NESTED_CATEGORIES_QUERY,
   GLOBAL_FEATURED_POSTS_QUERY,
   BLINKDRAFT_PAGE_QUERY,
-  AUTHOR_PAGE_QUERY,
+  UNIVERSAL_AUTHOR_PAGE_QUERY,
 } from './queries';
 import type {
   GENERAL_INFO_QUERYResult,
@@ -44,7 +44,7 @@ import type {
   NESTED_CATEGORIES_QUERYResult,
   GLOBAL_FEATURED_POSTS_QUERYResult,
   BLINKDRAFT_PAGE_QUERYResult,
-  AUTHOR_PAGE_QUERYResult,
+  UNIVERSAL_AUTHOR_PAGE_QUERYResult,
 } from '@/sanity.types';
 
 // Dont need to cache these, it's not used on multiple pages§
@@ -77,11 +77,21 @@ export const getLawyerPageData = async (
   });
 };
 
+// export const getAuthorPageData = async (
+//   slug: string
+// ): Promise<AUTHOR_PAGE_QUERYResult> => {
+//   return await sanityFetch({
+//     query: AUTHOR_PAGE_QUERY,
+//     params: { slug },
+//     tags: [`author-${slug}`, 'authors'],
+//   });
+// };
+
 export const getAuthorPageData = async (
   slug: string
-): Promise<AUTHOR_PAGE_QUERYResult> => {
+): Promise<UNIVERSAL_AUTHOR_PAGE_QUERYResult> => {
   return await sanityFetch({
-    query: AUTHOR_PAGE_QUERY,
+    query: UNIVERSAL_AUTHOR_PAGE_QUERY,
     params: { slug },
     tags: [`author-${slug}`, 'authors'],
   });

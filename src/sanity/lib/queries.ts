@@ -45,24 +45,26 @@ export const BLINKDRAFT_PAGE_QUERY = defineQuery(`{
   "blinkdraftPage": *[_type == "blinkdraft" && language == $locale][0]
 }`);
 
-export const AUTHOR_PAGE_QUERY = defineQuery(`
-  *[_type == "lawyer" && slug.current == $slug][0] {
+export const UNIVERSAL_AUTHOR_PAGE_QUERY = defineQuery(`
+  *[_type == "author" && slug.current == $slug][0] {
     _id,
     name,
-    title,
-    picture,
     slug,
-    bio,
-    contactInfo {
-      email,
-      phone,
-      linkedin
+    type,
+    "lawyerDetails": lawyer->{
+      title,
+      picture,
+      bio,
+      contactInfo {
+        email,
+        phone,
+        linkedin
+      }
     },
-    "authorId": (*[_type == "author" && lawyer._ref == ^._id]._id)[0],
     "posts": *[
       _type == "post" &&
       status == "publish" &&
-      references(*[_type == "author" && lawyer._ref == ^.^._id]._id)
+      references(^._id)
     ] | order(date desc)[0...10] {
       _id,
       title,
@@ -245,7 +247,9 @@ export const FOREIGN_DESK_QUERY = defineQuery(`{
   },
 }`);
 
-export const AUTHORS_QUERY = defineQuery(`*[_type == "author"]`);
+export const AUTHORS_QUERY = defineQuery(`*[_type == "author"] {
+    slug,
+}`);
 
 export const POSTS_QUERY_WITH_SLUGS =
   defineQuery(`*[_type == "post" && status == "publish"]{
@@ -267,6 +271,7 @@ export const POST_QUERY = defineQuery(`{
         _id,
         type,
         name,
+        slug,
         lawyer->{
           name,
           title,
