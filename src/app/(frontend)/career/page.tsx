@@ -6,6 +6,7 @@ import Section from '@/src/components/ui/section';
 import SectionHeader from '@/src/components/ui/section-header/section-header';
 import { cn, getPdfUrl, PdfFile } from '@/src/lib/utils';
 import { Clock } from 'lucide-react';
+import { PortableTextBlock } from 'next-sanity';
 
 type Course = {
   title: string;
@@ -34,7 +35,7 @@ const CareerPage = async () => {
       <SplitSection
         heading={careerPageData.hero.heading}
         image={careerPageData.hero.backgroundImage}
-        description={careerPageData.hero.description}
+        description={careerPageData.hero.description as PortableTextBlock[]}
         customComponent={<OpenPositions careerPageData={careerPageData} />}
         className='px-side'
       />
@@ -172,7 +173,7 @@ const OpenPositions = ({
                   <p className='text-grey-text text-lg 2xl:text-2xl'>
                     {openPosition.location}
                   </p>
-                  <ArrowUpRight className='absolute top-8 md:top-5 2xl:top-8 right-0' />
+                  <ArrowUpRight className='absolute top-1/2 -translate-y-1/2 right-0' />
                 </a>
               </li>
             );

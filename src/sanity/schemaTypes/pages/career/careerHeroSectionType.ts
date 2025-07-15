@@ -17,7 +17,7 @@ export const careerHeroSectionType = defineType({
     defineField({
       name: 'description',
       title: 'Description',
-      type: 'text',
+      type: 'blockContent',
       description: 'Description text that will be displayed in hero section',
       validation: (rule) => rule.required(),
     }),

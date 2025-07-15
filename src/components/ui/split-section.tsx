@@ -39,7 +39,7 @@ const SplitSection = ({
       <div className='md:pb-9 xl:pb-24 3xl:pb-30'>
         {subtitle && <Subtitle variation='dark'>{subtitle}</Subtitle>}
 
-        <h1 className='text-dark-blue mt-6 xl:mt-12 2xl:mt-13 text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
+        <h1 className='text-dark-blue mt-6 xl:mt-12 2xl:mt-13 text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl'>
           {heading}
         </h1>
 
@@ -60,26 +60,27 @@ const SplitSection = ({
             {highlightedText &&
               highlightedText.length > 0 &&
               (typeof highlightedText === 'string' ? (
-                <p className='text-dark-blue text-lg xl:text-2xl 2xl:text-3xl'>
+                <p className='text-dark-blue text-lg xl:text-2xl 2xl:text-3xl leading-tight'>
                   {highlightedText}
                 </p>
               ) : (
                 <PortableText
                   value={highlightedText as PortableTextBlock[]}
-                  className='text-dark-blue text-lg xl:text-2xl 2xl:text-3xl'
+                  paragraphClassName='text-dark-blue text-lg xl:text-2xl 2xl:text-3xl'
                 />
               ))}
 
             {description &&
               description.length > 0 &&
               (typeof description === 'string' ? (
-                <p className='mt-6 md:mt-7.5 text-grey-text xl:text-lg 2xl:text-2xl'>
+                <p className='mt-6 md:mt-7.5 text-grey-text xl:text-lg 2xl:text-2xl leading-tight'>
                   {description}
                 </p>
               ) : (
                 <PortableText
                   value={description as PortableTextBlock[]}
-                  className='mt-6 md:mt-7.5 text-grey-text xl:text-lg 2xl:text-2xl'
+                  className='mt-6 md:mt-7.5'
+                  paragraphClassName='text-grey-text xl:text-lg 2xl:text-2xl'
                 />
               ))}
           </div>

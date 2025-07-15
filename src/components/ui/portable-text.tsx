@@ -138,7 +138,7 @@ const PortableText = ({
       link: ({ children, value }) => (
         <a
           href={value?.href}
-          className='text-blue-600 hover:text-blue-800 underline transition-colors'
+          className='text-light-blue hover:text-light-blue/80 transition-colors'
           target='_blank'
           rel='noopener noreferrer'
         >
