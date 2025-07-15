@@ -1,9 +1,12 @@
-import { SidebarSection, SidebarItem, CategoriesTransformResult } from '@/src/types/sidebar';
+import {
+  SidebarSection,
+  SidebarItem,
+  CategoriesTransformResult,
+} from '@/src/types/sidebar';
 import { CategoryWithChildren } from '@/src/lib/utils';
 import ServicesIcon from '@/src/components/ui/icons/services-icon';
 import IndustriesIcon from '@/src/components/ui/icons/industries-icon';
 import ForeignDesksIcon from '@/src/components/ui/icons/foreign-desks-icon';
-import { FolderOpen } from 'lucide-react';
 
 // Transform services data (practices, industries, foreign desks) to SidebarSection[]
 export function transformServicesData({
@@ -75,34 +78,39 @@ export function transformCategoriesData(
   });
 
   // Transform first-level children into accordion sections
-  const sections: SidebarSection[] = categoryTree.children.map((child, index) => ({
-    id: child._id,
-    title: child.name,
-    icon: FolderOpen,
-    items: child.children.length > 0 
-      ? child.children.map(transformCategoryToSidebarItem)
-      : [{ 
-          id: child._id, 
-          title: child.name, 
-          slug: child.slug.current, 
-          count: child.postCount 
-        }],
-    basePath: '/blog?category=',
-    defaultOpen: index === 0, // First section open by default
-  }));
+  const sections: SidebarSection[] = categoryTree.children.map(
+    (child, index) => ({
+      id: child._id,
+      title: child.name,
+      items:
+        child.children.length > 0
+          ? child.children.map(transformCategoryToSidebarItem)
+          : [
+              {
+                id: child._id,
+                title: child.name,
+                slug: child.slug.current,
+                count: child.postCount,
+              },
+            ],
+      basePath: '/blog?category=',
+      defaultOpen: index === 0, // First section open by default
+    })
+  );
 
   // If no children, fall back to showing the main category as a section
   if (sections.length === 0) {
     sections.push({
       id: categoryTree._id,
       title: categoryTree.name,
-      icon: FolderOpen,
-      items: [{
-        id: categoryTree._id,
-        title: categoryTree.name,
-        slug: categoryTree.slug.current,
-        count: categoryTree.postCount,
-      }],
+      items: [
+        {
+          id: categoryTree._id,
+          title: categoryTree.name,
+          slug: categoryTree.slug.current,
+          count: categoryTree.postCount,
+        },
+      ],
       basePath: '/blog?category=',
       defaultOpen: true,
     });

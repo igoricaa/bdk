@@ -53,7 +53,7 @@ const GenericAccordionItem = ({ section }: { section: SidebarSection }) => {
         icon={<PlusIcon />}
       >
         <div className='flex items-center gap-2.5 2xl:gap-3.5'>
-          <section.icon className='w-4 h-4 2xl:w-5 2xl:h-5' />
+          {section.icon && <section.icon className='w-4 h-4 2xl:w-5 2xl:h-5' />}
           <span className='leading-none'>{section.title}</span>
         </div>
       </AccordionTrigger>

@@ -11,7 +11,7 @@ export interface SidebarItem {
 export interface SidebarSection {
   id: string;
   title: string;
-  icon: ComponentType<{ className?: string }>;
+  icon?: ComponentType<{ className?: string }>;
   items: SidebarItem[];
   basePath: string;
   defaultOpen?: boolean;

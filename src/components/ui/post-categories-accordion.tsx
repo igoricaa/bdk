@@ -87,10 +87,7 @@ const GenericAccordionItem = ({
         className='flex items-center justify-between py-2.5 pl-4 pr-2.5 2xl:py-3.25 2xl:pl-5 2xl:pr-3 cursor-pointer bg-light-blue/15 text-dark-blue text-base 2xl:text-lg'
         icon={<PlusIcon />}
       >
-        <div className='flex items-center gap-2.5 2xl:gap-3.5'>
-          <section.icon className='w-4 h-4 2xl:w-5 2xl:h-5' />
-          <span className='leading-none'>{section.title}</span>
-        </div>
+        {section.title}
       </AccordionTrigger>
       <AccordionContent className='pl-13 2xl:pl-15 py-4 2xl:py-8'>
         <ul className='space-y-4 2xl:space-y-4.75'>
