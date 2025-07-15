@@ -5,7 +5,7 @@ import { getHeaderData } from '@/src/lib/utils/navigation-routes';
 import DesktopNavigation from './navigation/desktop/desktop-navigation';
 import MobileNavigation from './navigation/mobile/mobile-navigation';
 import Logo from '../ui/logo';
-import { MainSearch } from '../search-main';
+import { MainSearchDesktop } from '../search/search-main-desktop';
 import { Image } from 'next-sanity/image';
 
 const Header = async () => {
@@ -50,7 +50,7 @@ const Header = async () => {
               unoptimized={true}
             />
           </TransitionLink>
-          <MainSearch className='hidden md:block md:max-w-40' />
+          <MainSearchDesktop className='hidden md:block md:max-w-40' />
           <MobileNavigation
             className='flex xl:hidden'
             navigationRoutes={navigationRoutes}

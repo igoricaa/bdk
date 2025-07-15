@@ -38,7 +38,7 @@ const fetchSearchResults = async (query: string): Promise<SearchResult[]> => {
   return response.json();
 };
 
-export const MainSearch = ({
+export const MainSearchDesktop = ({
   className,
   inputFieldClassName,
 }: {

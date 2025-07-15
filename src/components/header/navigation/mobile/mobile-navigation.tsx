@@ -22,7 +22,7 @@ import Socials from './socials';
 import MenuFooter from './menu-footer';
 import { AnimatePresence, motion } from 'motion/react';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
-import { MainSearch } from '@/src/components/search-main';
+import { MainSearchMobile } from '@/src/components/search/search-main-mobile';
 import { Image } from 'next-sanity/image';
 import { urlFor } from '@/src/sanity/lib/image';
 
@@ -43,12 +43,20 @@ const MobileNavigation = ({
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
   const [activeSubNavigationRoute, setActiveSubNavigationRoute] =
     useState<SubRoutesRoute | null>(null);
+  const [isSearchActive, setIsSearchActive] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null!);
+
+  const handleSearchToggle = () => {
+    setIsSearchActive(!isSearchActive);
+    menuRef.current?.classList.toggle('no-scroll');
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     setOpenAccordion(null);
     setActiveSubNavigationRoute(null);
+    setIsSearchActive(false);
+    menuRef.current?.classList.remove('no-scroll');
   };
 
   const handleToggle = (label: string) => {
@@ -89,10 +97,28 @@ const MobileNavigation = ({
 
         <div className='pt-8 sm:pt-12 overflow-y-auto flex flex-col h-full'>
           <div className='border-b border-lightest-blue pb-4'>
-            <MainSearch
-              className='w-full'
-              inputFieldClassName='bg-lightest-blue!'
-            />
+            <button
+              className={cn(
+                'bg-transparent border border-lightest-blue rounded-full min-w-10 min-h-10 size-10 flex items-center justify-center cursor-pointer'
+              )}
+              onClick={handleSearchToggle}
+            >
+              <Search
+                className='w-4.5 h-4.5'
+                strokeWidth={1}
+                stroke='hsl(var(--lightest-blue))'
+              />
+            </button>
+
+            <AnimatePresence>
+              {isSearchActive && (
+                <MainSearchMobile
+                  toggleMenu={toggleMenu}
+                  menuRef={menuRef}
+                  backButtonClick={handleSearchToggle}
+                />
+              )}
+            </AnimatePresence>
           </div>
 
           <ul>
