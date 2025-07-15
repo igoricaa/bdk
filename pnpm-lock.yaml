@@ -5475,12 +5475,6 @@ packages:
     resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
     engines: {node: '>=0.10.0'}
 
-  react-rx@4.1.29:
-    resolution: {integrity: sha512-ET39XJwZyYtBb3dw3hiQjuXVwHB+X6K6SxqRskE3gh3Se5gjly9WrryxiEQy0WsYZ5rJopnCf06TzUvOIkz0yQ==}
-    peerDependencies:
-      react: ^18.3 || >=19.0.0-0
-      rxjs: ^7
-
   react-rx@4.1.30:
     resolution: {integrity: sha512-O5+9CDr+yYqmPNb0Ddc6/wdc4EGpfZnZaK4h5Kf6d6ruleVb++usLUW39PmZowUH2bYCF7QnW5Gl0vLNVIlT0A==}
     peerDependencies:
@@ -6308,11 +6302,6 @@ packages:
 
   use-effect-event@1.0.2:
     resolution: {integrity: sha512-9c8AAmtQja4LwJXI0EQPhQCip6dmrcSe0FMcTUZBeGh/XTCOLgw3Qbt0JdUT8Rcrm/ZH+Web7MIcMdqgQKdXJg==}
-    peerDependencies:
-      react: ^18.3 || ^19.0.0-0
-
-  use-effect-event@2.0.1:
-    resolution: {integrity: sha512-76rGQGL83WpjyqrYNsQXA9U7y68HNfeGecBz7q8jvEGXucnh0oUedjxHuOmwVucv8kzpHOYx6OlrLAuQ66fvbg==}
     peerDependencies:
       react: ^18.3 || ^19.0.0-0
 
@@ -12489,14 +12478,6 @@ snapshots:
 
   react-refresh@0.17.0: {}
 
-  react-rx@4.1.29(react@19.1.0)(rxjs@7.8.2):
-    dependencies:
-      observable-callback: 1.0.3(rxjs@7.8.2)
-      react: 19.1.0
-      react-compiler-runtime: 19.1.0-rc.2(react@19.1.0)
-      rxjs: 7.8.2
-      use-effect-event: 2.0.1(react@19.1.0)
-
   react-rx@4.1.30(react@19.1.0)(rxjs@7.8.2):
     dependencies:
       observable-callback: 1.0.3(rxjs@7.8.2)
@@ -12769,16 +12750,16 @@ snapshots:
     dependencies:
       '@mux/mux-player-react': 2.9.1(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@mux/upchunk': 3.5.0
-      '@sanity/icons': 3.7.0(react@19.1.0)
+      '@sanity/icons': 3.7.4(react@19.1.0)
       '@sanity/incompatible-plugin': 1.0.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@sanity/ui': 2.15.18(@emotion/is-prop-valid@1.2.2)(react-dom@19.1.0(react@19.1.0))(react-is@18.3.1)(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))
+      '@sanity/ui': 2.16.7(@emotion/is-prop-valid@1.2.2)(react-dom@19.1.0(react@19.1.0))(react-is@18.3.1)(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))
       '@sanity/uuid': 3.0.2
       iso-639-1: 3.1.5
       jsonwebtoken-esm: 1.0.5
       lodash: 4.17.21
       react: 19.1.0
       react-is: 18.3.1
-      react-rx: 4.1.29(react@19.1.0)(rxjs@7.8.2)
+      react-rx: 4.1.30(react@19.1.0)(rxjs@7.8.2)
       rxjs: 7.8.2
       sanity: 3.99.0(@emotion/is-prop-valid@1.2.2)(@types/node@20.19.0)(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(immer@10.1.1)(jiti@2.4.2)(lightningcss@1.30.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)(yaml@2.8.0)
       scroll-into-view-if-needed: 3.1.0
@@ -13673,10 +13654,6 @@ snapshots:
       react: 19.1.0
 
   use-effect-event@1.0.2(react@19.1.0):
-    dependencies:
-      react: 19.1.0
-
-  use-effect-event@2.0.1(react@19.1.0):
     dependencies:
       react: 19.1.0
 

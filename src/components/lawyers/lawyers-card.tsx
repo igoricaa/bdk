@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const LawyerCard = ({ lawyer }: { lawyer: Lawyer }) => {
   return (
-    <article className='pb-6 md:pb-2 xl:pb-4 2xl:pb-6 cursor-pointer'>
+    <article className='pb-6 md:pb-2 xl:pb-4 2xl:pb-6 cursor-pointer lawyer-card'>
       <TransitionLink
         href={`/people/${lawyer.slug.current}`}
         pageName={lawyer.name}
