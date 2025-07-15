@@ -258,3 +258,7 @@
     @apply bg-light-blue-bg;
   }
 }
+
+[data-cursor-hover] * {
+  cursor: inherit;
+}

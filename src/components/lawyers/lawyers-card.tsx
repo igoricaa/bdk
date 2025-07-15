@@ -7,7 +7,11 @@ import Link from 'next/link';
 
 const LawyerCard = ({ lawyer }: { lawyer: Lawyer }) => {
   return (
-    <article className='pb-6 md:pb-2 xl:pb-4 2xl:pb-6 cursor-pointer lawyer-card'>
+    <article
+      className='pb-6 md:pb-2 xl:pb-4 2xl:pb-6'
+      data-cursor-hover='true'
+      data-cursor-text='View Profile'
+    >
       <TransitionLink
         href={`/people/${lawyer.slug.current}`}
         pageName={lawyer.name}
@@ -33,6 +37,7 @@ const LawyerCard = ({ lawyer }: { lawyer: Lawyer }) => {
             href={lawyer.contactInfo.linkedin}
             target='_blank'
             className='hidden md:block'
+            data-cursor-exempt='true'
           >
             <LinkedinIcon className='min-w-5 min-h-5 w-5 h-5 2xl:w-5.5 2xl:h-5.5 2xl:min-w-5.5 2xl:min-h-5.5' />
           </Link>
@@ -48,6 +53,7 @@ const LawyerCard = ({ lawyer }: { lawyer: Lawyer }) => {
           href={lawyer.contactInfo.linkedin}
           target='_blank'
           className='block mt-4 md:hidden'
+          data-cursor-exempt='true'
         >
           <LinkedinIcon className='w-4 h-4' />
         </Link>

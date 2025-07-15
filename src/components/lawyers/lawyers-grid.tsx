@@ -154,6 +154,8 @@ const LawyerCard = ({
         stiffness: 120,
         duration: 0.6,
       }}
+      data-cursor-hover='true'
+      data-cursor-text='View Profile'
     >
       <TransitionLink
         href={`/people/${lawyer.slug.current}`}
@@ -194,6 +196,7 @@ const LawyerCard = ({
               href={lawyer.contactInfo.linkedin}
               target='_blank'
               className='hidden md:block'
+              data-cursor-exempt='true'
             >
               <LinkedinIcon className='min-w-5 min-h-5 w-5 h-5 2xl:w-5.5 2xl:h-5.5 2xl:min-w-5.5 2xl:min-h-5.5' />
             </Link>
@@ -208,6 +211,7 @@ const LawyerCard = ({
             href={lawyer.contactInfo.linkedin}
             target='_blank'
             className='block mt-4 md:hidden'
+            data-cursor-exempt='true'
           >
             <LinkedinIcon className='w-4 h-4' />
           </Link>
