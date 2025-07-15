@@ -21,8 +21,27 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'BDK',
-  description: 'BDK Law Firm',
+  metadataBase: new URL('https://bdkadvokati.rs'),
+
+  title: {
+    default: 'BDK Advokati',
+    template: '%s | BDK Advokati',
+  },
+  description:
+    'BDK Advokati is a law firm specializing in corporate law, banking and finance, and litigation.',
+  openGraph: {
+    title: 'BDK Advokati',
+    description:
+      'BDK Advokati is a law firm specializing in corporate law, banking and finance, and litigation.',
+    url: 'https://bdkadvokati.rs',
+    siteName: 'BDK Advokati',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    title: 'BDK Advokati',
+    card: 'summary_large_image',
+  },
 };
 
 export default function RootLayout({
