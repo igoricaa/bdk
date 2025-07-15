@@ -50,9 +50,9 @@ const LawyersGrid = ({
       />
 
       <AnimatePresence mode='wait'>
-        <motion.div
+        <motion.ul
           key={activeCategory}
-          className='px-side grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-5 xl:gap-x-6 xl:gap-y-12 2xl:gap-x-7 2xl:gap-y-13 mt-8 md:mt-10 xl:mt-11 2xl:mt-12.5'
+          className='px-side grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-5 xl:gap-x-6 xl:gap-y-12 2xl:gap-x-7 2xl:gap-y-13 mt-8 md:mt-10 xl:mt-11 2xl:mt-12.5 has-[li:hover]:[&>li]:blur-xs'
           layout
           initial='hidden'
           animate='visible'
@@ -66,9 +66,14 @@ const LawyersGrid = ({
           }}
         >
           {displayedLawyers.map((lawyer) => (
-            <LawyerCard key={lawyer.slug.current} lawyer={lawyer} />
+            <li
+              key={lawyer.slug.current}
+              className='col-span-1 duration-300 transition-blur hover:!blur-none'
+            >
+              <LawyerCard lawyer={lawyer} />
+            </li>
           ))}
-        </motion.div>
+        </motion.ul>
       </AnimatePresence>
     </section>
   );
@@ -85,7 +90,6 @@ const LawyerCard = ({
 }) => {
   return (
     <motion.article
-      className='col-span-1'
       layout
       initial={{
         opacity: 0,
