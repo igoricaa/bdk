@@ -3,6 +3,7 @@ import SectionHeader from '@/src/components/ui/section-header/section-header';
 import { urlFor } from '@/src/sanity/lib/image';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import Section from '../../ui/section';
+import { TransitionLink } from '../../transition-link';
 
 interface LatestPostsSectionProps {
   subtitle: string;
@@ -28,21 +29,25 @@ const LatestPostsSection = ({
       title: 'Blog',
       imageUrl: blogIllustrationUrl,
       alt: 'BDK - Blog',
+      href: '/blog',
     },
     {
       title: 'Digital Watch',
       imageUrl: digitalWatchIllustrationUrl,
       alt: 'BDK - Digital Watch',
+      href: '/digital-watch',
     },
     {
       title: 'Insights',
       imageUrl: insightsIllustrationUrl,
       alt: 'BDK - Insights',
+      href: '/insights',
     },
     {
       title: 'Publications',
       imageUrl: publicationsIllustrationUrl,
       alt: 'BDK - Publications',
+      href: '/publications',
     },
   ];
 
@@ -78,20 +83,22 @@ const LatestPostsSection = ({
                   : 'w-50 2xl:w-62 aspect-[251/231] right-0 top-1/2 -translate-y-1/2';
 
           return (
-            <article
-              key={item.title}
-              className={`relative bg-dark-blue ${borderRadius} overflow-hidden p-8 2xl:p-10 h-62 2xl:h-77 flex flex-col justify-between cursor-pointer`}
-            >
-              <img
-                src={urlFor(item.imageUrl).url()}
-                alt={item.alt}
-                className={`absolute object-cover ${bgImgClasses}`}
-              />
-              <h3 className='text-2xl 2xl:text-[2rem] text-white'>
-                {item.title}
-              </h3>
-              <ArrowUpRight />
-            </article>
+            <TransitionLink href={item.href} pageName={item.title}>
+              <article
+                key={item.title}
+                className={`relative bg-dark-blue ${borderRadius} overflow-hidden p-8 2xl:p-10 h-62 2xl:h-77 flex flex-col justify-between cursor-pointer`}
+              >
+                <img
+                  src={urlFor(item.imageUrl).url()}
+                  alt={item.alt}
+                  className={`absolute object-cover ${bgImgClasses}`}
+                />
+                <h3 className='text-2xl 2xl:text-[2rem] text-white'>
+                  {item.title}
+                </h3>
+                <ArrowUpRight />
+              </article>
+            </TransitionLink>
           );
         })}
       </div>

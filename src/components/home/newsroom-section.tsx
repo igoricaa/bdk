@@ -37,26 +37,21 @@ const NewsroomSection = ({
           >
             <article
               className={cn(
-                'bg-white/5 rounded-br-[2.5rem] md:rounded-br-[50px] h-77 md:h-88 xl:h-77 2xl:h-103',
+                'bg-white/5 rounded-br-[2.5rem] md:rounded-br-[50px] h-77 md:h-88 xl:h-77 2xl:h-103 py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18',
                 index === 3 && 'hidden sm:max-xl:block'
               )}
             >
-              <a
-                href={`/${post.slug.current}`}
-                className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18'
-              >
-                <div className='flex flex-col justify-between h-full'>
-                  <div>
-                    <p className='text-sm 2xl:text-base text-light-blue'>
-                      {formatDate(post.date)}
-                    </p>
-                    <h3 className='text-2xl 2xl:text-[2rem] mt-5'>
-                      {post.title}
-                    </h3>
-                  </div>
-                  <ArrowUpRight />
+              <div className='flex flex-col justify-between h-full'>
+                <div>
+                  <p className='text-sm 2xl:text-base text-light-blue'>
+                    {formatDate(post.date)}
+                  </p>
+                  <h3 className='text-2xl 2xl:text-[2rem] mt-5'>
+                    {post.title}
+                  </h3>
                 </div>
-              </a>
+                <ArrowUpRight />
+              </div>
             </article>
           </TransitionLink>
         ))}

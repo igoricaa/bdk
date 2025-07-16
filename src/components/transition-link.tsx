@@ -67,6 +67,12 @@ export function TransitionLink({
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
+    if (!pageName && href.includes('blinkdraft')) {
+      pageName = 'Blinkdraft';
+    } else if (!pageName && href.includes('bdknowledge')) {
+      pageName = 'BDKnowledge';
+    }
+
     const name = pageName || getPageName(href);
 
     setTargetPage(name);

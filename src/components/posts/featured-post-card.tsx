@@ -65,6 +65,7 @@ const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
 
         <TransitionLink
           href={`/${post.slug.current}`}
+          pageName={post.title}
           className='mt-10 xl:mt-12 2xl:mt-15 text-lg 2xl:text-2xl text-light-blue underline decoration-light-blue flex items-center gap-4 capitalize w-fit'
         >
           <ArrowUpRight />

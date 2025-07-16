@@ -91,7 +91,7 @@ const MobileNavigation = ({
       <nav
         ref={menuRef}
         className={cn(
-          'h-screen w-screen px-side bg-dark-blue flex flex-col fixed inset-0 z-100 transition-all duration-300 overflow-x-hidden',
+          'h-dvh w-screen px-side bg-dark-blue flex flex-col fixed inset-0 z-100 transition-all duration-300 overflow-x-hidden',
           isMenuOpen ? 'translate-x-0' : 'translate-x-full',
           className
         )}
@@ -335,7 +335,7 @@ const MobileSubNavigation = ({
       animate={{ x: 0 }}
       exit={{ x: '100%' }}
       transition={{ ease: 'easeOut', duration: 0.3 }}
-      className='h-[calc(100vh-60px)] w-screen px-side pt-8 flex flex-col bg-dark-blue fixed top-15 left-0 z-105 overflow-y-auto overflow-x-hidden transform'
+      className='h-[calc(100dvh-60px)] w-screen px-side pt-8 flex flex-col bg-dark-blue fixed top-15 left-0 z-105 overflow-y-auto overflow-x-hidden transform'
     >
       <BackToButton
         onClick={backButtonClick}
