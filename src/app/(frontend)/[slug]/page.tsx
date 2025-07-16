@@ -182,6 +182,8 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
             previousPostSlug={previousPost?.slug?.current || ''}
             nextPostSlug={nextPost?.slug?.current || ''}
             className='mt-9'
+            prevPageName={previousPost?.title}
+            nextPageName={nextPost?.title}
           />
         </article>
       </div>
@@ -237,7 +239,7 @@ const AuthorsBlock = ({
       }));
 
   return (
-    <div className='mt-2 md:mt-5 md:flex md:items-center md:justify-between xl:block'>
+    <div className='mt-6 md:mt-5'>
       <div className='flex items-center gap-2 md:gap-5 lg:gap-6'>
         {/* <span className='text-grey-text text-xs lg:text-sm xl:text-base'>Authors</span> */}
         <div
@@ -295,11 +297,6 @@ const AuthorsBlock = ({
           ))}
         </div>
       </div>
-      <ShareButtons
-        postSlug={currentPost.slug.current}
-        postTitle={currentPost.title}
-        className='hidden md:flex xl:hidden'
-      />
     </div>
   );
 };
@@ -307,7 +304,7 @@ const AuthorsBlock = ({
 const DateBlock = ({ date }: { date: string }) => {
   return (
     <div className='flex items-center gap-2'>
-      <span className='text-light-blue text-xxs xl:text-sm 2xl:text-base flex items-center gap-2'>
+      <span className='text-light-blue text-xxs sm:text-xs xl:text-sm 2xl:text-base flex items-center gap-2'>
         <Calendar className='w-4 h-4' />
         {date}
       </span>
@@ -318,7 +315,7 @@ const DateBlock = ({ date }: { date: string }) => {
 const ReadingTimeBlock = ({ readingTime }: { readingTime: string }) => {
   return (
     <div className='flex items-center gap-2'>
-      <span className='text-light-blue text-xxs xl:text-sm 2xl:text-base flex items-center gap-2'>
+      <span className='text-light-blue text-xxs sm:text-xs xl:text-sm 2xl:text-base flex items-center gap-2'>
         <Clock className='w-4 h-4' />
         {readingTime}
       </span>
@@ -346,14 +343,22 @@ const PostHeader = ({
   return (
     <div className='flex flex-col md:flex-col-reverse gap-6 md:gap-10 xl:gap-4 2xl:gap-9'>
       <div>
-        <div className='flex items-center gap-4 md:gap-8'>
-          <DateBlock date={date} />
-          <ReadingTimeBlock readingTime={readingTime} />
+        <div className='flex items-center justify-between gap-4 md:gap-8'>
+          <div className='flex items-center gap-4 md:gap-8'>
+            <DateBlock date={date} />
+            <ReadingTimeBlock readingTime={readingTime} />
+          </div>
+
+          <ShareButtons
+            postSlug={currentPost.slug.current}
+            postTitle={currentPost.title}
+            className='hidden md:flex xl:hidden'
+          />
         </div>
 
         <AuthorsBlock authors={authors} currentPost={currentPost} />
 
-        <div className='mt-4 md:mt-19 xl:mt-7 2xl:mt-10'>
+        <div className='mt-5 md:mt-8 xl:mt-7 2xl:mt-10'>
           <div className='rounded-[10px] md:rounded-[1.25rem] overflow-hidden aspect-[361/270]'>
             <Image
               src={urlFor(featuredMedia).url() || ''}
@@ -364,11 +369,11 @@ const PostHeader = ({
               className='w-full object-cover'
             />
           </div>
-          <div className='flex gap-2 mt-4 md:mt-5 2xl:mt-9.5'>
+          <div className='flex gap-2 mt-4 md:mt-5 2xl:mt-9.5 flex-wrap'>
             {categories.map((category) => (
               <span
                 key={category._id}
-                className='text-dark-blue bg-dark-blue/20 rounded-[500px] flex items-center justify-center h-7.5 px-3 text-xxs 2xl:text-sm'
+                className='text-dark-blue bg-dark-blue/20 rounded-[500px] flex items-center justify-center h-7.5 px-3 text-xxs 2xl:text-sm whitespace-nowrap'
               >
                 {category.name}
               </span>
@@ -388,10 +393,14 @@ const PostsNavigation = ({
   previousPostSlug,
   nextPostSlug,
   className,
+  prevPageName,
+  nextPageName,
 }: {
   previousPostSlug: string;
   nextPostSlug: string;
   className?: string;
+  prevPageName?: string;
+  nextPageName?: string;
 }) => {
   if (!previousPostSlug && !nextPostSlug) {
     return null;
@@ -400,14 +409,22 @@ const PostsNavigation = ({
   return (
     <div className={cn('flex justify-between items-center', className)}>
       {previousPostSlug ? (
-        <PostNavigationLink href={`/${previousPostSlug}`} direction='previous'>
+        <PostNavigationLink
+          href={`/${previousPostSlug}`}
+          direction='previous'
+          pageName={prevPageName}
+        >
           Previous
         </PostNavigationLink>
       ) : (
         <div />
       )}
       {nextPostSlug ? (
-        <PostNavigationLink href={`/${nextPostSlug}`} direction='next'>
+        <PostNavigationLink
+          href={`/${nextPostSlug}`}
+          direction='next'
+          pageName={nextPageName}
+        >
           Next
         </PostNavigationLink>
       ) : (
@@ -421,14 +438,17 @@ const PostNavigationLink = ({
   href,
   children,
   direction,
+  pageName,
 }: {
   href: string;
   children: React.ReactNode;
   direction: 'previous' | 'next';
+  pageName?: string;
 }) => {
   return (
     <TransitionLink
       href={href}
+      pageName={pageName}
       className={cn(
         'border border-[#BEC1C6] rounded-[500px] text-[#BEC1C6] text-lg flex gap-2.5 items-center h-12.5',
         direction === 'previous'

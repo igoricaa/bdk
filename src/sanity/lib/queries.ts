@@ -311,6 +311,7 @@ export const POST_QUERY = defineQuery(`{
       && date < *[_type == "post" && slug.current == $slug][0].date
       && references(*[_type=="category" && _id in *[_type == "post" && slug.current == $slug][0].categories[]._ref]._id)
     ] | order(date desc)[0]{
+      title,
       slug
     },
     "nextPost": *[
@@ -319,6 +320,7 @@ export const POST_QUERY = defineQuery(`{
       && date > *[_type == "post" && slug.current == $slug][0].date
       && references(*[_type=="category" && _id in *[_type == "post" && slug.current == $slug][0].categories[]._ref]._id)
     ] | order(date asc)[0]{
+      title,
       slug
     },
     "relatedPosts": *[

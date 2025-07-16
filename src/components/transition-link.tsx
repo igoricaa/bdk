@@ -47,6 +47,30 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
   );
 }
 
+const pageVariants = {
+  initial: {
+    y: '100%',
+    borderTopLeftRadius: '2rem',
+    borderTopRightRadius: '2rem',
+    borderBottomLeftRadius: '0rem',
+    borderBottomRightRadius: '0rem',
+  },
+  in: {
+    y: 0,
+    borderTopLeftRadius: '0rem',
+    borderTopRightRadius: '0rem',
+    borderBottomLeftRadius: '0rem',
+    borderBottomRightRadius: '0rem',
+  },
+  out: {
+    y: '-100%',
+    borderTopLeftRadius: '0rem',
+    borderTopRightRadius: '0rem',
+    borderBottomLeftRadius: '2rem',
+    borderBottomRightRadius: '2rem',
+  },
+};
+
 export function TransitionLink({
   href,
   children,
@@ -119,17 +143,14 @@ function TransitionOverlay() {
     <AnimatePresence>
       {isTransitioning && (
         <motion.div
-          initial={{ y: '100%' }}
-          animate={{ y: 0 }}
-          exit={{ y: '-100%' }}
+          initial='initial'
+          animate='in'
+          exit='out'
+          variants={pageVariants}
           transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-          className='fixed inset-0 z-50 flex items-center justify-center'
-          style={{
-            backgroundColor: 'hsl(207 72% 63%)',
-            borderRadius: '2rem',
-          }}
+          className='fixed inset-0 z-50 flex items-center justify-center bg-light-blue'
         >
-          <h1 className='text-4xl sm:text-5xl md:text-5xl xl:text-7xl text-white'>
+          <h1 className='text-3xl sm:text-5xl md:text-5xl xl:text-7xl text-white text-center'>
             {targetPage}
           </h1>
         </motion.div>
