@@ -76,17 +76,19 @@ export default async function Home() {
         </div>
         <div className='mt-8 xl:mt-12 2xl:mt-12 relative pb-72 md:pb-[60vw] xl:pb-0'>
           <PortableText
-            className='text-lightest-blue xl:w-1/2 xl:max-w-3xl'
+            className='text-lightest-blue xl:w-1/2 xl:max-w-3xl relative z-10'
             paragraphClassName='md:text-lg 2xl:text-2xl mt-4 md:mt-4.5 2xl:mt-6 text-lightest-blue'
             value={homePageData.about.description as PortableTextBlock[]}
           />
           <TransitionLink
-            href='/about'
-            className='text-white mt-10 2xl:mt-15 flex w-fit'
+            href='/about-us'
+            pageName='About us'
+            className='text-light-blue mt-10 2xl:mt-15 flex items-center gap-5.5 w-fit text-lg 2xl:text-2xl relative z-10'
           >
+            <ArrowUpRight />
             {homePageData.about.buttonText}
           </TransitionLink>
-          <div className='aspect-[936/622] absolute -bottom-8 sm:-bottom-40 xl:top-0 2xl:-top-8 3xl:-top-[4vw] -right-[20vw] xl:-right-[var(--padding-side)] w-[calc(120vw)] xl:w-[calc(43vw)] 2xl:w-[calc(48vw-2rem)]'>
+          <div className='aspect-[936/622] absolute -z-0 -bottom-8 sm:-bottom-40 xl:top-0 2xl:-top-8 3xl:-top-[4vw] -right-[20vw] xl:-right-[var(--padding-side)] w-[calc(120vw)] xl:w-[calc(43vw)] 2xl:w-[calc(48vw-2rem)]'>
             <img
               src={urlFor(homePageData.about.backgroundIllustration).url()}
               alt='Background Illustration'
