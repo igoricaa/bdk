@@ -21,14 +21,14 @@ const GenericSidebar = ({
     <div
       id={mobileOnly ? 'stickyTopbar' : ''}
       className={cn(
-        'sticky top-0 xl:static bg-light-blue-bg rounded-[10px] py-3 md:py-5 px-side xl:p-4 2xl:px-5 2xl:py-7 xl:min-w-xs 2xl:min-w-[26rem] w-screen xl:w-auto -ml-side xl:ml-0 z-10 transition-transform duration-300 h-fit',
+        'sticky top-0 xl:static bg-light-blue-bg rounded-b-[10px] py-3 md:py-5 px-side xl:p-4 2xl:px-5 2xl:py-7 xl:min-w-xs 2xl:min-w-[26rem] w-screen xl:w-auto -ml-side xl:ml-0 z-10 transition-transform duration-300 h-fit',
         className
       )}
     >
       <Accordion type='single' collapsible className='xl:hidden'>
         <AccordionItem value='sidebar-content'>
           <AccordionTrigger
-            className='flex items-center justify-between text-base py-0 [&[data-state=open]>svg]:rotate-180'
+            className='flex items-center justify-between text-lg py-0 [&[data-state=open]>svg]:rotate-180'
             icon={
               <ChevronDown
                 strokeWidth={1}
