@@ -62,7 +62,7 @@ export function AnimatedHeroHeading({
           );
         })}
       </h1>
-      <div className='absolute w-[200px] h-[200px] md:-top-9 md:-right-[220px] lg:-top-14 lg:-right-[100px] 2xl:-top-10 2xl:-right-[50px] rounded-tl-[80px] rounded-br-[80px] overflow-hidden'>
+      <div className='absolute aspect-square w-[120px] lg:w-[180px] 2xl:w-[244px] -top-[136px] md:-top-[23px] md:-right-18 lg:-top-[200px] lg:right-auto lg:left-0 xl:-right-[100px] xl:left-auto xl:-top-[34px] 2xl:-top-20.5 2xl:-right-[6.5rem] rounded-tl-4xl rounded-br-4xl lg:rounded-tl-[3rem] lg:rounded-br-[3rem] overflow-hidden'>
         <Image
           src={urlFor(image).url()}
           alt='BDK Advokati - Hero Image'
