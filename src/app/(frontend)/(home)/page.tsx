@@ -65,7 +65,7 @@ export default async function Home() {
       />
 
       {/* About us */}
-      <section className='px-side pt-12 pb-72 md:pt-24 md:pb-[28rem] xl:py-30 2xl:py-43 bg-dark-blue rounded-t-main -mt-10 relative overflow-hidden'>
+      <section className='px-side pt-12 md:pt-24 xl:py-30 2xl:py-43 bg-dark-blue rounded-t-main -mt-10 overflow-hidden'>
         <Subtitle>{homePageData.about.subtitle}</Subtitle>
 
         <div className='flex flex-col items-start justify-end pointer-events-auto mt-6 xl:mt-10 2xl:mt-15 2xl:max-w-[1330px]'>
@@ -74,23 +74,25 @@ export default async function Home() {
             className='text-white'
           />
         </div>
-        <PortableText
-          className='text-lightest-blue mt-8 xl:mt-12 2xl:mt-12 xl:max-w-1/2'
-          paragraphClassName='md:text-lg 2xl:text-2xl mt-4 md:mt-4.5 2xl:mt-6 text-lightest-blue'
-          value={homePageData.about.description as PortableTextBlock[]}
-        />
-        <TransitionLink
-          href='/about'
-          className='text-white mt-10 2xl:mt-15 flex'
-        >
-          {homePageData.about.buttonText}
-        </TransitionLink>
-        <div className='absolute -bottom-8 sm:-bottom-40 xl:bottom-10 2xl:bottom-15 -right-[20vw] sm:right-0 2xl:-right-6 aspect-[936/622] w-[calc(120vw)] sm:w-screen xl:w-2/5 2xl:w-[45%]'>
-          <img
-            src={urlFor(homePageData.about.backgroundIllustration).url()}
-            alt='Background Illustration'
-            className='object-cover w-full h-full'
+        <div className='mt-8 xl:mt-12 2xl:mt-12 relative pb-72 md:pb-[60vw] xl:pb-0'>
+          <PortableText
+            className='text-lightest-blue xl:w-1/2 xl:max-w-3xl'
+            paragraphClassName='md:text-lg 2xl:text-2xl mt-4 md:mt-4.5 2xl:mt-6 text-lightest-blue'
+            value={homePageData.about.description as PortableTextBlock[]}
           />
+          <TransitionLink
+            href='/about'
+            className='text-white mt-10 2xl:mt-15 flex w-fit'
+          >
+            {homePageData.about.buttonText}
+          </TransitionLink>
+          <div className='aspect-[936/622] absolute -bottom-8 sm:-bottom-40 xl:top-0 2xl:-top-8 3xl:-top-[4vw] -right-[20vw] xl:-right-[var(--padding-side)] w-[calc(120vw)] xl:w-[calc(43vw)] 2xl:w-[calc(48vw-2rem)]'>
+            <img
+              src={urlFor(homePageData.about.backgroundIllustration).url()}
+              alt='Background Illustration'
+              className='w-full h-full'
+            />
+          </div>
         </div>
       </section>
 
