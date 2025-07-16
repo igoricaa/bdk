@@ -8,25 +8,54 @@ export const heroSectionType = defineType({
   icon: ImageIcon,
   fields: [
     defineField({
-      name: 'backgroundImage',
-      title: 'Background Image',
-      type: 'image',
-      description: 'Large background image for the hero section',
-      options: {
-        hotspot: true,
-      },
+      name: 'bgImages',
+      title: 'Background Images',
+      type: 'object',
+      description: 'Images for the hero section',
       fields: [
-        {
-          name: 'alt',
-          type: 'string',
-          title: 'Alt Text',
-          description: 'Alternative text for accessibility',
-          validation: (rule) =>
-            rule.required().error('Alt text is required for accessibility'),
-        },
+        defineField({
+          name: 'image1',
+          title: 'Image 1',
+          type: 'image',
+          description: 'Image 1 for the hero section',
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Alternative text for accessibility',
+              validation: (rule) =>
+                rule.required().error('Alt text is required for accessibility'),
+            },
+          ],
+          validation: (rule) => rule.required().error('Image 1 is required'),
+        }),
+        defineField({
+          name: 'image2',
+          title: 'Image 2',
+          type: 'image',
+          description: 'Image 2 for the hero section',
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Alternative text for accessibility',
+              validation: (rule) =>
+                rule.required().error('Alt text is required for accessibility'),
+            },
+          ],
+          validation: (rule) => rule.required().error('Image 2 is required'),
+        }),
       ],
       validation: (rule) =>
-        rule.required().error('Background image is required'),
+        rule.required().error('Background images are required'),
     }),
     defineField({
       name: 'heading',

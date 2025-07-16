@@ -1,6 +1,5 @@
 import { defineField, defineType } from 'sanity';
 import { HomeIcon } from 'lucide-react';
-
 import { heroSectionType } from './heroSectionType';
 import { aboutSectionType } from './aboutSectionType';
 import { teamSectionType } from './teamSectionType';

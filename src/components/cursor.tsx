@@ -20,6 +20,11 @@ const CustomCursor = () => {
       setPosition({ x: e.clientX, y: e.clientY });
 
       const target = e.target as HTMLElement;
+
+      if (!(target instanceof Element)) {
+        return;
+      }
+
       const isExempt = target.closest('[data-cursor-exempt]');
 
       const hoverTarget = target.closest(

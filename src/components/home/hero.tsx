@@ -1,13 +1,21 @@
+import { Image } from 'next-sanity/image';
 import { AuroraBackground } from '../ui/aurora-background';
 import { InViewWrapper } from '../ui/in-view-wrapper';
 import { AnimatedHeroHeading } from './animated-hero-heading';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { urlFor } from '@/src/sanity/lib/image';
 
 const Hero = ({
   heading,
   description,
+  bgImages,
 }: {
   heading: string;
   description: string;
+  bgImages: {
+    image1: SanityImageSource;
+    image2: SanityImageSource;
+  };
 }) => {
   return (
     <AuroraBackground className='h-[calc(100vh-20px)] md:h-[calc(100vh-40px)]'>
@@ -15,18 +23,29 @@ const Hero = ({
         <AnimatedHeroHeading
           text={heading}
           className='text-dark-blue md:line-clamp-3 md:max-w-xl lg:max-w-4xl xl:max-w-4xl 2xl:max-w-5xl text-[2.5rem] sm:text-5xl lg:text-7xl 2xl:text-[5rem] leading-[1.1]'
+          image={bgImages.image1}
         />
       </InViewWrapper>
       <InViewWrapper delay={0.3}>
-        <p className='text-grey-text mt-8 2xl:mt-10 md:line-clamp-4 text-lg 2xl:text-xl leading-tight sm:max-w-lg md:max-w-xl xl:max-w-[620px] 2xl:max-w-2xl'>
-          {description}
-        </p>
+        <div className='mt-8 2xl:mt-10 sm:max-w-lg md:max-w-xl xl:max-w-[620px] 2xl:max-w-2xl relative'>
+          <p className='text-grey-text md:line-clamp-4 text-lg 2xl:text-xl leading-tight'>
+            {description}
+          </p>
+          <div className='absolute w-[200px] h-[200px] -right-[230px] top-0 2xl:-right-[230px] rounded-bl-[50px] overflow-hidden'>
+            <Image
+              src={urlFor(bgImages.image2).url()}
+              alt='BDK Advokati - Hero Image'
+              priority
+              quality={100}
+              width={544}
+              height={544}
+              className='object-cover w-full h-full'
+            />
+          </div>
+        </div>
       </InViewWrapper>
     </AuroraBackground>
   );
-  {
-    /* </section> */
-  }
 };
 
 export default Hero;
