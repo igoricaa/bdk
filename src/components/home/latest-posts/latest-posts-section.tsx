@@ -73,6 +73,9 @@ const LatestPostsSection = ({
               ? 'rounded-bl-[2.5rem] md:rounded-bl-[30px] xl:rounded-bl-[50px] rounded-tr-[2.5rem] md:rounded-tr-[30px] xl:rounded-tr-[50px]'
               : 'rounded-tl-[2.5rem] md:rounded-tl-[30px] xl:rounded-tl-[50px] rounded-br-[2.5rem] md:rounded-br-[30px] xl:rounded-br-[50px]';
 
+          // ? 'rounded-bl-[2.5rem] md:rounded-bl-[30px] xl:rounded-bl-[50px] rounded-tr-[2.5rem] md:rounded-tr-[30px] xl:rounded-tr-[50px] group-hover:rounded-bl-none group-hover:rounded-tr-none group-hover:rounded-tl-[2.5rem] group-hover:md:rounded-tl-[30px] group-hover:xl:rounded-tl-[50px] group-hover:rounded-br-[2.5rem] group-hover:md:rounded-br-[30px] group-hover:xl:rounded-br-[50px]'
+          // : 'rounded-tl-[2.5rem] md:rounded-tl-[30px] xl:rounded-tl-[50px] rounded-br-[2.5rem] md:rounded-br-[30px] xl:rounded-br-[50px] group-hover:rounded-tl-none group-hover:rounded-br-none group-hover:rounded-bl-[2.5rem] group-hover:md:rounded-bl-[30px] group-hover:xl:rounded-bl-[50px] group-hover:rounded-tr-[2.5rem] group-hover:md:rounded-tr-[30px] group-hover:xl:rounded-tr-[50px]';
+
           const bgImgClasses =
             index === 0
               ? 'h-full aspect-[156/309] right-12 top-0'
@@ -83,10 +86,14 @@ const LatestPostsSection = ({
                   : 'w-50 2xl:w-62 aspect-[251/231] right-0 top-1/2 -translate-y-1/2';
 
           return (
-            <TransitionLink href={item.href} pageName={item.title} className='group'>
+            <TransitionLink
+              href={item.href}
+              pageName={item.title}
+              className='group'
+            >
               <article
                 key={item.title}
-                className={`relative bg-dark-blue ${borderRadius} overflow-hidden p-8 2xl:p-10 h-62 2xl:h-77 flex flex-col justify-between cursor-pointer`}
+                className={`relative bg-dark-blue ${borderRadius} hover:rounded-none transition-all duration-300 overflow-hidden p-8 2xl:p-10 h-62 2xl:h-77 flex flex-col justify-between cursor-pointer`}
               >
                 <img
                   src={urlFor(item.imageUrl).url()}
