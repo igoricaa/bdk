@@ -83,7 +83,7 @@ const LatestPostsSection = ({
                   : 'w-50 2xl:w-62 aspect-[251/231] right-0 top-1/2 -translate-y-1/2';
 
           return (
-            <TransitionLink href={item.href} pageName={item.title}>
+            <TransitionLink href={item.href} pageName={item.title} className='group'>
               <article
                 key={item.title}
                 className={`relative bg-dark-blue ${borderRadius} overflow-hidden p-8 2xl:p-10 h-62 2xl:h-77 flex flex-col justify-between cursor-pointer`}

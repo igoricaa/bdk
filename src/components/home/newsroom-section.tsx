@@ -34,6 +34,7 @@ const NewsroomSection = ({
             href={`/${post.slug.current}`}
             key={index}
             pageName={post.title}
+            className={cn('group', index === 3 && 'hidden sm:max-xl:block')}
           >
             <article
               className={cn(
@@ -57,14 +58,12 @@ const NewsroomSection = ({
         ))}
       </div>
 
-      <div className='text-center mt-12 md:mt-17 xl:mt-12 2xl:mt-35'>
-        <a
-          href='/newsroom'
-          className='text-light-blue hover:text-light-blue/80 transition-colors text-lg'
-        >
-          View All News
-        </a>
-      </div>
+      <TransitionLink
+        href='/newsroom'
+        className='text-center mt-12 md:mt-17 xl:mt-12 2xl:mt-35 text-light-blue hover:text-light-blue/80 transition-colors text-lg block w-fit mx-auto'
+      >
+        View All News
+      </TransitionLink>
     </Section>
   );
 };

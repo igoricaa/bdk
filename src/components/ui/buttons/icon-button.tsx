@@ -1,6 +1,8 @@
 import { TransitionLink } from '@/src/components/transition-link';
 import ArrowUpRight from '../arrow-up-right';
 import { Button, buttonVariants } from '../button';
+import { cn } from '@/src/lib/utils';
+import { AnimatedText } from '../animated-text';
 
 const IconButton = ({
   href,
@@ -24,12 +26,12 @@ const IconButton = ({
           className={buttonVariants({
             variant: 'iconButton',
             size: 'iconButton',
-            className,
+            className: cn('group', className),
           })}
         >
-          {text}
+          <AnimatedText text={text} />
           {icon || (
-            <ArrowUpRight className='size-9!' arrowClassName='size-8!' />
+            <ArrowUpRight className='size-9! duration-700' arrowClassName='size-8!' />
           )}
         </TransitionLink>
       ) : (
@@ -37,11 +39,11 @@ const IconButton = ({
           onClick={onClick}
           variant='iconButton'
           size='iconButton'
-          className={className}
+          className={cn('group', className)}
         >
-          {text}
+          <AnimatedText text={text} />
           {icon || (
-            <ArrowUpRight className='size-9!' arrowClassName='size-8!' />
+            <ArrowUpRight className='size-9! duration-700' arrowClassName='size-8!' />
           )}
         </Button>
       )}

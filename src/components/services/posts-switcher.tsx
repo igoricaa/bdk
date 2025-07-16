@@ -107,7 +107,7 @@ export default function PostsSwitcher({
             <TransitionLink
               href={`/${post.slug.current}`}
               pageName={post.title}
-              className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18'
+              className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18 group'
             >
               <div className='flex flex-col justify-between h-full'>
                 <div>

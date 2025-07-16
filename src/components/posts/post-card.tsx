@@ -20,7 +20,7 @@ const PostCard = ({
       <TransitionLink
         href={`/${post.slug.current}`}
         pageName={post.title}
-        className='flex flex-col gap-8 md:gap-7.5 2xl:gap-13 justify-between h-full px-side py-7 md:px-5 md:py-7.5 2xl:py-10 2xl:px-7'
+        className='flex flex-col gap-8 md:gap-7.5 2xl:gap-13 justify-between h-full px-side py-7 md:px-5 md:py-7.5 2xl:py-10 2xl:px-7 group'
       >
         <div className='flex flex-col'>
           <p className='text-light-blue text-xxs 2xl:text-base'>

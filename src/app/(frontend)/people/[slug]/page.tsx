@@ -193,7 +193,7 @@ const ViewAllButton = ({
     <TransitionLink
       href={href}
       className={cn(
-        'w-fit h-fit text-light-blue flex items-center gap-4 2xl:gap-6 text-lg 2xl:text-2xl',
+        'w-fit h-fit text-light-blue flex items-center gap-4 2xl:gap-6 text-lg 2xl:text-2xl group',
         className
       )}
     >

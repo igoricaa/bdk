@@ -53,7 +53,7 @@ const LawyerInfoCard = ({ lawyer }: { lawyer: Lawyer }) => {
 
         <TransitionLink
           href={`/people/${lawyer.slug.current}`}
-          className='block mt-8 md:mt-auto w-fit'
+          className='block mt-8 md:mt-auto w-fit group'
         >
           <ArrowUpRight />
         </TransitionLink>

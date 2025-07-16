@@ -28,6 +28,7 @@ import Hero from '@/src/components/home/hero';
 import { ComputedLawyersData, getComputedLawyersData } from '@/src/lib/utils';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { Image } from 'next-sanity/image';
+import { AnimatedText } from '@/src/components/ui/animated-text';
 
 export default async function Home() {
   const [
@@ -83,7 +84,7 @@ export default async function Home() {
           <TransitionLink
             href='/about-us'
             pageName='About us'
-            className='text-light-blue mt-10 2xl:mt-15 flex items-center gap-5.5 w-fit text-lg 2xl:text-2xl relative z-10'
+            className='text-light-blue mt-10 2xl:mt-15 flex items-center gap-5.5 w-fit text-lg 2xl:text-2xl relative z-10 group'
           >
             <ArrowUpRight />
             {homePageData.about.buttonText}
@@ -190,15 +191,17 @@ export default async function Home() {
         <div className='flex gap-3 mt-4 md:mt-9 xl:mt-11 2xl:mt-18'>
           <TransitionLink
             href='/blinkdraft/en'
-            className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
+            className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5 group'
           >
-            English <ArrowUpRight className='bg-light-blue' />
+            <AnimatedText text='English' />
+            <ArrowUpRight className='bg-light-blue transition-transform duration-700 group-hover:rotate-45' />
           </TransitionLink>
           <TransitionLink
             href='/blinkdraft/sr'
-            className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5'
+            className='text-lg md:text-xl text-light-blue border border-light-blue rounded-full flex gap-2.5 items-center w-35.25 justify-between sm:w-auto sm:justify-normal pl-5 md:pl-7.5 pr-1.5 md:pr-5 py-1.25 md:py-2.5 group'
           >
-            Serbian <ArrowUpRight className='bg-light-blue' />
+            <AnimatedText text='Serbian' />
+            <ArrowUpRight className='bg-light-blue transition-transform duration-700 group-hover:rotate-45' />
           </TransitionLink>
         </div>
       </Section>

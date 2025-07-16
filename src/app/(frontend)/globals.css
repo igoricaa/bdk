@@ -249,6 +249,14 @@
   .no-scroll {
     overflow: hidden !important;
   }
+
+  .text-shadow-light-blue {
+    text-shadow: 0px 1.25rem var(--color-light-blue);
+  }
+
+  .text-shadow-light-blue-hover {
+    text-shadow: 0px 1.25rem var(--color-light-blue);
+  }
 }
 
 #home,

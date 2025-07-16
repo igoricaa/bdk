@@ -98,7 +98,7 @@ const ProgrammesSection = ({
                   href={pdfUrl}
                   target={'_blank'}
                   rel={'noopener noreferrer'}
-                  className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18'
+                  className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18 group'
                 >
                   <div className='flex flex-col justify-between h-full'>
                     <div className='flex flex-col gap-5'>
@@ -159,13 +159,13 @@ const OpenPositions = ({
             return (
               <li
                 key={`${openPosition.title}-${openPosition.location}`}
-                className='py-7.5 md:py-5 xl:py-7.5 border-b border-lightest-blue relative'
+                className='py-7.5 md:py-5 xl:py-7.5 border-b border-lightest-blue relative group'
               >
                 <a
                   href={pdfUrl}
                   target={'_blank'}
                   rel={'noopener noreferrer'}
-                  className='flex flex-col gap-4 '
+                  className='flex flex-col gap-4'
                 >
                   <p className='text-dark-blue text-2xl 2xl:text-3xl'>
                     {openPosition.title}

@@ -91,7 +91,7 @@ const SplitSection = ({
         {link && (
           <TransitionLink
             href={`/${link}`}
-            className='mt-10 xl:mt-12 2xl:mt-15 text-lg 2xl:text-2xl text-light-blue underline decoration-light-blue flex items-center gap-4 capitalize w-fit'
+            className='mt-10 xl:mt-12 2xl:mt-15 text-lg 2xl:text-2xl text-light-blue underline decoration-light-blue flex items-center gap-4 capitalize w-fit group'
           >
             <ArrowUpRight />
             {linkText && linkText.length > 0 && linkText}

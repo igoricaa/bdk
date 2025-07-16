@@ -11,7 +11,7 @@ const ArrowUpRight = ({
   return (
     <div
       className={cn(
-        'bg-light-blue text-white rounded-full flex items-center justify-center size-9 2xl:size-11',
+        'bg-light-blue text-white rounded-full flex items-center justify-center size-9 2xl:size-11 hover:rotate-45 transition-transform duration-300 group-hover:rotate-45',
         className
       )}
     >
