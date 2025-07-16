@@ -86,7 +86,7 @@ const MobileNavigation = ({
 
   return (
     <>
-      <Burger onClickHandler={toggleMenu} />
+      <Burger onClickHandler={toggleMenu} isOpen={isMenuOpen} />
 
       <nav
         ref={menuRef}
