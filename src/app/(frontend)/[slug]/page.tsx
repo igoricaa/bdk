@@ -151,7 +151,6 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
             <BackToButton
               href='/bdknowledge'
               text='Back to Blog'
-              iconClassName='bg-light-blue'
               className='hidden md:flex'
             />
 
@@ -450,13 +449,13 @@ const PostNavigationLink = ({
       href={href}
       pageName={pageName}
       className={cn(
-        'border border-[#BEC1C6] rounded-[500px] text-[#BEC1C6] text-lg flex gap-2.5 items-center h-12.5',
+        'border border-[#BEC1C6] rounded-[500px] text-[#BEC1C6] text-lg flex gap-2.5 items-center h-12.5 transition-colors duration-300 hover:border-light-blue hover:text-light-blue group',
         direction === 'previous'
           ? 'pl-2 pr-4.5'
           : 'pr-2 pl-4.5 flex-row-reverse'
       )}
     >
-      <div className='bg-[#BEC1C6] rounded-full'>
+      <div className='bg-[#BEC1C6] rounded-full transition-colors duration-300 group-hover:bg-light-blue'>
         {direction === 'previous' ? (
           <ArrowLeftIcon className='w-9 h-9' strokeWidth={1} stroke='#fff' />
         ) : (

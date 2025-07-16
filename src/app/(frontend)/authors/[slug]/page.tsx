@@ -102,7 +102,7 @@ const AuthorPage = async ({
               <BackToButton
                 href='/people'
                 text='Back to People'
-                iconClassName='bg-dark-blue'
+                variant='dark'
                 className='hidden xl:flex ml-auto'
               />
               <div className='xl:mt-18 2xl:mt-43'>

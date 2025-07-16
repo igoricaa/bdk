@@ -35,9 +35,12 @@ const ShareButtons = ({
             href={facebookShareUrl}
             target='_blank'
             rel='noopener noreferrer'
-            className='flex items-center justify-center min-w-9 min-h-9 w-9 h-9 2xl:min-w-11 2xl:min-h-11 2xl:w-11 2xl:h-11 rounded-[10px] bg-lightest-blue/75'
+            className='flex items-center justify-center min-w-9 min-h-9 w-9 h-9 2xl:min-w-11 2xl:min-h-11 2xl:w-11 2xl:h-11 rounded-[10px] bg-lightest-blue/75 group hover:bg-dark-blue transition-colors duration-300'
           >
-            <FbIcon className='w-4 h-4 2xl:w-6 2xl:h-6 text-dark-blue' />
+            <FbIcon
+              className='w-4 h-4 2xl:w-6 2xl:h-6 transition-colors duration-300'
+              pathClassName='group-hover:fill-white'
+            />
           </Link>
         </li>
         <li>
@@ -45,9 +48,12 @@ const ShareButtons = ({
             href={linkedinShareUrl}
             target='_blank'
             rel='noopener noreferrer'
-            className='flex items-center justify-center min-w-9 min-h-9 w-9 h-9 2xl:min-w-11 2xl:min-h-11 2xl:w-11 2xl:h-11 rounded-[10px] bg-lightest-blue/75'
+            className='flex items-center justify-center min-w-9 min-h-9 w-9 h-9 2xl:min-w-11 2xl:min-h-11 2xl:w-11 2xl:h-11 rounded-[10px] bg-lightest-blue/75 group hover:bg-dark-blue transition-colors duration-300'
           >
-            <LnIcon className='w-4 h-4 2xl:w-6 2xl:h-6 text-dark-blue' />
+            <LnIcon
+              className='w-4 h-4 2xl:w-6 2xl:h-6 transition-colors duration-300'
+              pathClassName='group-hover:fill-white'
+            />
           </Link>
         </li>
       </ul>

@@ -4,14 +4,18 @@ import { cn } from '@/src/lib/utils';
 const ArrowLeft = ({
   className,
   strokeColor = '#fff',
+  variant = 'light',
 }: {
   className?: string;
   strokeColor?: string;
+  variant?: 'light' | 'dark';
 }) => {
   return (
     <div
       className={cn(
-        'bg-light-blue text-white rounded-full flex items-center justify-center w-9 h-9 2xl:text-2xl',
+        ' text-white rounded-full flex items-center justify-center w-9 h-9 2xl:text-2xl transition-colors duration-300',
+        variant === 'dark' && 'bg-dark-blue group-hover:bg-light-blue',
+        variant === 'light' && 'bg-light-blue group-hover:bg-dark-blue',
         className
       )}
     >
