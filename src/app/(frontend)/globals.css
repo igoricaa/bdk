@@ -9,6 +9,7 @@
 
   --text-xxs: 10px;
   --breakpoint-3xl: 120rem;
+  --blur-xxs: 2px;
 
   --color-light-blue: hsl(var(--light-blue));
   --color-lightest-blue: hsl(var(--lightest-blue));

@@ -64,7 +64,7 @@ const TeamMembersCarousel = ({
       className={className}
       opts={{ dragFree: true, align: 'start', containScroll: 'trimSnaps' }}
     >
-      <CarouselContent className='ml-0 pl-[calc(var(--padding-side)-20px)] 2xl:pl-[calc(var(--padding-side)-32px)] has-[>*:hover]:[&>*]:blur-xs'>
+      <CarouselContent className='ml-0 pl-[calc(var(--padding-side)-20px)] 2xl:pl-[calc(var(--padding-side)-32px)] has-[>*:hover]:[&>*]:blur-xxs'>
         {lawyers.map((lawyer) => (
           <CarouselItem
             key={lawyer.name}
