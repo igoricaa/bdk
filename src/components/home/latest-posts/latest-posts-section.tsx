@@ -2,6 +2,7 @@ import ArrowUpRight from '@/src/components/ui/arrow-up-right';
 import SectionHeader from '@/src/components/ui/section-header/section-header';
 import { urlFor } from '@/src/sanity/lib/image';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import Section from '../../ui/section';
 
 interface LatestPostsSectionProps {
   subtitle: string;
@@ -46,7 +47,11 @@ const LatestPostsSection = ({
   ];
 
   return (
-    <section className='px-side bg-white rounded-t-main py-19 md:pt-23 md:pb-28 xl:pt-30 xl:pb-35 2xl:py-43 xl:grid xl:grid-cols-12 xl:gap-4'>
+    <Section
+      variant='light'
+      underColor='bg-dark-blue'
+      className='xl:grid xl:grid-cols-12 xl:gap-4'
+    >
       <SectionHeader
         heading={heading}
         description={description}
@@ -90,7 +95,7 @@ const LatestPostsSection = ({
           );
         })}
       </div>
-    </section>
+    </Section>
   );
 };
 

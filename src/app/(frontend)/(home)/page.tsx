@@ -57,7 +57,7 @@ export default async function Home() {
   const computedLawyersData = getComputedLawyersData({ categories });
 
   return (
-    <main id='home' className=''>
+    <main id='home'>
       <Hero
         heading={homePageData.hero.heading}
         description={homePageData.hero.description}
@@ -65,7 +65,7 @@ export default async function Home() {
       />
 
       {/* About us */}
-      <section className='px-side pt-12 md:pt-24 xl:py-30 2xl:py-43 bg-dark-blue rounded-t-main -mt-10 overflow-hidden'>
+      <section className='px-side pt-12 md:pt-24 xl:py-30 2xl:py-43 bg-dark-blue rounded-t-main -mt-10 overflow-hidden relative z-10'>
         <Subtitle>{homePageData.about.subtitle}</Subtitle>
 
         <div className='flex flex-col items-start justify-end pointer-events-auto mt-6 xl:mt-10 2xl:mt-15 2xl:max-w-[1330px]'>

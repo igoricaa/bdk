@@ -18,7 +18,7 @@ const LawyersCarousel = ({
         containScroll: 'trimSnaps',
       }}
     >
-      <CarouselContent className='ml-0 pl-[calc(var(--padding-side)-20px)] 2xl:pl-[calc(var(--padding-side)-32px)] has-[>*:hover]:[&>*]:blur-xxs'>
+      <CarouselContent className='ml-0 pl-[calc(var(--padding-side)-20px)] 2xl:pl-[calc(var(--padding-side)-32px)] lg:has-[>*:hover]:[&>*]:blur-xxs'>
         {lawyers.map((lawyer) => (
           <CarouselItem
             key={lawyer.name}

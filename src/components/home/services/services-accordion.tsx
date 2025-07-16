@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/src/lib/utils';
 import {
   Accordion,
@@ -25,12 +27,45 @@ const ServicesAccordion = ({
   >['servicesCategoryIllustrations'];
   setActiveService: (service: Practice | Industry) => void;
 }) => {
+  const handleValueChange = (value: string) => {
+    // If no item is open (e.g., when collapsing an item), the value is empty.
+    console.log('value', value);
+    if (!value) return;
+
+    // We use requestAnimationFrame to ensure the scroll happens after the browser
+    // has updated the layout, preventing a jarring jump.
+    setTimeout(() => {
+      const element = document.getElementById(value);
+      console.log('element', element);
+      if (element) {
+        // --- NEW SCROLL LOGIC ---
+        // 1. Get the element's position relative to the viewport.
+        console.log('element.getBoundingClientRect()', element.getBoundingClientRect());
+        const elementRect = element.getBoundingClientRect();
+        // 2. Get the current vertical scroll position of the page.
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        // 3. Calculate the element's absolute top position.
+        const elementTop = elementRect.top + scrollTop;
+
+        // Optional: If you have a sticky header, subtract its height here.
+        // const headerOffset = 100; // example offset for a 100px tall header
+
+        // 4. Explicitly scroll the window to that position.
+        window.scrollTo({
+          top: elementTop, // - headerOffset,
+          behavior: 'smooth',
+        });
+      }
+    }, 1200);
+  };
+
   return (
     <Accordion
       type='single'
       collapsible
       className={cn(className, 'flex flex-col gap-4')}
       defaultValue='item-1'
+      onValueChange={handleValueChange}
     >
       <ServicesAccordionItem
         data={practices}
@@ -72,6 +107,7 @@ const ServicesAccordionItem = ({
   return (
     <AccordionItem
       value={`item-${index}`}
+      id={`item-${index}`}
       className='bg-lightest-blue/25 rounded-2xl'
     >
       <AccordionTrigger
@@ -90,7 +126,7 @@ const ServicesAccordionItem = ({
             />
           </div>
         )}
-        <ul className='grid grid-cols-1 xl:grid-cols-2 xl:gap-x-12 2xl:gap-x-16 gap-y-2 md:gap-y-0 xl:gap-y-8 2xl:gap-y-5 mt-12 md:mt-0 p-5 md:pt-0 has-[li:hover]:[&>li]:opacity-35'>
+        <ul className='grid grid-cols-1 xl:grid-cols-2 xl:gap-x-12 2xl:gap-x-16 gap-y-2 md:gap-y-0 xl:gap-y-8 2xl:gap-y-5 mt-12 md:mt-0 p-5 md:pt-0 lg:has-[li:hover]:[&>li]:opacity-35'>
           {data.map((item, index) => (
             <li
               key={item.title}
