@@ -27,9 +27,9 @@ export const AuroraBackground = ({
           style={
             {
               '--aurora-gradient':
-                'repeating-linear-gradient(100deg, hsl(var(--dark-blue)) 10%, hsl(var(--light-blue)) 15%, hsl(var(--lightest-blue)) 20%, hsl(var(--light-blue-bg)) 25%, hsl(var(--light-blue)) 30%)',
+                'repeating-linear-gradient(90deg, hsl(var(--light-blue)) 20%, hsl(var(--lightest-blue)) 30%, hsl(var(--light-blue-bg)) 45%, hsl(var(--light-blue)) 70%)',
               '--white-overlay':
-                'repeating-linear-gradient(100deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.5) 7%, transparent 10%, transparent 12%, rgba(255,255,255,0.5) 16%)',
+                'repeating-linear-gradient(90deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.5) 7%, transparent 10%, transparent 12%, rgba(255,255,255,0.5) 16%)',
             } as React.CSSProperties
           }
         >
@@ -46,7 +46,7 @@ export const AuroraBackground = ({
               `after:animate-aurora`,
               `after:mix-blend-soft-light`,
               showRadialGradient &&
-                `[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,transparent_70%)]`
+                `[mask-image:radial-gradient(ellipse_at_100%_0%,white_10%,transparent_70%)]`
             )}
           ></div>
         </div>

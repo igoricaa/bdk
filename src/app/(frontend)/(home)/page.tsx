@@ -57,7 +57,7 @@ export default async function Home() {
   const computedLawyersData = getComputedLawyersData({ categories });
 
   return (
-    <main id='home' className='bg-dark-blue pt-header'>
+    <main id='home' className=''>
       <Hero
         heading={homePageData.hero.heading}
         description={homePageData.hero.description}

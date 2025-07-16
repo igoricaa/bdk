@@ -18,7 +18,7 @@ const Hero = ({
   };
 }) => {
   return (
-    <AuroraBackground className='h-[calc(100vh-20px)] md:h-[calc(100vh-40px)]'>
+    <AuroraBackground className='h-[calc(100vh+2.5rem)]'>
       <InViewWrapper>
         <AnimatedHeroHeading
           text={heading}
