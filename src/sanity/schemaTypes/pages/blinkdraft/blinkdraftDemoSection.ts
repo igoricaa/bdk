@@ -24,8 +24,23 @@ export const blinkdraftDemoSectionType = defineType({
     defineField({
       name: 'demoVideo',
       title: 'Demo Video',
-      type: 'mux.video',
+      type: 'object',
       description: 'Demo video that will be displayed in the demo section',
+      fields: [
+        defineField({
+          name: 'demoVideoId',
+          title: 'Demo Video ID',
+          type: 'string',
+          description:
+            'Upload video to Mux dashboard, then paste the Asset ID here.',
+        }),
+        defineField({
+          name: 'demoVideoAsset',
+          title: 'Demo Video',
+          type: 'mux.video',
+          description: 'Demo video that will be displayed in the demo section',
+        }),
+      ],
     }),
   ],
   preview: {

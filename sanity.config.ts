@@ -8,40 +8,6 @@ import schemaTypes from './src/sanity/schemaTypes';
 import { documentInternationalization } from '@sanity/document-internationalization';
 import { muxInput } from 'sanity-plugin-mux-input';
 
-// console.log('Verifying Mux Token ID:', process.env.SANITY_STUDIO_MUX_TOKEN_ID);
-// console.log(
-//   'Verifying Mux Token Secret:',
-//   process.env.SANITY_STUDIO_MUX_TOKEN_SECRET
-// );
-
-// console.log(
-//   'Verifying PUBLIC Mux Token ID:',
-//   process.env.NEXT_PUBLIC_SANITY_STUDIO_MUX_TOKEN_ID
-// );
-// console.log(
-//   'Verifying PUBLIC Mux Token Secret:',
-//   process.env.NEXT_PUBLIC_SANITY_STUDIO_MUX_TOKEN_SECRET
-// );
-
-// console.log('Verifying SIMPLE Mux Token ID:', process.env.MUX_TOKEN_ID);
-// console.log('Verifying SIMPLE Mux Token Secret:', process.env.MUX_TOKEN_SECRET);
-
-// console.log(
-//   'Verifying SIMPLE PUBLIC Mux Token ID:',
-//   process.env.NEXT_PUBLIC_MUX_TOKEN_ID
-// );
-// console.log(
-//   'Verifying SIMPLE PUBLIC Mux Token Secret:',
-//   process.env.NEXT_PUBLIC_MUX_TOKEN_SECRET
-// );
-
-// if (typeof window !== 'undefined') {
-//   process.env.SANITY_STUDIO_MUX_TOKEN_ID =
-//     process.env.NEXT_PUBLIC_SANITY_STUDIO_MUX_TOKEN_ID;
-//   process.env.SANITY_STUDIO_MUX_TOKEN_SECRET =
-//     process.env.NEXT_PUBLIC_SANITY_STUDIO_MUX_TOKEN_SECRET;
-// }
-
 export default defineConfig({
   title: 'BDK Advokati',
   basePath: '/studio',

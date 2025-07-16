@@ -8382,52 +8382,6 @@
     }
   },
   {
-    "name": "mux.video",
-    "type": "type",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "mux.video"
-          }
-        },
-        "asset": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "object",
-            "attributes": {
-              "_ref": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                }
-              },
-              "_type": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string",
-                  "value": "reference"
-                }
-              },
-              "_weak": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "boolean"
-                },
-                "optional": true
-              }
-            },
-            "dereferencesTo": "mux.videoAsset"
-          },
-          "optional": true
-        }
-      }
-    }
-  },
-  {
     "name": "mux.videoAsset",
     "type": "document",
     "attributes": {
@@ -9372,6 +9326,52 @@
     }
   },
   {
+    "name": "mux.video",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "mux.video"
+          }
+        },
+        "asset": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "object",
+            "attributes": {
+              "_ref": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "reference"
+                }
+              },
+              "_weak": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "boolean"
+                },
+                "optional": true
+              }
+            },
+            "dereferencesTo": "mux.videoAsset"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
     "name": "blinkdraftDemoSection",
     "type": "type",
     "value": {
@@ -9401,8 +9401,24 @@
         "demoVideo": {
           "type": "objectAttribute",
           "value": {
-            "type": "inline",
-            "name": "mux.video"
+            "type": "object",
+            "attributes": {
+              "demoVideoId": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "demoVideoAsset": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "mux.video"
+                },
+                "optional": true
+              }
+            }
           },
           "optional": true
         }

@@ -42,7 +42,17 @@ export const CAREER_PAGE_QUERY = defineQuery(`{
 }`);
 
 export const BLINKDRAFT_PAGE_QUERY = defineQuery(`{
-  "blinkdraftPage": *[_type == "blinkdraft" && language == $locale][0]
+  "blinkdraftPage": *[_type == "blinkdraft" && language == $locale][0] {
+    ...,
+    demoSection {
+      subtitle,
+      heading,
+      "demoVideoPlaybackId": coalesce(
+        demoVideo.demoVideoAsset.asset->playbackId, 
+        demoVideo.demoVideoId
+      )
+    }
+  }
 }`);
 
 export const UNIVERSAL_AUTHOR_PAGE_QUERY = defineQuery(`

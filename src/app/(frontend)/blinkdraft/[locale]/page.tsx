@@ -17,6 +17,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import notFound from '../../not-found';
 import { routing } from '@/src/i18n/routing';
 import LanguageSwitcher from '@/src/components/blinkdraft/language-switcher';
+import VideoPlayer from '@/src/components/blinkdraft/video-player';
 
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -108,28 +109,26 @@ const BlinkDraftPage = async ({
           </div>
         </section>
 
-        <Section variant='dark' underColor='bg-white'>
-          <Subtitle className='text-white mx-auto'>
-            {blinkdraftPageData.demoSection.subtitle}
-          </Subtitle>
-          <h2 className='text-white text-3xl sm:text-4xl xl:text-5xl 2xl:text-6xl mt-5 sm:mt-6 2xl:mt-10 text-center'>
-            {blinkdraftPageData.demoSection.heading}
-          </h2>
+        {blinkdraftPageData.demoSection.demoVideoPlaybackId && (
+          <Section variant='dark' underColor='bg-white'>
+            <Subtitle className='text-white mx-auto'>
+              {blinkdraftPageData.demoSection.subtitle}
+            </Subtitle>
+            <h2 className='text-white text-3xl sm:text-4xl xl:text-5xl 2xl:text-6xl mt-5 sm:mt-6 2xl:mt-10 text-center'>
+              {blinkdraftPageData.demoSection.heading}
+            </h2>
 
-          {/* {blinkdraftPageData.demoSection.demoVideo && ( */}
-          <div className='grid grid-cols-6 xl:grid-cols-12 gap-4 xl:gap-10 mt-8 xl:mt-9 2xl:mt-14'>
-            <div className='bg-white w-full h-full aspect-[1656/932] col-span-full sm:col-span-4 sm:col-start-2 lg:col-span-8 lg:col-start-3 rounded-2xl 2xl:rounded-[20px]'></div>
-            {/* <Image
-              src={urlFor(
-                blinkdraftPageData.demoSection.demoVideo as SanityImageSource
-              ).url()}
-              alt={'Blinkdraft Demo Video'}
-              width={1656}
-              height={932}
-            /> */}
-          </div>
-          {/* )} */}
-        </Section>
+            <div className='grid grid-cols-6 xl:grid-cols-12 gap-4 xl:gap-10 mt-8 xl:mt-9 2xl:mt-14'>
+              <div className='w-full h-full aspect-[1656/932] col-span-full sm:col-span-4 sm:col-start-2 lg:col-span-8 lg:col-start-3 rounded-2xl 2xl:rounded-[20px] overflow-hidden'>
+                <VideoPlayer
+                  videoId={
+                    blinkdraftPageData.demoSection.demoVideoPlaybackId as string
+                  }
+                />
+              </div>
+            </div>
+          </Section>
+        )}
 
         <WhatIfSection
           heading={blinkdraftPageData.whatIsSection.heading}
