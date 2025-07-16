@@ -138,7 +138,7 @@ const MobileNavigation = ({
               />
             ))}
             <li className='py-4 border-b border-lightest-blue/50'>
-              <TransitionLink href='/blinkdraft/en'>
+              <TransitionLink href='/blinkdraft/en' onClick={toggleMenu}>
                 <Image
                   src={urlFor(blinkdraftLogo as SanityImageSource).url()}
                   alt='BDK - Blinkdraft'

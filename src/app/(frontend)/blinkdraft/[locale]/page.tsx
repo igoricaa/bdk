@@ -124,6 +124,7 @@ const BlinkDraftPage = async ({
                   videoId={
                     blinkdraftPageData.demoSection.demoVideoPlaybackId as string
                   }
+                  poster={generalInfo?.blinkdraftLogo as SanityImageSource}
                 />
               </div>
             </div>

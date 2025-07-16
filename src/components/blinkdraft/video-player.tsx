@@ -1,12 +1,16 @@
 import { cn } from '@/src/lib/utils';
+import { urlFor } from '@/src/sanity/lib/image';
 import MuxVideo from '@mux/mux-video-react';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 const VideoPlayer = ({
   videoId,
   className,
+  poster,
 }: {
   videoId: string;
   className?: string;
+  poster?: SanityImageSource;
 }) => {
   if (!videoId) {
     return null;
@@ -16,8 +20,8 @@ const VideoPlayer = ({
     <MuxVideo
       playbackId={videoId}
       minResolution='1080p'
-      preload='metadata'
-      //   poster={project.image?.url || ''}
+      preload='auto'
+      poster={urlFor(poster as SanityImageSource).url()}
       playsInline
       disablePictureInPicture
       metadata={{
