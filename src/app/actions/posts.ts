@@ -74,8 +74,6 @@ export const fetchFilteredPosts = createSafeActionClient()
         authorId: authorId || null,
       };
 
-      console.log('queryParams', queryParams);
-
       const [posts, totalCount] = await Promise.all([
         sanityFetch({
           query: PAGINATED_FILTERED_POSTS_QUERY,
@@ -90,8 +88,6 @@ export const fetchFilteredPosts = createSafeActionClient()
       ]);
 
       const hasNextPage = start + POSTS_PER_PAGE < totalCount;
-
-      console.log('posts', posts);
 
       return {
         success: true,

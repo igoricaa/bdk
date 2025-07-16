@@ -85,7 +85,7 @@ const FooterLink = ({
   pageName?: string;
 }) => {
   return (
-    <li className='text-grey-text text-xs xl:text-sm 2xl:text-lg'>
+    <li className='text-grey-text text-base xl:text-sm 2xl:text-lg'>
       <TransitionLink href={href}>{children}</TransitionLink>
     </li>
   );
@@ -168,12 +168,7 @@ const MobileLinks = ({
       <Accordion type='single' collapsible>
         <MobileAccordionItem title='Company'>
           <FooterLink href='/about-us'>About us</FooterLink>
-          <FooterLink
-            href='/about-us#independentReviews'
-            pageName='Independent reviews'
-          >
-            Independent reviews
-          </FooterLink>
+          <FooterLink href='/career'>Career</FooterLink>
         </MobileAccordionItem>
         <MobileAccordionItem title='People'>
           <FooterLink href='/people#partners' pageName='Partners & Counsels'>
@@ -191,7 +186,6 @@ const MobileLinks = ({
           >
             Junior Associates
           </FooterLink>
-          <FooterLink href='/career'>Career</FooterLink>
         </MobileAccordionItem>
         <MobileAccordionItem title='Services'>
           <FooterLink
@@ -254,7 +248,7 @@ const MobileAccordionItem = ({
       className='border-b border-lightest-blue rounded-none pb-4'
     >
       <AccordionTrigger
-        className='text-base font-medium pb-0 [&[data-state=open]>svg]:rotate-180'
+        className='text-lg font-medium pb-0 [&[data-state=open]>svg]:rotate-180'
         icon={<ChevronDown className='text-light-blue' strokeWidth={1} />}
       >
         {title}
@@ -279,12 +273,7 @@ const DesktopLinks = ({
         <FooterHeading>Company</FooterHeading>
         <ul className='flex flex-col gap-y-6 mt-6'>
           <FooterLink href='/about-us'>About us</FooterLink>
-          <FooterLink
-            href='/about-us#independentReviews'
-            pageName='Independent reviews'
-          >
-            Independent reviews
-          </FooterLink>
+          <FooterLink href='/career'>Career</FooterLink>
         </ul>
       </div>
       <div>
@@ -305,7 +294,6 @@ const DesktopLinks = ({
           >
             Junior Associates
           </FooterLink>
-          <FooterLink href='/career'>Career</FooterLink>
         </ul>
       </div>
       <div>

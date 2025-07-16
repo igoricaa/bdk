@@ -47,11 +47,7 @@ const MobileNavigation = ({
   const menuRef = useRef<HTMLDivElement>(null!);
 
   const handleSearchToggle = () => {
-    console.log('handleSearchToggle');
-    console.log(isSearchActive);
     setIsSearchActive(!isSearchActive);
-
-    console.log(isSearchActive);
 
     if (!isSearchActive) {
       menuRef.current?.classList.add('no-scroll');
@@ -198,8 +194,6 @@ const MobileNavigationItem = ({
 }: MobileNavigationItemProps) => {
   const sharedClasses =
     'w-full text-white text-2xl flex justify-between items-center cursor-pointer';
-
-  console.log(route);
 
   return (
     <li className='py-4 border-b border-lightest-blue/50'>

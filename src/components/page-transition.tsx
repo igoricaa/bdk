@@ -1,4 +1,3 @@
-// components/PageTransition.jsx
 'use client';
 
 import { motion, AnimatePresence, easeOut } from 'motion/react';
@@ -8,14 +7,26 @@ const pageVariants = {
   initial: {
     opacity: 0,
     y: '100%',
+    borderTopLeftRadius: '2rem',
+    borderTopRightRadius: '2rem',
+    borderBottomLeftRadius: '0rem',
+    borderBottomRightRadius: '0rem',
   },
   in: {
     opacity: 1,
     y: 0,
+    borderTopLeftRadius: '0rem',
+    borderTopRightRadius: '0rem',
+    borderBottomLeftRadius: '0rem',
+    borderBottomRightRadius: '0rem',
   },
   out: {
     opacity: 0,
     y: '-100%',
+    borderTopLeftRadius: '0rem',
+    borderTopRightRadius: '0rem',
+    borderBottomLeftRadius: '2rem',
+    borderBottomRightRadius: '2rem',
   },
 };
 
@@ -51,11 +62,7 @@ export default function PageTransition({
         exit='out'
         variants={pageVariants}
         transition={pageTransition}
-        className='fixed inset-0 z-40'
-        style={{
-          backgroundColor: 'hsl(207 72% 63%)',
-          borderRadius: '2rem',
-        }}
+        className='fixed inset-0 z-40 bg-light-blue'
       >
         <div className='absolute inset-0 flex items-center justify-center'>
           <h1 className='text-4xl font-bold text-white'>{pageName}</h1>
@@ -73,24 +80,3 @@ export default function PageTransition({
     </AnimatePresence>
   );
 }
-
-// // 4. Example page with custom transition
-// // app/about/page.jsx
-// 'use client';
-
-// import { motion } from 'framer-motion';
-
-// export default function About() {
-//   return (
-//     <motion.div
-//       initial={{ opacity: 0, y: 20 }}
-//       animate={{ opacity: 1, y: 0 }}
-//       exit={{ opacity: 0, y: -20 }}
-//       transition={{ duration: 0.3 }}
-//       className="min-h-screen p-8"
-//     >
-//       <h1 className="text-4xl font-bold">About Page</h1>
-//       <p>This page has smooth transitions!</p>
-//     </motion.div>
-//   );
-// }
