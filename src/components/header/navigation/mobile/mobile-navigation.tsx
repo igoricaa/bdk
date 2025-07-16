@@ -54,10 +54,8 @@ const MobileNavigation = ({
     console.log(isSearchActive);
 
     if (!isSearchActive) {
-      // menuRef.current?.setAttribute('data-lenis-prevent', 'true');
       menuRef.current?.classList.add('no-scroll');
     } else {
-      // menuRef.current?.removeAttribute('data-lenis-prevent');
       menuRef.current?.classList.remove('no-scroll');
     }
   };
@@ -107,7 +105,7 @@ const MobileNavigation = ({
         </header>
 
         <div className='pt-8 sm:pt-12 overflow-y-auto flex flex-col h-full'>
-          <div className='md:hidden border-b border-lightest-blue pb-4'>
+          <div className='md:hidden border-b border-lightest-blue/50 pb-4'>
             <button
               className={cn(
                 'bg-transparent border border-lightest-blue rounded-full min-w-10 min-h-10 size-10 flex items-center justify-center cursor-pointer'
@@ -116,7 +114,7 @@ const MobileNavigation = ({
             >
               <Search
                 className='w-4.5 h-4.5'
-                strokeWidth={1}
+                strokeWidth={1.5}
                 stroke='hsl(var(--lightest-blue))'
               />
             </button>
@@ -143,7 +141,7 @@ const MobileNavigation = ({
                 menuRef={menuRef}
               />
             ))}
-            <li className='py-4 border-b border-lightest-blue'>
+            <li className='py-4 border-b border-lightest-blue/50'>
               <TransitionLink href='/blinkdraft/en'>
                 <Image
                   src={urlFor(blinkdraftLogo as SanityImageSource).url()}
@@ -201,8 +199,10 @@ const MobileNavigationItem = ({
   const sharedClasses =
     'w-full text-white text-2xl flex justify-between items-center cursor-pointer';
 
+  console.log(route);
+
   return (
-    <li className='py-4 border-b border-lightest-blue'>
+    <li className='py-4 border-b border-lightest-blue/50'>
       {route.subRoutes && route.subRoutes.length > 0 ? (
         <MobileNavigationAccordionItem
           route={route}
@@ -265,14 +265,6 @@ const MobileNavigationAccordionItem = ({
         </AccordionTrigger>
         <AccordionContent>
           <ul className='flex flex-col gap-y-2.5 mt-4'>
-            <TransitionLink
-              href={route.href as string}
-              pageName={route.label}
-              className='flex justify-between text-lightest-blue text-xl py-2 px-4 bg-lightest-blue/10 rounded-md w-full cursor-pointer'
-              onClick={toggleMenu}
-            >
-              {route.label}
-            </TransitionLink>
             {route.subRoutes.map((subRoute) => (
               <MobileNavigationDropdownSubItem
                 key={subRoute.label}

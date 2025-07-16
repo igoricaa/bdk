@@ -26,7 +26,7 @@ const BDKnowledgeMenu = ({
 }) => {
   const pathname = usePathname();
   const [activeItem, setActiveItem] =
-    useState<NavigationRoute>(bdknowledgeRoute);
+    useState<NavigationRoute>(bdknowledgeRoute.subRoutes?.[0] as NavigationRoute);
 
   const isBDKnowledgeActive = () => {
     return (
@@ -52,7 +52,6 @@ const BDKnowledgeMenu = ({
       >
         {bdknowledgeRoute.label}
       </NavigationMenuTrigger>
-      {/* fixed! left-1/2 -translate-x-1/2 top-24! mt-0! */}
       <NavigationMenuContent className='absolute! top-19! right-0 left-auto mt-0! bg-white'>
         <div className='grid gap-5 w-lg lg:grid-cols-[270px_1fr] h-full'>
           <div className='row-span-3'>
@@ -82,14 +81,14 @@ const BDKnowledgeMenu = ({
           {/* Column 2: Practices - Two Columns */}
           <div className='space-y-5 pt-6 pl-2'>
             <ul>
-              <MenuItemLink
+              {/* <MenuItemLink
                 href={bdknowledgeRoute.href}
                 label={bdknowledgeRoute.label}
                 onMouseEnter={() => {
                   setActiveItem(bdknowledgeRoute);
                 }}
                 isActive={isRouteActive(bdknowledgeRoute)}
-              />
+              /> */}
               {bdknowledgeRoute.subRoutes?.map((subRoute) => (
                 <li key={subRoute.href}>
                   <MenuItemLink

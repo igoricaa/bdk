@@ -134,14 +134,17 @@ export const getHeaderData = async (): Promise<{
     },
     {
       label: 'BDKnowledge',
-      href: '/bdknowledge',
-      illustration: {
-        desktop: generalInfo?.postCategoriesIllustrations
-          .bdknowledgeIllustration as NonNullable<
-          GENERAL_INFO_QUERYResult['generalInfo']
-        >['postCategoriesIllustrations']['bdknowledgeIllustration'],
-      },
       subRoutes: [
+        {
+          label: 'BDKnowledge',
+          href: '/bdknowledge',
+          illustration: {
+            desktop: generalInfo?.postCategoriesIllustrations
+              .bdknowledgeIllustration as NonNullable<
+              GENERAL_INFO_QUERYResult['generalInfo']
+            >['postCategoriesIllustrations']['bdknowledgeIllustration'],
+          },
+        },
         {
           label: 'Blog',
           href: '/blog',
