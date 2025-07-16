@@ -1,3 +1,4 @@
+import { cn } from '@/src/lib/utils';
 import { FilterOption } from '../ui/filter-buttons';
 import SearchBar from '../ui/search-bar';
 import LawyersFilter from './lawyers-filter';
@@ -7,15 +8,24 @@ const LawyersNavbar = ({
   activeCategory,
   onCategoryChange,
   onSearchChange,
+  className,
+  searchBarClassName,
 }: {
   categories: FilterOption[];
   activeCategory: string;
   onCategoryChange: (category: string) => void;
   onSearchChange: (query: string) => void;
+  className?: string;
+  searchBarClassName?: string;
 }) => {
   return (
-    <div className='pl-side md:px-side flex flex-col md:flex-row gap-4 xl:gap-10 md:justify-between md:items-center'>
-      <div className='md:w-full md:max-w-[calc((100%-60px)/3)] lg:max-w-[calc((100vw-var(--padding-side)+20px)*0.23-20px)] 2xl:max-w-[calc((100vw-var(--padding-side)+32px)*0.23-32px)] pr-side md:pr-0'>
+    <div
+      className={cn(
+        'flex flex-col md:flex-row gap-4 xl:gap-10 md:justify-between md:items-center pl-side md:px-side',
+        className
+      )}
+    >
+      <div className={cn('w-full', searchBarClassName)}>
         <SearchBar onSearchChange={onSearchChange} />
       </div>
       <LawyersFilter

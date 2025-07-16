@@ -45,6 +45,8 @@ const LawyersList = ({
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
         onSearchChange={setSearchTerm}
+        searchBarClassName='md:w-full md:max-w-[calc((100%-40px)/3)] lg:max-w-[calc((100vw-var(--padding-side)+20px)*0.23-20px)] 2xl:max-w-[calc((100vw-var(--padding-side)+32px)*0.23-32px)] pr-side md:pr-0'
+        className='md:max-[890px]:flex-col md:max-[890px]:items-start'
       />
 
       {isMobile ? (

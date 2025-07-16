@@ -47,6 +47,8 @@ const LawyersGrid = ({
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
         onSearchChange={setSearchTerm}
+        className='md:max-[890px]:flex-col md:max-[890px]:items-start'
+        searchBarClassName='md:max-w-[calc((100vw-2*var(--padding-side)-40px)/3)] 2xl:max-w-[calc((1550px-2*var(--padding-side)-84px)/4)] min-[1800px]:max-w-[calc((1800px-2*var(--padding-side)-84px)/4)]!'
       />
 
       <AnimatePresence mode='wait'>

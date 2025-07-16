@@ -73,7 +73,7 @@ const SplitSection = ({
             {description &&
               description.length > 0 &&
               (typeof description === 'string' ? (
-                <p className='mt-6 md:mt-7.5 text-grey-text xl:text-lg 2xl:text-2xl leading-tight'>
+                <p className='mt-6 md:mt-7.5 text-grey-text xl:text-lg 2xl:text-2xl leading-snug'>
                   {description}
                 </p>
               ) : (
