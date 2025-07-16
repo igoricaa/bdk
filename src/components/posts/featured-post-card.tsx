@@ -32,13 +32,13 @@ const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
         <h2 className='text-sm text-white bg-dark-blue flex items-center justify-center h-7.5 2xl:h-10 px-4 2xl:px-5 rounded-[500px] w-fit'>
           Featured Posts
         </h2>
-        <TransitionLink href={`/${post.slug.current}`}>
+        <TransitionLink href={`/${post.slug.current}`} pageName={post.title}>
           <h1 className='text-dark-blue mt-6 xl:mt-12 2xl:mt-13 md:text-5 text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
             {post.title}
           </h1>
         </TransitionLink>
 
-        <TransitionLink href={`/${post.slug.current}`}>
+        <TransitionLink href={`/${post.slug.current}`} pageName={post.title}>
           <div className='w-full md:hidden overflow-hidden rounded-tl-[5rem] rounded-br-[5rem] mt-6'>
             <Image
               src={urlFor(post.featuredMedia).url()}
@@ -73,7 +73,7 @@ const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
       </div>
 
       <div className='hidden md:block min-w-4/10 w-4/10 xl:min-w-5/12 xl:w-5/12 overflow-hidden rounded-tl-[7.5rem] rounded-br-[7.5rem] xl:rounded-tl-[150px] xl:rounded-br-[150px] 2xl:rounded-tl-[12.5rem] 2xl:rounded-br-[12.5rem]'>
-        <TransitionLink href={`/${post.slug.current}`}>
+        <TransitionLink href={`/${post.slug.current}`} pageName={post.title}>
           <Image
             src={urlFor(post.featuredMedia).url()}
             alt={post.title}

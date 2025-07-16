@@ -344,7 +344,7 @@ const PostHeader = ({
   currentPost: NonNullable<POST_QUERYResult['currentPost']>;
 }) => {
   return (
-    <div className='flex flex-col md:flex-col-reverse gap-6 md:gap-10 xl:gap-4 2xl:gap-19'>
+    <div className='flex flex-col md:flex-col-reverse gap-6 md:gap-10 xl:gap-4 2xl:gap-9'>
       <div>
         <div className='flex items-center gap-4 md:gap-8'>
           <DateBlock date={date} />
@@ -353,7 +353,7 @@ const PostHeader = ({
 
         <AuthorsBlock authors={authors} currentPost={currentPost} />
 
-        <div className='mt-4 md:mt-19 xl:mt-7 2xl:mt-14'>
+        <div className='mt-4 md:mt-19 xl:mt-7 2xl:mt-10'>
           <div className='rounded-[10px] md:rounded-[1.25rem] overflow-hidden aspect-[361/270]'>
             <Image
               src={urlFor(featuredMedia).url() || ''}
@@ -377,7 +377,7 @@ const PostHeader = ({
         </div>
       </div>
 
-      <h1 className='text-dark-blue text-3xl md:text-[2rem] xl:text-5xl 2xl:text-[55px]'>
+      <h1 className='text-dark-blue text-3xl md:text-[2rem] xl:text-5xl 2xl:text-[55px] leading-[1.05]'>
         {title}
       </h1>
     </div>
