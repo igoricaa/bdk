@@ -90,14 +90,14 @@ const ServicesAccordionItem = ({
             />
           </div>
         )}
-        <ul className='group grid grid-cols-1 xl:grid-cols-2 xl:gap-x-12 2xl:gap-x-16 gap-y-2 md:gap-y-0 xl:gap-y-8 2xl:gap-y-5 mt-12 md:mt-0 p-5 md:pt-0'>
+        <ul className='grid grid-cols-1 xl:grid-cols-2 xl:gap-x-12 2xl:gap-x-16 gap-y-2 md:gap-y-0 xl:gap-y-8 2xl:gap-y-5 mt-12 md:mt-0 p-5 md:pt-0 has-[li:hover]:[&>li]:opacity-35'>
           {data.map((item, index) => (
             <li
               key={item.title}
               onMouseEnter={() => setActiveService(item)}
-              className='transition-opacity duration-300 group-hover:opacity-20 hover:opacity-100'
+              className='transition-opacity duration-300 hover:!opacity-100'
               data-cursor-hover='true'
-              data-cursor-text="Read more"
+              data-cursor-text='Read more'
             >
               <TransitionLink
                 href={`/${slug}/${item.slug.current}`}
