@@ -1,6 +1,5 @@
 import { SimpleAccordion } from '@/src/components/ui/accordions/simple-accordion';
 import BackToButton from '@/src/components/ui/buttons/back-to-button';
-import CustomTable from '@/src/components/ui/custom-table';
 import PortableText from '@/src/components/ui/portable-text';
 import { formatDate } from '@/src/lib/utils';
 import { getPrivacyNotice } from '@/src/sanity/lib/cached-queries';
@@ -19,7 +18,7 @@ export default async function PrivacyNotice() {
   return (
     <main className='pt-header'>
       <div className='px-side pb-20 md:pb-22 xl:pb-42 2xl:pb-47 grid grid-cols-1 xl:grid-cols-12 gap-12 pt-7.5 md:pt-11 xl:pt-18 2xl:pt-35'>
-        <div className='order-2 md:hidden xl:flex xl:order-1 xl:col-span-2 xl:sticky xl:top-60 xl:self-start'>
+        <div className='order-2 md:hidden xl:flex xl:order-1 xl:col-span-2 xl:sticky xl:top-26 2xl:top-35 xl:self-start'>
           <div className='flex xl:flex-col justify-end xl:justify-start'>
             <BackToButton
               href='/'

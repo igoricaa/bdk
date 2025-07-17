@@ -146,7 +146,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   return (
     <main className='pt-header'>
       <div className='px-side pb-20 md:pb-22 xl:pb-42 2xl:pb-47 grid grid-cols-1 xl:grid-cols-12 gap-12 pt-7.5 md:pt-11 xl:pt-18 2xl:pt-35'>
-        <div className='order-2 md:hidden xl:flex xl:order-1 xl:col-span-2 xl:sticky xl:top-60 xl:self-start'>
+        <div className='order-2 md:hidden xl:flex xl:order-1 xl:col-span-2 xl:sticky xl:top-26 2xl:top-35 xl:self-start'>
           <div className='flex xl:flex-col justify-end xl:justify-start'>
             <BackToButton
               href='/bdknowledge'
