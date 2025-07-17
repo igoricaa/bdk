@@ -192,16 +192,22 @@ const PortableText = ({
           className={cn(
             'list-disc ml-6 leading-relaxed text-grey-text space-y-2 md:space-y-3',
             value.level === 1 &&
-              'mt-6 md:mt-2 text-base md:text-lg lg:text-lg xl:text-xl space-y-2 md:space-y-3',
-            value.level === 2 &&
-              'text-sm md:text-base lg:text-base xl:text-lg space-y-1! mt-1'
+              'mt-6 md:mt-2 text-base md:text-lg space-y-2 md:space-y-3',
+            value.level === 2 && 'text-sm md:text-base space-y-1! mt-1'
           )}
         >
           {children}
         </ul>
       ),
-      number: ({ children }) => (
-        <ol className='list-decimal ml-6 mb-2 mt-6 text-base md:text-lg lg:text-lg xl:text-xl leading-relaxed text-grey-text md:mb-4 md:mt-8'>
+      number: ({ children, value }) => (
+        <ol
+          className={cn(
+            'list-disc ml-6 leading-relaxed text-grey-text space-y-2 md:space-y-3',
+            value.level === 1 &&
+              'mt-6 md:mt-2 text-base md:text-lg space-y-2 md:space-y-3',
+            value.level === 2 && 'text-sm md:text-base space-y-1! mt-1'
+          )}
+        >
           {children}
         </ol>
       ),
