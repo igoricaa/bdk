@@ -1,12 +1,11 @@
 'use client';
 
 import { cn } from '@/src/lib/utils';
-import { urlFor } from '@/src/sanity/lib/image';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { motion } from 'motion/react';
-import { Image } from 'next-sanity/image';
 
 import { useMemo } from 'react';
+import { FloatingImage } from './floating-image';
 
 interface AnimatedHeroHeadingProps {
   text: string;
@@ -62,17 +61,11 @@ export function AnimatedHeroHeading({
           );
         })}
       </h1>
-      <div className='absolute aspect-square w-[120px] lg:w-[180px] 2xl:w-[244px] -top-[136px] md:-top-[23px] md:-right-18 lg:-top-[200px] lg:right-auto lg:left-0 xl:-right-[100px] xl:left-auto xl:-top-[34px] 2xl:-top-20.5 2xl:-right-[6.5rem] rounded-tl-4xl rounded-br-4xl lg:rounded-tl-[3rem] lg:rounded-br-[3rem] overflow-hidden'>
-        <Image
-          src={urlFor(image).url()}
-          alt='BDK Advokati - Hero Image'
-          priority
-          quality={100}
-          width={544}
-          height={544}
-          className='object-cover w-full h-full'
-        />
-      </div>
+      <FloatingImage
+        image={image}
+        variant='inverse'
+        className='absolute aspect-square w-[120px] lg:w-[180px] 2xl:w-[244px] -top-[136px] md:-top-[23px] md:-right-18 lg:-top-[200px] lg:right-auto lg:left-0 xl:-right-[100px] xl:left-auto xl:-top-[34px] 2xl:-top-20.5 2xl:-right-[6.5rem] rounded-tl-4xl rounded-br-4xl lg:rounded-tl-[3rem] lg:rounded-br-[3rem] overflow-hidden'
+      />
     </div>
   );
 }
