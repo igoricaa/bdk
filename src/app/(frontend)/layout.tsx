@@ -15,7 +15,7 @@ import CustomCursor from '@/src/components/cursor';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
-  weight: ['300', '400', '500'],
+  weight: ['300', '400', '500', '600', '700'],
   style: ['normal', 'italic'],
   variable: '--font-dm-sans',
 });
@@ -56,16 +56,16 @@ export default function RootLayout({
           <NuqsAdapter>
             <QueryProvider>
               <Lenis>
-                {/* <SplashScreen> */}
-                <Header />
-                {children}
-                <Footer />
-                <Suspense>
-                  <ScrollHandler />
-                </Suspense>
-                <BackToTop />
-                <CustomCursor />
-                {/* </SplashScreen> */}
+                <SplashScreen>
+                  <Header />
+                  {children}
+                  <Footer />
+                  <Suspense>
+                    <ScrollHandler />
+                  </Suspense>
+                  <BackToTop />
+                  <CustomCursor />
+                </SplashScreen>
               </Lenis>
             </QueryProvider>
           </NuqsAdapter>

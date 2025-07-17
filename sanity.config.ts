@@ -7,6 +7,7 @@ import { structure } from './src/sanity/structure';
 import schemaTypes from './src/sanity/schemaTypes';
 import { documentInternationalization } from '@sanity/document-internationalization';
 import { muxInput } from 'sanity-plugin-mux-input';
+import { table } from '@sanity/table';
 
 export default defineConfig({
   title: 'BDK Advokati',
@@ -27,5 +28,6 @@ export default defineConfig({
       schemaTypes: ['blinkdraft'],
     }),
     muxInput({ max_resolution_tier: '2160p' }),
+    table(),
   ],
 });

@@ -1,6 +1,6 @@
 import { BLINKDRAFT_PAGE_QUERYResult } from '@/sanity.types';
 import Section from '../ui/section';
-import { SimpleAccordion } from './simple-accordion';
+import { SimpleAccordion } from '../ui/accordions/simple-accordion';
 
 const PackageDetailsSection = ({
   heading,

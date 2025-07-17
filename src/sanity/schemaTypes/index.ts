@@ -43,6 +43,9 @@ import {
   openPositionType,
   coursesSectionType,
 } from './pages/career';
+import { privacyNoticeType } from './pages/law-pages/privacy-notice';
+import { cookiePolicyType } from './pages/law-pages/cookie-policy';
+import { tableSectionType } from './pages/law-pages/table-section';
 
 const schemaTypes = [
   blockContentType,
@@ -84,6 +87,9 @@ const schemaTypes = [
   blinkdraftSubscriptionPlanType,
   blinkdraftPackageDetailsSectionType,
   blinkdraftAdditionalFeaturesSectionType,
+  privacyNoticeType,
+  cookiePolicyType,
+  tableSectionType,
 ];
 
 export default schemaTypes;

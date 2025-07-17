@@ -53,12 +53,14 @@ const Footer = async () => {
           <div className='flex justify-between items-center gap-4 md:gap-8'>
             <TransitionLink
               href='/privacy-notice'
+              pageName='Privacy Notice'
               className='text-[#BEC1C6] text-sm 2xl:text-lg'
             >
               Privacy Notice
             </TransitionLink>
             <TransitionLink
               href='/cookie-policy'
+              pageName='Cookie Policy'
               className='text-[#BEC1C6] text-sm 2xl:text-lg'
             >
               Cookie Policy

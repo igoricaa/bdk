@@ -22,6 +22,8 @@ import {
   GLOBAL_FEATURED_POSTS_QUERY,
   BLINKDRAFT_PAGE_QUERY,
   UNIVERSAL_AUTHOR_PAGE_QUERY,
+  PRIVACY_NOTICE_QUERY,
+  COOKIE_POLICY_QUERY,
 } from './queries';
 import type {
   GENERAL_INFO_QUERYResult,
@@ -45,6 +47,8 @@ import type {
   GLOBAL_FEATURED_POSTS_QUERYResult,
   BLINKDRAFT_PAGE_QUERYResult,
   UNIVERSAL_AUTHOR_PAGE_QUERYResult,
+  PRIVACY_NOTICE_QUERYResult,
+  COOKIE_POLICY_QUERYResult,
 } from '@/sanity.types';
 
 // Dont need to cache these, it's not used on multiple pages§
@@ -76,16 +80,6 @@ export const getLawyerPageData = async (
     revalidate: 43200,
   });
 };
-
-// export const getAuthorPageData = async (
-//   slug: string
-// ): Promise<AUTHOR_PAGE_QUERYResult> => {
-//   return await sanityFetch({
-//     query: AUTHOR_PAGE_QUERY,
-//     params: { slug },
-//     tags: [`author-${slug}`, 'authors'],
-//   });
-// };
 
 export const getAuthorPageData = async (
   slug: string
@@ -149,6 +143,23 @@ export const getForeignDeskPageData = async (
     query: FOREIGN_DESK_QUERY,
     params: { slug },
     tags: ['foreign-desks', `foreign-desk-${slug}`, 'lawyers', 'posts'],
+    revalidate: 43200,
+  });
+};
+
+export const getPrivacyNotice =
+  async (): Promise<PRIVACY_NOTICE_QUERYResult> => {
+    return await sanityFetch({
+      query: PRIVACY_NOTICE_QUERY,
+      tags: ['privacy-notice'],
+      revalidate: 43200,
+    });
+  };
+
+export const getCookiePolicy = async (): Promise<COOKIE_POLICY_QUERYResult> => {
+  return await sanityFetch({
+    query: COOKIE_POLICY_QUERY,
+    tags: ['cookie-policy'],
     revalidate: 43200,
   });
 };

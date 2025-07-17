@@ -89,6 +89,29 @@ export const UNIVERSAL_AUTHOR_PAGE_QUERY = defineQuery(`
   }
 `);
 
+export const PRIVACY_NOTICE_QUERY = defineQuery(`{
+  "privacyNotice": *[_type == "privacyNotice"][0] {
+    title,
+    _updatedAt,
+    content,
+    specificsOfDataProcessing[] {
+      title,
+      table
+    }
+  }
+}`);
+
+export const COOKIE_POLICY_QUERY = defineQuery(`{
+  "cookiePolicy": *[_type == "cookiePolicy"][0] {
+    title,
+    _updatedAt,
+    content,
+    necessaryCookies,
+    functionalCookies,
+    analyticsCookies
+  }
+}`);
+
 export const POSTS_PREVIEW_BY_CATEGORY_QUERY = defineQuery(`{
   "posts": *[_type == "post" && references(*[_type=="category" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{
     title,

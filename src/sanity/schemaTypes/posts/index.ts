@@ -1,11 +1,9 @@
-// import {ComposeIcon} from '@sanity/icons'
 import { defineField, defineType } from 'sanity';
 
 export const postType = defineType({
   name: 'post',
   title: 'Post',
   type: 'document',
-  //   icon: ComposeIcon,
   fields: [
     defineField({
       name: 'title',
@@ -65,27 +63,16 @@ export const postType = defineType({
     defineField({
       name: 'authors',
       type: 'array',
-      // of: [
-      //   {
-      //     type: 'reference',
-      //     to: [{ type: 'author' }],
-      //     options: {
-      //       filter: '_type == "author"',
-      //       searchFields: ['lawyer.name', 'customAuthor.name'],
-      //     },
-      //   },
-      // ],
       of: [
         {
           type: 'reference',
           to: [{ type: 'author' }],
           options: {
-            // This explicitly tells the search to look "deeper"
             searchFields: ['lawyer.name', 'customAuthor.name'],
           },
         },
       ],
-    
+
       validation: (rule) => rule.required().min(1),
     }),
     defineField({

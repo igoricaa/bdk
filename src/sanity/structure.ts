@@ -51,6 +51,22 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
                 .child(
                   S.document().schemaType('blinkdraft').documentId('blinkdraft')
                 ),
+              S.listItem()
+                .title('Privacy Notice')
+                .icon(FileIcon)
+                .child(
+                  S.document()
+                    .schemaType('privacyNotice')
+                    .documentId('privacyNotice')
+                ),
+              S.listItem()
+                .title('Cookie Policy')
+                .icon(FileIcon)
+                .child(
+                  S.document()
+                    .schemaType('cookiePolicy')
+                    .documentId('cookiePolicy')
+                ),
             ])
         ),
       S.listItem()
@@ -147,6 +163,8 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             'country',
             'careerPage',
             'openPosition',
+            'privacyNotice',
+            'cookiePolicy',
           ].includes(listItem.getId()!)
       ),
     ]);

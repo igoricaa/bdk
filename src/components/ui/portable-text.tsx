@@ -2,6 +2,7 @@ import {
   PortableText as PortableTextSanity,
   PortableTextBlock,
   PortableTextComponents,
+  PortableTextComponentProps,
 } from 'next-sanity';
 import { Image } from 'next-sanity/image';
 import { cn } from '@/src/lib/utils';
@@ -11,6 +12,14 @@ interface PortableTextCustomProps {
   value: PortableTextBlock[];
   className?: string;
   paragraphClassName?: string;
+}
+
+interface TableValue {
+  _type: 'table';
+  rows: {
+    _key: string;
+    cells: string[];
+  }[];
 }
 
 const PortableText = ({
@@ -38,6 +47,36 @@ const PortableText = ({
             alt={value.alt || ''}
             className='w-full h-auto object-cover'
           />
+        </div>
+      ),
+      table: ({ value }: PortableTextComponentProps<TableValue>) => (
+        <div className='my-6 md:my-8 overflow-x-auto'>
+          <table className='w-full border-collapse text-base'>
+            <tbody>
+              {value.rows.map((row, rowIndex) => (
+                <tr key={row._key}>
+                  {row.cells.map((cell, cellIndex) => {
+                    const isHeader = rowIndex === 0;
+                    return isHeader ? (
+                      <th
+                        key={cellIndex}
+                        className='border border-gray-300 dark:border-gray-600 p-2 md:p-3 text-left font-bold bg-gray-50 dark:bg-gray-800'
+                      >
+                        {cell}
+                      </th>
+                    ) : (
+                      <td
+                        key={cellIndex}
+                        className='border border-gray-300 dark:border-gray-600 p-2 md:p-3 text-left'
+                      >
+                        {cell}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       ),
     },
@@ -120,7 +159,7 @@ const PortableText = ({
       normal: ({ value, children }) => (
         <p
           className={cn(
-            'text-lg leading-relaxed -mb-2 first:mt-0 mt-6 md:text-xl md:first:mt-0 md:mt-10 text-grey-text',
+            'first:mt-0 mt-6 text-base md:text-lg md:first:mt-0 md:mt-10 text-grey-text leading-[1.4]',
             paragraphClassName
           )}
           id={value?._key}
@@ -148,25 +187,29 @@ const PortableText = ({
     },
 
     list: {
-      bullet: ({ children }) => (
-        <ul className='list-disc ml-6 mb-2 mt-6 text-base md:text-lg lg:text-lg xl:text-2xl leading-relaxed text-grey-text md:mb-4 md:mt-8 md:leading-7'>
+      bullet: ({ children, value }) => (
+        <ul
+          className={cn(
+            'list-disc ml-6 leading-relaxed text-grey-text space-y-2 md:space-y-3',
+            value.level === 1 &&
+              'mt-6 md:mt-2 text-base md:text-lg lg:text-lg xl:text-xl space-y-2 md:space-y-3',
+            value.level === 2 &&
+              'text-sm md:text-base lg:text-base xl:text-lg space-y-1! mt-1'
+          )}
+        >
           {children}
         </ul>
       ),
       number: ({ children }) => (
-        <ol className='list-decimal ml-6 mb-2 mt-6 text-base md:text-lg lg:text-lg xl:text-2xl leading-relaxed text-grey-text md:mb-4 md:mt-8 md:leading-7'>
+        <ol className='list-decimal ml-6 mb-2 mt-6 text-base md:text-lg lg:text-lg xl:text-xl leading-relaxed text-grey-text md:mb-4 md:mt-8'>
           {children}
         </ol>
       ),
     },
 
     listItem: {
-      bullet: ({ children }) => (
-        <li className='mb-2 leading-relaxed md:mb-3'>{children}</li>
-      ),
-      number: ({ children }) => (
-        <li className='mb-2 leading-relaxed md:mb-3'>{children}</li>
-      ),
+      bullet: ({ children }) => <li className='leading-relaxed'>{children}</li>,
+      number: ({ children }) => <li className='leading-relaxed'>{children}</li>,
     },
   };
 

@@ -8,7 +8,7 @@ import {
 import Section from '../ui/section';
 import { BLINKDRAFT_PAGE_QUERYResult } from '@/sanity.types';
 import { Plus } from 'lucide-react';
-import { SimpleAccordion } from './simple-accordion';
+import { SimpleAccordion } from '../ui/accordions/simple-accordion';
 
 const WhatIfSection = ({
   heading,

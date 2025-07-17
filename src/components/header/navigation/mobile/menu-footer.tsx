@@ -11,11 +11,16 @@ const MenuFooter = ({ className }: { className?: string }) => {
     >
       <TransitionLink
         href='/privacy-notice'
+        pageName='Privacy Notice'
         className='text-grey-light text-sm'
       >
         Privacy Notice
       </TransitionLink>
-      <TransitionLink href='/cookie-policy' className='text-grey-light text-sm'>
+      <TransitionLink
+        href='/cookie-policy'
+        pageName='Cookie Policy'
+        className='text-grey-light text-sm'
+      >
         Cookie Policy
       </TransitionLink>
     </footer>
