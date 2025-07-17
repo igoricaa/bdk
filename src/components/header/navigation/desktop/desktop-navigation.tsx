@@ -20,7 +20,7 @@ const DesktopNavigation = async ({
     return <div className='text-white'>Loading routes...</div>;
 
   return (
-    <nav className={cn('', className)}>
+    <nav id='desktopNav' className={cn('', className)}>
       <NavigationMenu
         viewport={false}
         className='hidden lg:flex'

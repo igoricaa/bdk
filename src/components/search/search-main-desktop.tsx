@@ -58,12 +58,24 @@ export const MainSearchDesktop = ({
 
   useEffect(() => {
     const body = document.body as HTMLElement;
+    const desktopNav = document.getElementById('desktopNav');
+
     body.style.overflow = isActive ? 'hidden' : '';
 
     if (isActive) {
       body.setAttribute('data-lenis-prevent', 'true');
+
+      if (desktopNav) {
+        desktopNav.style.filter = 'blur(4px)';
+        desktopNav.style.pointerEvents = 'none';
+      }
     } else {
       body.removeAttribute('data-lenis-prevent');
+
+      if (desktopNav) {
+        desktopNav.style.filter = '';
+        desktopNav.style.pointerEvents = 'auto';
+      }
     }
   }, [isActive]);
 

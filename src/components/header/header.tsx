@@ -25,7 +25,7 @@ const Header = async () => {
     <StickyHeaderWrapper>
       <header
         id='top'
-        className='px-side h-15 md:h-20 flex justify-between items-center'
+        className='px-side h-15 md:h-20 flex justify-between items-center z-30'
       >
         <TransitionLink href='/'>
           <Logo logo={logo.logoBlack} className='w-24 xl:w-30' />
