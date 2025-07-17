@@ -4,6 +4,7 @@ import { Post } from '@/sanity.types';
 import ArrowUpRight from '../ui/arrow-up-right';
 import Section from '../ui/section';
 import { TransitionLink } from '../transition-link';
+import UnderlinedButton from '../ui/buttons/underlined-button';
 
 const NewsroomSection = ({
   heading,
@@ -32,7 +33,7 @@ const NewsroomSection = ({
         {newsroomPosts.map((post, index) => (
           <TransitionLink
             href={`/${post.slug.current}`}
-            key={index}
+            key={post.slug.current}
             pageName={post.title}
             className={cn('group', index === 3 && 'hidden sm:max-xl:block')}
           >
@@ -57,13 +58,12 @@ const NewsroomSection = ({
           </TransitionLink>
         ))}
       </div>
-
-      <TransitionLink
+      <UnderlinedButton
         href='/newsroom'
-        className='text-center mt-12 md:mt-17 xl:mt-12 2xl:mt-35 text-light-blue hover:text-light-blue/80 transition-colors text-lg block w-fit mx-auto'
+        className='mt-12 md:mt-17 xl:mt-12 2xl:mt-35 mx-auto'
       >
         View All News
-      </TransitionLink>
+      </UnderlinedButton>
     </Section>
   );
 };

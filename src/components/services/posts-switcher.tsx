@@ -5,8 +5,9 @@ import { cn, formatDate } from '@/src/lib/utils';
 import ArrowUpRight from '@/src/components/ui/arrow-up-right';
 import { TransitionLink } from '@/src/components/transition-link';
 import { Slug } from '@/sanity.types';
-import CategoriesFilter from './categories-filter';
 import SectionHeader from '../ui/section-header/section-header';
+import UnderlinedButton from '../ui/buttons/underlined-button';
+import FilterButtons from '../ui/filter-buttons';
 
 interface RelatedPost {
   title: string;
@@ -29,12 +30,22 @@ export default function PostsSwitcher({
   insightsPosts,
   publications,
 }: PostsSwitcherProps) {
+  const [activeCategory, setActiveCategory] = useState('all');
+
   if (!newsroomPosts && !blogPosts && !insightsPosts && !publications) {
     return null;
   }
 
+  const allPosts = [
+    ...(newsroomPosts || []),
+    ...(blogPosts || []),
+    ...(insightsPosts || []),
+    ...(publications || []),
+  ];
+
   const categories = useMemo(() => {
     const categoryConfig = [
+      { id: 'all', label: 'All', posts: allPosts },
       { id: 'newsroom', label: 'Newsroom', posts: newsroomPosts },
       { id: 'blog', label: 'Blog Posts', posts: blogPosts },
       { id: 'insights', label: 'BDK Insights', posts: insightsPosts },
@@ -46,15 +57,13 @@ export default function PostsSwitcher({
       .map(({ id, label }) => ({ slug: id, label }));
   }, [newsroomPosts, blogPosts, insightsPosts, publications]);
 
-  const getDefaultCategory = () => {
-    if (newsroomPosts && newsroomPosts.length > 0) return 'newsroom';
-    if (blogPosts && blogPosts.length > 0) return 'blog';
-    if (insightsPosts && insightsPosts.length > 0) return 'insights';
-    if (publications && publications.length > 0) return 'publications';
-    return null;
-  };
-
-  const [activeCategory, setActiveCategory] = useState('all');
+  // const getDefaultCategory = () => {
+  //   if (newsroomPosts && newsroomPosts.length > 0) return 'newsroom';
+  //   if (blogPosts && blogPosts.length > 0) return 'blog';
+  //   if (insightsPosts && insightsPosts.length > 0) return 'insights';
+  //   if (publications && publications.length > 0) return 'publications';
+  //   return null;
+  // };
 
   const currentPosts = useMemo(() => {
     switch (activeCategory) {
@@ -87,10 +96,10 @@ export default function PostsSwitcher({
       <SectionHeader
         heading={title}
         rightSideComponent={
-          <CategoriesFilter
+          <FilterButtons
             options={categories}
-            activeCategory={activeCategory}
-            onCategoryChange={setActiveCategory}
+            activeOption={activeCategory}
+            onOptionChange={setActiveCategory}
           />
         }
       />
@@ -125,12 +134,12 @@ export default function PostsSwitcher({
         ))}
       </div>
 
-      <TransitionLink
+      <UnderlinedButton
         href={`/${activeCategory}`}
-        className='text-light-blue hover:text-light-blue/80 transition-colors text-lg w-fit mx-auto block mt-12 2xl:mt-30'
+        className='mx-auto mt-12 2xl:mt-30'
       >
         View All Posts
-      </TransitionLink>
+      </UnderlinedButton>
     </div>
   );
 }

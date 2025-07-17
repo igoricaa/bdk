@@ -12,6 +12,8 @@ const buttonVariants = cva(
           'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
         iconButton:
           'bg-transparent font-normal text-light-blue text-xl gap-2.5 border border-light-blue rounded-[500px]',
+        underlined:
+          'text-lg 2xl:text-2xl leading-1 underline-swap text-light-blue p-0!',
         destructive:
           'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
         outline:

@@ -87,12 +87,12 @@ const LatestPostsSection = ({
 
           return (
             <TransitionLink
+              key={item.title}
               href={item.href}
               pageName={item.title}
               className='group'
             >
               <article
-                key={item.title}
                 className={`relative bg-dark-blue ${borderRadius} hover:rounded-none transition-all duration-300 overflow-hidden p-8 2xl:p-10 h-62 2xl:h-77 flex flex-col justify-between cursor-pointer`}
               >
                 <img

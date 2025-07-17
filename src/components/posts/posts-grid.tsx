@@ -6,7 +6,6 @@ import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'motion/react';
 import SectionHeader from '../ui/section-header/section-header';
 import PostCard from './post-card';
-import { Button } from '../ui/button';
 import { useIsMobile } from '@/src/lib/hooks/use-mobile';
 import { fetchFilteredPosts } from '@/src/app/actions/posts';
 import { CategoryWithChildren, cn } from '@/src/lib/utils';
@@ -16,6 +15,7 @@ import { POSTS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
 import GenericSidebar from '../ui/generic-sidebar';
 import { transformCategoriesData } from '@/src/lib/utils/sidebar-transformers';
 import SearchBar from '../ui/search-bar';
+import UnderlinedButton from '../ui/buttons/underlined-button';
 
 interface PostsGridProps {
   heading: string;
@@ -267,13 +267,12 @@ const PostsGrid = ({
           {isFetchingNextPage ? (
             <p className='text-light-blue'>Loading more posts...</p>
           ) : !isMobile && hasNextPage && !isFiltering ? (
-            <Button
+            <UnderlinedButton
               onClick={handleLoadMore}
               disabled={isFetchingNextPage}
-              className='bg-light-blue hover:bg-light-blue/80 text-white px-8 py-3'
             >
               Load More
-            </Button>
+            </UnderlinedButton>
           ) : null}
         </div>
 

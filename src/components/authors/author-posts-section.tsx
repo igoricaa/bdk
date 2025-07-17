@@ -8,9 +8,9 @@ import { useInView } from 'motion/react';
 import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import { fetchFilteredPosts } from '@/src/app/actions/posts';
 import FilterButtons, { FilterOption } from '../ui/filter-buttons';
-import { Button } from '../ui/button';
 import PostCardSkeleton from '../posts/post-card-skeleton';
 import { UNIVERSAL_AUTHOR_PAGE_QUERYResult } from '@/sanity.types';
+import UnderlinedButton from '../ui/buttons/underlined-button';
 
 const categoryFilterOptions: FilterOption[] = [
   { slug: 'all', label: 'All' },
@@ -175,13 +175,12 @@ const AuthorPostsSection = ({
         {isFetchingNextPage ? (
           <p className='text-light-blue'>Loading more posts...</p>
         ) : !isMobile && hasNextPage && !isFiltering ? (
-          <Button
+          <UnderlinedButton
             onClick={handleLoadMore}
             disabled={isFetchingNextPage}
-            className='bg-light-blue hover:bg-light-blue/80 text-white px-8 py-3'
           >
             Load More
-          </Button>
+          </UnderlinedButton>
         ) : null}
       </div>
       <div ref={intersectionRef} className='col-span-full lg:hidden h-10' />
