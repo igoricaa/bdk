@@ -69,7 +69,7 @@ export default async function Home() {
       <section className='px-side pt-12 md:pt-24 xl:py-30 2xl:py-43 bg-dark-blue rounded-t-main -mt-10 overflow-hidden relative z-10'>
         <Subtitle>{homePageData.about.subtitle}</Subtitle>
 
-        <div className='flex flex-col items-start justify-end pointer-events-auto mt-6 xl:mt-10 2xl:mt-15 2xl:max-w-[1330px]'>
+        <div className='flex flex-col items-start justify-end pointer-events-auto mt-6 xl:mt-10 2xl:mt-15 2xl:max-w-10/12'>
           <TextGradientScroll
             text={homePageData.about.animatedText}
             className='text-white'
