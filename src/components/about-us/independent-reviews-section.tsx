@@ -45,7 +45,7 @@ const IndependentReviewsSection = ({
             <Link
               key={item.title}
               href={item.link}
-              className={`${borderRadius} overflow-hidden cursor-pointer flex flex-col bg-white/5 relative px-8 py-9 2xl:px-10 2xl:py-12 group`}
+              className={`${borderRadius} overflow-hidden cursor-pointer flex flex-col bg-white/5 relative px-8 py-9 2xl:px-10 2xl:py-12 group hover:rounded-none transition-all duration-300`}
               target='_blank'
             >
               <article key={item.title}>

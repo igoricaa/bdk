@@ -12,7 +12,7 @@ const SectionHeading = ({
   return (
     <h2
       className={cn(
-        'text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl',
+        'text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl leading-[1.1]',
         colorVariant === 'light' ? 'text-white' : 'text-dark-blue',
         className
       )}
