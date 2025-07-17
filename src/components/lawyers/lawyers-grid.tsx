@@ -4,13 +4,13 @@ import { LAWYERS_BY_CATEGORY_QUERYResult } from '@/sanity.types';
 import { Image } from 'next-sanity/image';
 import { urlForWithHotspot } from '@/src/sanity/lib/image';
 import { TransitionLink } from '@/src/components/transition-link';
-import { motion, AnimatePresence } from 'motion/react';
 import { cn, ComputedLawyersData } from '@/src/lib/utils';
 import LawyersNavbar from './lawyers-navbar';
 import LinkedinIcon from '../ui/icons/linkedin-icon';
 import { useQueryState } from 'nuqs';
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { BlurFade } from '../animations/blur-fade';
 
 const LawyersGrid = ({
   computedLawyersData,
@@ -51,32 +51,21 @@ const LawyersGrid = ({
         searchBarClassName='md:max-w-[calc((100vw-2*var(--padding-side)-40px)/3)] 2xl:max-w-[calc((1550px-2*var(--padding-side)-84px)/4)] min-[1800px]:max-w-[calc((1800px-2*var(--padding-side)-84px)/4)]!'
       />
 
-      <AnimatePresence mode='wait'>
-        <motion.ul
-          key={activeCategory}
-          className='px-side grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-5 xl:gap-x-6 xl:gap-y-12 2xl:gap-x-7 2xl:gap-y-13 mt-8 md:mt-10 xl:mt-11 2xl:mt-12.5 lg:has-[li:hover]:[&>li]:blur-xxs'
-          layout
-          initial='hidden'
-          animate='visible'
-          variants={{
-            visible: {
-              transition: {
-                staggerChildren: 0.05,
-                delayChildren: 0.1,
-              },
-            },
-          }}
-        >
-          {displayedLawyers.map((lawyer) => (
+      <ul
+        key={activeCategory}
+        className='px-side grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-5 xl:gap-x-6 xl:gap-y-12 2xl:gap-x-7 2xl:gap-y-13 mt-8 md:mt-10 xl:mt-11 2xl:mt-12.5 lg:has-[li:hover]:[&>li]:blur-xxs'
+      >
+        {displayedLawyers.map((lawyer) => (
+          <BlurFade delay={0.1}>
             <li
               key={lawyer.slug.current}
               className='col-span-1 duration-300 transition-blur hover:!blur-none'
             >
               <LawyerCard lawyer={lawyer} />
             </li>
-          ))}
-        </motion.ul>
-      </AnimatePresence>
+          </BlurFade>
+        ))}
+      </ul>
     </section>
   );
 };
@@ -91,41 +80,13 @@ const LawyerCard = ({
   >[0];
 }) => {
   return (
-    <motion.article
-      layout
-      initial={{
-        opacity: 0,
-        y: 20,
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-      }}
-      exit={{
-        opacity: 0,
-        y: -20,
-        transition: {
-          duration: 0.4,
-        },
-      }}
-      transition={{
-        type: 'spring',
-        damping: 25,
-        stiffness: 120,
-        duration: 0.6,
-      }}
-      data-cursor-hover='true'
-      data-cursor-text='View Profile'
-    >
+    <article data-cursor-hover='true' data-cursor-text='View Profile'>
       <TransitionLink
         href={`/people/${lawyer.slug.current}`}
         pageName={lawyer.name}
         className='block'
       >
-        <motion.div
-          className='w-full rounded-lg md:rounded-2xl overflow-hidden aspect-[314/323]'
-          transition={{ duration: 0.3 }}
-        >
+        <div className='w-full rounded-lg md:rounded-2xl overflow-hidden aspect-[314/323]'>
           <Image
             src={urlForWithHotspot(lawyer.picture, 471, 485, 'top').url() || ''}
             alt={lawyer.name}
@@ -133,14 +94,9 @@ const LawyerCard = ({
             height={485}
             className='w-full h-full'
           />
-        </motion.div>
+        </div>
       </TransitionLink>
-      <motion.div
-        className='py-5 md:py-3 md:px-2.5 xl:py-5 xl:px-4'
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.3 }}
-      >
+      <div className='py-5 md:py-3 md:px-2.5 xl:py-5 xl:px-4'>
         <div className='flex items-start gap-2 justify-between'>
           <TransitionLink
             href={`/people/${lawyer.slug?.current}`}
@@ -176,7 +132,7 @@ const LawyerCard = ({
             <LinkedinIcon className='w-4 h-4' />
           </Link>
         )}
-      </motion.div>
-    </motion.article>
+      </div>
+    </article>
   );
 };

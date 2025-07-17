@@ -16,6 +16,7 @@ import GenericSidebar from '../ui/generic-sidebar';
 import { transformCategoriesData } from '@/src/lib/utils/sidebar-transformers';
 import SearchBar from '../ui/search-bar';
 import UnderlinedButton from '../ui/buttons/underlined-button';
+import { BlurFade } from '../animations/blur-fade';
 
 interface PostsGridProps {
   heading: string;
@@ -166,7 +167,9 @@ const PostsGrid = ({
 
   const renderSkeletons = (count: number) =>
     Array.from({ length: count }).map((_, index) => (
-      <PostSkeleton key={`skeleton-${index}`} className='col-span-1' />
+      <BlurFade key={`skeleton-${index}`} delay={0.1}>
+        <PostSkeleton className='col-span-1' />
+      </BlurFade>
     ));
 
   const sectionSharedClasses = cn(
@@ -197,7 +200,7 @@ const PostsGrid = ({
               'grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 xl:gap-9',
               showSidebar
                 ? 'col-span-full xl:col-span-8 xl:grid-cols-2'
-                : 'col-span-full xl:grid-cols-3'
+                : 'col-span-full xl:grid-cols-3 px-side'
             )}
           >
             {renderSkeletons(9)}
@@ -215,7 +218,7 @@ const PostsGrid = ({
           colorVariant='dark'
           headingClassName='pl-side'
         />
-        <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 flex justify-center text-red-500'>
+        <div className='px-side mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 flex justify-center text-red-500'>
           Error: {error?.message || 'Failed to load posts'}
         </div>
       </section>
@@ -259,7 +262,9 @@ const PostsGrid = ({
           {isFiltering
             ? renderSkeletons(9)
             : displayedPosts.map((post) => (
-                <PostCard key={post._id} post={post} />
+                <BlurFade key={post._id} delay={0.1}>
+                  <PostCard post={post} />
+                </BlurFade>
               ))}
         </section>
 
