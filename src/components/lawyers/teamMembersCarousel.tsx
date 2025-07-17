@@ -40,7 +40,7 @@ const TeamMembersCarousel = ({
             <CarouselItem
               key={`grid-${index}`}
               className={cn(
-                'max-w-[calc(100vw-2*(var(--padding-side)))] mx-auto pl-5 '
+                'max-w-[calc(100vw-(var(--padding-side)))] mx-auto pl-5 '
               )}
             >
               <div className='grid grid-cols-2 grid-rows-2 gap-4'>

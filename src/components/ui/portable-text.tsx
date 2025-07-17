@@ -44,7 +44,7 @@ const PortableText = ({
     block: {
       h1: ({ value, children }) => (
         <h1
-          className='text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-7 mt-13 md:mb-11 md:mt-17'
+          className='text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-medium leading-[1.1] mb-7 mt-13 md:mb-11 md:mt-17'
           id={value?._key}
         >
           {children}
@@ -54,7 +54,7 @@ const PortableText = ({
       // H2 Headline: 24px → 30px → 36px → 48px
       h2: ({ value, children }) => (
         <h2
-          className='text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight mb-5 mt-11 md:mb-9 md:mt-15'
+          className='text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-medium leading-[1.1] mb-5 mt-11 md:mb-9 md:mt-15'
           id={value?._key}
         >
           {children}
@@ -64,7 +64,7 @@ const PortableText = ({
       // H3 Headline: 20px → 24px → 24px → 36px
       h3: ({ value, children }) => (
         <h3
-          className='text-xl md:text-2xl lg:text-2xl xl:text-4xl font-bold leading-tight mb-4 mt-10 md:mb-7 md:mt-14'
+          className='text-xl md:text-2xl lg:text-2xl xl:text-4xl font-medium leading-[1.1] mb-4 mt-10 md:mb-7 md:mt-14'
           id={value?._key}
         >
           {children}
@@ -74,7 +74,7 @@ const PortableText = ({
       // H4 Headline: 18px → 20px → 20px → 32px
       h4: ({ value, children }) => (
         <h4
-          className='text-lg md:text-xl lg:text-xl xl:text-3xl font-bold leading-tight mb-3 mt-9 md:mb-5 md:mt-13'
+          className='text-lg md:text-xl lg:text-xl xl:text-3xl font-medium leading-[1.1] mb-3 mt-9 md:mb-5 md:mt-13'
           id={value?._key}
         >
           {children}
@@ -83,7 +83,7 @@ const PortableText = ({
 
       h5: ({ value, children }) => (
         <h5
-          className='text-base md:text-lg lg:text-lg xl:text-2xl font-bold leading-tight mb-2 mt-8 md:mb-4 md:mt-12'
+          className='text-base md:text-lg lg:text-lg xl:text-2xl font-medium leading-[1.1] mb-2 mt-8 md:mb-4 md:mt-12'
           id={value?._key}
         >
           {children}
@@ -92,7 +92,7 @@ const PortableText = ({
 
       h6: ({ value, children }) => (
         <h6
-          className='text-sm md:text-base lg:text-base xl:text-xl font-bold leading-tight mb-2 mt-8 md:mb-3 md:mt-11'
+          className='text-sm md:text-base lg:text-base xl:text-xl font-medium leading-[1.1] mb-2 mt-8 md:mb-3 md:mt-11'
           id={value?._key}
         >
           {children}
@@ -111,7 +111,7 @@ const PortableText = ({
 
       highlighted: ({ value, children }) => (
         <p
-          className='text-xl md:text-2xl lg:text-2xl xl:text-3xl text-dark-blue font-medium leading-relaxed mb-2 mt-6 md:leading-8 md:mb-4 md:mt-8'
+          className='text-xl md:text-2xl lg:text-2xl xl:text-3xl text-dark-blue font-medium leading-relaxed mb-2 mt-6 md:mb-4 md:mt-8'
           id={value?._key}
         >
           {children}
@@ -120,7 +120,7 @@ const PortableText = ({
       normal: ({ value, children }) => (
         <p
           className={cn(
-            'text-lg leading-7 -mb-2 first:mt-0 mt-6 md:text-xl md:leading-8 md:first:mt-0 md:mt-10 text-grey-text',
+            'text-lg leading-relaxed -mb-2 first:mt-0 mt-6 md:text-xl md:first:mt-0 md:mt-10 text-grey-text',
             paragraphClassName
           )}
           id={value?._key}

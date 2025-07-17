@@ -88,19 +88,14 @@ const ProgrammesSection = ({
 
           return (
             <li key={`${course.title}-${index}`}>
-              <article
-                className={cn(
-                  'bg-white/5 rounded-br-[2.5rem] md:rounded-br-[50px] h-77 md:h-88 xl:h-77 2xl:h-103',
-                  index === 3 && 'hidden sm:max-xl:block'
-                )}
-              >
-                <a
-                  href={pdfUrl}
-                  target={'_blank'}
-                  rel={'noopener noreferrer'}
-                  className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18 group'
+              <a href={pdfUrl} target={'_blank'} rel={'noopener noreferrer'}>
+                <article
+                  className={cn(
+                    'bg-white/5 rounded-br-[2.5rem] md:rounded-br-[50px] h-77 md:h-88 xl:h-77 2xl:h-103',
+                    index === 3 && 'hidden sm:max-xl:block'
+                  )}
                 >
-                  <div className='flex flex-col justify-between h-full'>
+                  <div className='flex flex-col justify-between h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18 group'>
                     <div className='flex flex-col gap-5'>
                       <div className='flex items-center gap-2'>
                         <span className='text-light-blue text-xxs xl:text-sm 2xl:text-base flex items-center gap-2'>
@@ -117,8 +112,8 @@ const ProgrammesSection = ({
                     </div>
                     <ArrowUpRight />
                   </div>
-                </a>
-              </article>
+                </article>
+              </a>
             </li>
           );
         })}
