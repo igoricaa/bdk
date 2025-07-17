@@ -85,18 +85,22 @@ export const getPdfUrl = (pdfFile: PdfFile) => {
 
 export const getComputedLawyersData = ({
   categories,
+  noAllFilter = false,
 }: {
   categories: LAWYERS_BY_CATEGORY_QUERYResult['categories'];
+  noAllFilter?: boolean;
 }): ComputedLawyersData => {
   const filterOptions: FilterOption[] = categories.map((category) => ({
     slug: category.slug.current,
     label: category.title,
   }));
 
-  filterOptions.unshift({
-    slug: 'all',
-    label: 'All',
-  });
+  if (!noAllFilter) {
+    filterOptions.unshift({
+      slug: 'all',
+      label: 'All',
+    });
+  }
 
   const allLawyers = categories.flatMap(
     (category) => category.orderedLawyers || []

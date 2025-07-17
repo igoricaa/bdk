@@ -19,7 +19,7 @@ const LawyersList = ({
   listClassName?: string;
 }) => {
   const isMobile = useIsMobile({ breakpoint: 1024 });
-  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [activeCategory, setActiveCategory] = useState<string>('partner');
   const [searchTerm, setSearchTerm] = useState('');
 
   const displayedLawyers = useMemo(() => {

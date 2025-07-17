@@ -85,7 +85,7 @@ const FooterLink = ({
   pageName?: string;
 }) => {
   return (
-    <li className='text-grey-text text-base xl:text-sm 2xl:text-lg'>
+    <li className='text-grey-text text-base xl:text-sm 2xl:text-lg duration-300 transition-[opacity_color] hover:text-light-blue hover:opacity-100!'>
       <TransitionLink href={href}>{children}</TransitionLink>
     </li>
   );
@@ -122,7 +122,7 @@ const CountryCard = ({
 }) => {
   return (
     <article
-      className={`bg-lightest-blue/25 p-6 rounded-[10px] min-h-56 md:min-h-48 2xl:min-h-58 pt-6 px-5 ${className}`}
+      className={`bg-lightest-blue/25 p-6 rounded-[10px] min-h-56 md:min-h-48 2xl:min-h-58 pt-6 px-5 has-[>a:hover]:[&>a]:opacity-40 ${className}`}
     >
       <div className='flex items-center justify-between'>
         <h3 className='text-xl 2xl:text-2xl'>{country.name}</h3>
@@ -136,19 +136,19 @@ const CountryCard = ({
       {country.phone && (
         <Link
           href={`tel:${country.phone}`}
-          className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3'
+          className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3 duration-300 transition-[opacity_color] hover:text-light-blue hover:opacity-100!'
         >
           {country.phone}
         </Link>
       )}
       <Link
         href={`mailto:${country.email}`}
-        className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3 wrap-break-word'
+        className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3 wrap-break-word duration-300 transition-[opacity_color] hover:text-light-blue hover:opacity-100!'
       >
         {country.email}
       </Link>
       {country.note && (
-        <p className='text-light-blue md:text-sm 2xl:text-base 3xl:text-lg mt-3 '>
+        <p className='text-light-blue md:text-sm 2xl:text-base 3xl:text-lg mt-3 duration-300 transition-[opacity_color] hover:text-light-blue hover:opacity-100!'>
           {country.note}
         </p>
       )}
@@ -271,14 +271,14 @@ const DesktopLinks = ({
     <section className='hidden md:grid grid-cols-5 gap-x-5 xl:gap-x-8'>
       <div>
         <FooterHeading>Company</FooterHeading>
-        <ul className='flex flex-col gap-y-6 mt-6'>
+        <ul className='flex flex-col gap-y-6 mt-6 lg:has-[li:hover]:[&>li]:opacity-40'>
           <FooterLink href='/about-us'>About us</FooterLink>
           <FooterLink href='/career'>Career</FooterLink>
         </ul>
       </div>
       <div>
         <FooterHeading>People</FooterHeading>
-        <ul className='flex flex-col gap-y-6 mt-6'>
+        <ul className='flex flex-col gap-y-6 mt-6 lg:has-[li:hover]:[&>li]:opacity-40'>
           <FooterLink href='/people#partners' pageName='Partners & Counsels'>
             Partners & Counsels
           </FooterLink>
@@ -298,7 +298,7 @@ const DesktopLinks = ({
       </div>
       <div>
         <FooterHeading>Services</FooterHeading>
-        <ul className='flex flex-col gap-y-6 mt-6'>
+        <ul className='flex flex-col gap-y-6 mt-6 lg:has-[li:hover]:[&>li]:opacity-40'>
           <FooterLink
             href='/practices/banking-and-finance'
             pageName='Practices'
@@ -315,7 +315,7 @@ const DesktopLinks = ({
       </div>
       <div>
         <FooterHeading>Newsroom</FooterHeading>
-        <ul className='flex flex-col gap-y-6 mt-6'>
+        <ul className='flex flex-col gap-y-6 mt-6 lg:has-[li:hover]:[&>li]:opacity-40'>
           <FooterLink href='/bdknowledge'>BDKnowledge</FooterLink>
           <FooterLink href='/blog'>Blog</FooterLink>
           <FooterLink href='/digital-watch' pageName='Digital Watch'>

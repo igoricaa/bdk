@@ -55,7 +55,10 @@ export default async function Home() {
     return <div>No home page data found</div>;
   }
 
-  const computedLawyersData = getComputedLawyersData({ categories });
+  const computedLawyersData = getComputedLawyersData({
+    categories,
+    noAllFilter: true,
+  });
 
   return (
     <main id='home'>
