@@ -1,5 +1,5 @@
 import type { WP_REST_API_Term } from 'wp-types';
-import type { Category } from '../../../../sanity.types';
+import type { Category } from '../../../sanity.types';
 import { uuid } from '@sanity/uuid';
 import { decode } from 'html-entities';
 

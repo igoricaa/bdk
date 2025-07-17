@@ -1,4 +1,4 @@
-import type { Post } from '../../../../sanity.types';
+import type { Post } from '../../../sanity.types';
 
 export function sanityIdToImageReference(id: string): Post['featuredMedia'] {
   return {

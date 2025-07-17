@@ -5,13 +5,13 @@ import { JSDOM } from 'jsdom';
 import pLimit from 'p-limit';
 import type { FieldDefinition, SanityClient } from 'sanity';
 
-import type { Post } from '../../../../sanity.types';
+import type { Post } from '../../../sanity.types';
 
 import { BASE_URL } from '../constants';
 import { sanityIdToImageReference } from './sanityIdToImageReference';
 import { sanityUploadFromUrl } from './sanityUploadFromUrl';
 import { wpImageFetch } from './wpImageFetch';
-import schemaTypes from '@/src/sanity/schemaTypes';
+import schemaTypes from '../../../src/sanity/schemaTypes/index';
 
 const defaultSchema = Schema.compile({ types: schemaTypes });
 const blockContentSchema = defaultSchema

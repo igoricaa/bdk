@@ -1,7 +1,7 @@
 import { decode } from 'html-entities';
 import type { WP_REST_API_Post } from 'wp-types';
 
-import type { Post } from '../../../../sanity.types';
+import type { Post } from '../../../sanity.types';
 import { uuid } from '@sanity/uuid';
 import { SanityClient } from 'next-sanity';
 import { sanityUploadFromUrl } from './sanityUploadFromUrl';
@@ -56,12 +56,15 @@ export async function transformToPost(
       }));
   }
 
-  // if (wpDoc.author) {
-  //   doc.author = {
-  //     _type: 'reference',
-  //     _ref: `author-${wpDoc.author}`,
-  //   };
-  // }
+  if (wpDoc.author) {
+    doc.authors = [
+      {
+        _key: uuid(),
+        _type: 'reference',
+        _ref: `author-${wpDoc.author}`,
+      },
+    ];
+  }
 
   if (wpDoc.date) {
     doc.date = wpDoc.date;

@@ -1,5 +1,5 @@
 import type { WP_REST_API_User } from 'wp-types';
-import type { Author, Lawyer } from '../../../../sanity.types';
+import type { Author, Lawyer } from '../../../sanity.types';
 import { client } from '@/src/sanity/lib/client';
 
 type StagedAuthor = Omit<Author, '_createdAt' | '_updatedAt' | '_rev'>;

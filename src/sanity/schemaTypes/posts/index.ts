@@ -96,6 +96,30 @@ export const postType = defineType({
       ],
     }),
   ],
+  orderings: [
+    {
+      title: 'Real Creation Date',
+      name: 'publishedAtDesc',
+      by: [{field: 'date', direction: 'desc'}],
+    },
+    {
+      title: 'Last Edited',
+      name: 'lastEditedDesc',
+      by: [{field: '_updatedAt', direction: 'desc'}],
+    },
+    {
+      title: 'Created',
+      name: 'createdDesc',
+      by: [{field: '_createdAt', direction: 'desc'}],
+    },
+    {
+      title: 'Title',
+      name: 'titleAsc',
+      by: [{field: 'title', direction: 'asc'}],
+    },
+  ],
+
+
   preview: {
     select: {
       title: 'title',

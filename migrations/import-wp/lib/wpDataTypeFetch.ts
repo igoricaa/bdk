@@ -13,8 +13,8 @@ export async function wpDataTypeFetch<T extends WordPressDataType>(
   wpApiUrl.searchParams.set('per_page', PER_PAGE.toString());
 
   if (type === 'posts') {
-    wpApiUrl.searchParams.set('after', '2020-03-01T00:00:00');
-    wpApiUrl.searchParams.set('before', '2020-03-29T23:59:59');
+    wpApiUrl.searchParams.set('after', '2015-01-01T00:00:00');
+    wpApiUrl.searchParams.set('before', '2025-07-17T23:59:59');
     wpApiUrl.searchParams.set('lang', 'en');
   }
 
