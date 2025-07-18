@@ -15,6 +15,7 @@ export async function wpDataTypeFetch<T extends WordPressDataType>(
   if (type === 'posts') {
     wpApiUrl.searchParams.set('after', '2015-01-01T00:00:00');
     wpApiUrl.searchParams.set('before', '2025-07-17T23:59:59');
+    wpApiUrl.searchParams.set('categories', '8');
     wpApiUrl.searchParams.set('lang', 'en');
   }
 

@@ -301,6 +301,10 @@ export const POST_QUERY = defineQuery(`{
       content,
       excerpt,
       featuredMedia,
+      "publication": {
+        "externalUrl": publications.url,
+        "downloadUrl": publications.download.asset->url
+      },
       authors[]->{
         _id,
         type,

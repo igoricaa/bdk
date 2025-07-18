@@ -8,6 +8,8 @@ import { sanityUploadFromUrl } from './sanityUploadFromUrl';
 import { sanityIdToImageReference } from './sanityIdToImageReference';
 import { wpImageFetch } from './wpImageFetch';
 import { htmlToBlockContent } from './htmlToBlockContent';
+import { wpFileFetch } from './wpFileFetch';
+import { sanityUploadFileFromUrl } from './sanityUploadFileFromUrl';
 
 // Remove these keys because they'll be created by Content Lake
 type StagedPost = Omit<Post, '_createdAt' | '_updatedAt' | '_rev'>;
@@ -86,14 +88,42 @@ export async function transformToPost(
     doc.publications!.url = wpDoc.acf.url as string;
   }
 
-  if (wpDoc.download) {
-    doc.publications!.download = {
-      _type: 'file',
-      asset: {
-        _ref: `file-${wpDoc.download}`,
-        _type: 'reference',
-      },
-    };
+  if (
+    wpDoc.acf &&
+    typeof wpDoc.acf === 'object' &&
+    'download' in wpDoc.acf &&
+    typeof wpDoc.acf.download === 'number' &&
+    wpDoc.acf.download
+  ) {
+    const mediaId = wpDoc.acf.download;
+
+    // 1. Fetch the structured file details
+    const fileDetails = await wpFileFetch(mediaId);
+
+    if (fileDetails?.source_url) {
+      // 2. Upload that file to Sanity, passing metadata
+      const fileAsset = await sanityUploadFileFromUrl(
+        fileDetails.source_url,
+        client,
+        {
+          // Pass the extra metadata
+          title: fileDetails.title,
+          description: fileDetails.description,
+          filename: fileDetails.filename,
+        }
+      );
+
+      // 3. Create the reference
+      if (fileAsset) {
+        doc.publications!.download = {
+          _type: 'file',
+          asset: {
+            _type: 'reference',
+            _ref: fileAsset._id,
+          },
+        };
+      }
+    }
   }
 
   // Document has an image

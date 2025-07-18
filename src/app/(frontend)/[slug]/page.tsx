@@ -20,6 +20,10 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { TransitionLink } from '@/src/components/transition-link';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import Link from 'next/link';
+import { buttonVariants } from '@/src/components/ui/button';
+import { AnimatedText } from '@/src/components/ui/animated-text';
+import ArrowUpRight from '@/src/components/ui/arrow-up-right';
 
 export async function generateStaticParams() {
   const posts: POSTS_QUERY_WITH_SLUGSResult = await sanityFetch({
@@ -175,6 +179,42 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
           <div className='mt-7 md:mt-10 2xl:mt-15 border-b border-lightest-blue pb-9'>
             <PortableText value={currentPost.content as PortableTextBlock[]} />
+
+            {currentPost.publication?.externalUrl && (
+              <Link
+                href={currentPost.publication?.externalUrl}
+                className={buttonVariants({
+                  variant: 'iconButton',
+                  size: 'iconButton',
+                  className: cn('group w-fit'),
+                })}
+                target='_blank'
+              >
+                <AnimatedText text='More details' />
+                <ArrowUpRight
+                  className='size-9! duration-700'
+                  arrowClassName='size-8!'
+                />
+              </Link>
+            )}
+
+            {currentPost.publication?.downloadUrl && (
+              <Link
+                href={currentPost.publication?.downloadUrl}
+                className={buttonVariants({
+                  variant: 'iconButton',
+                  size: 'iconButton',
+                  className: cn('group w-fit'),
+                })}
+                target='_blank'
+              >
+                <AnimatedText text='Download' />
+                <ArrowUpRight
+                  className='size-9! duration-700'
+                  arrowClassName='size-8!'
+                />
+              </Link>
+            )}
           </div>
 
           <PostsNavigation
