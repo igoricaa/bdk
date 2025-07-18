@@ -13,7 +13,7 @@ const PostCard = ({
   return (
     <article
       className={cn(
-        'bg-white rounded-br-[2.5rem] xl:rounded-br-[3rem] overflow-hidden min-h-[calc(354/362*(100vw-2*var(--padding-side)))] sm:min-h-auto md:aspect-[367/350] xl:aspect-[397/350]',
+        'bg-white rounded-br-[2.5rem] xl:rounded-br-[3rem] overflow-hidden min-h-[calc(354/362*(100vw-2*var(--padding-side)))] sm:min-h-auto md:aspect-[367/350] xl:aspect-[397/350] hover:rounded-none transition-all duration-300',
         className
       )}
     >

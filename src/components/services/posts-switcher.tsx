@@ -57,14 +57,6 @@ export default function PostsSwitcher({
       .map(({ id, label }) => ({ slug: id, label }));
   }, [newsroomPosts, blogPosts, insightsPosts, publications]);
 
-  // const getDefaultCategory = () => {
-  //   if (newsroomPosts && newsroomPosts.length > 0) return 'newsroom';
-  //   if (blogPosts && blogPosts.length > 0) return 'blog';
-  //   if (insightsPosts && insightsPosts.length > 0) return 'insights';
-  //   if (publications && publications.length > 0) return 'publications';
-  //   return null;
-  // };
-
   const currentPosts = useMemo(() => {
     switch (activeCategory) {
       case 'all':
@@ -109,7 +101,7 @@ export default function PostsSwitcher({
           <article
             key={index}
             className={cn(
-              'bg-white/5 rounded-br-[2.5rem] md:rounded-br-[50px] h-77 md:h-88 xl:h-77 2xl:h-103',
+              'bg-white/5 rounded-br-[2.5rem] md:rounded-br-[50px] h-77 md:h-88 xl:h-77 2xl:h-103 hover:rounded-none transition-all duration-300',
               index === 3 && 'hidden sm:max-xl:block'
             )}
           >
@@ -135,7 +127,7 @@ export default function PostsSwitcher({
       </div>
 
       <UnderlinedButton
-        href={`/${activeCategory}`}
+        href={activeCategory === 'all' ? '/bdknowledge' : `/${activeCategory}`}
         className='mx-auto mt-12 2xl:mt-30'
       >
         View All Posts

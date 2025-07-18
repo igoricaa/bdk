@@ -91,7 +91,7 @@ const ProgrammesSection = ({
               <a href={pdfUrl} target={'_blank'} rel={'noopener noreferrer'}>
                 <article
                   className={cn(
-                    'bg-white/5 rounded-br-[2.5rem] md:rounded-br-[50px] h-77 md:h-88 xl:h-77 2xl:h-103',
+                    'bg-white/5 rounded-br-[2.5rem] md:rounded-br-[50px] h-77 md:h-88 xl:h-77 2xl:h-103 hover:rounded-none transition-all duration-300',
                     index === 3 && 'hidden sm:max-xl:block'
                   )}
                 >
