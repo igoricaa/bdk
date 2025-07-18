@@ -318,6 +318,13 @@
   }
 }
 
+#privacyNotice,
+#cookiePolicy {
+  ~ footer {
+    @apply bg-white;
+  }
+}
+
 [data-cursor-hover] * {
   cursor: inherit;
 }

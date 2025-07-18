@@ -37,12 +37,7 @@ export default function CustomTable({ value, className }: CustomTableProps) {
   };
 
   return (
-    <div
-      className={cn(
-        'my-6 md:my-8 overflow-x-auto rounded-md border',
-        className
-      )}
-    >
+    <div className={cn('my-6 md:my-8 overflow-x-auto', className)}>
       <Table>
         <TableHeader>
           <TableRow>
@@ -57,7 +52,7 @@ export default function CustomTable({ value, className }: CustomTableProps) {
               {row.cells.map((cell, index) => (
                 <TableCell
                   key={index}
-                  className='whitespace-pre-line align-top'
+                  className='whitespace-pre-line align-top text-grey-text'
                 >
                   {formatCellContent(cell)
                     .split('\n')
