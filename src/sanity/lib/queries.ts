@@ -199,7 +199,12 @@ export const SERVICES_QUERY = defineQuery(`{
   },
   "foreignDesks": *[_type == "foreignDesk"]{
     title,
-    slug
+    slug,
+    illustration{
+      desktop,
+      tablet,
+      mobile
+    }
   }
 }`);
 

@@ -124,6 +124,9 @@ export const getHeaderData = async (): Promise<{
           subRoutes: foreignDesks.map((foreignDesk) => ({
             label: foreignDesk.title,
             href: `/foreign-desks/${foreignDesk.slug.current}`,
+            illustration: {
+              mobile: foreignDesk.illustration?.mobile,
+            },
           })),
         },
       ],

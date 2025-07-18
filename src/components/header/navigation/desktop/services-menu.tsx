@@ -75,10 +75,6 @@ const ServicesMenu = ({
                 <div className='mb-2 mt-4 text-lg font-medium'>
                   {activeService.label}
                 </div>
-                {/* <p className='text-sm leading-tight text-muted-foreground'>
-                Comprehensive legal solutions across all practice areas
-                and industries.
-              </p> */}
               </TransitionLink>
             </NavigationMenuLink>
           </div>

@@ -2249,7 +2249,7 @@ export type LAWYERS_BY_CATEGORY_QUERYResult = {
   }>;
 };
 // Variable: SERVICES_QUERY
-// Query: {  "industries": *[_type == "industry"]{    title,    slug,    illustration{      desktop,      tablet,      mobile    }  },  "practices": *[_type == "practice"]{    title,    slug,    illustration{      desktop,      tablet,      mobile    }  },  "foreignDesks": *[_type == "foreignDesk"]{    title,    slug  }}
+// Query: {  "industries": *[_type == "industry"]{    title,    slug,    illustration{      desktop,      tablet,      mobile    }  },  "practices": *[_type == "practice"]{    title,    slug,    illustration{      desktop,      tablet,      mobile    }  },  "foreignDesks": *[_type == "foreignDesk"]{    title,    slug,    illustration{      desktop,      tablet,      mobile    }  }}
 export type SERVICES_QUERYResult = {
   industries: Array<{
     title: string;
@@ -2338,6 +2338,44 @@ export type SERVICES_QUERYResult = {
   foreignDesks: Array<{
     title: string;
     slug: Slug;
+    illustration: {
+      desktop: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      } | null;
+      tablet: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      } | null;
+      mobile: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      } | null;
+    } | null;
   }>;
 };
 // Variable: SERVICE_QUERY
@@ -4048,7 +4086,7 @@ declare module "@sanity/client" {
     "\n  count(*[_type == \"post\" && status == \"publish\" && references(*[_type==\"category\" && slug.current == $categorySlug]._id) && date match $year + \"-*\"])\n": POSTS_BY_YEAR_COUNT_QUERYResult;
     "{\n  \"lawyers\": *[_type == \"lawyer\"]{\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug,\n      order,\n      orderedLawyers[]->{\n        _id,\n        slug\n      }\n    },\n    contactInfo\n  }\n}": LAWYERS_QUERYResult;
     "{\n  \"categories\": *[_type == \"lawyerCategory\"] | order(order asc) {\n    _id,\n    title,\n    slug,\n    order,\n    \"orderedLawyers\": orderedLawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo {\n        linkedin\n      }\n    }\n  }\n}": LAWYERS_BY_CATEGORY_QUERYResult;
-    "{\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{\n    title,\n    slug\n  }\n}": SERVICES_QUERYResult;
+    "{\n  \"industries\": *[_type == \"industry\"]{\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"practices\": *[_type == \"practice\"]{\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"foreignDesks\": *[_type == \"foreignDesk\"]{\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  }\n}": SERVICES_QUERYResult;
     "{\n  \"currentService\": *[_type == $type && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    description,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    },\n    testimonials[]{\n      text,\n      author\n    },\n    publications,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n}": SERVICE_QUERYResult;
     "{\n  \"currentForeignDesk\": *[_type == \"foreignDesk\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n}": FOREIGN_DESK_QUERYResult;
     "*[_type == \"author\"] {\n    slug,\n}": AUTHORS_QUERYResult;
