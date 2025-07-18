@@ -45,21 +45,23 @@ export const urlForClip = (
 export const urlForWithHotspot = (
   source: SanityImageSource,
   width: number,
-  height: number,
-  crop:
-    | 'top'
-    | 'center'
-    | 'bottom'
-    | 'focalpoint'
-    | 'left'
-    | 'right'
-    | 'entropy' = 'center'
+  height: number
+  // crop:
+  //   | 'top'
+  //   | 'center'
+  //   | 'bottom'
+  //   | 'focalpoint'
+  //   | 'left'
+  //   | 'right'
+  //   | 'entropy' = 'center'
 ) => {
-  return builder
-    .image(source)
-    .width(width)
-    .height(height)
-    .fit('crop')
-    .crop(crop)
-    .auto('format');
+  return (
+    builder
+      .image(source)
+      .width(width)
+      .height(height)
+      .fit('crop')
+      // .crop(crop)
+      .auto('format')
+  );
 };

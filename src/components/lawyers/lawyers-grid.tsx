@@ -88,11 +88,11 @@ const LawyerCard = ({
       >
         <div className='w-full rounded-lg md:rounded-2xl overflow-hidden aspect-[314/323]'>
           <Image
-            src={urlForWithHotspot(lawyer.picture, 471, 485, 'top').url() || ''}
+            src={urlForWithHotspot(lawyer.picture, 471, 485).url() || ''}
             alt={lawyer.name}
             width={471}
             height={485}
-            className='w-full h-full'
+            className='w-full object-cover'
           />
         </div>
       </TransitionLink>
