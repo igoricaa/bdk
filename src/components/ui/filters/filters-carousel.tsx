@@ -54,11 +54,11 @@ const FiltersCarousel = ({
       </CarouselContent>
       <CarouselPrevious
         className='size-7.5 min-w-7.5 2xl:size-10 2xl:min-w-10 left-0 bg-light-blue cursor-pointer border-light-blue outline-none hover:bg-transparent transition-colors duration-300 group'
-        iconClassName='stroke-1.25 stroke-white size-5.5 group-hover:stroke-light-blue transition-colors duration-300'
+        iconClassName='stroke-1.25 stroke-white size-5.5 2xl:size-6.5 group-hover:stroke-light-blue transition-colors duration-300'
       />
       <CarouselNext
         className='size-7.5 min-w-7.5 2xl:size-10 2xl:min-w-10 right-0 bg-light-blue cursor-pointer border-light-blue outline-none hover:bg-transparent transition-colors duration-300 group'
-        iconClassName='stroke-1.25 stroke-white size-5.5 group-hover:stroke-light-blue transition-colors duration-300'
+        iconClassName='stroke-1.25 stroke-white size-5.5 2xl:size-6.5 group-hover:stroke-light-blue transition-colors duration-300'
       />
     </Carousel>
   );
