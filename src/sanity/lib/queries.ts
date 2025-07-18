@@ -50,7 +50,8 @@ export const BLINKDRAFT_PAGE_QUERY = defineQuery(`{
       "demoVideoPlaybackId": coalesce(
         demoVideo.demoVideoAsset.asset->playbackId, 
         demoVideo.demoVideoId
-      )
+      ),
+      "demoVideoPoster": demoVideo.demoVideoPoster
     }
   }
 }`);

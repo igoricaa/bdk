@@ -40,6 +40,12 @@ export const blinkdraftDemoSectionType = defineType({
           type: 'mux.video',
           description: 'Demo video that will be displayed in the demo section',
         }),
+        defineField({
+          name: 'demoVideoPoster',
+          title: 'Demo Video Poster',
+          type: 'image',
+          description: 'Poster image for the demo video',
+        }),
       ],
     }),
   ],

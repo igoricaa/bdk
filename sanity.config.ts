@@ -9,12 +9,22 @@ import { documentInternationalization } from '@sanity/document-internationalizat
 import { muxInput } from 'sanity-plugin-mux-input';
 import { table } from '@sanity/table';
 import { visionTool } from '@sanity/vision';
+import StudioLogo from './src/components/ui/studio-logo';
 
 export default defineConfig({
   title: 'BDK Advokati',
   basePath: '/studio',
+  icon: StudioLogo,
   projectId,
   dataset,
+  document: {
+    newDocumentOptions: (prev, { creationContext }) => {
+      if (creationContext.type === 'global') {
+        return [];
+      }
+      return prev;
+    },
+  },
   schema: {
     types: schemaTypes,
   },
