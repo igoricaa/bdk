@@ -3,6 +3,7 @@ import { sanityFetch } from '@/src/sanity/lib/client';
 import { POST_QUERYResult, POSTS_QUERY_WITH_SLUGSResult } from '@/sanity.types';
 import { ArrowLeftIcon, ArrowRightIcon, Calendar, Clock } from 'lucide-react';
 import { Image } from 'next-sanity/image';
+import NextImage from 'next/image';
 import { urlFor, urlForUncropped } from '@/src/sanity/lib/image';
 import PortableText from '@/src/components/ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
@@ -47,6 +48,10 @@ export async function generateMetadata({
     };
   }
 
+  const featuredMediaUrl = currentPost.featuredMedia
+    ? urlFor(currentPost.featuredMedia).url()
+    : '/bdk-advokati.jpg';
+
   const description =
     currentPost.excerpt && currentPost.excerpt.length > 0
       ? currentPost.excerpt
@@ -67,13 +72,10 @@ export async function generateMetadata({
       type: 'article',
       publishedTime: currentPost.date,
       authors: currentPost.authors?.map((author: any) => author.name),
-      ...(currentPost.featuredMedia && {
+      ...(featuredMediaUrl && {
         images: [
           {
-            url: urlFor(currentPost.featuredMedia)
-              .width(1200)
-              .height(630)
-              .url(),
+            url: featuredMediaUrl,
             width: 1200,
             height: 630,
             alt: currentPost.title,
@@ -85,10 +87,8 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: currentPost.title,
       description,
-      ...(currentPost.featuredMedia && {
-        images: [
-          urlFor(currentPost.featuredMedia).width(1200).height(630).url(),
-        ],
+      ...(featuredMediaUrl && {
+        images: [featuredMediaUrl],
       }),
     },
   };
@@ -339,10 +339,6 @@ const PostHeader = ({
   featuredMedia: NonNullable<POST_QUERYResult['currentPost']>['featuredMedia'];
   currentPost: NonNullable<POST_QUERYResult['currentPost']>;
 }) => {
-  const featuredMediaUrl = featuredMedia
-    ? urlFor(featuredMedia).url()
-    : '/bdk-advokati-img.jpg';
-
   return (
     <div className='flex flex-col md:flex-col-reverse gap-6 md:gap-10 xl:gap-4 2xl:gap-9'>
       <div>
@@ -363,14 +359,27 @@ const PostHeader = ({
 
         <div className='mt-5 md:mt-8 xl:mt-7 2xl:mt-10'>
           <div className='rounded-[10px] md:rounded-[1.25rem] overflow-hidden aspect-[361/270]'>
-            <Image
-              src={featuredMediaUrl}
-              alt={title}
-              width={1600}
-              height={1197}
-              priority
-              className='w-full object-cover'
-            />
+            {featuredMedia ? (
+              <Image
+                src={urlFor(featuredMedia).url()}
+                alt={title}
+                width={1600}
+                height={1197}
+                priority
+                quality={100}
+                className='w-full h-full object-cover'
+              />
+            ) : (
+              <NextImage
+                src='/bdk-advokati.jpg'
+                alt={title}
+                width={1600}
+                height={1197}
+                priority
+                quality={100}
+                className='w-full h-full object-cover'
+              />
+            )}
           </div>
           <div className='flex gap-2 mt-4 md:mt-5 2xl:mt-9.5 flex-wrap'>
             {categories.map((category) => (

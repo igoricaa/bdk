@@ -30,7 +30,9 @@ const ServicesSection = ({
         industries={industries as Industry[]}
         practices={practices as Practice[]}
         servicesCategoryIllustrations={servicesCategoryIllustrations}
-        setActiveService={setActiveService}
+        setActiveService={
+          setActiveService as (service: Industry | Practice) => void
+        }
       />
       {activeService?.illustration?.mobile && (
         <div className='hidden md:block w-full max-w-[37.5%] h-fit bg-dark-blue rounded-bl-[100px] md:rounded-bl-[120px] xl:rounded-bl-[150px] overflow-hidden'>

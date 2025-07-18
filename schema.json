@@ -5768,6 +5768,14 @@
         },
         "optional": true
       },
+      "illustration": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "illustration"
+        },
+        "optional": true
+      },
       "lawyers": {
         "type": "objectAttribute",
         "value": {
@@ -8434,7 +8442,7 @@
               }
             }
           },
-          "optional": false
+          "optional": true
         },
         "tablet": {
           "type": "objectAttribute",
@@ -8503,7 +8511,7 @@
               }
             }
           },
-          "optional": false
+          "optional": true
         },
         "mobile": {
           "type": "objectAttribute",
@@ -8572,7 +8580,7 @@
               }
             }
           },
-          "optional": false
+          "optional": true
         }
       }
     }

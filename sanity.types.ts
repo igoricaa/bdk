@@ -859,6 +859,7 @@ export type ForeignDesk = {
       _key: string;
     } & ExternalImage>;
   };
+  illustration?: Illustration;
   lawyers: Array<{
     _ref: string;
     _type: "reference";
@@ -1228,7 +1229,7 @@ export type Practice = {
 
 export type Illustration = {
   _type: "illustration";
-  desktop: {
+  desktop?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -1240,7 +1241,7 @@ export type Illustration = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  tablet: {
+  tablet?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -1252,7 +1253,7 @@ export type Illustration = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  mobile: {
+  mobile?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -2241,7 +2242,7 @@ export type SERVICES_QUERYResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: "image";
-      };
+      } | null;
       tablet: {
         asset?: {
           _ref: string;
@@ -2253,7 +2254,7 @@ export type SERVICES_QUERYResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: "image";
-      };
+      } | null;
       mobile: {
         asset?: {
           _ref: string;
@@ -2265,7 +2266,7 @@ export type SERVICES_QUERYResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: "image";
-      };
+      } | null;
     };
   }>;
   practices: Array<{
@@ -2283,7 +2284,7 @@ export type SERVICES_QUERYResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: "image";
-      };
+      } | null;
       tablet: {
         asset?: {
           _ref: string;
@@ -2295,7 +2296,7 @@ export type SERVICES_QUERYResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: "image";
-      };
+      } | null;
       mobile: {
         asset?: {
           _ref: string;
@@ -2307,7 +2308,7 @@ export type SERVICES_QUERYResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: "image";
-      };
+      } | null;
     };
   }>;
   foreignDesks: Array<{
@@ -2584,7 +2585,44 @@ export type SERVICE_QUERYResult = {
         _key: string;
       }>;
     } | null;
-    illustration: null;
+    illustration: {
+      desktop: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      } | null;
+      tablet: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      } | null;
+      mobile: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      } | null;
+    } | null;
     testimonials: null;
     publications: Array<{
       _ref: string;
@@ -2731,7 +2769,7 @@ export type SERVICE_QUERYResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: "image";
-      };
+      } | null;
       tablet: {
         asset?: {
           _ref: string;
@@ -2743,7 +2781,7 @@ export type SERVICE_QUERYResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: "image";
-      };
+      } | null;
       mobile: {
         asset?: {
           _ref: string;
@@ -2755,7 +2793,7 @@ export type SERVICE_QUERYResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: "image";
-      };
+      } | null;
     };
     testimonials: Array<{
       text: string;
@@ -3013,7 +3051,7 @@ export type SERVICE_QUERYResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: "image";
-      };
+      } | null;
       tablet: {
         asset?: {
           _ref: string;
@@ -3025,7 +3063,7 @@ export type SERVICE_QUERYResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: "image";
-      };
+      } | null;
       mobile: {
         asset?: {
           _ref: string;
@@ -3037,7 +3075,7 @@ export type SERVICE_QUERYResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: "image";
-      };
+      } | null;
     };
     testimonials: Array<{
       text: string;
@@ -3265,6 +3303,7 @@ export type FOREIGN_DESK_QUERYResult = {
         _key: string;
       }>;
     };
+    illustration?: Illustration;
     lawyers: Array<{
       _id: string;
       name: string;

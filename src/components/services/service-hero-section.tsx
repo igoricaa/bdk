@@ -11,6 +11,16 @@ const ServiceHeroSection = ({
     SERVICE_QUERYResult['currentService']
   >['illustration'];
 }) => {
+  const desktopUrl = illustration?.desktop
+    ? urlFor(illustration.desktop).url()
+    : '';
+  const tabletUrl = illustration?.tablet
+    ? urlFor(illustration.tablet).url()
+    : '';
+  const mobileUrl = illustration?.mobile
+    ? urlFor(illustration.mobile).url()
+    : '';
+
   return (
     <section
       id='serviceHeroSection'
@@ -21,19 +31,19 @@ const ServiceHeroSection = ({
           illustration.tablet ||
           illustration.mobile) && (
           <picture className='w-full object-cover absolute top-0 right-0 max-w-full md:max-w-3/5'>
-            <source
-              media='(min-width: 1280px)'
-              srcSet={urlFor(illustration.desktop).url()}
-            />
-            <source
-              media='(min-width: 768px)'
-              srcSet={urlFor(illustration.tablet).url()}
-            />
-            <img
-              src={urlFor(illustration.mobile).url()}
-              alt={`BDK Advokati - ${title}`}
-              className='w-full h-full object-cover'
-            />
+            {desktopUrl && (
+              <source media='(min-width: 1280px)' srcSet={desktopUrl} />
+            )}
+            {tabletUrl && (
+              <source media='(min-width: 768px)' srcSet={tabletUrl} />
+            )}
+            {mobileUrl && (
+              <img
+                src={mobileUrl}
+                alt={`BDK Advokati - ${title}`}
+                className='w-full h-full object-cover'
+              />
+            )}
           </picture>
         )}
       <h1 className='text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl mt-auto'>

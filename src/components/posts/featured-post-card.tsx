@@ -25,7 +25,7 @@ const placeholderExcerpt: PortableTextBlock[] = [
 const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
   const featuredMediaUrl = post.featuredMedia
     ? urlFor(post.featuredMedia).url()
-    : '/bdk-advokati-img.jpg';
+    : '/bdk-advokati.jpg';
 
   return (
     <article

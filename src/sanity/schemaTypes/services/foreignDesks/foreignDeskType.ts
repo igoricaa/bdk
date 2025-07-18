@@ -49,6 +49,11 @@ export const foreignDeskType = defineType({
       ],
     }),
     defineField({
+      name: 'illustration',
+      title: 'Illustration',
+      type: 'illustration',
+    }),
+    defineField({
       name: 'lawyers',
       title: 'Lawyers',
       type: 'array',
