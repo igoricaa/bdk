@@ -172,7 +172,11 @@ export const MainSearchDesktop = ({
                   results={results || []}
                   isLoading={isLoading}
                   isError={isError}
-                  onClose={() => setIsFocused(false)}
+                  onClose={() => {
+                    setIsFocused(false);
+                    setIsActive(false);
+                    setQuery('');
+                  }}
                 />
               )}
             </motion.div>
