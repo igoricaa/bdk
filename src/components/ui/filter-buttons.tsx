@@ -1,7 +1,9 @@
 'use client';
 
 import { Button } from '@/src/components/ui/button';
+import { useIsMobile } from '@/src/lib/hooks/use-mobile';
 import { cn } from '@/src/lib/utils';
+import FiltersCarousel from './filters/filters-carousel';
 
 export interface FilterOption {
   slug: string;
@@ -23,6 +25,7 @@ export default function FilterButtons({
   variant = 'light',
   className,
 }: FilterButtonsProps) {
+  const isMobile = useIsMobile({ breakpoint: 1024 });
   if (options.length === 0) {
     return null;
   }
@@ -52,20 +55,30 @@ export default function FilterButtons({
   return (
     <div
       className={cn(
-        'overflow-x-scroll no-scrollbar flex gap-1 2xl:gap-2.5',
-        className
+        'overflow-x-scroll no-scrollbar',
+        !isMobile && options.length > 5 ? '' : 'flex gap-1 2xl:gap-2.5',
+        // className
       )}
     >
-      {options.map((option) => (
-        <Button
-          key={option.slug}
-          size='sm'
-          onClick={() => onOptionChange(option.slug)}
-          className={getButtonStyles(activeOption === option.slug)}
-        >
-          {option.label}
-        </Button>
-      ))}
+      {!isMobile && options.length > 5 ? (
+        <FiltersCarousel
+          options={options}
+          activeOption={activeOption}
+          onOptionChange={onOptionChange}
+          getButtonStyles={getButtonStyles}
+        />
+      ) : (
+        options.map((option) => (
+          <Button
+            key={option.slug}
+            size='sm'
+            onClick={() => onOptionChange(option.slug)}
+            className={getButtonStyles(activeOption === option.slug)}
+          >
+            {option.label}
+          </Button>
+        ))
+      )}
     </div>
   );
 }

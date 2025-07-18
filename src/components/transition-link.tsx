@@ -148,7 +148,7 @@ function TransitionOverlay() {
           exit='out'
           variants={pageVariants}
           transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-          className='fixed inset-0 z-50 flex items-center justify-center bg-light-blue'
+          className='fixed inset-0 z-50 flex items-center justify-center bg-light-blue px-side'
         >
           <h1 className='text-3xl sm:text-5xl md:text-5xl xl:text-7xl text-white text-center'>
             {targetPage}
