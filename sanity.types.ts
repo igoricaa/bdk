@@ -1014,7 +1014,7 @@ export type Post = {
   } | {
     _key: string;
   } & ExternalImage>;
-  featuredMedia: {
+  featuredMedia?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -3420,7 +3420,7 @@ export type POST_QUERYResult = {
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       _type: "image";
-    };
+    } | null;
     authors: Array<{
       _id: string;
       type: "custom" | "lawyer";
@@ -3943,7 +3943,7 @@ export type GLOBAL_FEATURED_POSTS_QUERYResult = Array<{
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
-  };
+  } | null;
 }>;
 // Variable: PAGINATED_FILTERED_POSTS_QUERY
 // Query: *[     _type == "post"    && status == "publish"    // This part filters by category.    // If $categorySlug is "all" or null, this condition is effectively ignored.    // Otherwise, it checks if the post references the specified category.    && ($categorySlug == "all" || $categorySlug == null || references(*[_type=="category" && slug.current == $categorySlug]._id))        // This part filters by year.    // If $year is null, this condition is ignored.    // Otherwise, it checks if the post's date starts with the given year string (e.g., "2023-").    && ($year == null || $year == "all" || string(date) match $year + "*")    // This part filters by author.    // If $authorId is null, this condition is ignored.    // Otherwise, it checks if the post references the specified author.    && ($authorId == null || $authorId == "all" || references(*[_type=="author" && _id == $authorId]._id))  ] | order(date desc)[$start...$end] {    _id,    title,    slug,    date,    categories[]->{      _id,      name,      slug    }  }

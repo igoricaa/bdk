@@ -23,6 +23,10 @@ const placeholderExcerpt: PortableTextBlock[] = [
   },
 ];
 const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
+  const featuredMediaUrl = post.featuredMedia
+    ? urlFor(post.featuredMedia).url()
+    : '/bdk-advokati-img.jpg';
+
   return (
     <article
       key={post._id}
@@ -41,7 +45,7 @@ const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
         <TransitionLink href={`/${post.slug.current}`} pageName={post.title}>
           <div className='w-full md:hidden overflow-hidden rounded-tl-[5rem] rounded-br-[5rem] mt-6'>
             <Image
-              src={urlFor(post.featuredMedia).url()}
+              src={featuredMediaUrl}
               alt={post.title}
               width={361}
               height={381}
@@ -76,7 +80,7 @@ const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
       <div className='hidden md:block min-w-4/10 w-4/10 xl:min-w-5/12 xl:w-5/12 overflow-hidden rounded-tl-[7.5rem] rounded-br-[7.5rem] xl:rounded-tl-[150px] xl:rounded-br-[150px] 2xl:rounded-tl-[12.5rem] 2xl:rounded-br-[12.5rem]'>
         <TransitionLink href={`/${post.slug.current}`} pageName={post.title}>
           <Image
-            src={urlFor(post.featuredMedia).url()}
+            src={featuredMediaUrl}
             alt={post.title}
             width={1080}
             height={1140}

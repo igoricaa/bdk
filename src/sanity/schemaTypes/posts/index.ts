@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity';
+import { customSlugify } from '../../lib/utils';
 
 export const postType = defineType({
   name: 'post',
@@ -15,6 +16,7 @@ export const postType = defineType({
       type: 'slug',
       options: {
         source: 'title',
+        slugify: customSlugify,
       },
       validation: (rule) => rule.required(),
     }),
@@ -57,7 +59,7 @@ export const postType = defineType({
     defineField({
       name: 'featuredMedia',
       type: 'image',
-      validation: (rule) => rule.required(),
+      // validation: (rule) => rule.required(),
     }),
     defineField({ name: 'sticky', type: 'boolean' }),
     defineField({
@@ -100,25 +102,24 @@ export const postType = defineType({
     {
       title: 'Real Creation Date',
       name: 'publishedAtDesc',
-      by: [{field: 'date', direction: 'desc'}],
+      by: [{ field: 'date', direction: 'desc' }],
     },
     {
       title: 'Last Edited',
       name: 'lastEditedDesc',
-      by: [{field: '_updatedAt', direction: 'desc'}],
+      by: [{ field: '_updatedAt', direction: 'desc' }],
     },
     {
       title: 'Created',
       name: 'createdDesc',
-      by: [{field: '_createdAt', direction: 'desc'}],
+      by: [{ field: '_createdAt', direction: 'desc' }],
     },
     {
       title: 'Title',
       name: 'titleAsc',
-      by: [{field: 'title', direction: 'asc'}],
+      by: [{ field: 'title', direction: 'asc' }],
     },
   ],
-
 
   preview: {
     select: {

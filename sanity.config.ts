@@ -47,19 +47,4 @@ export default defineConfig({
         muxInput({ max_resolution_tier: '2160p' }),
         table(),
       ],
-
-  // structureTool({ structure }),
-  // visionTool({
-  //   defaultDataset: 'dev',
-  // }),
-  // documentInternationalization({
-  //   supportedLanguages: [
-  //     { id: 'en', title: 'English' },
-  //     { id: 'sr', title: 'Serbian' },
-  //   ],
-  //   languageField: 'language',
-  //   schemaTypes: ['blinkdraft'],
-  // }),
-  // muxInput({ max_resolution_tier: '2160p' }),
-  // table(),
 });

@@ -339,6 +339,10 @@ const PostHeader = ({
   featuredMedia: NonNullable<POST_QUERYResult['currentPost']>['featuredMedia'];
   currentPost: NonNullable<POST_QUERYResult['currentPost']>;
 }) => {
+  const featuredMediaUrl = featuredMedia
+    ? urlFor(featuredMedia).url()
+    : '/bdk-advokati-img.jpg';
+
   return (
     <div className='flex flex-col md:flex-col-reverse gap-6 md:gap-10 xl:gap-4 2xl:gap-9'>
       <div>
@@ -360,7 +364,7 @@ const PostHeader = ({
         <div className='mt-5 md:mt-8 xl:mt-7 2xl:mt-10'>
           <div className='rounded-[10px] md:rounded-[1.25rem] overflow-hidden aspect-[361/270]'>
             <Image
-              src={urlFor(featuredMedia).url() || ''}
+              src={featuredMediaUrl}
               alt={title}
               width={1600}
               height={1197}

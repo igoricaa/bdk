@@ -6966,7 +6966,7 @@
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "sticky": {
         "type": "objectAttribute",
