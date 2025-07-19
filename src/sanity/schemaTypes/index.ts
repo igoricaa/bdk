@@ -46,6 +46,7 @@ import {
 import { privacyNoticeType } from './pages/law-pages/privacy-notice';
 import { cookiePolicyType } from './pages/law-pages/cookie-policy';
 import { tableSectionType } from './pages/law-pages/table-section';
+import blinkdraftSubscriptionForm from './pages/blinkdraft/blinkdraftSubscriptionForm';
 
 const schemaTypes = [
   blockContentType,
@@ -90,6 +91,7 @@ const schemaTypes = [
   privacyNoticeType,
   cookiePolicyType,
   tableSectionType,
+  blinkdraftSubscriptionForm,
 ];
 
 export default schemaTypes;

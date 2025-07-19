@@ -13,6 +13,68 @@
  */
 
 // Source: schema.json
+export type BlinkdraftSubscriptionForm = {
+  _id: string;
+  _type: "blinkdraftSubscriptionForm";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  subscriptionType: {
+    label: string;
+    options: {
+      full: string;
+      package: string;
+      individual: string;
+    };
+  };
+  packageChoice: {
+    label: string;
+    options: {
+      amendments: string;
+      compliance: string;
+      breaks: string;
+      hiring?: string;
+      termination: string;
+    };
+  };
+  languageVersion: {
+    label: string;
+    options: {
+      bilingual: string;
+      serbian: string;
+    };
+  };
+  contactDetails: {
+    label: string;
+    fields: {
+      firstName: string;
+      familyName: string;
+      email: string;
+      position: string;
+      companyName: string;
+      companyAddress: string;
+      numUsers: string;
+    };
+  };
+  submitButtonText: string;
+  individualTemplates: {
+    label: string;
+    templateGroups: Array<{
+      title: string;
+      templateSubgroups: Array<{
+        title: string;
+        templateItems: Array<string>;
+        _type: "templateSubgroup";
+        _key: string;
+      }>;
+      _type: "templateGroup";
+      _key: string;
+    }>;
+  };
+  language?: string;
+};
+
 export type CookiePolicy = {
   _id: string;
   _type: "cookiePolicy";
@@ -1745,7 +1807,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = CookiePolicy | TableSection | PrivacyNotice | BlinkdraftSubscriptionPlan | OpenPosition | CareerPage | CoursesSection | CareerHeroSection | AboutUsPage | IndependentReviewsSection | AboutUsHeroSection | PeoplePage | PeopleHeroSection | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | Author | Category | Post | Industry | Practice | Illustration | Lawyer | LawyerCategory | BlockContent | Table | TableRow | MuxVideoAsset | MuxAssetData | MuxStaticRenditions | MuxStaticRenditionFile | MuxPlaybackId | MuxTrack | TranslationMetadata | InternationalizedArrayReferenceValue | Blinkdraft | BlinkdraftAdditionalFeaturesSection | BlinkdraftPackageDetailsSection | BlinkdraftCtaSection | BlinkdraftSubscriptionPlansSection | BlinkdraftWhatIsSection | MuxVideo | BlinkdraftDemoSection | BlinkdraftHeroSection | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = BlinkdraftSubscriptionForm | CookiePolicy | TableSection | PrivacyNotice | BlinkdraftSubscriptionPlan | OpenPosition | CareerPage | CoursesSection | CareerHeroSection | AboutUsPage | IndependentReviewsSection | AboutUsHeroSection | PeoplePage | PeopleHeroSection | Country | Social | GeneralInfo | HomePage | BlinkdraftSection | LatestPostsSection | NewsroomSection | TeamSection | AboutSection | HeroSection | ForeignDesk | ExternalImage | Author | Category | Post | Industry | Practice | Illustration | Lawyer | LawyerCategory | BlockContent | Table | TableRow | MuxVideoAsset | MuxAssetData | MuxStaticRenditions | MuxStaticRenditionFile | MuxPlaybackId | MuxTrack | TranslationMetadata | InternationalizedArrayReferenceValue | Blinkdraft | BlinkdraftAdditionalFeaturesSection | BlinkdraftPackageDetailsSection | BlinkdraftCtaSection | BlinkdraftSubscriptionPlansSection | BlinkdraftWhatIsSection | MuxVideo | BlinkdraftDemoSection | BlinkdraftHeroSection | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/app/api/search/all/route.ts
 // Variable: GLOBAL_SEARCH_QUERY
@@ -1990,6 +2052,65 @@ export type BLINKDRAFT_PAGE_QUERYResult = {
     packageDetailsSection: BlinkdraftPackageDetailsSection;
     additionalFeaturesSection: BlinkdraftAdditionalFeaturesSection;
     language?: string;
+  } | null;
+};
+// Variable: BLINKDRAFT_SUBSCRIPTION_FORM_QUERY
+// Query: {  "blinkdraftSubscriptionForm": *[_type == "blinkdraftSubscriptionForm" && language == $locale][0] {    title,    subscriptionType,    packageChoice,    languageVersion,    contactDetails,    submitButtonText,    individualTemplates  }}
+export type BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult = {
+  blinkdraftSubscriptionForm: {
+    title: string;
+    subscriptionType: {
+      label: string;
+      options: {
+        full: string;
+        package: string;
+        individual: string;
+      };
+    };
+    packageChoice: {
+      label: string;
+      options: {
+        amendments: string;
+        compliance: string;
+        breaks: string;
+        hiring?: string;
+        termination: string;
+      };
+    };
+    languageVersion: {
+      label: string;
+      options: {
+        bilingual: string;
+        serbian: string;
+      };
+    };
+    contactDetails: {
+      label: string;
+      fields: {
+        firstName: string;
+        familyName: string;
+        email: string;
+        position: string;
+        companyName: string;
+        companyAddress: string;
+        numUsers: string;
+      };
+    };
+    submitButtonText: string;
+    individualTemplates: {
+      label: string;
+      templateGroups: Array<{
+        title: string;
+        templateSubgroups: Array<{
+          title: string;
+          templateItems: Array<string>;
+          _type: "templateSubgroup";
+          _key: string;
+        }>;
+        _type: "templateGroup";
+        _key: string;
+      }>;
+    };
   } | null;
 };
 // Variable: UNIVERSAL_AUTHOR_PAGE_QUERY
@@ -2430,6 +2551,29 @@ export type SERVICE_QUERYResult = {
   } | {
     _id: string;
     _type: "blinkdraft";
+    title: string;
+    slug: null;
+    description: null;
+    illustration: null;
+    testimonials: null;
+    publications: null;
+    lawyers: null;
+    newsroom: null;
+    latestBlogPosts: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+    bdkInsights: Array<{
+      _id: string;
+      title: string;
+      slug: Slug;
+      date: string;
+    }>;
+  } | {
+    _id: string;
+    _type: "blinkdraftSubscriptionForm";
     title: string;
     slug: null;
     description: null;
@@ -4078,6 +4222,7 @@ declare module "@sanity/client" {
     "{\n  \"aboutUsPage\": *[_type == \"aboutUsPage\"][0],\n}": ABOUT_US_PAGE_QUERYResult;
     "{\n  \"careerPage\": *[_type == \"careerPage\"][0] {\n    title,\n    hero {\n      heading,\n      description,\n      backgroundImage,\n      openPositionsSection {\n        heading,\n        openPositions[]->{\n          _id,\n          title,\n          description,\n          location,\n          pdfFile\n        }\n      }\n    },\n    coursesSection {\n      subtitle,\n      title,\n      courses\n    }\n  }\n}": CAREER_PAGE_QUERYResult;
     "{\n  \"blinkdraftPage\": *[_type == \"blinkdraft\" && language == $locale][0] {\n    ...,\n    demoSection {\n      subtitle,\n      heading,\n      \"demoVideoPlaybackId\": coalesce(\n        demoVideo.demoVideoAsset.asset->playbackId, \n        demoVideo.demoVideoId\n      ),\n      \"demoVideoPoster\": demoVideo.demoVideoPoster\n    }\n  }\n}": BLINKDRAFT_PAGE_QUERYResult;
+    "{\n  \"blinkdraftSubscriptionForm\": *[_type == \"blinkdraftSubscriptionForm\" && language == $locale][0] {\n    title,\n    subscriptionType,\n    packageChoice,\n    languageVersion,\n    contactDetails,\n    submitButtonText,\n    individualTemplates\n  }\n}": BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult;
     "\n  *[_type == \"author\" && slug.current == $slug][0] {\n    _id,\n    name,\n    slug,\n    type,\n    \"lawyerDetails\": lawyer->{\n      title,\n      picture,\n      bio,\n      contactInfo {\n        email,\n        phone,\n        linkedin\n      }\n    },\n    \"posts\": *[\n      _type == \"post\" &&\n      status == \"publish\" &&\n      references(^._id)\n    ] | order(date desc)[0...10] {\n      _id,\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    }\n  }\n": UNIVERSAL_AUTHOR_PAGE_QUERYResult;
     "{\n  \"privacyNotice\": *[_type == \"privacyNotice\"][0] {\n    title,\n    _updatedAt,\n    content,\n    specificsOfDataProcessing[] {\n      title,\n      table\n    }\n  }\n}": PRIVACY_NOTICE_QUERYResult;
     "{\n  \"cookiePolicy\": *[_type == \"cookiePolicy\"][0] {\n    title,\n    _updatedAt,\n    content,\n    necessaryCookies,\n    functionalCookies,\n    analyticsCookies\n  }\n}": COOKIE_POLICY_QUERYResult;

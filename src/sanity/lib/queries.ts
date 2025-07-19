@@ -56,6 +56,18 @@ export const BLINKDRAFT_PAGE_QUERY = defineQuery(`{
   }
 }`);
 
+export const BLINKDRAFT_SUBSCRIPTION_FORM_QUERY = defineQuery(`{
+  "blinkdraftSubscriptionForm": *[_type == "blinkdraftSubscriptionForm" && language == $locale][0] {
+    title,
+    subscriptionType,
+    packageChoice,
+    languageVersion,
+    contactDetails,
+    submitButtonText,
+    individualTemplates
+  }
+}`);
+
 export const UNIVERSAL_AUTHOR_PAGE_QUERY = defineQuery(`
   *[_type == "author" && slug.current == $slug][0] {
     _id,

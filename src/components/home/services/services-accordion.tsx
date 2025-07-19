@@ -27,37 +27,23 @@ const ServicesAccordion = ({
   >['servicesCategoryIllustrations'];
   setActiveService: (service: Practice | Industry) => void;
 }) => {
-  const handleValueChange = (value: string) => {
-    // If no item is open (e.g., when collapsing an item), the value is empty.
-    console.log('value', value);
-    if (!value) return;
+  // const handleValueChange = (value: string) => {
+  //   if (!value) return;
 
-    // We use requestAnimationFrame to ensure the scroll happens after the browser
-    // has updated the layout, preventing a jarring jump.
-    setTimeout(() => {
-      const element = document.getElementById(value);
-      console.log('element', element);
-      if (element) {
-        // --- NEW SCROLL LOGIC ---
-        // 1. Get the element's position relative to the viewport.
-        console.log('element.getBoundingClientRect()', element.getBoundingClientRect());
-        const elementRect = element.getBoundingClientRect();
-        // 2. Get the current vertical scroll position of the page.
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        // 3. Calculate the element's absolute top position.
-        const elementTop = elementRect.top + scrollTop;
+  //   setTimeout(() => {
+  //     const element = document.getElementById(value);
+  //     if (element) {
+  //       const elementRect = element.getBoundingClientRect();
+  //       const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  //       const elementTop = elementRect.top + scrollTop;
 
-        // Optional: If you have a sticky header, subtract its height here.
-        // const headerOffset = 100; // example offset for a 100px tall header
-
-        // 4. Explicitly scroll the window to that position.
-        window.scrollTo({
-          top: elementTop, // - headerOffset,
-          behavior: 'smooth',
-        });
-      }
-    }, 1200);
-  };
+  //       window.scrollTo({
+  //         top: elementTop,
+  //         behavior: 'smooth',
+  //       });
+  //     }
+  //   }, 1200);
+  // };
 
   return (
     <Accordion
@@ -65,7 +51,7 @@ const ServicesAccordion = ({
       collapsible
       className={cn(className, 'flex flex-col gap-4')}
       defaultValue='item-1'
-      onValueChange={handleValueChange}
+      // onValueChange={handleValueChange}
     >
       <ServicesAccordionItem
         data={practices}

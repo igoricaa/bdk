@@ -24,6 +24,7 @@ import {
   UNIVERSAL_AUTHOR_PAGE_QUERY,
   PRIVACY_NOTICE_QUERY,
   COOKIE_POLICY_QUERY,
+  BLINKDRAFT_SUBSCRIPTION_FORM_QUERY,
 } from './queries';
 import type {
   GENERAL_INFO_QUERYResult,
@@ -49,6 +50,7 @@ import type {
   UNIVERSAL_AUTHOR_PAGE_QUERYResult,
   PRIVACY_NOTICE_QUERYResult,
   COOKIE_POLICY_QUERYResult,
+  BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult,
 } from '@/sanity.types';
 
 // Dont need to cache these, it's not used on multiple pages§
@@ -136,6 +138,14 @@ export const getBlinkdraftPageData = async (
   });
 };
 
+export const getBlinkdraftSubscriptionFormData = async (
+  locale: string
+): Promise<BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult> => {
+  return await sanityFetch({
+    query: BLINKDRAFT_SUBSCRIPTION_FORM_QUERY,
+    params: { locale },
+  });
+};
 export const getForeignDeskPageData = async (
   slug: string
 ): Promise<FOREIGN_DESK_QUERYResult> => {

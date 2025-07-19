@@ -46,10 +46,29 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
                   S.document().schemaType('careerPage').documentId('careerPage')
                 ),
               S.listItem()
-                .title('Blinkdraft Page')
+                .title('Blinkdraft')
                 .icon(GlobeIcon)
                 .child(
-                  S.document().schemaType('blinkdraft').documentId('blinkdraft')
+                  S.list()
+                    .title('Blinkdraft')
+                    .items([
+                      S.listItem()
+                        .title('Blinkdraft Page')
+                        .icon(GlobeIcon)
+                        .child(
+                          S.document()
+                            .schemaType('blinkdraft')
+                            .documentId('blinkdraft')
+                        ),
+                      S.listItem()
+                        .title('Blinkdraft Subscription Form')
+                        .icon(GlobeIcon)
+                        .child(
+                          S.document()
+                            .schemaType('blinkdraftSubscriptionForm')
+                            .documentId('blinkdraftSubscriptionForm')
+                        ),
+                    ])
                 ),
               S.listItem()
                 .title('Privacy Notice')
@@ -165,6 +184,7 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             'openPosition',
             'privacyNotice',
             'cookiePolicy',
+            'blinkdraftSubscriptionForm',
           ].includes(listItem.getId()!)
       ),
     ]);

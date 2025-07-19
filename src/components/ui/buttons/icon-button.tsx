@@ -10,12 +10,14 @@ const IconButton = ({
   icon,
   onClick,
   className,
+  type,
 }: {
   href?: string;
   text: string;
   icon?: React.ReactNode;
   onClick?: () => void;
   className?: string;
+  type?: 'button' | 'submit' | 'reset';
 }) => {
   return (
     <>
@@ -36,6 +38,7 @@ const IconButton = ({
         </TransitionLink>
       ) : (
         <Button
+          type={type}
           onClick={onClick}
           variant='iconButton'
           size='iconButton'
