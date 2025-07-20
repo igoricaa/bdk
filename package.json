@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
     "@mux/mux-video-react": "^0.26.1",
+    "@next/bundle-analyzer": "^15.4.2",
     "@portabletext/react": "^3.2.1",
     "@portabletext/types": "^2.0.13",
     "@radix-ui/react-accordion": "^1.2.11",

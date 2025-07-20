@@ -56,7 +56,7 @@ export default function RootLayout({
           <NuqsAdapter>
             <QueryProvider>
               <Lenis>
-                {/* <SplashScreen> */}
+                <SplashScreen>
                   <Header />
                   {children}
                   <Footer />
@@ -65,7 +65,7 @@ export default function RootLayout({
                   </Suspense>
                   <BackToTop />
                   <CustomCursor />
-                {/* </SplashScreen> */}
+                </SplashScreen>
               </Lenis>
             </QueryProvider>
           </NuqsAdapter>
