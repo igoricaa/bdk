@@ -25,7 +25,7 @@ const Hero = ({
           image={bgImages.image1}
         />
       </InViewWrapper>
-      <InViewWrapper delay={0.3}>
+      <InViewWrapper delay={0.5}>
         <div className='relative mt-8 md:max-w-3/5 xl:max-w-[620px] 2xl:max-w-2xl 2xl:mt-10'>
           <p className='text-grey-text text-lg leading-tight 2xl:text-xl'>
             {description}

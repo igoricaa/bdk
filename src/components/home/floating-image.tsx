@@ -1,18 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'motion/react';
 import { Image } from 'next-sanity/image';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { urlFor } from '@/src/sanity/lib/image';
 
-type Variant =
-  | 'default'
-  | 'inverse'
-  | 'rotational'
-  | 'diagonal'
-  | 'scaling'
-  | 'orbital';
+type Variant = 'default' | 'inverse';
 
 export const FloatingImage = ({
   image,
@@ -23,6 +17,8 @@ export const FloatingImage = ({
   className?: string;
   variant?: Variant;
 }) => {
+  const [isActive, setIsActive] = useState(false);
+
   const targetX = useMotionValue(0);
   const targetY = useMotionValue(0);
   const targetRotate = useMotionValue(0);
@@ -36,46 +32,35 @@ export const FloatingImage = ({
   const springScale = useSpring(targetScale, springConfig);
 
   useEffect(() => {
+    const checkViewportPosition = () => {
+      const scrollY = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const oneAndHalfViewport = viewportHeight * 1.2;
+
+      const shouldBeActive = scrollY < oneAndHalfViewport;
+      setIsActive(shouldBeActive);
+
+      if (!shouldBeActive) {
+        targetX.set(0);
+        targetY.set(0);
+        targetRotate.set(0);
+        targetScale.set(1);
+      }
+    };
+
     const handleMouseMove = (event: MouseEvent) => {
+      if (!isActive) return;
+
       const { clientX, clientY } = event;
       const x = clientX / window.innerWidth - 0.5;
       const y = clientY / window.innerHeight - 0.5;
 
       const moveAmount = 25;
-      const rotateAmount = 15;
-      const scaleAmount = 0.2;
-      const orbitalRadius = 35;
 
       switch (variant) {
         case 'inverse':
           targetX.set(-x * moveAmount);
           targetY.set(-y * moveAmount);
-          targetRotate.set(0);
-          targetScale.set(1);
-          break;
-        case 'rotational':
-          targetX.set(x * moveAmount);
-          targetY.set(y * moveAmount);
-          targetRotate.set(x * rotateAmount);
-          targetScale.set(1);
-          break;
-        case 'diagonal':
-          targetX.set(y * moveAmount * 1.5);
-          targetY.set(x * moveAmount * 1.5);
-          targetRotate.set(0);
-          targetScale.set(1);
-          break;
-        case 'scaling':
-          targetX.set(x * moveAmount);
-          targetY.set(y * moveAmount);
-          targetScale.set(1 + y * scaleAmount);
-          targetRotate.set(0);
-          break;
-        case 'orbital':
-          const angle = x * 2 * Math.PI;
-          const radius = orbitalRadius + y * (orbitalRadius / 2);
-          targetX.set(Math.cos(angle) * radius);
-          targetY.set(Math.sin(angle) * radius);
           targetRotate.set(0);
           targetScale.set(1);
           break;
@@ -89,12 +74,24 @@ export const FloatingImage = ({
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    // Initial check
+    checkViewportPosition();
+
+    // Add event listeners
+    window.addEventListener('scroll', checkViewportPosition, { passive: true });
+    window.addEventListener('resize', checkViewportPosition, { passive: true });
+
+    // Only add mousemove listener if active
+    if (isActive) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    }
 
     return () => {
+      window.removeEventListener('scroll', checkViewportPosition);
+      window.removeEventListener('resize', checkViewportPosition);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [variant, targetX, targetY, targetRotate, targetScale]);
+  }, [variant, isActive, targetX, targetY, targetRotate, targetScale]);
 
   return (
     <motion.div

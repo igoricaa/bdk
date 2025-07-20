@@ -1,7 +1,7 @@
 import { defineField, defineType } from 'sanity';
 
 export default defineType({
-  name: 'blinkdraftSubscriptionForm',
+  name: 'subscriptionForm',
   title: 'Subscription Form',
   type: 'document',
   fields: [

@@ -25,8 +25,6 @@ import { Checkbox } from '@/src/components/ui/checkbox';
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
 } from '@/src/components/ui/card';
 import { Separator } from '@/src/components/ui/separator';
 import { BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult } from '@/sanity.types';
@@ -83,7 +81,7 @@ export default function SubscriptionForm({
   formData,
   className,
 }: {
-  formData: BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult['blinkdraftSubscriptionForm'];
+  formData: BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult['subscriptionForm'];
   className?: string;
 }) {
   if (!formData) {
@@ -266,14 +264,14 @@ export default function SubscriptionForm({
                   {formData.individualTemplates.label}
                 </h3>
 
-                <div className='bg-lightest-blue/25 rounded-[10px] space-y-4 mt-4 sm:mt-5'>
-                  <Accordion type='multiple' className='w-full'>
+                <div className='mt-4 sm:mt-5'>
+                  <Accordion type='multiple' className='w-full space-y-4'>
                     {formData.individualTemplates.templateGroups.map(
                       (group, groupIndex) => (
                         <AccordionItem
                           value={`group-${groupIndex}`}
                           key={groupIndex}
-                          className='px-5'
+                          className='bg-lightest-blue/25 rounded-[10px] px-5'
                         >
                           <AccordionTrigger className='text-dark-blue flex items-center justify-between text-lg xl:text-xl h-15 xl:h-18'>
                             {group.title}
@@ -289,7 +287,7 @@ export default function SubscriptionForm({
                                     value={`subgroup-${groupIndex}-${subIndex}`}
                                     key={subIndex}
                                   >
-                                    <AccordionTrigger className='text-dark-blue flex justify-between border-t border-grey-random/50 rounded-none text-lg xl:text-xl pt-2.5 pb-0 h-13.5 xl:h-14.5'>
+                                    <AccordionTrigger className='text-dark-blue flex justify-between border-t border-grey-random/50 rounded-none text-lg xl:text-xl pt-2.5 pb-0 h-15 xl:h-16'>
                                       {subgroup.title}
                                     </AccordionTrigger>
                                     <AccordionContent>

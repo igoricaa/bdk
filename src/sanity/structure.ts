@@ -65,8 +65,8 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
                         .icon(GlobeIcon)
                         .child(
                           S.document()
-                            .schemaType('blinkdraftSubscriptionForm')
-                            .documentId('blinkdraftSubscriptionForm')
+                            .schemaType('subscriptionForm')
+                            .documentId('subscriptionForm')
                         ),
                     ])
                 ),
@@ -184,7 +184,7 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             'openPosition',
             'privacyNotice',
             'cookiePolicy',
-            'blinkdraftSubscriptionForm',
+            'subscriptionForm',
           ].includes(listItem.getId()!)
       ),
     ]);

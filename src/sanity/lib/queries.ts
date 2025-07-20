@@ -57,7 +57,7 @@ export const BLINKDRAFT_PAGE_QUERY = defineQuery(`{
 }`);
 
 export const BLINKDRAFT_SUBSCRIPTION_FORM_QUERY = defineQuery(`{
-  "blinkdraftSubscriptionForm": *[_type == "blinkdraftSubscriptionForm" && language == $locale][0] {
+  "subscriptionForm": *[_type == "subscriptionForm" && language == $locale][0] {
     title,
     subscriptionType,
     packageChoice,
