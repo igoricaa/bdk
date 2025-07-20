@@ -17,6 +17,8 @@ const SubscribePage = async ({
 }) => {
   const { locale } = await params;
 
+  console.log('locale', locale);
+
   if (locale !== 'en' && locale !== 'sr') {
     notFound();
   }
@@ -24,6 +26,8 @@ const SubscribePage = async ({
   setRequestLocale(locale);
 
   const { subscriptionForm } = await getBlinkdraftSubscriptionFormData(locale);
+
+  console.log('subscriptionForm', subscriptionForm);
 
   if (!subscriptionForm) {
     notFound();

@@ -94,7 +94,7 @@ const Word = ({ children, progress, range }: WordType) => {
 
   return (
     <span className='relative me-4 leading-[105%] text-light-blue'>
-      <span className='' style={{ position: 'absolute', opacity: 0.1 }}>{children}</span>
+      <span style={{ position: 'absolute', opacity: 0.1 }}>{children}</span>
       <motion.span style={{ transition: 'all .5s', opacity: opacity }}>
         {children}
       </motion.span>
