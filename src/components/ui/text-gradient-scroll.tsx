@@ -49,7 +49,7 @@ function useGradientScroll() {
 function TextGradientScroll({
   text,
   className,
-  type = 'letter',
+  type = 'word',
   textOpacity = 'soft',
 }: TextGradientScrollType) {
   const ref = useRef<HTMLParagraphElement>(null);
@@ -93,8 +93,8 @@ const Word = ({ children, progress, range }: WordType) => {
   const opacity = useTransform(progress, range, [0, 1]);
 
   return (
-    <span className='relative me-4'>
-      <span style={{ position: 'absolute', opacity: 0.1 }}>{children}</span>
+    <span className='relative me-4 leading-[105%] text-light-blue'>
+      <span className='' style={{ position: 'absolute', opacity: 0.1 }}>{children}</span>
       <motion.span style={{ transition: 'all .5s', opacity: opacity }}>
         {children}
       </motion.span>
