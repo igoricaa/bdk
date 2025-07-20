@@ -7,11 +7,13 @@ import CheckmarkIcon from '../ui/icons/checkmark-icon';
 const SubscriptionsSection = ({
   heading,
   subscriptionPlans,
+  locale,
 }: {
   heading: string;
   subscriptionPlans: NonNullable<
     BLINKDRAFT_PAGE_QUERYResult['blinkdraftPage']
   >['subscriptionPlansSection']['subscriptionPlans'];
+  locale: string;
 }) => {
   return (
     <Section variant='blue'>
@@ -24,6 +26,7 @@ const SubscriptionsSection = ({
             key={plan._key}
             subscriptionPlan={plan}
             index={index}
+            locale={locale}
           />
         ))}
       </div>
@@ -36,12 +39,16 @@ export default SubscriptionsSection;
 const SubscriptionPlanCard = ({
   subscriptionPlan,
   index,
+  locale,
 }: {
   subscriptionPlan: NonNullable<
     BLINKDRAFT_PAGE_QUERYResult['blinkdraftPage']
   >['subscriptionPlansSection']['subscriptionPlans'][number];
   index: number;
+  locale: string;
 }) => {
+  const href = `/blinkdraft/${locale}/subscribe?subType=${subscriptionPlan.title.includes('Full') ? 'full' : subscriptionPlan.title.includes('Package') ? 'package' : 'individual'}`;
+
   return (
     <article className='bg-white flex flex-col sm:flex-row xl:flex-col rounded-br-[50px] pl-4 pr-6 pt-7.5 pb-9 sm:px-6 sm:py-7.5 xl:pb-9 2xl:py-14 2xl:px-9.5'>
       <Subtitle variation={index === 1 ? 'blue' : 'dark'}>
@@ -62,7 +69,13 @@ const SubscriptionPlanCard = ({
           ))}
         </ul>
 
-        <IconButton href='#' text='Subscribe' className='mt-auto w-fit' />
+        <IconButton
+          href={href}
+          pageName='Subscribe to Blinkdraft'
+          text='Subscribe'
+          className='mt-auto w-fit'
+          locale={locale}
+        />
       </div>
     </article>
   );

@@ -11,6 +11,8 @@ const IconButton = ({
   onClick,
   className,
   type,
+  locale,
+  pageName,
 }: {
   href?: string;
   text: string;
@@ -18,12 +20,16 @@ const IconButton = ({
   onClick?: () => void;
   className?: string;
   type?: 'button' | 'submit' | 'reset';
+  locale?: string;
+  pageName?: string;
 }) => {
   return (
     <>
       {href ? (
         <TransitionLink
           href={href}
+          locale={locale}
+          pageName={pageName}
           onClick={onClick}
           className={buttonVariants({
             variant: 'iconButton',
@@ -33,7 +39,10 @@ const IconButton = ({
         >
           <AnimatedText text={text} />
           {icon || (
-            <ArrowUpRight className='size-9! duration-700' arrowClassName='size-8!' />
+            <ArrowUpRight
+              className='size-9! duration-700'
+              arrowClassName='size-8!'
+            />
           )}
         </TransitionLink>
       ) : (
@@ -46,7 +55,10 @@ const IconButton = ({
         >
           <AnimatedText text={text} />
           {icon || (
-            <ArrowUpRight className='size-9! duration-700' arrowClassName='size-8!' />
+            <ArrowUpRight
+              className='size-9! duration-700'
+              arrowClassName='size-8!'
+            />
           )}
         </Button>
       )}

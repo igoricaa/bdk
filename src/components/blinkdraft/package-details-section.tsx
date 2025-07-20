@@ -6,14 +6,18 @@ const PackageDetailsSection = ({
   heading,
   description,
   packageDetails,
+  locale,
 }: {
   heading: string;
   description: string;
   packageDetails: NonNullable<
     BLINKDRAFT_PAGE_QUERYResult['blinkdraftPage']
   >['packageDetailsSection']['packages'];
+  locale: string;
 }) => {
   if (!packageDetails) return null;
+
+  const partialHref = `/blinkdraft/${locale}/subscribe?subType=package`;
 
   return (
     <Section
@@ -35,6 +39,7 @@ const PackageDetailsSection = ({
             (feature) => feature.text
           ) as string[],
         }))}
+        partialHref={partialHref}
       />
     </Section>
   );

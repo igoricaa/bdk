@@ -4,7 +4,6 @@ import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 
-import { Button } from '@/src/components/ui/button';
 import {
   Form,
   FormControl,
@@ -22,16 +21,15 @@ import {
   AccordionTrigger,
 } from '@/src/components/ui/accordion';
 import { Checkbox } from '@/src/components/ui/checkbox';
-import {
-  Card,
-  CardContent,
-} from '@/src/components/ui/card';
+import { Card, CardContent } from '@/src/components/ui/card';
 import { Separator } from '@/src/components/ui/separator';
 import { BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult } from '@/sanity.types';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { cn } from '@/src/lib/utils';
 import { Label } from '../ui/label';
 import IconButton from '../ui/buttons/icon-button';
+import { notFound } from 'next/navigation';
+import { useQueryState } from 'nuqs';
 
 interface TemplateItem {
   id: string;
@@ -85,8 +83,13 @@ export default function SubscriptionForm({
   className?: string;
 }) {
   if (!formData) {
-    return null;
+    return notFound();
   }
+  const [subType, setSubType] = useQueryState('subType');
+  const [packageChoice, setPackageChoice] = useQueryState('packageChoice');
+
+  const validInitialSubType =
+    subType === 'package' || subType === 'individual' ? subType : 'full';
 
   const formSchema = useMemo(() => {
     return z
@@ -129,9 +132,9 @@ export default function SubscriptionForm({
   const form = useForm<SubscriptionFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      subscriptionType: 'full',
+      subscriptionType: validInitialSubType,
       languageVersion: 'bilingual',
-      documentPackage: 'amendments',
+      documentPackage: packageChoice || 'amendments',
       firstName: '',
       familyName: '',
       email: '',
@@ -142,6 +145,18 @@ export default function SubscriptionForm({
       individualTemplates: {},
     },
   });
+
+  useEffect(() => {
+    if (validInitialSubType !== form.getValues('subscriptionType')) {
+      form.setValue('subscriptionType', validInitialSubType);
+    }
+  }, [validInitialSubType, form]);
+
+  useEffect(() => {
+    if (packageChoice !== form.getValues('documentPackage')) {
+      form.setValue('documentPackage', packageChoice || 'amendments');
+    }
+  }, [packageChoice, form]);
 
   const subscriptionType = useWatch({
     control: form.control,
@@ -186,7 +201,10 @@ export default function SubscriptionForm({
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        setSubType(value);
+                      }}
                       defaultValue={field.value}
                       className='flex flex-wrap gap-2.5'
                     >
@@ -227,7 +245,10 @@ export default function SubscriptionForm({
                     </FormLabel>
                     <FormControl>
                       <RadioGroup
-                        onValueChange={field.onChange}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          setPackageChoice(value);
+                        }}
                         defaultValue={field.value}
                         className='flex flex-wrap gap-2.5'
                       >

@@ -3,6 +3,7 @@
 import { useState, createContext, useContext, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
+import { Link as IntlLink } from '../i18n/navigation';
 import Link from 'next/link';
 
 interface TransitionContextType {
@@ -77,6 +78,7 @@ export function TransitionLink({
   pageName,
   className,
   onClick,
+  locale,
   ...props
 }: TransitionLinkProps) {
   const router = useRouter();
@@ -111,7 +113,21 @@ export function TransitionLink({
     }, 500);
   };
 
-  return (
+  return locale ? (
+    <IntlLink
+      href={href}
+      onClick={(e) => {
+        handleClick(e);
+        if (onClick) {
+          onClick(e);
+        }
+      }}
+      className={className}
+      {...props}
+    >
+      {children}
+    </IntlLink>
+  ) : (
     <Link
       href={href}
       onClick={(e) => {

@@ -86,7 +86,9 @@ const BlinkDraftPage = async ({
                 className='w-fit'
               />
               <IconButton
-                href='#'
+                href={`/blinkdraft/${locale}/subscribe`}
+                pageName='Subscribe to Blinkdraft'
+                locale={locale}
                 text={
                   blinkdraftPageData.heroSection?.buttons?.subscribeButton
                     .text as string
@@ -145,6 +147,7 @@ const BlinkDraftPage = async ({
           subscriptionPlans={
             blinkdraftPageData.subscriptionPlansSection.subscriptionPlans
           }
+          locale={locale}
         />
 
         <Section
@@ -168,6 +171,7 @@ const BlinkDraftPage = async ({
             blinkdraftPageData.packageDetailsSection.description as string
           }
           packageDetails={blinkdraftPageData.packageDetailsSection.packages}
+          locale={locale}
         />
 
         <AdditionalFeaturesSection

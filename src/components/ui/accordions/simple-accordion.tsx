@@ -35,12 +35,14 @@ interface ProcessedAccordionItem {
 export const SimpleAccordion = ({
   className,
   items,
+  partialHref,
 }: {
   className?: string;
   items: {
     title: string;
     description: string | string[] | TableValue;
   }[];
+  partialHref?: string;
 }) => {
   /**
    * Processes the raw items array, grouping items that share a common
@@ -129,12 +131,22 @@ export const SimpleAccordion = ({
       defaultValue={`item-${processedItems[0].title}`}
     >
       {processedItems.map((item) => (
-        <SimpleAccordionItem key={item.title} item={item} />
+        <SimpleAccordionItem
+          key={item.title}
+          item={item}
+          partialHref={partialHref}
+        />
       ))}
     </Accordion>
   );
 };
-const SimpleAccordionItem = ({ item }: { item: ProcessedAccordionItem }) => {
+const SimpleAccordionItem = ({
+  item,
+  partialHref,
+}: {
+  item: ProcessedAccordionItem;
+  partialHref?: string;
+}) => {
   const { title, content } = item;
 
   const renderContent = () => {
@@ -153,6 +165,19 @@ const SimpleAccordionItem = ({ item }: { item: ProcessedAccordionItem }) => {
           </div>
         );
       case 'list':
+        const packageChoices = [
+          'amendments',
+          'compliance',
+          'breaks',
+          'hiring',
+          'termination',
+        ];
+
+        const packageChoice = packageChoices.find((choice) =>
+          title.toLowerCase().includes(choice)
+        );
+
+        const fullHref = `${partialHref}&packageChoice=${packageChoice}`;
         return (
           <>
             <ul className='space-y-4 xl:space-y-8'>
@@ -166,7 +191,8 @@ const SimpleAccordionItem = ({ item }: { item: ProcessedAccordionItem }) => {
               ))}
             </ul>
             <IconButton
-              href='#'
+              href={fullHref}
+              pageName='Subscribe to Blinkdraft'
               text='Request an Offer'
               className='w-fit mt-8 xl:mt-9 2xl:mt-15'
             />
