@@ -18,7 +18,7 @@ const Subtitle = ({
           : variation === 'dark'
             ? 'bg-dark-blue'
             : 'bg-light-blue',
-        'text-white text-sm rounded-[500px] w-fit flex items-center justify-center min-h-7.5 h-7.5 2xl:min-h-10 2xl:h-10 px-4 2xl:px-5'
+        'text-white text-sm rounded-[500px] w-fit whitespace-nowrap flex items-center justify-center min-h-7.5 h-7.5 2xl:min-h-10 2xl:h-10 px-4 2xl:px-5'
       )}
     >
       {children}

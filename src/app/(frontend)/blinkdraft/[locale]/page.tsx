@@ -121,7 +121,7 @@ const BlinkDraftPage = async ({
             </h2>
 
             <div className='grid grid-cols-6 xl:grid-cols-12 gap-4 xl:gap-10 mt-8 xl:mt-9 2xl:mt-14'>
-              <div className='w-full h-full aspect-[1656/932] col-span-full sm:col-span-4 sm:col-start-2 lg:col-span-8 lg:col-start-3 rounded-2xl 2xl:rounded-[20px] overflow-hidden'>
+              <div className='w-full h-full aspect-[1656/932] col-span-full md:col-span-4 md:col-start-2 lg:col-span-8 xl:col-start-3 rounded-2xl 2xl:rounded-[20px] overflow-hidden'>
                 <VideoPlayer
                   videoId={
                     blinkdraftPageData.demoSection.demoVideoPlaybackId as string
