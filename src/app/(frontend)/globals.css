@@ -317,6 +317,7 @@
 #blogPage,
 #lawyerPage,
 #blinkdraftPage,
+#blinkdraftSubscribePage,
 #authorPage {
   ~ footer {
     @apply bg-light-blue-bg;

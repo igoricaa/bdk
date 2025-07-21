@@ -185,7 +185,7 @@ export default function SubscriptionForm({
         className
       )}
     >
-      <CardContent>
+      <CardContent className='px-0 '>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

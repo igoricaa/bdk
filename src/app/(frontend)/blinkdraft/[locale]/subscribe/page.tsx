@@ -5,6 +5,7 @@ import { routing } from '@/src/i18n/routing';
 import { getBlinkdraftSubscriptionFormData } from '@/src/sanity/lib/cached-queries';
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -30,24 +31,26 @@ const SubscribePage = async ({
   }
 
   return (
-    <main className='pt-header bg-light-blue-bg'>
-      <LanguageSwitcher
-        locale={locale}
-        href={`/subscribe`}
-        pageName='Subscribe to Blinkdraft'
-        className='absolute top-4 sm:top-6 lg:top-18 2xl:top-35 left-[var(--padding-side)]'
-      />
-      <div className='py-25'>
+    <main id='blinkdraftSubscribePage' className='pt-header bg-light-blue-bg'>
+      <div className='py-25 relative'>
+        <LanguageSwitcher
+          locale={locale}
+          href={`/subscribe`}
+          pageName='Subscribe to Blinkdraft'
+          className='absolute top-8 sm:top-6 lg:top-10 2xl:top-12 left-[var(--padding-side)]'
+        />
         <h1 className='text-dark-blue text-center text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl md:max-lg:px-side'>
           {subscriptionForm.title}
         </h1>
 
-        <SubscribeForm
-          formData={
-            subscriptionForm as BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult['subscriptionForm']
-          }
-          className='mt-15 md:mt-12 2xl:mt-18 xl:max-w-4xl 2xl:max-w-6xl mx-auto'
-        />
+        <Suspense>
+          <SubscribeForm
+            formData={
+              subscriptionForm as BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult['subscriptionForm']
+            }
+            className='mt-15 md:mt-12 2xl:mt-18 xl:max-w-4xl 2xl:max-w-6xl mx-auto'
+          />
+        </Suspense>
       </div>
     </main>
   );
