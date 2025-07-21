@@ -26,7 +26,7 @@ const FiltersCarousel = ({
 }) => {
   return (
     <Carousel
-      className={cn('max-w-[445px] 2xl:max-w-[535px] px-11.25', className)}
+      className={cn('max-w-[452px] 2xl:max-w-[535px] px-11.25', className)}
       opts={{
         dragFree: true,
       }}
