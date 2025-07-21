@@ -11,7 +11,8 @@ import { Suspense } from 'react';
 import BackToTop from '@/src/components/ui/back-to-top';
 import SplashScreen from '@/src/components/splash-screen/splash-screen';
 import { TransitionProvider } from '@/src/components/transition-link';
-import CustomCursor from '@/src/components/cursor';
+import CustomCursor from '@/src/components/ui/custom-cursor';
+
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -56,16 +57,17 @@ export default function RootLayout({
           <NuqsAdapter>
             <QueryProvider>
               <Lenis>
-                <SplashScreen>
-                  <Header />
-                  {children}
-                  <Footer />
-                  <Suspense>
-                    <ScrollHandler />
-                  </Suspense>
-                  <BackToTop />
-                  <CustomCursor />
-                </SplashScreen>
+                {/* <SplashScreen> */}
+                <Header />
+                <CustomCursor />
+                {children}
+                <Footer />
+                <Suspense>
+                  <ScrollHandler />
+                </Suspense>
+                <BackToTop />
+
+                {/* </SplashScreen> */}
               </Lenis>
             </QueryProvider>
           </NuqsAdapter>

@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '@/src/lib/utils';
 import {
   Accordion,
@@ -27,31 +25,12 @@ const ServicesAccordion = ({
   >['servicesCategoryIllustrations'];
   setActiveService: (service: Practice | Industry) => void;
 }) => {
-  // const handleValueChange = (value: string) => {
-  //   if (!value) return;
-
-  //   setTimeout(() => {
-  //     const element = document.getElementById(value);
-  //     if (element) {
-  //       const elementRect = element.getBoundingClientRect();
-  //       const scrollTop = window.scrollY || document.documentElement.scrollTop;
-  //       const elementTop = elementRect.top + scrollTop;
-
-  //       window.scrollTo({
-  //         top: elementTop,
-  //         behavior: 'smooth',
-  //       });
-  //     }
-  //   }, 1200);
-  // };
-
   return (
     <Accordion
       type='single'
       collapsible
       className={cn(className, 'flex flex-col gap-4')}
       defaultValue='item-1'
-      // onValueChange={handleValueChange}
     >
       <ServicesAccordionItem
         data={practices}
@@ -118,8 +97,7 @@ const ServicesAccordionItem = ({
               key={item.title}
               onMouseEnter={() => setActiveService(item)}
               className='transition-opacity duration-300 hover:!opacity-100'
-              data-cursor-hover='true'
-              data-cursor-text='Read more'
+              data-cursor-zone='services-accordion'
             >
               <TransitionLink
                 href={`/${slug}/${item.slug.current}`}

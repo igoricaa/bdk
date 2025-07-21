@@ -298,6 +298,11 @@
   .no-scroll {
     overflow: hidden !important;
   }
+/* 
+  .no-cursor,
+  .no-cursor * {
+    cursor: none !important;
+  } */
 
   .text-shadow-light-blue {
     text-shadow: 0px 1.25rem var(--color-light-blue);
@@ -325,6 +330,14 @@
   }
 }
 
-[data-cursor-hover] * {
-  cursor: inherit;
+body:has([data-cursor-zone]:hover) * {
+  cursor: none;
+}
+
+[data-cursor-zone] * {
+  cursor: none;
+}
+
+[data-cursor-zone='exempt'] * {
+  cursor: pointer !important;
 }

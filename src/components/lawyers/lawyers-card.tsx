@@ -9,8 +9,7 @@ const LawyerCard = ({ lawyer }: { lawyer: Lawyer }) => {
   return (
     <article
       className='pb-6 md:pb-2 xl:pb-4 2xl:pb-6'
-      data-cursor-hover='true'
-      data-cursor-text='View Profile'
+      data-cursor-zone='lawyers-card'
     >
       <TransitionLink
         href={`/people/${lawyer.slug.current}`}
@@ -36,8 +35,8 @@ const LawyerCard = ({ lawyer }: { lawyer: Lawyer }) => {
           <Link
             href={lawyer.contactInfo.linkedin}
             target='_blank'
-            className='hidden md:block'
-            data-cursor-exempt='true'
+            className='hidden md:block cursor-pointer'
+            data-cursor-zone='exempt'
           >
             <LinkedinIcon className='min-w-5 min-h-5 w-5 h-5 2xl:w-5.5 2xl:h-5.5 2xl:min-w-5.5 2xl:min-h-5.5' />
           </Link>
@@ -53,7 +52,7 @@ const LawyerCard = ({ lawyer }: { lawyer: Lawyer }) => {
           href={lawyer.contactInfo.linkedin}
           target='_blank'
           className='block mt-4 md:hidden'
-          data-cursor-exempt='true'
+          data-cursor-zone='exempt'
         >
           <LinkedinIcon className='w-4 h-4' />
         </Link>
