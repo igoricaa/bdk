@@ -50,7 +50,6 @@ const SplitSection = ({
             width={722}
             height={762}
             className='object-cover w-full h-full'
-            quality={100}
             priority
           />
         </div>
@@ -105,7 +104,6 @@ const SplitSection = ({
           alt={heading}
           width={1080}
           height={1140}
-          quality={100}
           priority
           className='object-cover w-full h-full'
         />

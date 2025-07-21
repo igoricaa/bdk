@@ -11,6 +11,8 @@ interface TransitionContextType {
   setIsTransitioning: (value: boolean) => void;
   targetPage: string;
   setTargetPage: (value: string) => void;
+  href: string;
+  setHref: (value: string) => void;
 }
 
 interface TransitionProviderProps {
@@ -32,6 +34,7 @@ const TransitionContext = createContext<TransitionContextType | undefined>(
 export function TransitionProvider({ children }: TransitionProviderProps) {
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
   const [targetPage, setTargetPage] = useState<string>('');
+  const [href, setHref] = useState<string>('');
 
   return (
     <TransitionContext.Provider
@@ -40,6 +43,8 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
         setIsTransitioning,
         targetPage,
         setTargetPage,
+        href,
+        setHref,
       }}
     >
       {children}
@@ -81,17 +86,18 @@ export function TransitionLink({
   locale,
   ...props
 }: TransitionLinkProps) {
-  const router = useRouter();
   const context = useContext(TransitionContext);
 
   if (!context) {
     throw new Error('TransitionLink must be used within a TransitionProvider');
   }
 
-  const { setIsTransitioning, setTargetPage } = context;
+  const { setIsTransitioning, setTargetPage, setHref } = context;
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+
+    setHref(href);
 
     if (!pageName && href.includes('blinkdraft')) {
       pageName = 'Blinkdraft';
@@ -103,14 +109,6 @@ export function TransitionLink({
 
     setTargetPage(name);
     setIsTransitioning(true);
-
-    setTimeout(() => {
-      router.push(href);
-
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 550);
-    }, 500);
   };
 
   return locale ? (
@@ -146,6 +144,7 @@ export function TransitionLink({
 
 function TransitionOverlay() {
   const context = useContext(TransitionContext);
+  const router = useRouter();
 
   if (!context) {
     throw new Error(
@@ -153,7 +152,7 @@ function TransitionOverlay() {
     );
   }
 
-  const { isTransitioning, targetPage } = context;
+  const { isTransitioning, setIsTransitioning, targetPage, href } = context;
 
   return (
     <AnimatePresence>
@@ -163,6 +162,14 @@ function TransitionOverlay() {
           animate='in'
           exit='out'
           variants={pageVariants}
+          onAnimationStart={() => {
+            setTimeout(() => {
+              router.push(href);
+            }, 550);
+          }}
+          onAnimationComplete={() => {
+            setIsTransitioning(false);
+          }}
           transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
           className='fixed inset-0 z-50 flex items-center justify-center bg-light-blue px-side'
         >

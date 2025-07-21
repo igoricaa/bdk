@@ -21,7 +21,6 @@ const LawyerCard = ({ lawyer }: { lawyer: Lawyer }) => {
           width={766}
           height={788}
           className='w-full object-cover object-top rounded-2xl aspect-[383/394]'
-          quality={100}
         />
       </TransitionLink>
       <div className='flex items-start gap-2 justify-between mt-5 md:mt-3 xl:mt-5 2xl:mt-8'>

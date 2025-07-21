@@ -16,12 +16,12 @@ const Lenis = ({ children }: PropsWithChildren) => {
     <ReactLenis
       root
       options={{
-        duration: 2,
+        duration: 1.75,
         orientation: 'vertical',
         gestureOrientation: 'vertical',
         smoothWheel: true,
         wheelMultiplier: 1.5,
-        touchMultiplier: 4,
+        touchMultiplier: 3,
         infinite: false,
       }}
     >

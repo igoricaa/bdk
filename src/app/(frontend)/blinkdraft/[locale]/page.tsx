@@ -105,7 +105,6 @@ const BlinkDraftPage = async ({
               width={722}
               height={762}
               className='object-cover w-full h-full'
-              quality={100}
               priority
             />
           </div>
