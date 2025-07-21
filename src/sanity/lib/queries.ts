@@ -139,6 +139,7 @@ export const POSTS_BY_YEAR_DATETIME_QUERY = defineQuery(`
     title,
     slug,
     date,
+    featuredMedia,
     categories[]->{
       _id,
       name,
@@ -477,6 +478,7 @@ export const POSTS_BY_CATEGORY_QUERY = defineQuery(`{
     title,
     slug,
     date,
+    featuredMedia,
     categories[]->{
       _id,
       name,
@@ -543,6 +545,7 @@ export const PAGINATED_FILTERED_POSTS_QUERY = defineQuery(`
     title,
     slug,
     date,
+    featuredMedia,
     categories[]->{
       _id,
       name,
