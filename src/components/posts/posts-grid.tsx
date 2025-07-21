@@ -155,7 +155,7 @@ const PostsGrid = ({
   ) : null;
 
   const filterAndSearchComponent = (
-    <div className='flex flex-col md:flex-row xl:flex-row-reverse items-center gap-4 md:gap-2.5 md:justify-between xl:justify-end lg:px-side lg:w-full xl:px-0'>
+    <div className='flex flex-col md:flex-row xl:flex-row-reverse items-center gap-4 md:gap-2.5 md:justify-between xl:justify-end lg:px-side lg:w-full xl:px-0 overflow-hidden'>
       <SearchBar
         onSearchChange={setSearchTerm}
         className='px-side md:pr-0 lg:px-0 lg:w-fit'
