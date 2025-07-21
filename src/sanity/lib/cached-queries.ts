@@ -53,14 +53,12 @@ import type {
   BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult,
 } from '@/sanity.types';
 
-// Dont need to cache these, it's not used on multiple pages§
+// --- Singleton Page Data ---
 
-// Full home page data (combines multiple data types)
 export const getHomePageData = async (): Promise<HOME_PAGE_QUERYResult> => {
   return await sanityFetch({
     query: HOME_PAGE_QUERY,
     tags: ['home-page-data', 'blinkdraft'],
-    revalidate: 43200,
   });
 };
 
@@ -68,9 +66,50 @@ export const getPeoplePageData = async (): Promise<PEOPLE_PAGE_QUERYResult> => {
   return await sanityFetch({
     query: PEOPLE_PAGE_QUERY,
     tags: ['people-page-data'],
-    revalidate: 43200,
   });
 };
+
+export const getAboutUsPageData =
+  async (): Promise<ABOUT_US_PAGE_QUERYResult> => {
+    return await sanityFetch({
+      query: ABOUT_US_PAGE_QUERY,
+      tags: ['about-us-page-data'],
+    });
+  };
+
+export const getCareerPageData = async (): Promise<CAREER_PAGE_QUERYResult> => {
+  return await sanityFetch({
+    query: CAREER_PAGE_QUERY,
+    tags: ['career-page-data'],
+  });
+};
+
+export const getBlinkdraftPageData = async (
+  locale: string
+): Promise<BLINKDRAFT_PAGE_QUERYResult> => {
+  return await sanityFetch({
+    query: BLINKDRAFT_PAGE_QUERY,
+    params: { locale },
+    tags: ['blinkdraft', `blinkdraft-${locale}`],
+  });
+};
+
+export const getPrivacyNotice =
+  async (): Promise<PRIVACY_NOTICE_QUERYResult> => {
+    return await sanityFetch({
+      query: PRIVACY_NOTICE_QUERY,
+      tags: ['privacy-notice'],
+    });
+  };
+
+export const getCookiePolicy = async (): Promise<COOKIE_POLICY_QUERYResult> => {
+  return await sanityFetch({
+    query: COOKIE_POLICY_QUERY,
+    tags: ['cookie-policy'],
+  });
+};
+
+// --- Slug-based Page Data ---
 
 export const getLawyerPageData = async (
   slug: string
@@ -78,8 +117,7 @@ export const getLawyerPageData = async (
   return await sanityFetch({
     query: LAWYER_QUERY,
     params: { slug },
-    tags: [`lawyer-${slug}`, 'lawyers'],
-    revalidate: 43200,
+    tags: [`lawyer-${slug}`],
   });
 };
 
@@ -89,24 +127,7 @@ export const getAuthorPageData = async (
   return await sanityFetch({
     query: UNIVERSAL_AUTHOR_PAGE_QUERY,
     params: { slug },
-    tags: [`author-${slug}`, 'authors'],
-  });
-};
-
-export const getAboutUsPageData =
-  async (): Promise<ABOUT_US_PAGE_QUERYResult> => {
-    return await sanityFetch({
-      query: ABOUT_US_PAGE_QUERY,
-      tags: ['about-us-page-data'],
-      revalidate: 43200,
-    });
-  };
-
-export const getCareerPageData = async (): Promise<CAREER_PAGE_QUERYResult> => {
-  return await sanityFetch({
-    query: CAREER_PAGE_QUERY,
-    tags: ['career-page-data'],
-    revalidate: 43200,
+    tags: [`author-${slug}`],
   });
 };
 
@@ -117,62 +138,21 @@ export const getServicePageData = async (
   return await sanityFetch({
     query: SERVICE_QUERY,
     params: { type, slug },
-    tags: [
-      type === 'practice' ? 'practices' : 'industries',
-      `${type}-${slug}`,
-      'lawyers',
-      'posts',
-    ],
-    revalidate: 43200,
+    tags: [`${type}-${slug}`],
   });
 };
 
-export const getBlinkdraftPageData = async (
-  locale: string
-): Promise<BLINKDRAFT_PAGE_QUERYResult> => {
-  return await sanityFetch({
-    query: BLINKDRAFT_PAGE_QUERY,
-    params: { locale },
-    tags: ['blinkdraft-page-data'],
-    revalidate: 43200,
-  });
-};
-
-export const getBlinkdraftSubscriptionFormData = async (
-  locale: string
-): Promise<BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult> => {
-  return await sanityFetch({
-    query: BLINKDRAFT_SUBSCRIPTION_FORM_QUERY,
-    params: { locale },
-  });
-};
 export const getForeignDeskPageData = async (
   slug: string
 ): Promise<FOREIGN_DESK_QUERYResult> => {
   return await sanityFetch({
     query: FOREIGN_DESK_QUERY,
     params: { slug },
-    tags: ['foreign-desks', `foreign-desk-${slug}`, 'lawyers', 'posts'],
-    revalidate: 43200,
+    tags: [`foreignDesk-${slug}`],
   });
 };
 
-export const getPrivacyNotice =
-  async (): Promise<PRIVACY_NOTICE_QUERYResult> => {
-    return await sanityFetch({
-      query: PRIVACY_NOTICE_QUERY,
-      tags: ['privacy-notice'],
-      revalidate: 43200,
-    });
-  };
-
-export const getCookiePolicy = async (): Promise<COOKIE_POLICY_QUERYResult> => {
-  return await sanityFetch({
-    query: COOKIE_POLICY_QUERY,
-    tags: ['cookie-policy'],
-    revalidate: 43200,
-  });
-};
+// --- List/Collection Data ---
 
 export const getPostsByCategory = async (
   slug: string,
@@ -181,8 +161,7 @@ export const getPostsByCategory = async (
   return await sanityFetch({
     query: POSTS_BY_CATEGORY_QUERY,
     params: { slug, limit },
-    tags: [`posts-by-category-${slug}`],
-    revalidate: 43200,
+    tags: ['posts', `posts-by-category-${slug}`],
   });
 };
 
@@ -196,8 +175,7 @@ export const getPostsByYear = async (
   return await sanityFetch({
     query: POSTS_BY_YEAR_DATETIME_QUERY,
     params: { categorySlug, year, page, start, end },
-    tags: [`posts-by-year-${categorySlug}-${year}`],
-    revalidate: false,
+    tags: ['posts', `posts-by-category-${categorySlug}`, `posts-by-year-${year}`],
   });
 };
 
@@ -208,43 +186,37 @@ export const getPostsByYearCount = async (
   return await sanityFetch({
     query: POSTS_BY_YEAR_COUNT_QUERY,
     params: { categorySlug, year },
-    tags: [`posts-by-year-${categorySlug}-${year}`],
-    revalidate: 43200,
+    tags: ['posts', `posts-by-category-${categorySlug}`, `posts-by-year-${year}`],
   });
 };
 
-// General site information and settings (used on all pages)
+// --- Cached Global/Shared Data (wrapped in React.cache) ---
+
 export const getGeneralInfoData = cache(
   async (): Promise<GENERAL_INFO_QUERYResult> => {
     return await sanityFetch({
       query: GENERAL_INFO_QUERY,
-      tags: ['general-info', 'blinkdraft'],
-      revalidate: false,
+      tags: ['general-info'],
     });
   }
 );
 
-// All lawyers (used on people page, home page, practice pages)
 export const getLawyers = cache(async (): Promise<LAWYERS_QUERYResult> => {
   return await sanityFetch({
     query: LAWYERS_QUERY,
     tags: ['lawyers'],
-    revalidate: 43200,
   });
 });
 
-// Enhanced lawyers by category with custom ordering (recommended for new implementations)
 export const getLawyersByCategory = cache(
   async (): Promise<LAWYERS_BY_CATEGORY_QUERYResult> => {
     return await sanityFetch({
       query: LAWYERS_BY_CATEGORY_QUERY,
       tags: ['lawyers', 'lawyer-categories'],
-      revalidate: 43200,
     });
   }
 );
 
-// Posts preview by category (used on home page)
 export const getPostsPreviewByCategory = cache(
   async (
     slug: string,
@@ -253,8 +225,7 @@ export const getPostsPreviewByCategory = cache(
     return await sanityFetch({
       query: POSTS_PREVIEW_BY_CATEGORY_QUERY,
       params: { slug, limit },
-      tags: [`posts-by-category-${slug}`],
-      revalidate: 43200,
+      tags: ['posts', `posts-by-category-${slug}`],
     });
   }
 );
@@ -264,52 +235,54 @@ export const getYearsByCategory = cache(
     return await sanityFetch({
       query: YEARS_BY_CATEGORY_QUERY,
       params: { slug },
-      tags: [`years-by-category-${slug}`],
-      revalidate: false,
+      tags: ['posts', `posts-by-category-${slug}`],
     });
   }
 );
 
-// Nested categories with post counts (used for category navigation)
 export const getNestedCategories = cache(
   async (categorySlug: string): Promise<NESTED_CATEGORIES_QUERYResult> => {
     return await sanityFetch({
       query: NESTED_CATEGORIES_QUERY,
       params: { categorySlug },
-      tags: [`nested-categories-${categorySlug}`, 'categories', 'posts'],
-      revalidate: 43200,
+      tags: ['categories', `nested-categories-${categorySlug}`],
     });
   }
 );
 
-// Services data (industries, practices, foreign desks with full details)
 export const getServicesData = cache(
   async (): Promise<SERVICES_QUERYResult> => {
     return await sanityFetch({
       query: SERVICES_QUERY,
-      tags: ['services', 'industries', 'practices', 'foreign-desks'],
-      revalidate: 43200,
+      tags: ['services', 'practices', 'industries', 'foreign-desks'],
     });
   }
 );
 
-// Global featured posts (used on blog page - always the same)
 export const getGlobalFeaturedPosts = cache(
   async (slug: string): Promise<GLOBAL_FEATURED_POSTS_QUERYResult> => {
     return await sanityFetch({
       query: GLOBAL_FEATURED_POSTS_QUERY,
       params: { slug },
-      tags: ['global-featured-posts'],
-      revalidate: 43200,
+      tags: ['posts', 'global-featured-posts'],
     });
   }
 );
 
-// Authors (used for post authoring)
 export const getAuthors = cache(async (): Promise<AUTHORS_QUERYResult> => {
   return await sanityFetch({
     query: AUTHORS_QUERY,
     tags: ['authors'],
-    revalidate: 86400,
   });
 });
+
+// This query was missing from the original file but is good practice to include
+export const getBlinkdraftSubscriptionFormData = async (
+  locale: string
+): Promise<BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult> => {
+  return await sanityFetch({
+    query: BLINKDRAFT_SUBSCRIPTION_FORM_QUERY,
+    params: { locale },
+    tags: ['blinkdraft', `subscriptionForm-${locale}`],
+  });
+};

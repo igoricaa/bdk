@@ -1,337 +1,132 @@
 'use server';
 
-import { revalidateTag, revalidatePath } from 'next/cache';
-import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto';
+import { revalidateTag } from 'next/cache';
+import { type NextRequest, NextResponse } from 'next/server';
+import { parseBody } from 'next-sanity/webhook';
 
-// Webhook secret from environment variables
-const WEBHOOK_SECRET = process.env.SANITY_WEBHOOK_SECRET;
+// Get the secret from environment variables
+const SANITY_WEBHOOK_SECRET = process.env.SANITY_WEBHOOK_SECRET;
 
-// Type definitions for Sanity webhook payload
-interface SanityWebhookPayload {
+// Define the expected payload structure from our webhooks
+interface RevalidateBody {
   _type: string;
-  _id: string;
-  _rev?: string;
-  slug?: {
-    current: string;
-  };
-  [key: string]: any;
+  slug?: string;
+  // For posts, we might get category info
+  categorySlug?: string;
+  oldCategorySlug?: string;
 }
 
-interface WebhookBody {
-  _type: string;
-  _id: string;
-  _rev?: string;
-  slug?: {
-    current: string;
-  };
-  [key: string]: any;
-}
-
-// Verify webhook signature for security
-function verifySignature(body: string, signature: string): boolean {
-  if (!WEBHOOK_SECRET) {
-    console.warn('SANITY_WEBHOOK_SECRET not configured');
-    return false;
+export async function POST(req: NextRequest) {
+  console.log("IM IN")
+  if (!SANITY_WEBHOOK_SECRET) {
+    console.error('Missing SANITY_WEBHOOK_SECRET in environment variables.');
+    return NextResponse.json(
+      { message: 'Server configuration error: Missing secret' },
+      { status: 500 }
+    );
   }
 
-  const expectedSignature = crypto
-    .createHmac('sha256', WEBHOOK_SECRET)
-    .update(body)
-    .digest('hex');
-
-  return crypto.timingSafeEqual(
-    Buffer.from(signature, 'hex'),
-    Buffer.from(expectedSignature, 'hex')
-  );
-}
-
-// Document type to cache tags mapping based on our 4-webhook strategy
-const getTagsForDocumentType = (
-  documentType: string,
-  document: WebhookBody
-): string[] => {
-  const tags: string[] = [];
-
-  switch (documentType) {
-    // ========================================
-    // WEBHOOK 1: Content/Posts (HIGH FREQUENCY)
-    // ========================================
-    case 'post':
-      tags.push('posts');
-      // Check if it's a newsroom post
-      if (
-        document.categories?.some(
-          (cat: any) =>
-            cat.name === 'Newsroom' || cat.slug?.current === 'newsroom'
-        )
-      ) {
-        tags.push('newsroom');
-      }
-      // Posts can appear on home page and people page
-      tags.push('home-page-data', 'people-page-data');
-      // Add specific post tag for individual post pages
-      if (document.slug?.current) {
-        tags.push(`post-${document.slug.current}`);
-      }
-      break;
-
-    case 'category':
-      tags.push('categories');
-      // Category changes affect post queries
-      tags.push('posts');
-      // Add specific category tag
-      if (document.slug?.current) {
-        tags.push(`category-${document.slug.current}`);
-      }
-      break;
-
-    case 'author':
-      tags.push('authors');
-      break;
-
-    // ========================================
-    // WEBHOOK 2: People/Legal Team (MEDIUM FREQUENCY)
-    // ========================================
-    case 'lawyer':
-      tags.push('lawyers');
-      // Check if it's a partner (appears on home page)
-      if (document.category?.title === 'Partner') {
-        tags.push('partners');
-        tags.push('home-page-data');
-      }
-      tags.push('people-page-data');
-      // Add specific lawyer tag
-      if (document.slug?.current) {
-        tags.push(`lawyer-${document.slug.current}`);
-      }
-      break;
-
-    case 'lawyerCategory':
-      tags.push('lawyers');
-      break;
-
-    case 'peoplePage':
-      tags.push('people-page-config', 'people-page-data');
-      break;
-
-    // ========================================
-    // WEBHOOK 3: Services/Business (MEDIUM FREQUENCY)
-    // ========================================
-    case 'practice':
-      tags.push('practices');
-      // Practices appear on home page
-      tags.push('home-page-data');
-      // Add specific practice tag
-      if (document.slug?.current) {
-        tags.push(`practice-${document.slug.current}`);
-      }
-      break;
-
-    case 'industry':
-      tags.push('industries');
-      // Industries appear on home page
-      tags.push('home-page-data');
-      break;
-
-    case 'foreignDesk':
-      tags.push('foreign-desks');
-      break;
-
-    case 'testimonial':
-      tags.push('testimonials');
-      break;
-
-    // ========================================
-    // WEBHOOK 4: Site Structure/Pages (LOW FREQUENCY)
-    // ========================================
-    case 'generalInfo':
-      tags.push('general-info');
-      break;
-
-    case 'homePage':
-      tags.push('home-page-data');
-      break;
-
-    case 'blinkdraft':
-      tags.push('blinkdraft');
-      // Blinkdraft affects multiple pages
-      tags.push('general-info', 'home-page-data', 'people-page-data');
-      break;
-
-    default:
-      // Generic fallback for unknown document types
-      console.warn(`Unknown document type: ${documentType}`);
-      tags.push('content');
-      break;
-  }
-
-  return tags;
-};
-
-// Paths to revalidate based on document type
-const getPathsForDocumentType = (
-  documentType: string,
-  document: WebhookBody
-): string[] => {
-  const paths: string[] = [];
-
-  switch (documentType) {
-    // ========================================
-    // WEBHOOK 1: Content/Posts
-    // ========================================
-    case 'post':
-      // Revalidate knowledge base listing
-      paths.push('/bdknowledge');
-      // Revalidate specific post page
-      if (document.slug?.current) {
-        paths.push(`/bdknowledge/${document.slug.current}`);
-      }
-      break;
-
-    case 'category':
-      // Revalidate knowledge base (affects category filters)
-      paths.push('/bdknowledge');
-      break;
-
-    // ========================================
-    // WEBHOOK 2: People/Legal Team
-    // ========================================
-    case 'lawyer':
-      // Revalidate people listing page
-      paths.push('/people');
-      // Revalidate specific lawyer page
-      if (document.slug?.current) {
-        paths.push(`/people/${document.slug.current}`);
-      }
-      // If it's a partner, also revalidate home page
-      if (document.category?.title === 'Partner') {
-        paths.push('/');
-      }
-      break;
-
-    case 'peoplePage':
-      // Revalidate people listing page configuration
-      paths.push('/people');
-      break;
-
-    // ========================================
-    // WEBHOOK 3: Services/Business
-    // ========================================
-    case 'practice':
-      // Revalidate specific practice page
-      if (document.slug?.current) {
-        paths.push(`/practices/${document.slug.current}`);
-      }
-      break;
-
-    case 'industry':
-      // Industries appear on home page and practice pages
-      paths.push('/');
-      break;
-
-    // ========================================
-    // WEBHOOK 4: Site Structure/Pages
-    // ========================================
-    case 'homePage':
-      // Revalidate home page
-      paths.push('/');
-      break;
-
-    case 'generalInfo':
-      // General info affects all pages (navigation, footer)
-      paths.push('/');
-      break;
-
-    case 'blinkdraft':
-      // Blinkdraft affects home and people pages
-      paths.push('/');
-      paths.push('/people');
-      break;
-
-    default:
-      // For unknown types, don't revalidate specific paths
-      // Tag-based revalidation will handle cache invalidation
-      break;
-  }
-
-  return paths;
-};
-
-export async function POST(request: NextRequest) {
   try {
-    const body = await request.text();
-    const signature = request.headers.get('sanity-webhook-signature');
-
-    // Verify webhook signature for security
-    if (signature && !verifySignature(body, signature)) {
-      console.error('Invalid webhook signature');
-      return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
-    }
-
-    // Parse the webhook payload
-    let webhookData: WebhookBody;
-    try {
-      webhookData = JSON.parse(body);
-    } catch (error) {
-      console.error('Invalid JSON payload:', error);
-      return NextResponse.json(
-        { error: 'Invalid JSON payload' },
-        { status: 400 }
-      );
-    }
-
-    const { _type: documentType, _id: documentId } = webhookData;
-
-    if (!documentType) {
-      console.error('Missing document type in webhook payload');
-      return NextResponse.json(
-        { error: 'Missing document type' },
-        { status: 400 }
-      );
-    }
-
-    console.log(
-      `Processing webhook for ${documentType} document: ${documentId}`
+    // Use the official parser from `next-sanity`.
+    const { body, isValidSignature } = await parseBody<RevalidateBody>(
+      req,
+      SANITY_WEBHOOK_SECRET
     );
 
-    // Get tags and paths to revalidate
-    const tagsToRevalidate = getTagsForDocumentType(documentType, webhookData);
-    const pathsToRevalidate = getPathsForDocumentType(
-      documentType,
-      webhookData
-    );
+    // 1. Validate signature
+    if (!isValidSignature) {
+      const message = 'Invalid signature';
+      console.log(message);
+      return NextResponse.json({ message, isValidSignature }, { status: 401 });
+    }
 
-    // Revalidate cache tags
-    for (const tag of tagsToRevalidate) {
-      console.log(`Revalidating tag: ${tag}`);
+    if (!body?._type) {
+      const message = 'Bad request: Missing _type in body';
+      console.log(message);
+      return NextResponse.json({ message }, { status: 400 });
+    }
+
+    // 2. Determine tags to revalidate
+    const tagsToRevalidate: string[] = [];
+    const { _type, slug, categorySlug, oldCategorySlug } = body;
+
+    // Revalidate broad, list-based tags
+    const listTags: Record<string, string[]> = {
+      post: ['posts', 'global-featured-posts'],
+      author: ['authors'],
+      category: ['categories', 'posts'], // Changing a category name should re-fetch post lists
+      lawyer: ['lawyers', 'people-page-data'],
+      lawyerCategory: ['lawyer-categories', 'lawyers'],
+      practice: ['practices', 'services', 'home-page-data'],
+      industry: ['industries', 'services', 'home-page-data'],
+      foreignDesk: ['foreign-desks', 'services'],
+      testimonial: ['testimonials'],
+    };
+
+    if (listTags[_type]) {
+      tagsToRevalidate.push(...listTags[_type]);
+    }
+
+    // Revalidate specific, slug-based tags
+    if (slug) {
+      tagsToRevalidate.push(`${_type}-${slug}`);
+    }
+
+    // Handle special revalidation for posts changing categories
+    if (_type === 'post') {
+      if (categorySlug) {
+        tagsToRevalidate.push(`posts-by-category-${categorySlug}`);
+        tagsToRevalidate.push(`nested-categories-${categorySlug}`);
+      }
+      if (oldCategorySlug) {
+        tagsToRevalidate.push(`posts-by-category-${oldCategorySlug}`);
+        tagsToRevalidate.push(`nested-categories-${oldCategorySlug}`);
+      }
+    }
+
+    // Handle singleton page tags
+    const singletonTags: Record<string, string> = {
+      homePage: 'home-page-data',
+      peoplePage: 'people-page-data',
+      aboutUsPage: 'about-us-page-data',
+      careerPage: 'career-page-data',
+      blinkdraft: 'blinkdraft', // Note: Type name might be 'blinkdraft' not 'blinkdraftPage'
+      generalInfo: 'general-info',
+      privacyNotice: 'privacy-notice',
+      cookiePolicy: 'cookie-policy',
+    };
+
+    if (singletonTags[_type]) {
+      tagsToRevalidate.push(singletonTags[_type]);
+      // Special case for generalInfo affecting all pages via header/footer
+      if (_type === 'generalInfo') {
+        tagsToRevalidate.push('all-pages'); // A catch-all if needed
+      }
+    }
+
+    // 3. Perform revalidation
+    const uniqueTags = [...new Set(tagsToRevalidate.filter(Boolean))];
+    console.log(`Revalidating tags: ${uniqueTags.join(', ')}`);
+
+    uniqueTags.forEach((tag) => {
       revalidateTag(tag);
-    }
-
-    // Revalidate specific paths
-    for (const path of pathsToRevalidate) {
-      console.log(`Revalidating path: ${path}`);
-      revalidatePath(path);
-    }
+    });
 
     return NextResponse.json({
       revalidated: true,
-      documentType,
-      documentId,
-      tags: tagsToRevalidate,
-      paths: pathsToRevalidate,
-      timestamp: new Date().toISOString(),
+      revalidatedTags: uniqueTags,
+      now: Date.now(),
     });
-  } catch (error) {
-    console.error('Webhook processing error:', error);
+  } catch (error: any) {
+    console.error('Error in revalidation route:', error.message);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { message: 'Error revalidating', error: error.message },
       { status: 500 }
     );
   }
 }
 
-// Handle GET requests for webhook verification
+// Handle GET requests for webhook verification (no changes needed here)
 export async function GET(request: NextRequest) {
   const challenge = request.nextUrl.searchParams.get('challenge');
 
