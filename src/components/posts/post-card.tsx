@@ -66,7 +66,7 @@ const PostCard = ({
           </div>
         </div>
 
-        <ArrowUpRight />
+        <ArrowUpRight className='group-hover:bg-white transition-all' arrowClassName='group-hover:stroke-light-blue' />
       </TransitionLink>
     </article>
   );
