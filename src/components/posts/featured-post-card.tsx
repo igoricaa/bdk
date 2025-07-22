@@ -43,13 +43,13 @@ const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
         </TransitionLink>
 
         <TransitionLink href={`/${post.slug.current}`} pageName={post.title}>
-          <div className='w-full md:hidden overflow-hidden rounded-tl-[5rem] rounded-br-[5rem] mt-6 group'>
+          <div className='w-full md:hidden overflow-hidden rounded-tl-[5rem] rounded-br-[5rem] mt-6'>
             <Image
               src={featuredMediaUrl}
               alt={post.title}
               width={361}
               height={381}
-              className='object-cover w-full h-full group-hover:scale-105 transition-transform duration-300'
+              className='object-cover w-full h-full'
               priority={index === 0}
             />
           </div>
@@ -77,14 +77,14 @@ const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
         </TransitionLink>
       </div>
 
-      <div className='hidden md:block min-w-4/10 w-4/10 xl:min-w-5/12 xl:w-5/12 overflow-hidden rounded-tl-[7.5rem] rounded-br-[7.5rem] xl:rounded-tl-[150px] xl:rounded-br-[150px] 2xl:rounded-tl-[12.5rem] 2xl:rounded-br-[12.5rem] group'>
+      <div className='hidden md:block min-w-4/10 w-4/10 xl:min-w-5/12 xl:w-5/12 overflow-hidden rounded-tl-[7.5rem] rounded-br-[7.5rem] xl:rounded-tl-[150px] xl:rounded-br-[150px] 2xl:rounded-tl-[12.5rem] 2xl:rounded-br-[12.5rem]'>
         <TransitionLink href={`/${post.slug.current}`} pageName={post.title}>
           <Image
             src={featuredMediaUrl}
             alt={post.title}
             width={1080}
             height={1140}
-            className='object-cover w-full h-full group-hover:scale-105 transition-transform duration-300'
+            className='object-cover w-full h-full'
             priority={index === 0}
           />
         </TransitionLink>
