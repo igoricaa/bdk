@@ -151,7 +151,7 @@ const BlinkDraftPage = async ({
 
         <Section
           variant='dark'
-          underColor='bg-lightest-blue'
+          underColor='bg-light-blue-bg'
           className='flex flex-col gap-19 sm:gap-18 xl:gap-10 2xl:gap-15'
         >
           <h2 className='sm:max-w-9/10 lg:max-w-7/10 2xl:max-w-6/10 text-white text-3xl sm:text-4xl xl:text-5xl 2xl:text-6xl'>
