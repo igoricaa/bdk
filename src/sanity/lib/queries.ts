@@ -479,6 +479,11 @@ export const POSTS_BY_CATEGORY_QUERY = defineQuery(`{
     slug,
     date,
     featuredMedia,
+    authors[]->{
+      _id,
+      name,
+      slug
+    },
     categories[]->{
       _id,
       name,
@@ -547,6 +552,11 @@ export const PAGINATED_FILTERED_POSTS_QUERY = defineQuery(`
     date,
     featuredMedia,
     categories[]->{
+      _id,
+      name,
+      slug
+    },
+    authors[]->{
       _id,
       name,
       slug

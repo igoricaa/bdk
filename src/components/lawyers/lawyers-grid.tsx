@@ -6,6 +6,7 @@ import { useQueryState } from 'nuqs';
 import { useMemo, useState } from 'react';
 import { BlurFade } from '../animations/blur-fade';
 import LawyerCardGrid from './lawyers-card-grid';
+import { normalizeString } from '@/src/lib/utils/normalize-string';
 
 const LawyersGrid = ({
   computedLawyersData,
@@ -29,9 +30,9 @@ const LawyersGrid = ({
       return categoryFilteredLawyers;
     }
 
-    const lowercasedSearchTerm = searchTerm.toLowerCase();
+    const normalizedSearchTerm = normalizeString(searchTerm);
     return categoryFilteredLawyers.filter((lawyer) =>
-      lawyer.name.toLowerCase().includes(lowercasedSearchTerm)
+      normalizeString(lawyer.name).includes(normalizedSearchTerm)
     );
   }, [activeCategory, searchTerm, computedLawyersData]);
 

@@ -1,11 +1,10 @@
 import { client } from '@/src/sanity/lib/client';
-import { groq, QueryParams } from 'next-sanity';
+import { groq } from 'next-sanity';
 import { NextRequest, NextResponse } from 'next/server';
+import { normalizeString } from '@/src/lib/utils/normalize-string';
 
-// This is the GROQ query that will power our search.
-// It searches for lawyers by name and optionally filters by category.
 const LAWYER_SEARCH_QUERY = groq`
-  *[_type == "lawyer" && name match $searchQuery + "*" && ($category == "all" || category->slug.current == $category)] {
+  *[_type == "lawyer" && ($category == "all" || category->slug.current == $category)] {
     _id,
     name,
     title,
@@ -22,21 +21,26 @@ export async function GET(request: NextRequest) {
   const searchQuery = searchParams.get('q') || '';
   const category = searchParams.get('category') || 'all';
 
-  // If the query is empty, we can return all lawyers for that category
-  // This makes the endpoint versatile.
   if (searchQuery === '') {
-    // You could fetch all lawyers for the category here, but for now,
-    // we'll return an empty array to signify no search is active.
-    // The client will use its initial data in this case.
     return NextResponse.json([]);
   }
 
   try {
+    console.warn(
+      'Performing a non-indexed search for lawyers. For large datasets, this may be slow.'
+    );
     const lawyers = await client.fetch(LAWYER_SEARCH_QUERY, {
-      searchQuery,
       category,
     });
-    return NextResponse.json(lawyers);
+
+    const normalizedQuery = normalizeString(searchQuery);
+
+    const filteredLawyers = lawyers.filter((lawyer: any) => {
+      const name = lawyer.name ? normalizeString(lawyer.name) : '';
+      return name.includes(normalizedQuery);
+    });
+
+    return NextResponse.json(filteredLawyers);
   } catch (error) {
     console.error('Error fetching lawyers:', error);
     return NextResponse.json(

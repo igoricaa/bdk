@@ -1,25 +1,17 @@
 import { client } from '@/src/sanity/lib/client';
 import { groq } from 'next-sanity';
 import { NextRequest, NextResponse } from 'next/server';
+import { normalizeString } from '@/src/lib/utils/normalize-string';
 
-// This GROQ query searches across multiple document types.
-// - It uses `_type in [...]` to target the correct documents.
-// - `coalesce(title, name)` handles documents that use `name` (like lawyers) instead of `title`.
-// - `pt::text(content)` is an optional but powerful way to search within Portable Text fields.
-// - `order(_score desc)` prioritizes more relevant results.
-// - `[0...10]` limits the results to a reasonable number for a dropdown.
 const GLOBAL_SEARCH_QUERY = groq`
-  *[_type in ["post", "lawyer", "industry", "practice", "foreignDesk"] && (
-      title match $searchQuery + "*" ||
-      name match $searchQuery + "*" ||
-      pt::text(content) match $searchQuery + "*"
-    )
-  ] | order(_score desc) [0...10] {
+  *[_type in ["post", "lawyer", "industry", "practice", "foreignDesk"]] {
     _id,
     _type,
     title,
+    name,
     "slug": slug.current,
-    "details": select(_type == "lawyer" => name, null)
+    "details": select(_type == "lawyer" => name, null),
+    "content": pt::text(content)
   }
 `;
 
@@ -27,7 +19,6 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q');
 
-  // Basic validation
   if (!query || query.trim().length < 2) {
     return NextResponse.json(
       { error: 'Query must be at least 2 characters long' },
@@ -36,10 +27,27 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const results = await client.fetch(GLOBAL_SEARCH_QUERY, {
-      searchQuery: query,
-    });
-    return NextResponse.json(results);
+    console.warn(
+      'Performing a non-indexed search. For large datasets, this may be slow.'
+    );
+    const allDocuments = await client.fetch(GLOBAL_SEARCH_QUERY);
+    const normalizedQuery = normalizeString(query);
+
+    const filteredResults = allDocuments
+      .filter((doc: any) => {
+        const title = doc.title ? normalizeString(doc.title) : '';
+        const name = doc.name ? normalizeString(doc.name) : '';
+        const content = doc.content ? normalizeString(doc.content) : '';
+
+        return (
+          title.includes(normalizedQuery) ||
+          name.includes(normalizedQuery) ||
+          content.includes(normalizedQuery)
+        );
+      })
+      .slice(0, 10);
+
+    return NextResponse.json(filteredResults);
   } catch (error) {
     console.error('Global search error:', error);
     return NextResponse.json(

@@ -5,6 +5,7 @@ import { cn, ComputedLawyersData } from '@/src/lib/utils';
 import { useIsMobile } from '@/src/lib/hooks/use-mobile';
 import LawyersCarousel from './lawyers-carousel';
 import LawyersNavbar from './lawyers-navbar';
+import { normalizeString } from '@/src/lib/utils/normalize-string';
 import { useMemo, useState } from 'react';
 import { BlurFade } from '../animations/blur-fade';
 import { AnimatePresence } from 'motion/react';
@@ -34,9 +35,9 @@ const LawyersList = ({
       return categoryFilteredLawyers;
     }
 
-    const lowercasedSearchTerm = searchTerm.toLowerCase();
+    const normalizedSearchTerm = normalizeString(searchTerm);
     return categoryFilteredLawyers.filter((lawyer) =>
-      lawyer.name.toLowerCase().includes(lowercasedSearchTerm)
+      normalizeString(lawyer.name).includes(normalizedSearchTerm)
     );
   }, [activeCategory, searchTerm, computedLawyersData]);
 

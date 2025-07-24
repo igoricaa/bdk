@@ -18,6 +18,8 @@ import SearchBar from '../ui/search-bar';
 import UnderlinedButton from '../ui/buttons/underlined-button';
 import { BlurFade } from '../animations/blur-fade';
 
+import { normalizeString } from '@/src/lib/utils/normalize-string';
+
 interface PostsGridProps {
   heading: string;
   initialPosts: POSTS_BY_CATEGORY_QUERYResult['posts'];
@@ -130,9 +132,11 @@ const PostsGrid = ({
       return allPosts;
     }
 
-    const lowercasedSearchTerm = searchTerm.toLowerCase();
-    return allPosts.filter((post) =>
-      post.title.toLowerCase().includes(lowercasedSearchTerm)
+    const normalizedSearchTerm = normalizeString(searchTerm);
+    return allPosts.filter(
+      (post) =>
+        normalizeString(post.title).includes(normalizedSearchTerm) ||
+        normalizeString(post.authors[0].name).includes(normalizedSearchTerm)
     );
   }, [category, year, searchTerm, allPosts]);
 
