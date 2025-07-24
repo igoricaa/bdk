@@ -93,6 +93,7 @@ export const UNIVERSAL_AUTHOR_PAGE_QUERY = defineQuery(`
       title,
       slug,
       date,
+      featuredMedia,
       categories[]->{
         _id,
         name,

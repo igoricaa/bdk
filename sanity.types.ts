@@ -2129,7 +2129,7 @@ export type BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult = {
   } | null;
 };
 // Variable: UNIVERSAL_AUTHOR_PAGE_QUERY
-// Query: *[_type == "author" && slug.current == $slug][0] {    _id,    name,    slug,    type,    "lawyerDetails": lawyer->{      title,      picture,      bio,      contactInfo {        email,        phone,        linkedin      }    },    "posts": *[      _type == "post" &&      status == "publish" &&      references(^._id)    ] | order(date desc)[0...10] {      _id,      title,      slug,      date,      categories[]->{        _id,        name,        slug      }    }  }
+// Query: *[_type == "author" && slug.current == $slug][0] {    _id,    name,    slug,    type,    "lawyerDetails": lawyer->{      title,      picture,      bio,      contactInfo {        email,        phone,        linkedin      }    },    "posts": *[      _type == "post" &&      status == "publish" &&      references(^._id)    ] | order(date desc)[0...10] {      _id,      title,      slug,      date,      featuredMedia,      categories[]->{        _id,        name,        slug      }    }  }
 export type UNIVERSAL_AUTHOR_PAGE_QUERYResult = {
   _id: string;
   name: string;
@@ -2194,6 +2194,18 @@ export type UNIVERSAL_AUTHOR_PAGE_QUERYResult = {
     title: string;
     slug: Slug;
     date: string;
+    featuredMedia: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    } | null;
     categories: Array<{
       _id: string;
       name: string;
@@ -4284,7 +4296,7 @@ declare module "@sanity/client" {
     "{\n  \"careerPage\": *[_type == \"careerPage\"][0] {\n    title,\n    hero {\n      heading,\n      description,\n      backgroundImage,\n      openPositionsSection {\n        heading,\n        openPositions[]->{\n          _id,\n          title,\n          description,\n          location,\n          pdfFile\n        }\n      }\n    },\n    coursesSection {\n      subtitle,\n      title,\n      courses\n    }\n  }\n}": CAREER_PAGE_QUERYResult;
     "{\n  \"blinkdraftPage\": *[_type == \"blinkdraft\" && language == $locale][0] {\n    ...,\n    demoSection {\n      subtitle,\n      heading,\n      \"demoVideoPlaybackId\": coalesce(\n        demoVideo.demoVideoAsset.asset->playbackId, \n        demoVideo.demoVideoId\n      ),\n      \"demoVideoPoster\": demoVideo.demoVideoPoster\n    }\n  }\n}": BLINKDRAFT_PAGE_QUERYResult;
     "{\n  \"subscriptionForm\": *[_type == \"subscriptionForm\" && language == $locale][0] {\n    title,\n    subscriptionType,\n    packageChoice,\n    languageVersion,\n    contactDetails,\n    submitButtonText,\n    individualTemplates\n  }\n}": BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult;
-    "\n  *[_type == \"author\" && slug.current == $slug][0] {\n    _id,\n    name,\n    slug,\n    type,\n    \"lawyerDetails\": lawyer->{\n      title,\n      picture,\n      bio,\n      contactInfo {\n        email,\n        phone,\n        linkedin\n      }\n    },\n    \"posts\": *[\n      _type == \"post\" &&\n      status == \"publish\" &&\n      references(^._id)\n    ] | order(date desc)[0...10] {\n      _id,\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    }\n  }\n": UNIVERSAL_AUTHOR_PAGE_QUERYResult;
+    "\n  *[_type == \"author\" && slug.current == $slug][0] {\n    _id,\n    name,\n    slug,\n    type,\n    \"lawyerDetails\": lawyer->{\n      title,\n      picture,\n      bio,\n      contactInfo {\n        email,\n        phone,\n        linkedin\n      }\n    },\n    \"posts\": *[\n      _type == \"post\" &&\n      status == \"publish\" &&\n      references(^._id)\n    ] | order(date desc)[0...10] {\n      _id,\n      title,\n      slug,\n      date,\n      featuredMedia,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    }\n  }\n": UNIVERSAL_AUTHOR_PAGE_QUERYResult;
     "{\n  \"privacyNotice\": *[_type == \"privacyNotice\"][0] {\n    title,\n    _updatedAt,\n    content,\n    specificsOfDataProcessing[] {\n      title,\n      table\n    }\n  }\n}": PRIVACY_NOTICE_QUERYResult;
     "{\n  \"cookiePolicy\": *[_type == \"cookiePolicy\"][0] {\n    title,\n    _updatedAt,\n    content,\n    necessaryCookies,\n    functionalCookies,\n    analyticsCookies\n  }\n}": COOKIE_POLICY_QUERYResult;
     "{\n  \"posts\": *[_type == \"post\" && references(*[_type==\"category\" && slug.current == $slug]._id)] | order(date desc)[0...$limit]{\n    title,\n    slug,\n    date,\n  }\n}": POSTS_PREVIEW_BY_CATEGORY_QUERYResult;
