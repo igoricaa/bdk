@@ -1,16 +1,33 @@
 import { BLINKDRAFT_PAGE_QUERYResult } from '@/sanity.types';
 import Section from '../ui/section';
-import IconButton from '../ui/buttons/icon-button';
 import CheckmarkIcon from '../ui/icons/checkmark-icon';
+import {
+  Dialog,
+  DialogDescription,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+  DialogTitle,
+  DialogFooter,
+} from '../ui/dialog';
+import { Button } from '../ui/button';
+import { cn } from '@/src/lib/utils';
+import ArrowUpRight from '../ui/arrow-up-right';
+import { AnimatedText } from '../ui/animated-text';
+import ContactUs from '../contact-us';
 
 const AdditionalFeaturesSection = ({
   heading,
   features,
+  contactUsFormModal,
 }: {
   heading: string;
   features: NonNullable<
     BLINKDRAFT_PAGE_QUERYResult['blinkdraftPage']
   >['additionalFeaturesSection']['additionalFeatures'];
+  contactUsFormModal: NonNullable<
+    BLINKDRAFT_PAGE_QUERYResult['blinkdraftPage']
+  >['contactUsFormModal'];
 }) => {
   return (
     <Section variant='blue'>
@@ -36,11 +53,36 @@ const AdditionalFeaturesSection = ({
         })}
       </div>
 
-      <IconButton
-        href='#'
-        text='Contact Us'
-        className='w-fit mt-18 xl:mt-12 2xl:mt-35 mx-auto'
-      />
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button
+            variant='iconButton'
+            size='iconButton'
+            className={cn(
+              'group',
+              'cursor-pointer w-fit mt-18 xl:mt-12 2xl:mt-35 mx-auto'
+            )}
+          >
+            <AnimatedText text='Contact Us' />
+
+            <ArrowUpRight
+              className='size-9! duration-700'
+              arrowClassName='size-8!'
+            />
+          </Button>
+        </DialogTrigger>
+
+        <DialogContent className='sm:max-w-[425px]'>
+          <DialogHeader>
+            <DialogTitle>Contact Us</DialogTitle>
+            <DialogDescription>
+              Please fill out the form below to contact us.
+            </DialogDescription>
+          </DialogHeader>
+
+          <ContactUs formData={contactUsFormModal} />
+        </DialogContent>
+      </Dialog>
     </Section>
   );
 };

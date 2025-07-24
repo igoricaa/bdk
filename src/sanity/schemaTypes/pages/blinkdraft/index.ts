@@ -7,6 +7,7 @@ import { blinkdraftSubscriptionPlansSectionType } from './blinkdraftSubscription
 import { blinkdraftWhatIsSectionType } from './blinkdraftWhatIsSection';
 import { blinkdraftSubscriptionPlanType } from './blinkdraftSubscriptionPlan';
 import { blinkdraftAdditionalFeaturesSectionType } from './blinkdraftAdditionalFeaturesSection';
+import { contactUsFormType } from './contactUsForm';
 
 export const blinkdraftType = defineType({
   name: 'blinkdraft',
@@ -74,6 +75,13 @@ export const blinkdraftType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'contactUsFormModal',
+      title: 'Contact Us Form Modal',
+      type: contactUsFormType.name,
+      description: 'Contact us form with title and contact details',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: 'language',
       type: 'string',
       readOnly: true,
@@ -91,4 +99,5 @@ export {
   blinkdraftSubscriptionPlanType,
   blinkdraftPackageDetailsSectionType,
   blinkdraftAdditionalFeaturesSectionType,
+  contactUsFormType,
 };

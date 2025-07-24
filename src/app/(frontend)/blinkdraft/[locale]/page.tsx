@@ -76,26 +76,16 @@ const BlinkDraftPage = async ({
               </h1>
             </div>
 
-            <div className='flex flex-col xl:flex-row gap-2.5'>
-              <IconButton
-                href='#'
-                text={
-                  blinkdraftPageData.heroSection?.buttons
-                    ?.requestFreeTrialButton.text as string
-                }
-                className='w-fit'
-              />
-              <IconButton
-                href={`/blinkdraft/${locale}/subscribe`}
-                pageName='Subscribe to Blinkdraft'
-                locale={locale}
-                text={
-                  blinkdraftPageData.heroSection?.buttons?.subscribeButton
-                    .text as string
-                }
-                className='w-fit'
-              />
-            </div>
+            <IconButton
+              href={`/blinkdraft/${locale}/subscribe`}
+              pageName='Subscribe to Blinkdraft'
+              locale={locale}
+              text={
+                blinkdraftPageData.heroSection?.buttons?.subscribeButton
+                  .text as string
+              }
+              className='w-fit'
+            />
           </div>
 
           <div className='w-full overflow-hidden rounded-tl-[80px] rounded-br-[80px] md:rounded-tl-[120px] md:rounded-br-[120px] xl:rounded-tl-[150px] xl:rounded-br-[150px] 2xl:rounded-tl-[200px] 2xl:rounded-br-[200px] aspect-[656/731] xl:max-w-5/12'>
@@ -158,7 +148,9 @@ const BlinkDraftPage = async ({
             {blinkdraftPageData.ctaSection.heading}
           </h2>
           <IconButton
-            href='#'
+            href={`/blinkdraft/${locale}/subscribe`}
+            pageName='Subscribe to Blinkdraft'
+            locale={locale}
             text={blinkdraftPageData.ctaSection.buttonText}
             className='w-fit'
           />
@@ -178,6 +170,7 @@ const BlinkDraftPage = async ({
           features={
             blinkdraftPageData.additionalFeaturesSection.additionalFeatures
           }
+          contactUsFormModal={blinkdraftPageData.contactUsFormModal}
         />
       </main>
     </NextIntlClientProvider>

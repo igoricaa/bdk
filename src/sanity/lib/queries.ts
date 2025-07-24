@@ -52,7 +52,7 @@ export const BLINKDRAFT_PAGE_QUERY = defineQuery(`{
         demoVideo.demoVideoId
       ),
       "demoVideoPoster": demoVideo.demoVideoPoster
-    }
+    },
   }
 }`);
 

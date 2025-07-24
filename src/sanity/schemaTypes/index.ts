@@ -29,6 +29,7 @@ import {
   blinkdraftWhatIsSectionType,
   blinkdraftPackageDetailsSectionType,
   blinkdraftAdditionalFeaturesSectionType,
+  contactUsFormType,
 } from './pages/blinkdraft';
 import { peopleHeroSectionType, peoplePageType } from './pages/people';
 import { countryType } from './countries';
@@ -92,6 +93,7 @@ const schemaTypes = [
   cookiePolicyType,
   tableSectionType,
   blinkdraftSubscriptionForm,
+  contactUsFormType,
 ];
 
 export default schemaTypes;
