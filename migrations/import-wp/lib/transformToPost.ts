@@ -56,9 +56,7 @@ export async function transformToPost(
         _type: 'reference',
         _ref: `author-${author.id}`,
       }));
-  }
-
-  if (wpDoc.author) {
+  } else if (wpDoc.author) {
     doc.authors = [
       {
         _key: uuid(),

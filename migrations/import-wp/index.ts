@@ -64,7 +64,7 @@ export default defineMigration({
                   return doc;
                 } else if (wpType === 'users') {
                   wpDoc = wpDoc as WP_REST_API_User;
-                  const doc = await transformToAuthor(wpDoc);
+                  const doc = await transformToAuthor(wpDoc, client);
                   console.log(
                     `✓ Processed user: ${doc.name} (ID: ${wpDoc.id})`
                   );

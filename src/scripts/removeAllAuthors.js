@@ -18,6 +18,19 @@ async function removeAllAuthors() {
 
     console.log(`Found ${authorIdsToDelete.length} authors`);
 
+    // let newAuthorsToDelete = authorsToDelete.filter(
+    //   (author) =>
+    //     author.name !== '' ||
+    //     author.name !== ' ' ||
+    //     author.name !== 'undefined' ||
+    //     author.name !== 'null'
+    // );
+
+    // console.log('NEW AUTHORS TO DELETE', newAuthorsToDelete.length);
+
+    // const authorIdsToDelete = newAuthorsToDelete.map((author) => author._id);
+    // console.log(`Found ${authorIdsToDelete.length} authors`);
+
     // Step 2: Delete each document
     if (authorIdsToDelete.length > 0) {
       const transaction = client.transaction();
