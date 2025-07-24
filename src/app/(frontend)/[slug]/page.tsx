@@ -29,8 +29,6 @@ import ArrowUpRight from '@/src/components/ui/arrow-up-right';
 function findRootCategory(
   categories: NonNullable<POST_QUERYResult['currentPost']>['categories']
 ) {
-  console.log('categories', categories);
-
   // Helper function to recursively find the root category
   function findRoot(category: any): any {
     if (!category.parentCategories || category.parentCategories.length === 0) {

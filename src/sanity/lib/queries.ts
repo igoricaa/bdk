@@ -98,6 +98,11 @@ export const UNIVERSAL_AUTHOR_PAGE_QUERY = defineQuery(`
         _id,
         name,
         slug
+      },
+      authors[]->{
+        _id,
+        name,
+        slug
       }
     }
   }
