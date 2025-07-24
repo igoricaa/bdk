@@ -6,6 +6,8 @@ import { useIsMobile } from '@/src/lib/hooks/use-mobile';
 import LawyersCarousel from './lawyers-carousel';
 import LawyersNavbar from './lawyers-navbar';
 import { useMemo, useState } from 'react';
+import { BlurFade } from '../animations/blur-fade';
+import { AnimatePresence } from 'motion/react';
 
 const LawyersList = ({
   computedLawyersData,
@@ -48,7 +50,6 @@ const LawyersList = ({
         searchBarClassName='md:w-full md:max-w-[calc((100%-40px)/3)] lg:max-w-[calc((100vw-var(--padding-side)+20px)*0.23-20px)] 2xl:max-w-[calc((100vw-var(--padding-side)+32px)*0.23-32px)] pr-side md:pr-0'
         className='md:max-[890px]:flex-col md:max-[890px]:items-start'
       />
-
       {isMobile ? (
         <div
           className={cn(
@@ -56,12 +57,20 @@ const LawyersList = ({
             listClassName
           )}
         >
-          {displayedLawyers.slice(0, gridLimit).map((lawyer, index) => (
-            <LawyerCard
-              key={`${lawyer.slug.current}-${index}`}
-              lawyer={lawyer as any}
-            />
-          ))}
+          <AnimatePresence mode='wait'>
+            {displayedLawyers.slice(0, gridLimit).map((lawyer, index) => (
+              <BlurFade
+                key={`${lawyer.slug.current}`}
+                className='w-fit'
+                duration={0.2}
+              >
+                <LawyerCard
+                  key={`${lawyer.slug.current}-${index}`}
+                  lawyer={lawyer as any}
+                />
+              </BlurFade>
+            ))}
+          </AnimatePresence>
         </div>
       ) : (
         <LawyersCarousel

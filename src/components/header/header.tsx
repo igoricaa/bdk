@@ -3,10 +3,10 @@ import StickyHeaderWrapper from './sticky-header-wrapper';
 import { TransitionLink } from '@/src/components/transition-link';
 import { getHeaderData } from '@/src/lib/utils/navigation-routes';
 import DesktopNavigation from './navigation/desktop/desktop-navigation';
-import MobileNavigation from './navigation/mobile/mobile-navigation';
 import Logo from '../ui/logo';
-import { MainSearchDesktop } from '../search/search-main-desktop';
 import { Image } from 'next-sanity/image';
+import { MainSearchDesktop } from '../search/search-main-desktop';
+import MobileNavigation from './navigation/mobile/mobile-navigation';
 
 const Header = async () => {
   const { logo, blinkdraftLogo, socials, navigationRoutes } =

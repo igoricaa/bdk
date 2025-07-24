@@ -1,7 +1,6 @@
 import { cn } from '@/src/lib/utils';
-import { FilterOption } from '../ui/filter-buttons';
+import FilterButtons, { FilterOption } from '../ui/filter-buttons';
 import SearchBar from '../ui/search-bar';
-import LawyersFilter from './lawyers-filter';
 
 const LawyersNavbar = ({
   categories,
@@ -28,11 +27,12 @@ const LawyersNavbar = ({
       <div className={cn('w-full', searchBarClassName)}>
         <SearchBar onSearchChange={onSearchChange} />
       </div>
-      <LawyersFilter
-        categories={categories}
-        activeCategory={activeCategory}
-        onCategoryChange={onCategoryChange}
+      <FilterButtons
+        options={categories}
+        activeOption={activeCategory}
+        onOptionChange={onCategoryChange}
         variant='dark'
+        className={cn('gap-0!', className)}
       />
     </div>
   );

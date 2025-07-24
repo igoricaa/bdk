@@ -4,11 +4,18 @@ import { Image } from 'next-sanity/image';
 import { TransitionLink } from '@/src/components/transition-link';
 import LinkedinIcon from '../ui/icons/linkedin-icon';
 import Link from 'next/link';
+import { cn } from '@/src/lib/utils';
 
-const LawyerCard = ({ lawyer }: { lawyer: Lawyer }) => {
+const LawyerCard = ({
+  lawyer,
+  className,
+}: {
+  lawyer: Lawyer;
+  className?: string;
+}) => {
   return (
     <article
-      className='pb-6 md:pb-2 xl:pb-4 2xl:pb-6'
+      className={cn('pb-6 md:pb-2 xl:pb-4 2xl:pb-6', className)}
       data-cursor-zone='lawyers-card'
     >
       <TransitionLink

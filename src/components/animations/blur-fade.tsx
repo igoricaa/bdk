@@ -12,6 +12,7 @@ import { useRef } from 'react';
 type MarginType = UseInViewOptions['margin'];
 
 interface BlurFadeProps extends MotionProps {
+  key?: string;
   children: React.ReactNode;
   className?: string;
   variant?: {
@@ -55,6 +56,7 @@ export function BlurFade({
   const combinedVariants = variant || defaultVariants;
   return (
     <motion.div
+      key={props.key || 'random-item'}
       ref={ref}
       initial='hidden'
       animate={isInView ? 'visible' : 'hidden'}

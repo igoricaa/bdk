@@ -17,7 +17,6 @@ import { PortableTextBlock } from 'next-sanity';
 import Subtitle from '@/src/components/ui/subtitle';
 import { TransitionLink } from '@/src/components/transition-link';
 import { TextGradientScroll } from '@/src/components/ui/text-gradient-scroll';
-import LawyersList from '@/src/components/lawyers/lawyers-list';
 import ArrowUpRight from '@/src/components/ui/arrow-up-right';
 import LatestPostsSection from '@/src/components/home/latest-posts/latest-posts-section';
 import ServicesSection from '@/src/components/home/services/services-section';
@@ -29,6 +28,11 @@ import { ComputedLawyersData, getComputedLawyersData } from '@/src/lib/utils';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { Image } from 'next-sanity/image';
 import { AnimatedText } from '@/src/components/ui/animated-text';
+import dynamic from 'next/dynamic';
+
+const LawyersList = dynamic(
+  () => import('@/src/components/lawyers/lawyers-list')
+);
 
 export default async function Home() {
   const [
