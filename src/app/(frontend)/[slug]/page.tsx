@@ -25,6 +25,46 @@ import { buttonVariants } from '@/src/components/ui/button';
 import { AnimatedText } from '@/src/components/ui/animated-text';
 import ArrowUpRight from '@/src/components/ui/arrow-up-right';
 
+// Helper function to find the root category (category without parent)
+function findRootCategory(
+  categories: NonNullable<POST_QUERYResult['currentPost']>['categories']
+) {
+  console.log('categories', categories);
+
+  // Helper function to recursively find the root category
+  function findRoot(category: any): any {
+    if (!category.parentCategories || category.parentCategories.length === 0) {
+      return category; // This is the root category
+    }
+
+    // If there are parent categories, recursively find the root of the first parent
+    const firstParent = category.parentCategories[0];
+    // The nested parentCategories structure only goes 2 levels deep based on the query
+    // So we check if this parent has any parentCategories
+    if (
+      firstParent.parentCategories &&
+      firstParent.parentCategories.length > 0
+    ) {
+      // At this level, parentCategories is just an array of basic category objects
+      // without further nesting, so this parent is the root
+      return firstParent;
+    }
+
+    return firstParent; // This parent has no parents, so it's the root
+  }
+
+  // Find the root category for each category and return the first one found
+  for (const category of categories) {
+    const rootCategory = findRoot(category);
+    if (rootCategory) {
+      return rootCategory;
+    }
+  }
+
+  // Fallback to first category if no root found
+  return categories[0];
+}
+
 export async function generateStaticParams() {
   const posts: POSTS_QUERY_WITH_SLUGSResult = await sanityFetch({
     query: POSTS_QUERY_WITH_SLUGS,
@@ -153,8 +193,8 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
         <div className='order-2 md:hidden xl:flex xl:order-1 xl:col-span-2 xl:sticky xl:top-26 2xl:top-35 xl:self-start'>
           <div className='flex xl:flex-col justify-end xl:justify-start'>
             <BackToButton
-              href='/bdknowledge'
-              text='Back to Blog'
+              href={`/${findRootCategory(currentPost.categories).slug.current}`}
+              text={`Back to ${findRootCategory(currentPost.categories).name}`}
               className='hidden md:flex'
             />
 
