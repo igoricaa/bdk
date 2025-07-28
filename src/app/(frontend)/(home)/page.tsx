@@ -23,7 +23,7 @@ import ServicesSection from '@/src/components/home/services/services-section';
 import SectionHeader from '@/src/components/ui/section-header/section-header';
 import NewsroomSection from '@/src/components/home/newsroom-section';
 import Section from '@/src/components/ui/section';
-import Hero from '@/src/components/home/hero';
+import Hero from '@/src/components/home/hero-new';
 import { ComputedLawyersData, getComputedLawyersData } from '@/src/lib/utils';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { Image } from 'next-sanity/image';
