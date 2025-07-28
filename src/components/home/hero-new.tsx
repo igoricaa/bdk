@@ -1,24 +1,14 @@
 import { AuroraBackground } from '../ui/aurora-background';
 import { InViewWrapper } from '../ui/in-view-wrapper';
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { AnimatedHeroHeading } from './animated-hero-heading-new';
-// import { Image } from 'next-sanity/image';
-import { urlFor } from '@/src/sanity/lib/image';
-
-import Image from 'next/image';
 import SquareAnimated from './square-animated';
 
 const Hero = ({
   heading,
   description,
-  bgImages,
 }: {
   heading: string;
   description: string;
-  bgImages: {
-    image1: SanityImageSource;
-    image2: SanityImageSource;
-  };
 }) => {
   return (
     <AuroraBackground className='grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-8 items-center'>

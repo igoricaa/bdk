@@ -34,12 +34,12 @@ export function AnimateInView({
   delay = 0,
   offset = 0,
   direction = 'down',
-  inViewMargin = '-50px',
+  inViewMargin = '0px',
   ...props
 }: AnimateInViewProps) {
   const ref = useRef(null);
-  const inViewResult = useInView(ref, { once: true, margin: inViewMargin });
-  const isInView = inViewResult;
+  const isInView = useInView(ref, { once: true, margin: inViewMargin });
+
   const defaultVariants: Variants = {
     hidden: {
       [direction === 'left' || direction === 'right' ? 'x' : 'y']:
@@ -51,7 +51,9 @@ export function AnimateInView({
       opacity: 1,
     },
   };
+
   const combinedVariants = variant || defaultVariants;
+
   return (
     <motion.div
       ref={ref}

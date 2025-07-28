@@ -1,22 +1,23 @@
 'use client';
 
 import { AnimatePresence, easeOut, motion } from 'motion/react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import BestAnimatedLogo from './bestOne';
+import { useAppContext } from './app-ready-provider';
 
-export default function SplashScreen({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function SplashScreen() {
+  const { setAppIsReady } = useAppContext();
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
     }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [setAppIsReady]);
 
   const splashVariants = {
     initial: { y: 0 },
@@ -27,14 +28,14 @@ export default function SplashScreen({
   };
 
   return (
-    <AnimatePresence mode='wait'>
+    <AnimatePresence mode='wait' onExitComplete={() => setAppIsReady(true)}>
       {showSplash && (
         <motion.div
           key='splash'
           variants={splashVariants}
           initial='initial'
           exit='exit'
-          className='fixed inset-0 z-50 flex items-center justify-center'
+          className='fixed inset-0 z-1000 flex items-center justify-center'
           style={{ backgroundColor: 'hsl(216 43% 12%)' }}
         >
           <div
@@ -47,16 +48,6 @@ export default function SplashScreen({
           >
             <BestAnimatedLogo />
           </div>
-        </motion.div>
-      )}
-      {showSplash === false && (
-        <motion.div
-          key='content'
-          initial={{ opacity: 0, y: '100' }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          {children}
         </motion.div>
       )}
     </AnimatePresence>

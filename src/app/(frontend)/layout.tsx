@@ -13,6 +13,7 @@ import SplashScreen from '@/src/components/splash-screen/splash-screen';
 import { TransitionProvider } from '@/src/components/transition-link';
 import CustomCursor from '@/src/components/ui/custom-cursor';
 import { PageTransitionWrapper } from '@/src/components/home/PageTransitionWrapper';
+import { AppProvider } from '@/src/components/splash-screen/app-ready-provider';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -53,11 +54,12 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={`${dmSans.variable} antialiased`}>
-        <TransitionProvider>
-          <NuqsAdapter>
-            <QueryProvider>
-              <Lenis>
-                <SplashScreen>
+        <AppProvider>
+          <TransitionProvider>
+            <NuqsAdapter>
+              <QueryProvider>
+                <Lenis>
+                  <SplashScreen />
                   <Header />
                   <PageTransitionWrapper>
                     <CustomCursor />
@@ -68,11 +70,11 @@ export default function RootLayout({
                     </Suspense>
                     <BackToTop />
                   </PageTransitionWrapper>
-                </SplashScreen>
-              </Lenis>
-            </QueryProvider>
-          </NuqsAdapter>
-        </TransitionProvider>
+                </Lenis>
+              </QueryProvider>
+            </NuqsAdapter>
+          </TransitionProvider>
+        </AppProvider>
       </body>
     </html>
   );

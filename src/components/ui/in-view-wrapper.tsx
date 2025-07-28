@@ -2,6 +2,7 @@
 
 import { motion, MotionProps } from 'motion/react';
 import { ReactNode } from 'react';
+import { useAppContext } from '../splash-screen/app-ready-provider';
 
 interface InViewWrapperProps extends MotionProps {
   children: ReactNode;
@@ -19,11 +20,13 @@ export function InViewWrapper({
   transition = { duration: 0.5, ease: 'easeOut' },
   ...motionProps
 }: InViewWrapperProps) {
+  const { isAppReady } = useAppContext();
+
   return (
     <motion.div
       className={className}
       initial={initial}
-      whileInView={whileInView}
+      whileInView={isAppReady ? whileInView : undefined}
       viewport={viewport}
       transition={{ ...transition, delay }}
       {...motionProps}

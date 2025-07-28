@@ -69,7 +69,6 @@ export default async function Home() {
       <Hero
         heading={homePageData.hero.heading}
         description={homePageData.hero.description}
-        bgImages={homePageData.hero.bgImages}
       />
 
       {/* About us */}
