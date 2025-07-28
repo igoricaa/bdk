@@ -2,70 +2,115 @@
 
 import { cn } from '@/src/lib/utils';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  ReactNode, // Import ReactNode for children prop
+} from 'react';
+
+// A simple throttle utility with basic TypeScript types
+const throttle = (func: (...args: any[]) => void, limit: number) => {
+  let inThrottle: boolean;
+  return function (this: any, ...args: any[]) {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
+};
 
 interface StickyHeaderWrapperProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const StickyHeaderWrapper = ({ children }: StickyHeaderWrapperProps) => {
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [isWhiteHeader, setIsWhiteHeader] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
+  const [isWhiteHeader, setIsWhiteHeader] = useState<boolean>(false);
+  const [isSidebarTranslated, setIsSidebarTranslated] =
+    useState<boolean>(false);
+  const lastScrollY = useRef<number>(0);
   const pathname = usePathname();
 
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+
+    // Determine header visibility
+    if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+      setIsHeaderVisible(false);
+      setIsWhiteHeader(true);
+    } else {
+      setIsHeaderVisible(true);
+    }
+
+    // Determine header background for home pages
+    if (
+      (pathname === '/' || pathname === '/home-clean') &&
+      currentScrollY < 100
+    ) {
+      setIsWhiteHeader(false);
+    }
+
+    lastScrollY.current = currentScrollY;
+  }, [pathname]);
+
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const stickyTopbar = document.getElementById('stickyTopbar');
-      const serviceHeroSection = document.getElementById('serviceHeroSection');
-      const blogGrid = document.getElementById('blogGrid');
+    const throttledScrollHandler = throttle(handleScroll, 100);
+    window.addEventListener('scroll', throttledScrollHandler, {
+      passive: true,
+    });
 
-      if (
-        pathname === '/' &&
-        currentScrollY !== lastScrollY &&
-        currentScrollY < 100
-      ) {
-        setIsWhiteHeader(false);
-      }
+    // Explicitly type the DOM elements as HTMLElement or null
+    const targetElement: HTMLElement | null =
+      document.getElementById('serviceHeroSection') ||
+      document.getElementById('blogGrid');
 
-      if (currentScrollY === 0) {
-        setIsHeaderVisible(true);
-      } else if (currentScrollY < lastScrollY) {
-        setIsHeaderVisible(true);
-      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsHeaderVisible(false);
-        setIsWhiteHeader(true);
-      }
+    // Early return if the target for the observer isn't found
+    if (!targetElement) {
+      return () => window.removeEventListener('scroll', throttledScrollHandler);
+    }
 
-      const isPastRef = serviceHeroSection
-        ? serviceHeroSection.getBoundingClientRect().bottom < 0
-        : blogGrid
-          ? blogGrid?.getBoundingClientRect()?.top < 0
-          : null;
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        // The callback gives us an array of entries, but we're only observing one element.
+        const entry = entries[0];
+        // `isIntersecting` is false when the element is completely out of view.
+        setIsSidebarTranslated(!entry.isIntersecting);
+      },
+      { rootMargin: '0px', threshold: 0 } // Fires when the element is 0% visible
+    );
 
-      // Sidebar translation logic
-      if (stickyTopbar && isPastRef !== null) {
-        if (isHeaderVisible && isPastRef) {
-          stickyTopbar.classList.add('translated');
-        } else {
-          stickyTopbar.classList.remove('translated');
-        }
-      }
+    observer.observe(targetElement);
 
-      setLastScrollY(currentScrollY);
+    // Cleanup function
+    return () => {
+      window.removeEventListener('scroll', throttledScrollHandler);
+      observer.disconnect();
     };
+  }, [pathname, handleScroll]); // Effect re-runs only if the path or handler function changes
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY, isHeaderVisible]);
+  // Effect to apply class to the external sidebar element
+  // This isolates the direct DOM manipulation for clarity and control.
+  useEffect(() => {
+    const stickyTopbar: HTMLElement | null =
+      document.getElementById('stickyTopbar');
+    if (stickyTopbar) {
+      if (isHeaderVisible && isSidebarTranslated) {
+        stickyTopbar.classList.add('translated');
+      } else {
+        stickyTopbar.classList.remove('translated');
+      }
+    }
+  }, [isHeaderVisible, isSidebarTranslated]);
 
   return (
     <div
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-[transform_background-color] duration-300',
         isHeaderVisible ? 'translate-y-0' : '-translate-y-full',
-        pathname === '/'
+        pathname === '/' || pathname === '/home-clean'
           ? isWhiteHeader
             ? 'bg-white'
             : 'bg-transparent'

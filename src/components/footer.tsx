@@ -145,7 +145,7 @@ const CountryCard = ({
       )}
       <Link
         href={`mailto:${country.email}`}
-        className='block text-light-blue md:text-sm 2xl:text-base 3xl:text-lg mt-3 wrap-break-word duration-300 transition-[opacity_color] hover:text-light-blue hover:opacity-100!'
+        className='block text-light-blue md:text-sm 2xl:text-base 3xl:text-lg mt-3 wrap-break-word duration-300 transition-[opacity_color] hover:text-light-blue hover:opacity-100! whitespace-nowrap'
       >
         {country.email}
       </Link>

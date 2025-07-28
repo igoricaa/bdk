@@ -36,6 +36,8 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
   const [targetPage, setTargetPage] = useState<string>('');
   const [href, setHref] = useState<string>('');
 
+  const router = useRouter();
+
   return (
     <TransitionContext.Provider
       value={{
@@ -48,7 +50,26 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
       }}
     >
       {children}
-      <TransitionOverlay />
+      <AnimatePresence mode='wait'>
+        {isTransitioning && (
+          <motion.div
+            className='fixed inset-0 z-50 bg-lightest-blue'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            onAnimationStart={() => {
+              setTimeout(() => {
+                router.push(href);
+              }, 375);
+            }}
+            onAnimationComplete={() => {
+              setIsTransitioning(false);
+            }}
+          />
+        )}
+      </AnimatePresence>
+      {/* <TransitionOverlay /> */}
     </TransitionContext.Provider>
   );
 }
