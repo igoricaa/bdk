@@ -57,18 +57,18 @@ export default function RootLayout({
           <NuqsAdapter>
             <QueryProvider>
               <Lenis>
-                <SplashScreen>
-                  <Header />
-                  <PageTransitionWrapper>
-                    <CustomCursor />
-                    {children}
-                    <Footer />
-                    <Suspense>
-                      <ScrollHandler />
-                    </Suspense>
-                    <BackToTop />
-                  </PageTransitionWrapper>
-                </SplashScreen>
+                {/* <SplashScreen> */}
+                <Header />
+                <PageTransitionWrapper>
+                  <CustomCursor />
+                  {children}
+                  <Footer />
+                  <Suspense>
+                    <ScrollHandler />
+                  </Suspense>
+                  <BackToTop />
+                </PageTransitionWrapper>
+                {/* </SplashScreen> */}
               </Lenis>
             </QueryProvider>
           </NuqsAdapter>
