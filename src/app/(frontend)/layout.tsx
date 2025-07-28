@@ -12,6 +12,7 @@ import BackToTop from '@/src/components/ui/back-to-top';
 import SplashScreen from '@/src/components/splash-screen/splash-screen';
 import { TransitionProvider } from '@/src/components/transition-link';
 import CustomCursor from '@/src/components/ui/custom-cursor';
+import { PageTransitionWrapper } from '@/src/components/home/PageTransitionWrapper';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -58,13 +59,15 @@ export default function RootLayout({
               <Lenis>
                 <SplashScreen>
                   <Header />
-                  <CustomCursor />
-                  {children}
-                  <Footer />
-                  <Suspense>
-                    <ScrollHandler />
-                  </Suspense>
-                  <BackToTop />
+                  <PageTransitionWrapper>
+                    <CustomCursor />
+                    {children}
+                    <Footer />
+                    <Suspense>
+                      <ScrollHandler />
+                    </Suspense>
+                    <BackToTop />
+                  </PageTransitionWrapper>
                 </SplashScreen>
               </Lenis>
             </QueryProvider>
