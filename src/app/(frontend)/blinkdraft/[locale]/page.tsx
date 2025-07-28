@@ -18,6 +18,7 @@ import notFound from '../../not-found';
 import { routing } from '@/src/i18n/routing';
 import LanguageSwitcher from '@/src/components/blinkdraft/language-switcher';
 import VideoPlayer from '@/src/components/blinkdraft/video-player';
+import { AnimateOnLoad } from '@/src/components/animations/animate-on-load';
 
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -50,55 +51,59 @@ const BlinkDraftPage = async ({
   return (
     <NextIntlClientProvider locale={locale}>
       <main id='blinkdraftPage' className='pt-header'>
-        <section className='flex flex-col-reverse sm:flex-row relative px-side gap-15 sm:gap-12 xl:gap-30 3xl:gap-40 pb-16 sm:pb-31 xl:pb-37 2xl:pb-42 pt-16 sm:pt-20 xl:pt-18 2xl:pt-35'>
-          <LanguageSwitcher
-            locale={locale}
-            className='absolute top-4 sm:top-6 lg:top-18 2xl:top-35 left-side'
-          />
-          <div className='flex flex-col sm:justify-end xl:pb-19 3xl:pb-37 gap-8 sm:gap-7 xl:gap-8 2xl:gap-18'>
-            <div className='flex flex-col gap-8 sm:gap-7 2xl:gap-13'>
-              {generalInfo?.blinkdraftLogo && (
-                <Image
-                  src={urlFor(
-                    generalInfo.blinkdraftLogo as SanityImageSource
-                  ).url()}
-                  alt={blinkdraftPageData.heroSection.heading}
-                  width={454}
-                  height={144}
-                  className='object-cover w-32 sm:w-35 xl:w-44 h-full'
-                  unoptimized={true}
-                  priority
-                />
-              )}
+        <AnimateOnLoad>
+          <section className='flex flex-col-reverse sm:flex-row relative px-side gap-15 sm:gap-12 xl:gap-30 3xl:gap-40 pb-16 sm:pb-31 xl:pb-37 2xl:pb-42 pt-16 sm:pt-20 xl:pt-18 2xl:pt-35'>
+            <LanguageSwitcher
+              locale={locale}
+              className='absolute top-4 sm:top-6 lg:top-18 2xl:top-35 left-side'
+            />
+            <div className='flex flex-col sm:justify-end xl:pb-19 3xl:pb-37 gap-8 sm:gap-7 xl:gap-8 2xl:gap-18'>
+              <div className='flex flex-col gap-8 sm:gap-7 2xl:gap-13'>
+                {generalInfo?.blinkdraftLogo && (
+                  <Image
+                    src={urlFor(
+                      generalInfo.blinkdraftLogo as SanityImageSource
+                    ).url()}
+                    alt={blinkdraftPageData.heroSection.heading}
+                    width={454}
+                    height={144}
+                    className='object-cover w-32 sm:w-35 xl:w-44 h-full'
+                    unoptimized={true}
+                    priority
+                  />
+                )}
 
-              <h1 className='text-dark-blue text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
-                {blinkdraftPageData.heroSection.heading}
-              </h1>
+                <h1 className='text-dark-blue text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl'>
+                  {blinkdraftPageData.heroSection.heading}
+                </h1>
+              </div>
+
+              <IconButton
+                href={`/blinkdraft/${locale}/subscribe`}
+                pageName='Subscribe to Blinkdraft'
+                locale={locale}
+                text={
+                  blinkdraftPageData.heroSection?.buttons?.subscribeButton
+                    .text as string
+                }
+                className='w-fit'
+              />
             </div>
 
-            <IconButton
-              href={`/blinkdraft/${locale}/subscribe`}
-              pageName='Subscribe to Blinkdraft'
-              locale={locale}
-              text={
-                blinkdraftPageData.heroSection?.buttons?.subscribeButton
-                  .text as string
-              }
-              className='w-fit'
-            />
-          </div>
-
-          <div className='w-full overflow-hidden rounded-tl-[80px] rounded-br-[80px] md:rounded-tl-[120px] md:rounded-br-[120px] xl:rounded-tl-[150px] xl:rounded-br-[150px] 2xl:rounded-tl-[200px] 2xl:rounded-br-[200px] aspect-[656/731] xl:max-w-5/12'>
-            <Image
-              src={urlFor(blinkdraftPageData.heroSection.backgroundImage).url()}
-              alt={blinkdraftPageData.heroSection.heading}
-              width={722}
-              height={762}
-              className='object-cover w-full h-full'
-              priority
-            />
-          </div>
-        </section>
+            <div className='w-full overflow-hidden rounded-tl-[80px] rounded-br-[80px] md:rounded-tl-[120px] md:rounded-br-[120px] xl:rounded-tl-[150px] xl:rounded-br-[150px] 2xl:rounded-tl-[200px] 2xl:rounded-br-[200px] aspect-[656/731] xl:max-w-5/12'>
+              <Image
+                src={urlFor(
+                  blinkdraftPageData.heroSection.backgroundImage
+                ).url()}
+                alt={blinkdraftPageData.heroSection.heading}
+                width={722}
+                height={762}
+                className='object-cover w-full h-full'
+                priority
+              />
+            </div>
+          </section>
+        </AnimateOnLoad>
 
         {blinkdraftPageData.demoSection.demoVideoPlaybackId && (
           <Section variant='dark' underColor='bg-white'>

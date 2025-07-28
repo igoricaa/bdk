@@ -8,6 +8,7 @@ import {
 } from '@/src/sanity/lib/cached-queries';
 import { Suspense } from 'react';
 import { getYearsFilterOptions } from '@/src/lib/utils';
+import { AnimateOnLoad } from '@/src/components/animations/animate-on-load';
 
 const DigitalWatchPage = async () => {
   const slug = 'digital-watch';
@@ -25,10 +26,13 @@ const DigitalWatchPage = async () => {
 
   return (
     <main id='blogPage' className='pt-header'>
-      <FeaturedPostsSection
-        featuredPosts={featuredPosts as Post[]}
-        className='mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35 '
-      />
+      <AnimateOnLoad>
+        <FeaturedPostsSection
+          featuredPosts={featuredPosts as Post[]}
+          className='mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35 '
+        />
+      </AnimateOnLoad>
+
       <Suspense fallback={<div>Loading posts...</div>}>
         <PostsGrid
           heading='Digital Watch'

@@ -1,5 +1,6 @@
 import { CountriesSection } from '@/src/components/about-us/countries-section';
 import IndependentReviewsSection from '@/src/components/about-us/independent-reviews-section';
+import { AnimateOnLoad } from '@/src/components/animations/animate-on-load';
 import SplitSection from '@/src/components/ui/split-section';
 import {
   getAboutUsPageData,
@@ -20,14 +21,16 @@ const AboutUsPage = async () => {
 
   return (
     <main className='pt-header'>
-      <SplitSection
-        subtitle={aboutUsPageData?.hero.subtitle || ''}
-        heading={aboutUsPageData?.hero.heading || ''}
-        image={aboutUsPageData?.hero.backgroundImage || ''}
-        highlightedText={aboutUsPageData?.hero.mainDescription || ''}
-        description={aboutUsPageData?.hero.secondaryDescription || ''}
-        className='px-side'
-      />
+      <AnimateOnLoad>
+        <SplitSection
+          subtitle={aboutUsPageData?.hero.subtitle || ''}
+          heading={aboutUsPageData?.hero.heading || ''}
+          image={aboutUsPageData?.hero.backgroundImage || ''}
+          highlightedText={aboutUsPageData?.hero.mainDescription || ''}
+          description={aboutUsPageData?.hero.secondaryDescription || ''}
+          className='px-side'
+        />
+      </AnimateOnLoad>
 
       {generalInfo.generalInfo?.countries && (
         <CountriesSection countries={generalInfo.generalInfo.countries} />

@@ -8,6 +8,7 @@ import TestimonialsSection from './testimonials-section';
 import { Testimonial } from '@/src/sanity/schemaTypes/services/testimonialTypes';
 import Sidebar from './sidebar';
 import { FooterBackgroundHandler } from '../ui/footer-background-handler';
+import { AnimateOnLoad } from '../animations/animate-on-load';
 
 interface ServicePageProps {
   serviceType: 'practice' | 'industry' | 'foreign-desk';
@@ -75,15 +76,17 @@ const ServicePage = ({
         changeColor={!hasAnyPosts || !hasTestimonials}
         color={footerColor}
       />
-      <ServiceHeroSection
-        title={currentService.title || ''}
-        illustration={
-          (currentService as SERVICE_QUERYResult['currentService'])
-            ?.illustration as NonNullable<
-            SERVICE_QUERYResult['currentService']
-          >['illustration']
-        }
-      />
+      <AnimateOnLoad>
+        <ServiceHeroSection
+          title={currentService.title || ''}
+          illustration={
+            (currentService as SERVICE_QUERYResult['currentService'])
+              ?.illustration as NonNullable<
+              SERVICE_QUERYResult['currentService']
+            >['illustration']
+          }
+        />
+      </AnimateOnLoad>
 
       <Sidebar
         currentService={currentService}

@@ -24,6 +24,7 @@ import Link from 'next/link';
 import { buttonVariants } from '@/src/components/ui/button';
 import { AnimatedText } from '@/src/components/ui/animated-text';
 import ArrowUpRight from '@/src/components/ui/arrow-up-right';
+import { AnimateOnLoad } from '@/src/components/animations/animate-on-load';
 
 // Helper function to find the root category (category without parent)
 function findRootCategory(
@@ -188,32 +189,36 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   return (
     <main className='pt-header'>
       <div className='px-side pb-20 md:pb-22 xl:pb-42 2xl:pb-47 grid grid-cols-1 xl:grid-cols-12 gap-12 pt-7.5 md:pt-11 xl:pt-18 2xl:pt-35'>
-        <div className='order-2 md:hidden xl:flex xl:order-1 xl:col-span-2 xl:sticky xl:top-26 2xl:top-35 xl:self-start'>
-          <div className='flex xl:flex-col justify-end xl:justify-start'>
-            <BackToButton
-              href={`/${findRootCategory(currentPost.categories).slug.current}`}
-              text={`Back to ${findRootCategory(currentPost.categories).name}`}
-              className='hidden md:flex'
-            />
+        <AnimateOnLoad>
+          <div className='order-2 md:hidden xl:flex xl:order-1 xl:col-span-2 xl:sticky xl:top-26 2xl:top-35 xl:self-start'>
+            <div className='flex xl:flex-col justify-end xl:justify-start'>
+              <BackToButton
+                href={`/${findRootCategory(currentPost.categories).slug.current}`}
+                text={`Back to ${findRootCategory(currentPost.categories).name}`}
+                className='hidden md:flex'
+              />
 
-            <ShareButtons
-              postSlug={currentPost.slug.current}
-              postTitle={currentPost.title}
-            />
+              <ShareButtons
+                postSlug={currentPost.slug.current}
+                postTitle={currentPost.title}
+              />
+            </div>
           </div>
-        </div>
+        </AnimateOnLoad>
 
         <article className='order-1 xl:order-2 w-full xl:col-span-8 xl:col-start-4'>
           <ScrollProgress />
-          <PostHeader
-            title={currentPost.title}
-            date={formatDate(currentPost.date)}
-            readingTime={readingTime}
-            authors={currentPost.authors}
-            categories={currentPost.categories}
-            featuredMedia={currentPost.featuredMedia}
-            currentPost={currentPost}
-          />
+          <AnimateOnLoad>
+            <PostHeader
+              title={currentPost.title}
+              date={formatDate(currentPost.date)}
+              readingTime={readingTime}
+              authors={currentPost.authors}
+              categories={currentPost.categories}
+              featuredMedia={currentPost.featuredMedia}
+              currentPost={currentPost}
+            />
+          </AnimateOnLoad>
 
           <div className='mt-7 md:mt-10 2xl:mt-15 border-b border-lightest-blue pb-9'>
             <PortableText value={currentPost.content as PortableTextBlock[]} />

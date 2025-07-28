@@ -8,7 +8,7 @@ import {
   getPostsPreviewByCategory,
 } from '@/src/sanity/lib/cached-queries';
 import { Suspense } from 'react';
-import { InViewWrapper } from '@/src/components/ui/in-view-wrapper';
+import { AnimateOnLoad } from '@/src/components/animations/animate-on-load';
 
 const PeoplePage = async () => {
   const [{ peoplePage }, { categories }, { posts: newsroomPosts }] =
@@ -26,7 +26,7 @@ const PeoplePage = async () => {
 
   return (
     <main className='pt-header'>
-      <InViewWrapper>
+      <AnimateOnLoad>
         <section className='px-side lg:px-0 text-center md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl mx-auto pb-32 md:pb-28 xl:pb-32 2xl:pb-40 pt-15 md:pt-18 2xl:pt-49'>
           <h1 className='text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl leading-[1.1]'>
             {peoplePage.hero.heading}
@@ -42,7 +42,7 @@ const PeoplePage = async () => {
             className='xl:px-0 2xl:max-w-[1550px] min-[1800px]:max-w-[1800px]! xl:mx-auto'
           />
         </Suspense>
-      </InViewWrapper>
+      </AnimateOnLoad>
 
       <NewsroomSection
         heading={peoplePage.newsroom.heading}

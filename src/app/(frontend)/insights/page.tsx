@@ -13,6 +13,7 @@ import {
   getYearsFilterOptions,
 } from '@/src/lib/utils';
 import { Suspense } from 'react';
+import { AnimateOnLoad } from '@/src/components/animations/animate-on-load';
 
 const InsightsPage = async () => {
   const slug = 'insights';
@@ -38,10 +39,12 @@ const InsightsPage = async () => {
 
   return (
     <main id='blogPage' className='pt-header'>
-      <FeaturedPostsSection
-        featuredPosts={featuredPosts as Post[]}
-        className='mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35 '
-      />
+      <AnimateOnLoad>
+        <FeaturedPostsSection
+          featuredPosts={featuredPosts as Post[]}
+          className='mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35 '
+        />
+      </AnimateOnLoad>
 
       <Suspense fallback={<div>Loading posts...</div>}>
         <PostsGrid

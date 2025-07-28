@@ -7,6 +7,7 @@ import SectionHeader from '@/src/components/ui/section-header/section-header';
 import { cn, getPdfUrl, PdfFile } from '@/src/lib/utils';
 import { Clock } from 'lucide-react';
 import { PortableTextBlock } from 'next-sanity';
+import { AnimateOnLoad } from '@/src/components/animations/animate-on-load';
 
 type Course = {
   title: string;
@@ -32,13 +33,15 @@ const CareerPage = async () => {
 
   return (
     <main className='pt-header'>
-      <SplitSection
-        heading={careerPageData.hero.heading}
-        image={careerPageData.hero.backgroundImage}
-        description={careerPageData.hero.description as PortableTextBlock[]}
-        customComponent={<OpenPositions careerPageData={careerPageData} />}
-        className='px-side'
-      />
+      <AnimateOnLoad>
+        <SplitSection
+          heading={careerPageData.hero.heading}
+          image={careerPageData.hero.backgroundImage}
+          description={careerPageData.hero.description as PortableTextBlock[]}
+          customComponent={<OpenPositions careerPageData={careerPageData} />}
+          className='px-side'
+        />
+      </AnimateOnLoad>
 
       {coursesSectionData &&
         coursesSectionData.courses &&

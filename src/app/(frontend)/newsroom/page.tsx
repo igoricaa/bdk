@@ -8,7 +8,7 @@ import {
 } from '@/src/sanity/lib/cached-queries';
 import { Suspense } from 'react';
 import { getYearsFilterOptions } from '@/src/lib/utils';
-import { InViewWrapper } from '@/src/components/ui/in-view-wrapper';
+import { AnimateOnLoad } from '@/src/components/animations/animate-on-load';
 
 const NewsroomPage = async () => {
   const slug = 'newsroom';
@@ -26,22 +26,23 @@ const NewsroomPage = async () => {
 
   return (
     <main id='blogPage' className='pt-header'>
-      <InViewWrapper>
+      <AnimateOnLoad>
         <FeaturedPostsSection
           featuredPosts={featuredPosts as Post[]}
           className='mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35 '
         />
-        <Suspense fallback={<div>Loading posts...</div>}>
-          <PostsGrid
-            heading='Newsroom'
-            initialPosts={posts}
-            showSidebar={false}
-            yearFilterOptions={yearFilterOptions}
-            initialCategory={slug}
-            initialYear='all'
-          />
-        </Suspense>
-      </InViewWrapper>
+      </AnimateOnLoad>
+
+      <Suspense fallback={<div>Loading posts...</div>}>
+        <PostsGrid
+          heading='Newsroom'
+          initialPosts={posts}
+          showSidebar={false}
+          yearFilterOptions={yearFilterOptions}
+          initialCategory={slug}
+          initialYear='all'
+        />
+      </Suspense>
     </main>
   );
 };
