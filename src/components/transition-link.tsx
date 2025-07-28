@@ -49,27 +49,24 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
         setHref,
       }}
     >
-      {children}
-      <AnimatePresence mode='wait'>
-        {isTransitioning && (
-          <motion.div
-            className='fixed inset-0 z-50 bg-lightest-blue'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            onAnimationStart={() => {
-              setTimeout(() => {
-                router.push(href);
-              }, 375);
-            }}
-            onAnimationComplete={() => {
-              setIsTransitioning(false);
-            }}
-          />
-        )}
-      </AnimatePresence>
-      {/* <TransitionOverlay /> */}
+      <motion.div
+        animate={{ opacity: isTransitioning ? 0 : 1 }}
+        transition={{ duration: 0.5, ease: 'easeInOut' }}
+        onAnimationStart={() => {
+          if (isTransitioning) {
+            setTimeout(() => {
+              router.push(href);
+            }, 300);
+          }
+        }}
+        onAnimationComplete={() => {
+          if (isTransitioning) {
+            setIsTransitioning(false);
+          }
+        }}
+      >
+        {children}
+      </motion.div>
     </TransitionContext.Provider>
   );
 }
