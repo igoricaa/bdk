@@ -138,19 +138,19 @@ const CountryCard = ({
       {country.phone && (
         <Link
           href={`tel:${country.phone}`}
-          className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3 duration-300 transition-[opacity_color] hover:text-light-blue hover:opacity-100!'
+          className='block text-light-blue md:text-sm 2xl:text-base 3xl:text-lg mt-3 duration-300 transition-[opacity_color] hover:text-light-blue hover:opacity-100!'
         >
           {country.phone}
         </Link>
       )}
       <Link
         href={`mailto:${country.email}`}
-        className='block text-grey-text underline md:text-sm 2xl:text-base 3xl:text-lg mt-3 wrap-break-word duration-300 transition-[opacity_color] hover:text-light-blue hover:opacity-100!'
+        className='block text-light-blue md:text-sm 2xl:text-base 3xl:text-lg mt-3 wrap-break-word duration-300 transition-[opacity_color] hover:text-light-blue hover:opacity-100!'
       >
         {country.email}
       </Link>
       {country.note && (
-        <p className='text-light-blue md:text-sm 2xl:text-base 3xl:text-lg mt-3 duration-300 transition-[opacity_color] hover:text-light-blue hover:opacity-100!'>
+        <p className='text-grey-text md:text-sm 2xl:text-base 3xl:text-lg mt-3 duration-300 transition-[opacity_color] hover:text-light-blue hover:opacity-100!'>
           {country.note}
         </p>
       )}
