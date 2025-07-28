@@ -1,7 +1,7 @@
 import { Lawyer } from '@/sanity.types';
 import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
 import LawyerCard from './lawyers-card';
-import { BlurFade } from '../animations/blur-fade';
+import { AnimateInView } from '../animations/animate-in-view';
 import { AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 
@@ -28,12 +28,12 @@ const LawyersCarousel = ({
               key={lawyer.name}
               className='basis-[23%] pl-5 2xl:pl-8 '
             >
-              <BlurFade className='w-fit' duration={0.2}>
+              <AnimateInView key={lawyer.name} className='w-fit' duration={0.2}>
                 <LawyerCard
                   lawyer={lawyer}
                   className='toBlur hover:!blur-none transition-blur duration-300'
                 />
-              </BlurFade>
+              </AnimateInView>
             </CarouselItem>
           ))}
         </AnimatePresence>

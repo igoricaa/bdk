@@ -4,7 +4,7 @@ import { cn, ComputedLawyersData } from '@/src/lib/utils';
 import LawyersNavbar from './lawyers-navbar';
 import { useQueryState } from 'nuqs';
 import { useMemo, useState } from 'react';
-import { BlurFade } from '../animations/blur-fade';
+import { AnimateInView } from '../animations/animate-in-view';
 import LawyerCardGrid from './lawyers-card-grid';
 import { normalizeString } from '@/src/lib/utils/normalize-string';
 
@@ -56,9 +56,13 @@ const LawyersGrid = ({
             key={lawyer.slug.current}
             className='col-span-1 duration-300 transition-blur hover:!blur-none'
           >
-            <BlurFade delay={0.1} data-cursor-zone='lawyers-card'>
+            <AnimateInView
+              key={lawyer.slug.current}
+              delay={0.1}
+              data-cursor-zone='lawyers-card'
+            >
               <LawyerCardGrid lawyer={lawyer} />
-            </BlurFade>
+            </AnimateInView>
           </li>
         ))}
       </ul>

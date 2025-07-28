@@ -7,7 +7,7 @@ import LawyersCarousel from './lawyers-carousel';
 import LawyersNavbar from './lawyers-navbar';
 import { normalizeString } from '@/src/lib/utils/normalize-string';
 import { useMemo, useState } from 'react';
-import { BlurFade } from '../animations/blur-fade';
+import { AnimateInView } from '../animations/animate-in-view';
 import { AnimatePresence } from 'motion/react';
 
 const LawyersList = ({
@@ -60,7 +60,7 @@ const LawyersList = ({
         >
           <AnimatePresence mode='wait'>
             {displayedLawyers.slice(0, gridLimit).map((lawyer, index) => (
-              <BlurFade
+              <AnimateInView
                 key={`${lawyer.slug.current}`}
                 className='w-fit'
                 duration={0.2}
@@ -69,7 +69,7 @@ const LawyersList = ({
                   key={`${lawyer.slug.current}-${index}`}
                   lawyer={lawyer as any}
                 />
-              </BlurFade>
+              </AnimateInView>
             ))}
           </AnimatePresence>
         </div>

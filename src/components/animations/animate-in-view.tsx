@@ -11,7 +11,7 @@ import { useRef } from 'react';
 
 type MarginType = UseInViewOptions['margin'];
 
-interface BlurFadeProps extends MotionProps {
+interface AnimateInViewProps extends MotionProps {
   key?: string;
   children: React.ReactNode;
   className?: string;
@@ -23,11 +23,10 @@ interface BlurFadeProps extends MotionProps {
   delay?: number;
   offset?: number;
   direction?: 'up' | 'down' | 'left' | 'right';
-  inView?: boolean;
   inViewMargin?: MarginType;
 }
 
-export function BlurFade({
+export function AnimateInView({
   children,
   className,
   variant,
@@ -35,13 +34,12 @@ export function BlurFade({
   delay = 0,
   offset = 0,
   direction = 'down',
-  inView = false,
   inViewMargin = '-50px',
   ...props
-}: BlurFadeProps) {
+}: AnimateInViewProps) {
   const ref = useRef(null);
   const inViewResult = useInView(ref, { once: true, margin: inViewMargin });
-  const isInView = !inView || inViewResult;
+  const isInView = inViewResult;
   const defaultVariants: Variants = {
     hidden: {
       [direction === 'left' || direction === 'right' ? 'x' : 'y']:
@@ -56,7 +54,6 @@ export function BlurFade({
   const combinedVariants = variant || defaultVariants;
   return (
     <motion.div
-      key={props.key || 'random-item'}
       ref={ref}
       initial='hidden'
       animate={isInView ? 'visible' : 'hidden'}

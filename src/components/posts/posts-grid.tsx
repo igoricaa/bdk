@@ -16,7 +16,7 @@ import GenericSidebar from '../ui/generic-sidebar';
 import { transformCategoriesData } from '@/src/lib/utils/sidebar-transformers';
 import SearchBar from '../ui/search-bar';
 import UnderlinedButton from '../ui/buttons/underlined-button';
-import { BlurFade } from '../animations/blur-fade';
+import { AnimateInView } from '../animations/animate-in-view';
 
 import { normalizeString } from '@/src/lib/utils/normalize-string';
 
@@ -171,9 +171,9 @@ const PostsGrid = ({
 
   const renderSkeletons = (count: number) =>
     Array.from({ length: count }).map((_, index) => (
-      <BlurFade key={`skeleton-${index}`} delay={0.1}>
+      <AnimateInView key={`skeleton-${index}`} delay={0.1}>
         <PostSkeleton className='col-span-1' />
-      </BlurFade>
+      </AnimateInView>
     ));
 
   const sectionSharedClasses = cn(
@@ -266,9 +266,9 @@ const PostsGrid = ({
           {isFiltering
             ? renderSkeletons(9)
             : displayedPosts.map((post) => (
-                <BlurFade key={post._id} delay={0.1}>
+                <AnimateInView key={post._id} delay={0.1}>
                   <PostCard post={post} />
-                </BlurFade>
+                </AnimateInView>
               ))}
         </section>
 
