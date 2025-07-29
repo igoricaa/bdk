@@ -11,7 +11,6 @@ const BackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleScroll = useCallback(() => {
-    // const scrollY = window.scrollY; // Using window.scrollY for simplicity and broad compatibility
     const scrollY = lenis ? lenis.scroll : window.scrollY;
     const viewportHeight = window.innerHeight;
 

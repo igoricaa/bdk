@@ -25,14 +25,13 @@ const Lenis = ({ children }: PropsWithChildren) => {
       root
       ref={lenisRef}
       options={{
-        lerp: 0.3,
-        orientation: 'vertical',
-        gestureOrientation: 'vertical',
+        lerp: 0.075,
         smoothWheel: true,
-        wheelMultiplier: 1,
-        touchMultiplier: 3,
         infinite: false,
-        anchors: true,
+        anchors: {
+          lerp: 0.05,
+          easing: (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
+        },
         autoRaf: false,
       }}
     >
