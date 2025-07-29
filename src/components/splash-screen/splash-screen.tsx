@@ -9,13 +9,27 @@ export default function SplashScreen() {
   const { setAppIsReady } = useAppContext();
   const [showSplash, setShowSplash] = useState(true);
 
+  const toggleScroll = (value: boolean) => {
+    const body = document.body as HTMLElement;
+    body.style.overflow = value ? 'hidden' : '';
+    if (value) {
+      body.setAttribute('data-lenis-prevent', 'true');
+    } else {
+      body.removeAttribute('data-lenis-prevent');
+    }
+  };
+
   useEffect(() => {
+    toggleScroll(true);
+
     const timer = setTimeout(() => {
       setShowSplash(false);
+      toggleScroll(false);
     }, 1900);
 
     return () => {
       clearTimeout(timer);
+      toggleScroll(false);
     };
   }, [setAppIsReady]);
 

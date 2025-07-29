@@ -54,7 +54,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={`${dmSans.variable} antialiased`}>
+      <body id='root' className={`${dmSans.variable} antialiased`}>
         <AppProvider>
           <TransitionProvider>
             <NuqsAdapter>
@@ -76,7 +76,7 @@ export default function RootLayout({
             </NuqsAdapter>
           </TransitionProvider>
         </AppProvider>
-        <ReactTempus patch/>
+        <ReactTempus patch />
       </body>
     </html>
   );
