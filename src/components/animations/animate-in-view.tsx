@@ -30,7 +30,7 @@ export function AnimateInView({
   children,
   className,
   variant,
-  duration = 0.4,
+  duration = 0.3,
   delay = 0,
   offset = 0,
   direction = 'down',

@@ -23,7 +23,7 @@ export function AnimateOnLoad({
       className={className}
       initial={{ opacity: 0, y: 40 }}
       animate={isAppReady ? { opacity: 1, y: 0 } : undefined}
-      transition={{ duration: 0.5, ease: 'easeOut', delay }}
+      transition={{ duration: 0.3, ease: 'easeOut', delay }}
       {...motionProps}
     >
       {children}

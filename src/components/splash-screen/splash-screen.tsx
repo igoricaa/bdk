@@ -12,7 +12,7 @@ export default function SplashScreen() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 2000);
+    }, 1900);
 
     return () => {
       clearTimeout(timer);
@@ -23,7 +23,7 @@ export default function SplashScreen() {
     initial: { y: 0 },
     exit: {
       y: '-100%',
-      transition: { duration: 0.8, ease: easeOut },
+      transition: { duration: 0.6, ease: easeOut },
     },
   };
 
