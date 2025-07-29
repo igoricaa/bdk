@@ -17,7 +17,7 @@ const Hero = ({
         <AnimateOnLoad>
           <AnimatedHeroHeading
             text={heading}
-            className='text-dark-blue md:line-clamp-3 md:max-w-xl lg:max-w-4xl xl:max-w-4xl 2xl:max-w-5xl text-[2.5rem] sm:text-5xl lg:text-7xl 2xl:text-[5rem] leading-[1.1]'
+            className='text-dark-blue md:max-w-xl lg:max-w-4xl xl:max-w-4xl 2xl:max-w-5xl text-[2.5rem] sm:text-5xl lg:text-7xl 2xl:text-[5rem] leading-[1.1]'
           />
         </AnimateOnLoad>
         <AnimateOnLoad delay={0.5}>

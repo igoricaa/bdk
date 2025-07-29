@@ -14,6 +14,7 @@ import { TransitionProvider } from '@/src/components/transition-link';
 import CustomCursor from '@/src/components/ui/custom-cursor';
 import { PageTransitionWrapper } from '@/src/components/home/PageTransitionWrapper';
 import { AppProvider } from '@/src/components/splash-screen/app-ready-provider';
+import { ReactTempus } from 'tempus/react';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -75,6 +76,7 @@ export default function RootLayout({
             </NuqsAdapter>
           </TransitionProvider>
         </AppProvider>
+        <ReactTempus patch/>
       </body>
     </html>
   );
