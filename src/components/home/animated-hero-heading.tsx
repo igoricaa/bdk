@@ -6,6 +6,7 @@ import { motion } from 'motion/react';
 
 import { useMemo } from 'react';
 import { FloatingImage } from './floating-image';
+import { useAppContext } from '../splash-screen/app-ready-provider';
 
 interface AnimatedHeroHeadingProps {
   text: string;
@@ -18,6 +19,7 @@ export function AnimatedHeroHeading({
   className,
   image,
 }: AnimatedHeroHeadingProps) {
+  const { isAppReady } = useAppContext();
   const words = useMemo(() => text.split(' '), [text]);
 
   const targetIndices = [3, 4, 6, 7];
@@ -35,7 +37,9 @@ export function AnimatedHeroHeading({
                 <motion.span
                   className='relative animated-underline'
                   initial={{ '--underline-scale': 0 }}
-                  whileInView={{ '--underline-scale': 1 }}
+                  whileInView={
+                    isAppReady ? { '--underline-scale': 1 } : undefined
+                  }
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{
                     duration: 0.5,

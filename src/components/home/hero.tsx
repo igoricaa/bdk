@@ -17,7 +17,7 @@ const Hero = ({
   };
 }) => {
   return (
-    <AuroraBackground>
+    <AuroraBackground className='items-start'>
       <AnimateOnLoad>
         <AnimatedHeroHeading
           text={heading}
