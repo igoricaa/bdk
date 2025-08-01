@@ -76,7 +76,7 @@ export default function RootLayout({
             </NuqsAdapter>
           </TransitionProvider>
         </AppProvider>
-        <ReactTempus patch />
+        <ReactTempus patch={false} />
       </body>
     </html>
   );
