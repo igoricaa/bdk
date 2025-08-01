@@ -70,48 +70,42 @@ const ContactUs = ({
     <div className={className}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className='space-y-4'>
-            <h3 className='text-dark-blue text-xl sm:text-2xl 2xl:text-3xl'>
-              {formData.contactDetails.label}
-            </h3>
-            <div className='grid grid-cols-1 gap-4'>
-              {Object.entries(formData.contactDetails.fields || {})
-                .sort(
-                  (a, b) =>
-                    contactFieldsOrder.indexOf(
-                      a[0] as keyof ContactUsFormValues
-                    ) -
-                    contactFieldsOrder.indexOf(
-                      b[0] as keyof ContactUsFormValues
-                    )
-                )
-                .map(([key, label]) => (
-                  <FormField
-                    key={key}
-                    control={form.control}
-                    name={key as any}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder={label as string}
-                            {...field}
-                            type={key === 'message' ? 'textarea' : 'text'}
-                            className='text-dark-blue placeholder:text-dark-blue bg-lightest-blue/25 flex items-center text-lg xl:text-xl h-15 xl:h-18 px-5 py-0 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0'
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                ))}
-            </div>
+          <div className='grid grid-cols-1 gap-4'>
+            {Object.entries(formData.contactDetails.fields || {})
+              .sort(
+                (a, b) =>
+                  contactFieldsOrder.indexOf(
+                    a[0] as keyof ContactUsFormValues
+                  ) -
+                  contactFieldsOrder.indexOf(b[0] as keyof ContactUsFormValues)
+              )
+              .map(([key, label]) => (
+                <FormField
+                  key={key}
+                  control={form.control}
+                  name={key as any}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder={label as string}
+                          {...field}
+                          type={key === 'message' ? 'textarea' : 'text'}
+                          className='text-dark-blue placeholder:text-dark-blue bg-lightest-blue/25 flex items-center sm:text-lg md:text-xl h-13 md:h-16 px-4 sm:px-5 py-0 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0'
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ))}
           </div>
 
           <IconButton
             type='submit'
             text={formData.contactDetails.submitButtonText}
-            className='mt-10 xl:mt-18 ml-auto w-fit'
+            className='mt-10 xl:mt-12 ml-auto w-full md:w-fit h-13 md:h-14 text-lg md:text-xl'
+            iconClassName='size-8! md:size-9!'
           />
         </form>
       </Form>

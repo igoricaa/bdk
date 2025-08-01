@@ -72,15 +72,17 @@ const AdditionalFeaturesSection = ({
           </Button>
         </DialogTrigger>
 
-        <DialogContent className='sm:max-w-[425px]'>
-          <DialogHeader>
-            <DialogTitle>Contact Us</DialogTitle>
-            <DialogDescription>
+        <DialogContent className='sm:max-w-lg xl:max-w-xl py-8 '>
+          <DialogHeader className='text-left'>
+            <DialogTitle className='text-dark-blue text-3xl sm:text-4xl'>
+              Contact Us
+            </DialogTitle>
+            <DialogDescription className='text-dark-blue sm:text-lg md:text-xl'>
               Please fill out the form below to contact us.
             </DialogDescription>
           </DialogHeader>
 
-          <ContactUs formData={contactUsFormModal} />
+          <ContactUs formData={contactUsFormModal} className='mt-4 md:mt-5' />
         </DialogContent>
       </Dialog>
     </Section>

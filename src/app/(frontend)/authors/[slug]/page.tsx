@@ -63,7 +63,7 @@ const AuthorPage = async ({
                   {author.lawyerDetails.contactInfo?.phone && (
                     <a
                       href={`tel:${author.lawyerDetails.contactInfo.phone}`}
-                      className='text-grey-text mt-4 2xl:mt-5 sm:text-lg 2xl:text-2xl underline block'
+                      className='text-light-blue w-fit mt-4 2xl:mt-5 sm:text-lg 2xl:text-2xl block'
                     >
                       {author.lawyerDetails.contactInfo.phone}
                     </a>
@@ -71,7 +71,7 @@ const AuthorPage = async ({
                   {author.lawyerDetails.contactInfo?.email && (
                     <a
                       href={`mailto:${author.lawyerDetails.contactInfo.email}`}
-                      className='text-grey-text mt-1 sm:mt-2 2xl:mt-3 sm:text-lg 2xl:text-2xl underline block'
+                      className='text-light-blue w-fit mt-1 sm:mt-2 2xl:mt-3 sm:text-lg 2xl:text-2xl block'
                     >
                       {author.lawyerDetails.contactInfo.email}
                     </a>
@@ -80,7 +80,7 @@ const AuthorPage = async ({
                     <Link
                       href={author.lawyerDetails.contactInfo.linkedin}
                       target='_blank'
-                      className='block mt-5 md:mt-6'
+                      className='block mt-5 md:mt-6 w-fit'
                     >
                       <LinkedinIcon className='w-6 h-6 xl:w-5.5 xl:h-5.5 2xl:w-6 2xl:h-6' />
                     </Link>

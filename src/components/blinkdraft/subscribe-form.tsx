@@ -102,17 +102,36 @@ export default function SubscriptionForm({
         }),
         documentPackage: z.string().optional(),
         individualTemplates: z.record(z.record(z.array(z.string()))).optional(),
-        firstName: z.string().min(1, 'First name is required.'),
-        familyName: z.string().min(1, 'Family name is required.'),
+        firstName: z
+          .string()
+          .min(1, 'First name is required.')
+          .regex(/^[a-zA-ZÀ-ÿ\s'-]+$/, 'First name can only contain letters, spaces, hyphens, and apostrophes.'),
+        familyName: z
+          .string()
+          .min(1, 'Family name is required.')
+          .regex(/^[a-zA-ZÀ-ÿ\s'-]+$/, 'Family name can only contain letters, spaces, hyphens, and apostrophes.'),
         email: z
           .string()
           .min(1, 'Email is required.')
-          .email('Invalid email address.'),
-        position: z.string().min(1, 'Position is required.'),
-        companyName: z.string().min(1, 'Company name is required.'),
-        companyAddress: z.string().min(1, 'Company address is required.'),
+          .email('Please enter a valid email address.'),
+        position: z
+          .string()
+          .min(1, 'Position is required.')
+          .regex(/^[a-zA-ZÀ-ÿ0-9\s.,-/&()]+$/, 'Position contains invalid characters.')
+          .regex(/.*[a-zA-ZÀ-ÿ].*/, 'Position must contain at least one letter.'),
+        companyName: z
+          .string()
+          .min(1, 'Company name is required.')
+          .regex(/^[a-zA-ZÀ-ÿ0-9\s.,-/&()'"]+$/, 'Company name contains invalid characters.'),
+        companyAddress: z
+          .string()
+          .min(1, 'Company address is required.')
+          .regex(/^[a-zA-ZÀ-ÿ0-9\s.,-/&#()'"]+$/, 'Company address contains invalid characters.'),
         numUsers: z.coerce
-          .number({ required_error: 'Number of users is required.' })
+          .number({ 
+            required_error: 'Number of users is required.',
+            invalid_type_error: 'Please enter a valid number.'
+          })
           .int()
           .positive('Must be a positive number.'),
       })
@@ -141,7 +160,7 @@ export default function SubscriptionForm({
       position: '',
       companyName: '',
       companyAddress: '',
-      numUsers: 1,
+      numUsers: undefined,
       individualTemplates: {},
     },
   });
@@ -431,8 +450,11 @@ export default function SubscriptionForm({
                             <Input
                               placeholder={label}
                               {...field}
-                              type={key === 'numUsers' ? 'number' : 'text'}
-                              className='text-dark-blue placeholder:text-dark-blue bg-lightest-blue/25 flex items-center text-lg xl:text-xl h-15 xl:h-18 px-5 py-0 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0'
+                              type={key === 'numUsers' ? 'text' : 'text'}
+                              inputMode={key === 'numUsers' ? 'numeric' : undefined}
+                              className={`text-dark-blue placeholder:text-dark-blue bg-lightest-blue/25 flex items-center text-lg xl:text-xl h-15 xl:h-18 px-5 py-0 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 ${
+                                key === 'numUsers' ? '[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]' : ''
+                              }`}
                             />
                           </FormControl>
                           <FormMessage />

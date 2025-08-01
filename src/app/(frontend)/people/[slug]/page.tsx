@@ -92,7 +92,7 @@ const LawyerPage = async ({
                 {lawyer.contactInfo?.phone && (
                   <a
                     href={`tel:${lawyer.contactInfo.phone}`}
-                    className='text-grey-text mt-4 2xl:mt-5 sm:text-lg 2xl:text-2xl underline block'
+                    className='text-light-blue w-fit mt-4 2xl:mt-5 sm:text-lg 2xl:text-2xl block'
                   >
                     {lawyer.contactInfo.phone}
                   </a>
@@ -100,7 +100,7 @@ const LawyerPage = async ({
                 {lawyer.contactInfo?.email && (
                   <a
                     href={`mailto:${lawyer.contactInfo.email}`}
-                    className='text-grey-text mt-1 sm:mt-2 2xl:mt-3 sm:text-lg 2xl:text-2xl underline block'
+                    className='text-light-blue w-fit mt-1 sm:mt-2 2xl:mt-3 sm:text-lg 2xl:text-2xl block'
                   >
                     {lawyer.contactInfo.email}
                   </a>
@@ -109,7 +109,7 @@ const LawyerPage = async ({
                   <Link
                     href={lawyer.contactInfo.linkedin}
                     target='_blank'
-                    className='block mt-5 md:mt-6'
+                    className='block mt-5 md:mt-6 w-fit'
                   >
                     <LinkedinIcon className='w-6 h-6 xl:w-5.5 xl:h-5.5 2xl:w-6 2xl:h-6' />
                   </Link>

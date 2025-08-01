@@ -13,6 +13,7 @@ const IconButton = ({
   type,
   locale,
   pageName,
+  iconClassName,
 }: {
   href?: string;
   text: string;
@@ -22,6 +23,7 @@ const IconButton = ({
   type?: 'button' | 'submit' | 'reset';
   locale?: string;
   pageName?: string;
+  iconClassName?: string;
 }) => {
   return (
     <>
@@ -40,7 +42,7 @@ const IconButton = ({
           <AnimatedText text={text} />
           {icon || (
             <ArrowUpRight
-              className='size-9! duration-700'
+              className={cn('size-9! duration-700', iconClassName)}
               arrowClassName='size-8!'
             />
           )}
@@ -56,7 +58,7 @@ const IconButton = ({
           <AnimatedText text={text} />
           {icon || (
             <ArrowUpRight
-              className='size-9! duration-700'
+              className={cn('size-9! duration-700', iconClassName)}
               arrowClassName='size-8!'
             />
           )}
