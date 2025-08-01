@@ -14,6 +14,8 @@ const IconButton = ({
   locale,
   pageName,
   iconClassName,
+  disabled,
+  props,
 }: {
   href?: string;
   text: string;
@@ -24,6 +26,8 @@ const IconButton = ({
   locale?: string;
   pageName?: string;
   iconClassName?: string;
+  disabled?: boolean;
+  props?: React.ComponentProps<typeof Button>;
 }) => {
   return (
     <>
@@ -33,6 +37,7 @@ const IconButton = ({
           locale={locale}
           pageName={pageName}
           onClick={onClick}
+          disabled={disabled}
           className={buttonVariants({
             variant: 'iconButton',
             size: 'iconButton',
@@ -54,6 +59,8 @@ const IconButton = ({
           variant='iconButton'
           size='iconButton'
           className={cn('group', className)}
+          disabled={disabled}
+          {...props}
         >
           <AnimatedText text={text} />
           {icon || (

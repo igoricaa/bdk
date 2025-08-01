@@ -8,8 +8,8 @@ import {
   DialogHeader,
   DialogTrigger,
   DialogTitle,
-  DialogFooter,
 } from '../ui/dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { Button } from '../ui/button';
 import { cn } from '@/src/lib/utils';
 import ArrowUpRight from '../ui/arrow-up-right';
@@ -73,16 +73,18 @@ const AdditionalFeaturesSection = ({
         </DialogTrigger>
 
         <DialogContent className='sm:max-w-lg xl:max-w-xl py-8 '>
-          <DialogHeader className='text-left'>
-            <DialogTitle className='text-dark-blue text-3xl sm:text-4xl'>
-              Contact Us
-            </DialogTitle>
-            <DialogDescription className='text-dark-blue sm:text-lg md:text-xl'>
-              Please fill out the form below to contact us.
-            </DialogDescription>
-          </DialogHeader>
+          <VisuallyHidden>
+            <DialogHeader className='text-left'>
+              <DialogTitle className='text-dark-blue text-3xl sm:text-4xl'>
+                Contact Us
+              </DialogTitle>
+              <DialogDescription className='text-dark-blue sm:text-lg md:text-xl'>
+                Please fill out the form below to contact us.
+              </DialogDescription>
+            </DialogHeader>
+          </VisuallyHidden>
 
-          <ContactUs formData={contactUsFormModal} className='mt-4 md:mt-5' />
+          <ContactUs formData={contactUsFormModal} />
         </DialogContent>
       </Dialog>
     </Section>

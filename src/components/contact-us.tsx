@@ -7,9 +7,12 @@ import { Form, FormMessage, FormItem, FormControl, FormField } from './ui/form';
 import { Input } from './ui/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import z from 'zod';
+import { useAction } from 'next-safe-action/hooks';
+import { sendContactForm } from '@/src/app/actions/contact';
 import notFound from '../app/(frontend)/not-found';
+import { DialogClose } from './ui/dialog';
 
 const baseSchema = z.object({
   firstName: z.string(),
@@ -44,6 +47,18 @@ const ContactUs = ({
     });
   }, []);
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const { execute, isExecuting, result } = useAction(sendContactForm, {
+    onSuccess: () => {
+      setIsSubmitted(true);
+      form.reset();
+    },
+    onError: (error) => {
+      console.error('Failed to send email:', error);
+    },
+  });
+
   const form = useForm<ContactUsFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,8 +70,7 @@ const ContactUs = ({
   });
 
   function onSubmit(values: ContactUsFormValues) {
-    console.log('Form Submitted:', JSON.stringify(values, null, 2));
-    alert('Form submitted! Check the console for the form data.');
+    execute(values);
   }
 
   const contactFieldsOrder: (keyof ContactUsFormValues)[] = [
@@ -66,10 +80,42 @@ const ContactUs = ({
     'message',
   ];
 
+  if (isSubmitted) {
+    return (
+      <div className={className}>
+        <div className='text-center py-8'>
+          <h3 className='text-dark-blue text-3xl sm:text-4xl'>Thank you!</h3>
+          <p className='text-dark-blue sm:text-lg md:text-xl mt-5'>
+            Your message has been sent successfully. We'll get back to you soon.
+          </p>
+          <DialogClose asChild className='mt-10'>
+            <IconButton text='Close' className='w-fit mx-auto' />
+          </DialogClose>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={className}>
+      {result?.serverError && (
+        <div className='mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded'>
+          Failed to send message. Please try again.
+        </div>
+      )}
+
+      <div className='text-left'>
+        <h3 className='text-dark-blue text-3xl sm:text-4xl'>Contact Us</h3>
+        <p className='text-dark-blue sm:text-lg md:text-xl mt-2'>
+          Please fill out the form below to contact us.
+        </p>
+      </div>
+
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className='mt-6 xl:mt-8'
+        >
           <div className='grid grid-cols-1 gap-4'>
             {Object.entries(formData.contactDetails.fields || {})
               .sort(
@@ -100,13 +146,27 @@ const ContactUs = ({
                 />
               ))}
           </div>
+          <div className='flex flex-col-reverse md:flex-row gap-4 items-center justify-end mt-10 xl:mt-12'>
+            <DialogClose asChild>
+              <IconButton
+                text='Close'
+                className='w-full md:w-fit h-13 md:h-14 text-lg md:text-xl'
+                iconClassName='size-8! md:size-9!'
+              />
+            </DialogClose>
 
-          <IconButton
-            type='submit'
-            text={formData.contactDetails.submitButtonText}
-            className='mt-10 xl:mt-12 ml-auto w-full md:w-fit h-13 md:h-14 text-lg md:text-xl'
-            iconClassName='size-8! md:size-9!'
-          />
+            <IconButton
+              type='submit'
+              text={
+                isExecuting
+                  ? 'Sending...'
+                  : formData.contactDetails.submitButtonText
+              }
+              disabled={isExecuting}
+              className='w-full md:w-fit h-13 md:h-14 text-lg md:text-xl disabled:opacity-50'
+              iconClassName='size-8! md:size-9!'
+            />
+          </div>
         </form>
       </Form>
     </div>
