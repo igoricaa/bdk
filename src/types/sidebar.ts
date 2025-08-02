@@ -23,6 +23,9 @@ export interface GenericSidebarProps {
   mobileOnly?: boolean;
   className?: string;
   forPosts?: boolean;
+  // Optional controlled accordion props
+  accordionValue?: string;
+  onAccordionValueChange?: (value: string) => void;
 }
 
 export interface CategoriesTransformResult {

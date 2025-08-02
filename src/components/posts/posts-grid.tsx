@@ -56,6 +56,7 @@ const PostsGrid = ({
     parseAsString.withDefault(initialYear || 'all')
   );
   const [searchTerm, setSearchTerm] = useState('');
+  const [mobileAccordionValue, setMobileAccordionValue] = useState<string>('');
 
   const isMobile = useIsMobile({ breakpoint: 1024 });
   const intersectionRef = useRef(null);
@@ -117,6 +118,13 @@ const PostsGrid = ({
       fetchNextPage();
     }
   }, [isMobile, hasNextPage, isFetchingNextPage, isInView, fetchNextPage]);
+
+  // Close mobile accordion when category changes
+  useEffect(() => {
+    if (isMobile && category !== initialCategory) {
+      setMobileAccordionValue('');
+    }
+  }, [category, isMobile, initialCategory]);
 
   const handleLoadMore = () => {
     if (!isMobile && hasNextPage && !isFetchingNextPage) {
@@ -232,6 +240,8 @@ const PostsGrid = ({
                   className='col-span-full xl:col-span-4 xl:max-w-8/10 rounded-[10px] bg-white z-20 xl:sticky xl:top-28 px-4'
                   mobileOnly={isMobile}
                   forPosts={true}
+                  accordionValue={isMobile ? mobileAccordionValue : undefined}
+                  onAccordionValueChange={isMobile ? setMobileAccordionValue : undefined}
                 />
               ) : null}
             </>
@@ -296,6 +306,8 @@ const PostsGrid = ({
                 className='col-span-full xl:col-span-4 xl:max-w-8/10 rounded-[10px] bg-white z-20 xl:sticky xl:top-28 px-4'
                 mobileOnly={isMobile}
                 forPosts={true}
+                accordionValue={isMobile ? mobileAccordionValue : undefined}
+                onAccordionValueChange={isMobile ? setMobileAccordionValue : undefined}
               />
             ) : null}
           </>

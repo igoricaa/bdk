@@ -16,6 +16,8 @@ const GenericSidebar = ({
   className,
   mobileOnly,
   forPosts = false,
+  accordionValue,
+  onAccordionValueChange,
 }: GenericSidebarProps) => {
   return (
     <div
@@ -25,7 +27,13 @@ const GenericSidebar = ({
         className
       )}
     >
-      <Accordion type='single' collapsible className='xl:hidden'>
+      <Accordion 
+        type='single' 
+        collapsible 
+        className='xl:hidden'
+        value={accordionValue}
+        onValueChange={onAccordionValueChange}
+      >
         <AccordionItem value='sidebar-content'>
           <AccordionTrigger
             className='flex items-center justify-between text-lg py-0 [&[data-state=open]>svg]:rotate-180'
