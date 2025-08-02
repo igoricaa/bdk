@@ -522,6 +522,14 @@ export const NESTED_CATEGORIES_QUERY = defineQuery(`{
   } | order(name asc)
 }`);
 
+export const CATEGORIES_BY_YEAR_QUERY = defineQuery(`
+  *[_type == "category" && count(*[_type == "post" && status == "publish" && references(^._id) && string(date) match $year + "*"]) > 0] {
+    _id,
+    name,
+    slug
+  } | order(name asc)
+`);
+
 // New queries for client-side filtering approach
 export const GLOBAL_FEATURED_POSTS_QUERY = defineQuery(`
   *[_type == "post" && status == "publish" && ($slug == "all" || $slug == null || references(*[_type=="category" && slug.current == $slug]._id))] | order(date desc)[0...3] {

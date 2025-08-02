@@ -64,17 +64,10 @@ const FeaturedPostCard = ({
           </div>
         </TransitionLink>
 
-        {post.excerpt && post.excerpt.length > 0 ? (
-          <PortableText
-            value={post.excerpt as PortableTextBlock[]}
-            className='mt-6 md:mt-7.5 2xl:mt-10 text-grey-text xl:text-lg 2xl:text-2xl'
-          />
-        ) : (
-          <PortableText
-            value={placeholderExcerpt}
-            className='mt-6 md:mt-7.5 2xl:mt-10 text-grey-text xl:text-lg 2xl:text-2xl'
-          />
-        )}
+        <PortableText
+          value={(post.excerpt as PortableTextBlock[]) || placeholderExcerpt}
+          className='mt-6 md:mt-7.5 2xl:mt-10 text-grey-text xl:text-lg 2xl:text-2xl'
+        />
 
         <TransitionLink
           href={`/${post.slug.current}`}

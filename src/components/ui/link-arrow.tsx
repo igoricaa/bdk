@@ -75,7 +75,7 @@ const ButtonContent = ({
         stroke='var(--color-light-blue)'
         size={iconSize}
         className={cn(
-          `hidden lg:block -translate-x-7 lg:group-hover/arrow:translate-x-0 transition-transform duration-300`,
+          `hidden lg:block -translate-x-7 group-hover/arrow:translate-x-0 transition-transform duration-300`,
           iconClassName,
           isActive && 'translate-x-0'
         )}
@@ -87,7 +87,7 @@ const ButtonContent = ({
       <span
         className={cn(
           'transition-transform duration-300 lg:-translate-x-7 lg:group-hover/arrow:translate-x-0',
-          isActive && 'translate-x-0'
+          isActive && 'lg:translate-x-0'
         )}
       >
         {label}

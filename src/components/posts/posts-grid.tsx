@@ -18,6 +18,10 @@ import SearchBar from '../ui/search-bar';
 import UnderlinedButton from '../ui/buttons/underlined-button';
 
 import { normalizeString } from '@/src/lib/utils/normalize-string';
+import { useAvailableCategoriesForYear, useAvailableYearsForCategory } from '@/src/hooks/use-filter-availability';
+import { filterCategoryTree } from '@/src/lib/utils/category-tree-helpers';
+import FilterButtonsSkeleton from '@/src/components/ui/filter-buttons-skeleton';
+import SidebarCategorySkeleton from '@/src/components/ui/sidebar-category-skeleton';
 
 interface PostsGridProps {
   heading: string;
@@ -123,8 +127,25 @@ const PostsGrid = ({
   const isInitialLoading = isLoading && !data;
   const isFiltering = isFetching && !isFetchingNextPage && !isInitialLoading;
 
+  // React Query hooks for availability checking
+  const { data: availableCategorySlugs, isLoading: isLoadingCategories } = 
+    useAvailableCategoriesForYear(year);
+
+  const { data: availableYears, isLoading: isLoadingYears } = 
+    useAvailableYearsForCategory(category);
+
+  // Filter category tree based on available categories
+  const filteredCategoryTree = categoryTree && year !== 'all' && availableCategorySlugs
+    ? filterCategoryTree(categoryTree, availableCategorySlugs)
+    : categoryTree;
+
+  // Filter year options based on available years
+  const filteredYearOptions = yearFilterOptions && category !== 'all' && availableYears
+    ? yearFilterOptions.filter(option => option.slug === 'all' || availableYears.includes(option.slug))
+    : yearFilterOptions;
+
   const sidebarData =
-    showSidebar && categoryTree ? transformCategoriesData(categoryTree) : null;
+    showSidebar && filteredCategoryTree ? transformCategoriesData(filteredCategoryTree) : null;
 
   const displayedPosts = useMemo(() => {
     if (!searchTerm || searchTerm.trim() === '') {
@@ -139,14 +160,24 @@ const PostsGrid = ({
     );
   }, [category, year, searchTerm, allPosts]);
 
-  const activeFilters = yearFilterOptions ? (
-    <FilterButtons
-      options={yearFilterOptions}
-      activeOption={year}
-      onOptionChange={setYear}
-      variant='dark'
-      className='w-full pl-side md:pl-0 lg:w-fit'
-    />
+  const activeFilters = filteredYearOptions ? (
+    <>
+      {isLoadingYears && category !== 'all' ? (
+        <FilterButtonsSkeleton 
+          variant='dark' 
+          className='w-full pl-side md:pl-0 lg:w-fit'
+          count={3}
+        />
+      ) : (
+        <FilterButtons
+          options={filteredYearOptions}
+          activeOption={year}
+          onOptionChange={setYear}
+          variant='dark'
+          className='w-full pl-side md:pl-0 lg:w-fit'
+        />
+      )}
+    </>
   ) : categoryFilterOptions ? (
     <FilterButtons
       options={categoryFilterOptions}
@@ -187,14 +218,22 @@ const PostsGrid = ({
           headingClassName='pl-side'
         />
         <div className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-8 2xl:gap-10'>
-          {showSidebar && sidebarData && (
-            <GenericSidebar
-              sections={sidebarData.sections}
-              mobileTitle={sidebarData.mobileTitle}
-              className='col-span-full xl:col-span-4 xl:max-w-8/10 rounded-[10px] bg-white z-20 xl:sticky xl:top-28 px-4'
-              mobileOnly={isMobile}
-              forPosts={true}
-            />
+          {showSidebar && (
+            <>
+              {isLoadingCategories && year !== 'all' ? (
+                <div className='col-span-full xl:col-span-4 xl:max-w-8/10 rounded-[10px] bg-white z-20 xl:sticky xl:top-28 px-4 py-6'>
+                  <SidebarCategorySkeleton />
+                </div>
+              ) : sidebarData ? (
+                <GenericSidebar
+                  sections={sidebarData.sections}
+                  mobileTitle={sidebarData.mobileTitle}
+                  className='col-span-full xl:col-span-4 xl:max-w-8/10 rounded-[10px] bg-white z-20 xl:sticky xl:top-28 px-4'
+                  mobileOnly={isMobile}
+                  forPosts={true}
+                />
+              ) : null}
+            </>
           )}
           <section
             className={cn(
@@ -243,14 +282,22 @@ const PostsGrid = ({
           'mt-4 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-8 2xl:gap-10 px-side'
         )}
       >
-        {showSidebar && sidebarData && (
-          <GenericSidebar
-            sections={sidebarData.sections}
-            mobileTitle={sidebarData.mobileTitle}
-            className='col-span-full xl:col-span-4 xl:max-w-8/10 rounded-[10px] bg-white z-20 xl:sticky xl:top-28 px-4'
-            mobileOnly={isMobile}
-            forPosts={true}
-          />
+        {showSidebar && (
+          <>
+            {isLoadingCategories && year !== 'all' ? (
+              <div className='col-span-full xl:col-span-4 xl:max-w-8/10 rounded-[10px] bg-white z-20 xl:sticky xl:top-28 px-4 py-6 h-fit'>
+                <SidebarCategorySkeleton />
+              </div>
+            ) : sidebarData ? (
+              <GenericSidebar
+                sections={sidebarData.sections}
+                mobileTitle={sidebarData.mobileTitle}
+                className='col-span-full xl:col-span-4 xl:max-w-8/10 rounded-[10px] bg-white z-20 xl:sticky xl:top-28 px-4'
+                mobileOnly={isMobile}
+                forPosts={true}
+              />
+            ) : null}
+          </>
         )}
 
         {/* Posts Grid */}

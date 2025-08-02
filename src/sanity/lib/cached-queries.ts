@@ -19,6 +19,7 @@ import {
   POSTS_BY_YEAR_COUNT_QUERY,
   YEARS_BY_CATEGORY_QUERY,
   NESTED_CATEGORIES_QUERY,
+  CATEGORIES_BY_YEAR_QUERY,
   GLOBAL_FEATURED_POSTS_QUERY,
   BLINKDRAFT_PAGE_QUERY,
   UNIVERSAL_AUTHOR_PAGE_QUERY,
@@ -45,6 +46,7 @@ import type {
   POSTS_BY_YEAR_COUNT_QUERYResult,
   YEARS_BY_CATEGORY_QUERYResult,
   NESTED_CATEGORIES_QUERYResult,
+  CATEGORIES_BY_YEAR_QUERYResult,
   GLOBAL_FEATURED_POSTS_QUERYResult,
   BLINKDRAFT_PAGE_QUERYResult,
   UNIVERSAL_AUTHOR_PAGE_QUERYResult,
@@ -246,6 +248,17 @@ export const getNestedCategories = cache(
       query: NESTED_CATEGORIES_QUERY,
       params: { categorySlug },
       tags: ['categories', `nested-categories-${categorySlug}`],
+    });
+  }
+);
+
+export const getCategoriesByYear = cache(
+  async (year: string): Promise<CATEGORIES_BY_YEAR_QUERYResult> => {
+    return await sanityFetch({
+      query: CATEGORIES_BY_YEAR_QUERY,
+      params: { year },
+      tags: ['posts', 'categories', `categories-by-year-${year}`],
+      revalidate: 43200, // 12 hours
     });
   }
 );
