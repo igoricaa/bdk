@@ -39,7 +39,7 @@ const GenericSidebar = ({
           >
             {mobileTitle}
           </AccordionTrigger>
-          <AccordionContent className='pt-5 pb-2 md:pt-6 md:pb-0 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-300 xl:max-h-none xl:overflow-visible'>
+          <AccordionContent className='mt-5 pb-2 md:pt-6 md:pb-0 max-h-[85vh] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-300 xl:max-h-none xl:overflow-visible'>
             {forPosts ? (
               <PostCategoriesAccordion
                 sections={sections}
