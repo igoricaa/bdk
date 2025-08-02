@@ -102,13 +102,14 @@ export const getComputedLawyersData = ({
     });
   }
 
-  const allLawyers = categories.flatMap(
-    (category) => category.orderedLawyers || []
-  );
+  const allLawyers = categories
+    .flatMap((category) => category.orderedLawyers || [])
+    .filter((lawyer) => lawyer && (lawyer as any).isVisible !== false); // Only exclude if explicitly false
 
   const lawyersByCategory = categories.reduce(
     (acc, category) => {
-      acc[category.slug.current] = category.orderedLawyers || [];
+      acc[category.slug.current] = (category.orderedLawyers || [])
+        .filter((lawyer) => lawyer && (lawyer as any).isVisible !== false); // Only exclude if explicitly false
       return acc;
     },
     {} as Record<string, typeof allLawyers>

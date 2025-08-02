@@ -159,7 +159,7 @@ export const POSTS_BY_YEAR_COUNT_QUERY = defineQuery(`
 `);
 
 export const LAWYERS_QUERY = defineQuery(`{
-  "lawyers": *[_type == "lawyer"]{
+  "lawyers": *[_type == "lawyer" && (!defined(isVisible) || isVisible == true)]{
     name,
     title,
     picture,
@@ -184,7 +184,7 @@ export const LAWYERS_BY_CATEGORY_QUERY = defineQuery(`{
     title,
     slug,
     order,
-    "orderedLawyers": orderedLawyers[]->{
+    "orderedLawyers": orderedLawyers[]->{ 
       _id,
       name,
       title,
@@ -192,7 +192,8 @@ export const LAWYERS_BY_CATEGORY_QUERY = defineQuery(`{
       slug,
       contactInfo {
         linkedin
-      }
+      },
+      isVisible
     }
   }
 }`);
@@ -250,7 +251,8 @@ export const SERVICE_QUERY = defineQuery(`{
       title,
       picture,
       slug,
-      contactInfo
+      contactInfo,
+      isVisible
     },
     newsroom[]->{
       _id,
@@ -282,7 +284,8 @@ export const FOREIGN_DESK_QUERY = defineQuery(`{
       title,
       picture,
       slug,
-      contactInfo
+      contactInfo,
+      isVisible
     },
     newsroom[]->{
       _id,
@@ -415,8 +418,8 @@ export const GENERAL_INFO_QUERY = defineQuery(`{
 }`);
 
 export const LAWYER_QUERY = defineQuery(`{
-  "lawyer": *[_type == "lawyer" && slug.current == $slug][0],
-  "sameCategoryLawyers": *[_type == "lawyer" && category._ref == *[_type == "lawyer" && slug.current == $slug][0].category._ref && slug.current != $slug]{
+  "lawyer": *[_type == "lawyer" && slug.current == $slug && (!defined(isVisible) || isVisible == true)][0],
+  "sameCategoryLawyers": *[_type == "lawyer" && category._ref == *[_type == "lawyer" && slug.current == $slug && (!defined(isVisible) || isVisible == true)][0].category._ref && slug.current != $slug && (!defined(isVisible) || isVisible == true)]{
     _id,
     name,
     title,
@@ -426,13 +429,13 @@ export const LAWYER_QUERY = defineQuery(`{
       linkedin
     }
   },
-  "categoryInfo": *[_type == "lawyerCategory" && _id == *[_type == "lawyer" && slug.current == $slug][0].category._ref][0]{
+  "categoryInfo": *[_type == "lawyerCategory" && _id == *[_type == "lawyer" && slug.current == $slug && (!defined(isVisible) || isVisible == true)][0].category._ref][0]{
     _id,
     title,
     "orderedLawyers": orderedLawyers[]->{
       _id,
       slug
-    }
+    }[!defined(isVisible) || isVisible == true]
   },
   "newsroomPosts": *[
     _type == "post" 

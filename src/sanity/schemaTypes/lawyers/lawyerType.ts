@@ -100,6 +100,13 @@ export const lawyerType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'isVisible',
+      title: 'Display in Public Listings',
+      type: 'boolean',
+      description: 'When unchecked, this lawyer will not appear in team listings, people page, or have their own lawyer page. They can still appear as authors on posts.',
+      initialValue: true,
+    }),
+    defineField({
       name: 'testimonials',
       title: 'Testimonials',
       type: 'array',
