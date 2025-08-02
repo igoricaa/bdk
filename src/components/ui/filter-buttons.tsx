@@ -57,7 +57,7 @@ export default function FilterButtons({
       className={cn(
         'overflow-x-scroll no-scrollbar',
         !isMobile && options.length > 5 ? '' : 'flex gap-1 2xl:gap-2.5',
-        // className
+        className
       )}
     >
       {!isMobile && options.length > 5 ? (

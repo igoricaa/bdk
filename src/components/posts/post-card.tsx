@@ -19,7 +19,7 @@ const PostCard = ({
   return (
     <article
       className={cn(
-        'group relative bg-white rounded-br-[2.5rem] xl:rounded-br-[3rem] overflow-hidden min-h-[calc(354/362*(100vw-2*var(--padding-side)))] sm:min-h-auto md:aspect-[367/350] xl:aspect-[397/350] hover:rounded-none transition-all duration-300',
+        'group relative bg-white rounded-br-[2.5rem] xl:rounded-br-[3rem] overflow-hidden min-h-[calc(354/362*(100vw-2*var(--padding-side)))] sm:min-h-auto md:min-h-[calc(350/367*100%)] xl:min-h-[calc(350/397*100%)] hover:rounded-none transition-all duration-300',
         className
       )}
     >

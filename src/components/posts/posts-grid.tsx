@@ -171,7 +171,7 @@ const PostsGrid = ({
 
   const renderSkeletons = (count: number) =>
     Array.from({ length: count }).map((_, index) => (
-      <PostSkeleton className='col-span-1' />
+      <PostSkeleton key={index} className='col-span-1' />
     ));
 
   const sectionSharedClasses = cn(

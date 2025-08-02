@@ -134,7 +134,7 @@ const AuthorPostsSection = ({
       <div className='flex flex-col md:flex-row md:items-center justify-between gap-4'>
         <h2
           className={cn(
-            'pl-side text-dark-blue text-3xl xl:text-4xl 2xl:text-5xl',
+            'px-side text-dark-blue text-3xl xl:text-4xl 2xl:text-5xl',
             isLawyer ? 'xl:pl-0' : 'lg:pl-0'
           )}
         >
