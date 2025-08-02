@@ -1,9 +1,9 @@
 'use client';
 
 import { GENERAL_INFO_QUERYResult, Industry, Practice } from '@/sanity.types';
-import ServicesAccordion from './services-accordion';
 import { urlFor } from '@/src/sanity/lib/image';
 import { useState } from 'react';
+import ServicesAccordionWithScroll from './services-accordion-with-scroll';
 
 const ServicesSection = ({
   industries,
@@ -26,7 +26,7 @@ const ServicesSection = ({
   return (
     <section className='bg-dark-blue'>
       <div className='bg-white rounded-t-main pt-4 pb-25 md:pt-20 md:pb-37 xl:py-37 2xl:py-43 px-side flex md:gap-4 xl:gap-18 2xl:gap-24 justify-between'>
-        <ServicesAccordion
+        <ServicesAccordionWithScroll
           className='w-full md:w-7/12'
           industries={industries as Industry[]}
           practices={practices as Practice[]}

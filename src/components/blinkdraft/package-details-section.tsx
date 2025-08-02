@@ -1,6 +1,6 @@
 import { BLINKDRAFT_PAGE_QUERYResult } from '@/sanity.types';
 import Section from '../ui/section';
-import { SimpleAccordion } from '../ui/accordions/simple-accordion';
+import { SimpleAccordionWithScroll } from '../ui/accordions/simple-accordion-with-scroll';
 
 const PackageDetailsSection = ({
   heading,
@@ -32,7 +32,7 @@ const PackageDetailsSection = ({
         <p className='text-grey-text text-lg 2xl:text-2xl'>{description}</p>
       </div>
 
-      <SimpleAccordion
+      <SimpleAccordionWithScroll
         items={packageDetails.map((packageDetail) => ({
           title: packageDetail.title,
           description: packageDetail.features?.map(

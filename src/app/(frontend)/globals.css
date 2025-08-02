@@ -185,6 +185,10 @@
     @apply border-border outline-ring/50 font-dm-sans;
   }
 
+  body, html {
+    @apply overflow-x-hidden;
+  }
+
   /* Heading Styles */
   h1 {
     @apply text-h1 tracking-tight leading-tight;

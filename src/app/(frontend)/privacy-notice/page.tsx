@@ -1,4 +1,4 @@
-import { SimpleAccordion } from '@/src/components/ui/accordions/simple-accordion';
+import { SimpleAccordionWithScroll } from '@/src/components/ui/accordions/simple-accordion-with-scroll';
 import BackToButton from '@/src/components/ui/buttons/back-to-button';
 import PortableText from '@/src/components/ui/portable-text';
 import { formatDate } from '@/src/lib/utils';
@@ -43,7 +43,7 @@ export default async function PrivacyNotice() {
             />
           </div>
 
-          <SimpleAccordion
+          <SimpleAccordionWithScroll
             items={privacyNotice.specificsOfDataProcessing.map((item) => ({
               title: item.title,
               description: item.table as TableValue,

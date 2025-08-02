@@ -15,6 +15,7 @@ import {
 } from '../ui/accordion';
 import { urlFor } from '@/src/sanity/lib/image';
 import PortableText from '../ui/portable-text';
+import { useAccordionZeroLayoutShift } from '@/src/hooks/use-accordion-scroll';
 
 export const CountriesSection = ({
   countries,
@@ -58,18 +59,22 @@ const CountriesAccordion = ({
     >['countries'][number]
   ) => void;
 }) => {
+  const { setTriggerRef, handleValueChange } = useAccordionZeroLayoutShift();
+
   return (
     <Accordion
       type='single'
       collapsible
       className={cn(className, 'flex flex-col gap-3 md:gap-4')}
       defaultValue={`item-${countries[0]._id}`}
+      onValueChange={handleValueChange}
     >
       {countries.map((country) => (
         <CountriesAccordionItem
           key={country._id}
           country={country}
           setActiveCountry={setActiveCountry}
+          setTriggerRef={setTriggerRef}
         />
       ))}
     </Accordion>
@@ -78,6 +83,7 @@ const CountriesAccordion = ({
 const CountriesAccordionItem = ({
   country,
   setActiveCountry,
+  setTriggerRef,
 }: {
   country: NonNullable<
     GENERAL_INFO_QUERYResult['generalInfo']
@@ -87,13 +93,14 @@ const CountriesAccordionItem = ({
       GENERAL_INFO_QUERYResult['generalInfo']
     >['countries'][number]
   ) => void;
+  setTriggerRef: (value: string, element: HTMLElement | null) => void;
 }) => {
+  const itemValue = `item-${country._id}`;
+
   return (
-    <AccordionItem
-      value={`item-${country._id}`}
-      className='bg-white rounded-2xl'
-    >
+    <AccordionItem value={itemValue} className='bg-white rounded-2xl'>
       <AccordionTrigger
+        ref={(el) => setTriggerRef(itemValue, el)}
         className='text-dark-blue text-2xl md:text-3xl xl:text-[2.5rem] relative cursor-pointer px-5 py-4 md:py-5.5'
         icon={<PlusIcon />}
         onClick={() => setActiveCountry(country)}

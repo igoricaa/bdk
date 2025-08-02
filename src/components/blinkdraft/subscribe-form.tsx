@@ -30,6 +30,7 @@ import { Label } from '../ui/label';
 import IconButton from '../ui/buttons/icon-button';
 import { notFound } from 'next/navigation';
 import { useQueryState } from 'nuqs';
+import { useAccordionZeroLayoutShift } from '@/src/hooks/use-accordion-scroll';
 
 interface TemplateItem {
   id: string;
@@ -88,6 +89,29 @@ export default function SubscriptionForm({
   const [subType, setSubType] = useQueryState('subType');
   const [packageChoice, setPackageChoice] = useQueryState('packageChoice');
 
+  // Hooks for both accordion levels
+  const {
+    setTriggerRef: setMainTriggerRef,
+    handleValueChange: handleMainValueChange,
+  } = useAccordionZeroLayoutShift();
+  const {
+    setTriggerRef: setSubTriggerRef,
+    handleValueChange: handleSubValueChange,
+  } = useAccordionZeroLayoutShift();
+
+  // Wrapper functions for multiple accordions (they expect string[] instead of string | undefined)
+  const handleMainMultipleValueChange = (values: string[]) => {
+    // For multiple accordion, we only care about the most recently opened item
+    const lastValue = values[values.length - 1];
+    handleMainValueChange(lastValue);
+  };
+
+  const handleSubMultipleValueChange = (values: string[]) => {
+    // For multiple accordion, we only care about the most recently opened item
+    const lastValue = values[values.length - 1];
+    handleSubValueChange(lastValue);
+  };
+
   const validInitialSubType =
     subType === 'package' || subType === 'individual' ? subType : 'full';
 
@@ -105,11 +129,17 @@ export default function SubscriptionForm({
         firstName: z
           .string()
           .min(1, 'First name is required.')
-          .regex(/^[a-zA-ZÀ-ÿ\s'-]+$/, 'First name can only contain letters, spaces, hyphens, and apostrophes.'),
+          .regex(
+            /^[a-zA-ZÀ-ÿ\s'-]+$/,
+            'First name can only contain letters, spaces, hyphens, and apostrophes.'
+          ),
         familyName: z
           .string()
           .min(1, 'Family name is required.')
-          .regex(/^[a-zA-ZÀ-ÿ\s'-]+$/, 'Family name can only contain letters, spaces, hyphens, and apostrophes.'),
+          .regex(
+            /^[a-zA-ZÀ-ÿ\s'-]+$/,
+            'Family name can only contain letters, spaces, hyphens, and apostrophes.'
+          ),
         email: z
           .string()
           .min(1, 'Email is required.')
@@ -117,20 +147,32 @@ export default function SubscriptionForm({
         position: z
           .string()
           .min(1, 'Position is required.')
-          .regex(/^[a-zA-ZÀ-ÿ0-9\s.,-/&()]+$/, 'Position contains invalid characters.')
-          .regex(/.*[a-zA-ZÀ-ÿ].*/, 'Position must contain at least one letter.'),
+          .regex(
+            /^[a-zA-ZÀ-ÿ0-9\s.,-/&()]+$/,
+            'Position contains invalid characters.'
+          )
+          .regex(
+            /.*[a-zA-ZÀ-ÿ].*/,
+            'Position must contain at least one letter.'
+          ),
         companyName: z
           .string()
           .min(1, 'Company name is required.')
-          .regex(/^[a-zA-ZÀ-ÿ0-9\s.,-/&()'"]+$/, 'Company name contains invalid characters.'),
+          .regex(
+            /^[a-zA-ZÀ-ÿ0-9\s.,-/&()'"]+$/,
+            'Company name contains invalid characters.'
+          ),
         companyAddress: z
           .string()
           .min(1, 'Company address is required.')
-          .regex(/^[a-zA-ZÀ-ÿ0-9\s.,-/&#()'"]+$/, 'Company address contains invalid characters.'),
+          .regex(
+            /^[a-zA-ZÀ-ÿ0-9\s.,-/&#()'"]+$/,
+            'Company address contains invalid characters.'
+          ),
         numUsers: z.coerce
-          .number({ 
+          .number({
             required_error: 'Number of users is required.',
-            invalid_type_error: 'Please enter a valid number.'
+            invalid_type_error: 'Please enter a valid number.',
           })
           .int()
           .positive('Must be a positive number.'),
@@ -305,81 +347,103 @@ export default function SubscriptionForm({
                 </h3>
 
                 <div className='mt-4 sm:mt-5'>
-                  <Accordion type='multiple' className='w-full space-y-4'>
+                  <Accordion
+                    type='multiple'
+                    className='w-full space-y-4'
+                    onValueChange={handleMainMultipleValueChange}
+                  >
                     {formData.individualTemplates.templateGroups.map(
-                      (group, groupIndex) => (
-                        <AccordionItem
-                          value={`group-${groupIndex}`}
-                          key={groupIndex}
-                          className='bg-lightest-blue/25 rounded-[10px] px-5'
-                        >
-                          <AccordionTrigger className='text-dark-blue flex items-center justify-between text-lg xl:text-xl h-15 xl:h-18'>
-                            {group.title}
-                          </AccordionTrigger>
-                          <AccordionContent>
-                            <Accordion
-                              type='multiple'
-                              className='w-full gap-2.5'
+                      (group, groupIndex) => {
+                        const groupValue = `group-${groupIndex}`;
+                        return (
+                          <AccordionItem
+                            value={groupValue}
+                            key={groupIndex}
+                            className='bg-lightest-blue/25 rounded-[10px] px-5'
+                          >
+                            <AccordionTrigger
+                              ref={(el) => setMainTriggerRef(groupValue, el)}
+                              className='text-dark-blue flex items-center justify-between text-lg xl:text-xl h-15 xl:h-18'
                             >
-                              {group.templateSubgroups.map(
-                                (subgroup, subIndex) => (
-                                  <AccordionItem
-                                    value={`subgroup-${groupIndex}-${subIndex}`}
-                                    key={subIndex}
-                                  >
-                                    <AccordionTrigger className='text-dark-blue flex justify-between border-t border-grey-random/50 rounded-none text-lg xl:text-xl pt-2.5 pb-0 h-15 xl:h-16'>
-                                      {subgroup.title}
-                                    </AccordionTrigger>
-                                    <AccordionContent>
-                                      <div className='space-y-5 pt-2.5 pb-10'>
-                                        {subgroup.templateItems.map((item) => (
-                                          <FormField
-                                            key={item}
-                                            control={form.control}
-                                            name={`individualTemplates.${group.title}.${subgroup.title}`}
-                                            render={({ field }) => (
-                                              <FormItem className='flex flex-row items-center space-x-4'>
-                                                <FormControl>
-                                                  <Checkbox
-                                                    checked={field.value?.includes(
-                                                      item
-                                                    )}
-                                                    onCheckedChange={(
-                                                      checked
-                                                    ) => {
-                                                      const currentValues =
-                                                        field.value || [];
-                                                      return checked
-                                                        ? field.onChange([
-                                                            ...currentValues,
-                                                            item,
-                                                          ])
-                                                        : field.onChange(
-                                                            currentValues.filter(
-                                                              (value) =>
-                                                                value !== item
-                                                            )
-                                                          );
-                                                    }}
-                                                    className='rounded-full size-5 border-none bg-white data-[state=checked]:bg-white! [&_svg]:stroke-dark-blue '
-                                                  />
-                                                </FormControl>
-                                                <FormLabel className='text-grey-text text-sm sm:text-base xl:text-lg'>
-                                                  {item}
-                                                </FormLabel>
-                                              </FormItem>
+                              {group.title}
+                            </AccordionTrigger>
+                            <AccordionContent>
+                              <Accordion
+                                type='multiple'
+                                className='w-full gap-2.5'
+                                onValueChange={handleSubMultipleValueChange}
+                              >
+                                {group.templateSubgroups.map(
+                                  (subgroup, subIndex) => {
+                                    const subgroupValue = `subgroup-${groupIndex}-${subIndex}`;
+                                    return (
+                                      <AccordionItem
+                                        value={subgroupValue}
+                                        key={subIndex}
+                                      >
+                                        <AccordionTrigger
+                                          ref={(el) =>
+                                            setSubTriggerRef(subgroupValue, el)
+                                          }
+                                          className='text-dark-blue flex justify-between border-t border-grey-random/50 rounded-none text-lg xl:text-xl pt-2.5 pb-0 h-15 xl:h-16'
+                                        >
+                                          {subgroup.title}
+                                        </AccordionTrigger>
+                                        <AccordionContent>
+                                          <div className='space-y-5 pt-2.5 pb-10'>
+                                            {subgroup.templateItems.map(
+                                              (item) => (
+                                                <FormField
+                                                  key={item}
+                                                  control={form.control}
+                                                  name={`individualTemplates.${group.title}.${subgroup.title}`}
+                                                  render={({ field }) => (
+                                                    <FormItem className='flex flex-row items-center space-x-4'>
+                                                      <FormControl>
+                                                        <Checkbox
+                                                          checked={field.value?.includes(
+                                                            item
+                                                          )}
+                                                          onCheckedChange={(
+                                                            checked
+                                                          ) => {
+                                                            const currentValues =
+                                                              field.value || [];
+                                                            return checked
+                                                              ? field.onChange([
+                                                                  ...currentValues,
+                                                                  item,
+                                                                ])
+                                                              : field.onChange(
+                                                                  currentValues.filter(
+                                                                    (value) =>
+                                                                      value !==
+                                                                      item
+                                                                  )
+                                                                );
+                                                          }}
+                                                          className='rounded-full size-5 border-none bg-white data-[state=checked]:bg-white! [&_svg]:stroke-dark-blue '
+                                                        />
+                                                      </FormControl>
+                                                      <FormLabel className='text-grey-text text-sm sm:text-base xl:text-lg'>
+                                                        {item}
+                                                      </FormLabel>
+                                                    </FormItem>
+                                                  )}
+                                                />
+                                              )
                                             )}
-                                          />
-                                        ))}
-                                      </div>
-                                    </AccordionContent>
-                                  </AccordionItem>
-                                )
-                              )}
-                            </Accordion>
-                          </AccordionContent>
-                        </AccordionItem>
-                      )
+                                          </div>
+                                        </AccordionContent>
+                                      </AccordionItem>
+                                    );
+                                  }
+                                )}
+                              </Accordion>
+                            </AccordionContent>
+                          </AccordionItem>
+                        );
+                      }
                     )}
                   </Accordion>
                 </div>
@@ -451,9 +515,13 @@ export default function SubscriptionForm({
                               placeholder={label}
                               {...field}
                               type={key === 'numUsers' ? 'text' : 'text'}
-                              inputMode={key === 'numUsers' ? 'numeric' : undefined}
+                              inputMode={
+                                key === 'numUsers' ? 'numeric' : undefined
+                              }
                               className={`text-dark-blue placeholder:text-dark-blue bg-lightest-blue/25 flex items-center text-lg xl:text-xl h-15 xl:h-18 px-5 py-0 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 ${
-                                key === 'numUsers' ? '[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]' : ''
+                                key === 'numUsers'
+                                  ? '[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]'
+                                  : ''
                               }`}
                             />
                           </FormControl>

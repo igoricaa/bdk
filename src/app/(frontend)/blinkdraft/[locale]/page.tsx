@@ -8,7 +8,7 @@ import { urlFor } from '@/src/sanity/lib/image';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import Section from '@/src/components/ui/section';
 import Subtitle from '@/src/components/ui/subtitle';
-import WhatIfSection from '@/src/components/blinkdraft/whatIf-section';
+import WhatIsSection from '@/src/components/blinkdraft/whatIs-section';
 import SubscriptionsSection from '@/src/components/blinkdraft/subscriptions-section';
 import PackageDetailsSection from '@/src/components/blinkdraft/package-details-section';
 import AdditionalFeaturesSection from '@/src/components/blinkdraft/additional-features-section';
@@ -131,7 +131,7 @@ const BlinkDraftPage = async ({
           </Section>
         )}
 
-        <WhatIfSection
+        <WhatIsSection
           heading={blinkdraftPageData.whatIsSection.heading}
           descriptions={blinkdraftPageData.whatIsSection.description}
         />
