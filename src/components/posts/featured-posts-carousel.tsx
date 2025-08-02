@@ -30,14 +30,19 @@ const FeaturedPostsCarousel = ({
         }),
       ]}
     >
-      <CarouselContent>
+      <CarouselContent className='ml-0'>
         {featuredPosts.map((post, index) => (
-          <CarouselItem key={post._id + index} className='pl-5 2xl:pl-8'>
-            <FeaturedPostCard key={post._id} post={post} index={index} />
+          <CarouselItem key={post._id + index} className='pl-side pr-side'>
+            <FeaturedPostCard
+              key={post._id}
+              post={post}
+              index={index}
+              className='h-full'
+            />
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselDots />
+      <CarouselDots className='px-side' />
     </Carousel>
   );
 

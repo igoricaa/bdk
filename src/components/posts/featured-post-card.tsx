@@ -5,6 +5,7 @@ import PortableText from '@/src/components/ui/portable-text';
 import { PortableTextBlock } from 'next-sanity';
 import { TransitionLink } from '@/src/components/transition-link';
 import ArrowUpRight from '@/src/components/ui/arrow-up-right';
+import { cn } from '@/src/lib/utils';
 
 const placeholderExcerpt: PortableTextBlock[] = [
   {
@@ -22,7 +23,15 @@ const placeholderExcerpt: PortableTextBlock[] = [
     ],
   },
 ];
-const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
+const FeaturedPostCard = ({
+  post,
+  index,
+  className,
+}: {
+  post: Post;
+  index: number;
+  className?: string;
+}) => {
   const featuredMediaUrl = post.featuredMedia
     ? urlFor(post.featuredMedia).url()
     : '/bdk-advokati.jpg';
@@ -30,7 +39,7 @@ const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
   return (
     <article
       key={post._id}
-      className='flex gap-18 md:gap-6 xl:gap-32 3xl:gap-51'
+      className={cn('flex gap-18 md:gap-6 xl:gap-32 3xl:gap-51', className)}
     >
       <div className='pb-19 md:pb-8 xl:pb-37 3xl:pb-50'>
         <h2 className='text-sm text-white bg-dark-blue flex items-center justify-center h-7.5 2xl:h-10 px-4 2xl:px-5 rounded-[500px] w-fit'>
@@ -43,7 +52,7 @@ const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
         </TransitionLink>
 
         <TransitionLink href={`/${post.slug.current}`} pageName={post.title}>
-          <div className='w-full md:hidden overflow-hidden rounded-tl-[5rem] rounded-br-[5rem] mt-6'>
+          <div className='w-full lg:hidden overflow-hidden rounded-tl-[5rem] rounded-br-[5rem] mt-6'>
             <Image
               src={featuredMediaUrl}
               alt={post.title}
@@ -77,7 +86,7 @@ const FeaturedPostCard = ({ post, index }: { post: Post; index: number }) => {
         </TransitionLink>
       </div>
 
-      <div className='hidden md:block min-w-4/10 w-4/10 xl:min-w-5/12 xl:w-5/12 overflow-hidden rounded-tl-[7.5rem] rounded-br-[7.5rem] xl:rounded-tl-[150px] xl:rounded-br-[150px] 2xl:rounded-tl-[12.5rem] 2xl:rounded-br-[12.5rem]'>
+      <div className='hidden lg:block min-w-4/10 w-4/10 xl:min-w-5/12 xl:w-5/12 overflow-hidden rounded-tl-[7.5rem] rounded-br-[7.5rem] xl:rounded-tl-[150px] xl:rounded-br-[150px] 2xl:rounded-tl-[12.5rem] 2xl:rounded-br-[12.5rem]'>
         <TransitionLink href={`/${post.slug.current}`} pageName={post.title}>
           <Image
             src={featuredMediaUrl}
