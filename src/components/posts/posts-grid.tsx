@@ -16,7 +16,6 @@ import GenericSidebar from '../ui/generic-sidebar';
 import { transformCategoriesData } from '@/src/lib/utils/sidebar-transformers';
 import SearchBar from '../ui/search-bar';
 import UnderlinedButton from '../ui/buttons/underlined-button';
-import { AnimateInView } from '../animations/animate-in-view';
 
 import { normalizeString } from '@/src/lib/utils/normalize-string';
 
@@ -163,7 +162,7 @@ const PostsGrid = ({
       <SearchBar
         onSearchChange={setSearchTerm}
         className='px-side md:pr-0 lg:px-0 lg:w-fit'
-        inputClassName='bg-white! md:max-w-[calc((100vw-2*var(--padding-side)-24px)/2)] flex-shrink-1'
+        inputClassName='bg-white! md:max-w-[calc((100vw-2*var(--padding-side)-24px)/2)] flex-shrink-1 h-10'
       />
       {activeFilters}
     </div>
@@ -175,7 +174,7 @@ const PostsGrid = ({
     ));
 
   const sectionSharedClasses = cn(
-    'pt-19 pb-25 sm:pt-25 sm:pb-28 xl:py-30 2xl:py-42 bg-light-blue-bg rounded-t-main',
+    'pt-16 pb-25 sm:pt-25 sm:pb-28 xl:py-30 2xl:py-42 bg-light-blue-bg rounded-t-main',
     className
   );
 
@@ -192,7 +191,7 @@ const PostsGrid = ({
             <GenericSidebar
               sections={sidebarData.sections}
               mobileTitle={sidebarData.mobileTitle}
-              className='col-span-full xl:col-span-4 xl:max-w-8/10 bg-white xl:sticky xl:top-28'
+              className='col-span-full xl:col-span-4 xl:max-w-8/10 rounded-[10px] bg-white z-20 xl:sticky xl:top-28 px-4'
               mobileOnly={isMobile}
               forPosts={true}
             />
@@ -240,13 +239,15 @@ const PostsGrid = ({
 
       <div
         id='blogGrid'
-        className='mt-12 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-8 2xl:gap-10 px-side'
+        className={cn(
+          'mt-4 sm:mt-5 xl:mt-11 2xl:mt-20 grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-8 2xl:gap-10 px-side'
+        )}
       >
         {showSidebar && sidebarData && (
           <GenericSidebar
             sections={sidebarData.sections}
             mobileTitle={sidebarData.mobileTitle}
-            className='col-span-full xl:col-span-4 xl:max-w-8/10 bg-white xl:sticky xl:top-28'
+            className='col-span-full xl:col-span-4 xl:max-w-8/10 rounded-[10px] bg-white z-20 xl:sticky xl:top-28 px-4'
             mobileOnly={isMobile}
             forPosts={true}
           />

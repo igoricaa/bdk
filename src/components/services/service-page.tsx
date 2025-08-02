@@ -95,7 +95,7 @@ const ServicePage = ({
         foreignDesks={foreignDesks}
         serviceType={serviceType}
         mobileOnly={true}
-        className='-ml-0! xl:hidden'
+        className='-ml-0! w-screen px-side xl:hidden'
       />
 
       <SimpleServiceContentSection

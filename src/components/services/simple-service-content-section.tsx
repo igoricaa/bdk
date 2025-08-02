@@ -31,7 +31,7 @@ const SimpleServiceContentSection = ({
         industries={industries}
         foreignDesks={foreignDesks}
         serviceType={serviceType}
-        className='hidden xl:block h-fit'
+        className='hidden xl:block h-fit px-side xl:p-4 2xl:px-5 2xl:py-7 '
       />
       {serviceType === 'foreign-desk' && (
         <div>
@@ -41,7 +41,6 @@ const SimpleServiceContentSection = ({
                 (currentService as FOREIGN_DESK_QUERYResult['currentForeignDesk'])!
                   .description?.nativeDescription as PortableTextBlock[]
               }
-              className=''
               paragraphClassName='md:text-lg 2xl:text-2xl mt-4 md:mt-4.5 2xl:mt-6'
             />
           </div>
@@ -54,7 +53,6 @@ const SimpleServiceContentSection = ({
                 (currentService as FOREIGN_DESK_QUERYResult['currentForeignDesk'])!
                   .description?.englishDescription as PortableTextBlock[]
               }
-              className=''
               paragraphClassName='md:text-lg 2xl:text-2xl mt-4 md:mt-4.5 2xl:mt-6'
             />
           </div>
@@ -64,22 +62,11 @@ const SimpleServiceContentSection = ({
         <div className='mt-12 md:mt-25 xl:mt-0'>
           <PortableText
             value={currentService.description as PortableTextBlock[]}
-            className=''
             paragraphClassName='md:text-lg 2xl:text-2xl mt-4 md:mt-4.5 2xl:mt-6'
           />
         </div>
       )}
     </section>
-
-    // <section className='px-side pt-0 pb-28 md:pb-39 xl:pt-38 xl:pb-21 2xl:pt-44 2xl:pb-40'>
-    //   <div className='max-w-4xl mx-auto'>
-    //     <PortableText
-    //       value={currentService.description as PortableTextBlock[]}
-    //       className=''
-    //       paragraphClassName='md:text-lg 2xl:text-2xl mt-4 md:mt-4.5 2xl:mt-6'
-    //     />
-    //   </div>
-    // </section>
   );
 };
 

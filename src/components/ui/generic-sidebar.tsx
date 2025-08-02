@@ -21,7 +21,7 @@ const GenericSidebar = ({
     <div
       id={mobileOnly ? 'stickyTopbar' : ''}
       className={cn(
-        'sticky top-0 xl:static bg-light-blue-bg rounded-b-[10px] py-3 md:py-5 px-side xl:p-4 2xl:px-5 2xl:py-7 xl:min-w-xs 2xl:min-w-[26rem] w-screen xl:w-auto -ml-side xl:ml-0 z-10 transition-transform duration-300 h-fit',
+        'sticky top-0 xl:static bg-light-blue-bg rounded-b-[10px] py-2.5 md:py-5 xl:min-w-xs 2xl:min-w-[26rem] z-10 transition-transform duration-300 h-fit',
         className
       )}
     >
@@ -39,7 +39,7 @@ const GenericSidebar = ({
           >
             {mobileTitle}
           </AccordionTrigger>
-          <AccordionContent className='pt-5 pb-2 md:pt-6 md:pb-0'>
+          <AccordionContent className='pt-5 pb-2 md:pt-6 md:pb-0 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-300 xl:max-h-none xl:overflow-visible'>
             {forPosts ? (
               <PostCategoriesAccordion
                 sections={sections}

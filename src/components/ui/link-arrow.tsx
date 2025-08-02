@@ -22,7 +22,7 @@ export const LinkWithArrow = ({
   isActive?: boolean;
 }) => {
   const buttonClassName = cn(
-    'flex items-center w-fit gap-x-2 transition-[translate,color] text-sm leading-6 2xl:text-lg 2xl:leading-7 hover:text-light-blue duration-300 relative overflow-hidden group/arrow cursor-pointer',
+    'flex items-center w-fit gap-x-2 transition-[translate,color] text-sm leading-6 2xl:text-lg 2xl:leading-7 hover:text-light-blue duration-300 relative overflow-hidden group/arrow cursor-pointer text-start',
     className,
     isActive && 'text-light-blue'
   );
@@ -75,7 +75,7 @@ const ButtonContent = ({
         stroke='var(--color-light-blue)'
         size={iconSize}
         className={cn(
-          `-translate-x-7 group-hover/arrow:translate-x-0 transition-transform duration-300`,
+          `hidden lg:block -translate-x-7 lg:group-hover/arrow:translate-x-0 transition-transform duration-300`,
           iconClassName,
           isActive && 'translate-x-0'
         )}
@@ -86,7 +86,7 @@ const ButtonContent = ({
       />
       <span
         className={cn(
-          'transition-transform duration-300 -translate-x-7 group-hover/arrow:translate-x-0',
+          'transition-transform duration-300 lg:-translate-x-7 lg:group-hover/arrow:translate-x-0',
           isActive && 'translate-x-0'
         )}
       >
