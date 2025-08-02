@@ -22,6 +22,7 @@ import { useAvailableCategoriesForYear, useAvailableYearsForCategory } from '@/s
 import { filterCategoryTree } from '@/src/lib/utils/category-tree-helpers';
 import FilterButtonsSkeleton from '@/src/components/ui/filter-buttons-skeleton';
 import SidebarCategorySkeleton from '@/src/components/ui/sidebar-category-skeleton';
+import NoResultsMessage from './no-results-message';
 
 interface PostsGridProps {
   heading: string;
@@ -309,11 +310,20 @@ const PostsGrid = ({
               : 'col-span-full xl:grid-cols-3'
           )}
         >
-          {isFiltering
-            ? renderSkeletons(9)
-            : displayedPosts.map((post) => (
-                <PostCard key={post._id} post={post} />
-              ))}
+          {isFiltering ? (
+            renderSkeletons(9)
+          ) : displayedPosts.length > 0 ? (
+            displayedPosts.map((post) => (
+              <PostCard key={post._id} post={post} />
+            ))
+          ) : (
+            <NoResultsMessage
+              hasSearchTerm={searchTerm.trim() !== ''}
+              hasActiveFilters={
+                category !== initialCategory || year !== initialYear
+              }
+            />
+          )}
         </section>
 
         <div className='col-span-full mt-12 flex justify-center'>
