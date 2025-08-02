@@ -231,7 +231,7 @@ const PostsGrid = ({
             <>
               {isLoadingCategories && year !== 'all' ? (
                 <div className='col-span-full xl:col-span-4 xl:max-w-8/10 rounded-[10px] bg-white z-20 xl:sticky xl:top-28 px-4 py-6'>
-                  <SidebarCategorySkeleton />
+                  <SidebarCategorySkeleton forPosts={true} />
                 </div>
               ) : sidebarData ? (
                 <GenericSidebar
@@ -297,7 +297,7 @@ const PostsGrid = ({
           <>
             {isLoadingCategories && year !== 'all' ? (
               <div className='col-span-full xl:col-span-4 xl:max-w-8/10 rounded-[10px] bg-white z-20 xl:sticky xl:top-28 px-4 py-6 h-fit'>
-                <SidebarCategorySkeleton />
+                <SidebarCategorySkeleton forPosts={true} />
               </div>
             ) : sidebarData ? (
               <GenericSidebar
