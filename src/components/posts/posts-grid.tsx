@@ -171,9 +171,7 @@ const PostsGrid = ({
 
   const renderSkeletons = (count: number) =>
     Array.from({ length: count }).map((_, index) => (
-      <AnimateInView key={`skeleton-${index}`} delay={0.1}>
-        <PostSkeleton className='col-span-1' />
-      </AnimateInView>
+      <PostSkeleton className='col-span-1' />
     ));
 
   const sectionSharedClasses = cn(
@@ -266,9 +264,7 @@ const PostsGrid = ({
           {isFiltering
             ? renderSkeletons(9)
             : displayedPosts.map((post) => (
-                <AnimateInView key={post._id} delay={0.1}>
-                  <PostCard post={post} />
-                </AnimateInView>
+                <PostCard key={post._id} post={post} />
               ))}
         </section>
 

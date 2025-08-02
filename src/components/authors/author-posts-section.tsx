@@ -154,7 +154,7 @@ const AuthorPostsSection = ({
 
       <ul
         className={cn(
-          'px-side  grid auto-rows-max grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 xl:gap-8 2xl:gap-10 mt-6 md:mt-8 xl:mt-10 2xl:mt-15',
+          'px-side  grid auto-rows-fr grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 xl:gap-8 2xl:gap-10 mt-6 md:mt-8 xl:mt-10 2xl:mt-15',
           isLawyer
             ? 'xl:pl-0'
             : 'lg:pl-0 lg:pr-0 lg:grid-cols-3 2xl:grid-cols-4'
@@ -166,7 +166,7 @@ const AuthorPostsSection = ({
             )
           : allPosts.map((post) => (
               <li key={post._id}>
-                <PostCard post={post} className='aspect-auto! h-full' />
+                <PostCard post={post} className=' h-full' />
               </li>
             ))}
       </ul>
