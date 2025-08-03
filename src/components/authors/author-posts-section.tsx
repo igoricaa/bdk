@@ -11,6 +11,7 @@ import FilterButtons, { FilterOption } from '../ui/filter-buttons';
 import PostCardSkeleton from '../posts/post-card-skeleton';
 import { UNIVERSAL_AUTHOR_PAGE_QUERYResult } from '@/sanity.types';
 import UnderlinedButton from '../ui/buttons/underlined-button';
+import NoResultsMessage from '../posts/no-results-message';
 
 const categoryFilterOptions: FilterOption[] = [
   { slug: 'all', label: 'All' },
@@ -160,21 +161,28 @@ const AuthorPostsSection = ({
             : 'lg:pl-0 lg:pr-0 lg:grid-cols-3 2xl:grid-cols-4'
         )}
       >
-        {isFiltering
-          ? Array.from({ length: posts.length > 10 ? 10 : posts.length }).map(
-              (_, index) => <PostCardSkeleton key={`skeleton-${index}`} />
-            )
-          : allPosts.map((post) => (
-              <li key={post._id}>
-                <PostCard post={post} className=' h-full' />
-              </li>
-            ))}
+        {isFiltering ? (
+          Array.from({ length: posts.length > 10 ? 10 : posts.length }).map(
+            (_, index) => <PostCardSkeleton key={`skeleton-${index}`} />
+          )
+        ) : allPosts.length > 0 ? (
+          allPosts.map((post) => (
+            <li key={post._id}>
+              <PostCard post={post} className=' h-full' />
+            </li>
+          ))
+        ) : (
+          <NoResultsMessage
+            hasSearchTerm={false}
+            hasActiveFilters={category !== 'all'}
+          />
+        )}
       </ul>
 
       <div className='px-side col-span-full mt-12 flex justify-center'>
         {isFetchingNextPage ? (
           <p className='text-light-blue'>Loading more posts...</p>
-        ) : !isMobile && hasNextPage && !isFiltering ? (
+        ) : !isMobile && hasNextPage && !isFiltering && allPosts.length > 0 ? (
           <UnderlinedButton
             onClick={handleLoadMore}
             disabled={isFetchingNextPage}

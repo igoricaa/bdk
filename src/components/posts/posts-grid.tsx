@@ -18,7 +18,10 @@ import SearchBar from '../ui/search-bar';
 import UnderlinedButton from '../ui/buttons/underlined-button';
 
 import { normalizeString } from '@/src/lib/utils/normalize-string';
-import { useAvailableCategoriesForYear, useAvailableYearsForCategory } from '@/src/hooks/use-filter-availability';
+import {
+  useAvailableCategoriesForYear,
+  useAvailableYearsForCategory,
+} from '@/src/hooks/use-filter-availability';
 import { filterCategoryTree } from '@/src/lib/utils/category-tree-helpers';
 import FilterButtonsSkeleton from '@/src/components/ui/filter-buttons-skeleton';
 import SidebarCategorySkeleton from '@/src/components/ui/sidebar-category-skeleton';
@@ -137,24 +140,31 @@ const PostsGrid = ({
   const isFiltering = isFetching && !isFetchingNextPage && !isInitialLoading;
 
   // React Query hooks for availability checking
-  const { data: availableCategorySlugs, isLoading: isLoadingCategories } = 
+  const { data: availableCategorySlugs, isLoading: isLoadingCategories } =
     useAvailableCategoriesForYear(year);
 
-  const { data: availableYears, isLoading: isLoadingYears } = 
+  const { data: availableYears, isLoading: isLoadingYears } =
     useAvailableYearsForCategory(category);
 
   // Filter category tree based on available categories
-  const filteredCategoryTree = categoryTree && year !== 'all' && availableCategorySlugs
-    ? filterCategoryTree(categoryTree, availableCategorySlugs)
-    : categoryTree;
+  const filteredCategoryTree =
+    categoryTree && year !== 'all' && availableCategorySlugs
+      ? filterCategoryTree(categoryTree, availableCategorySlugs)
+      : categoryTree;
 
   // Filter year options based on available years
-  const filteredYearOptions = yearFilterOptions && category !== 'all' && availableYears
-    ? yearFilterOptions.filter(option => option.slug === 'all' || availableYears.includes(option.slug))
-    : yearFilterOptions;
+  const filteredYearOptions =
+    yearFilterOptions && category !== 'all' && availableYears
+      ? yearFilterOptions.filter(
+          (option) =>
+            option.slug === 'all' || availableYears.includes(option.slug)
+        )
+      : yearFilterOptions;
 
   const sidebarData =
-    showSidebar && filteredCategoryTree ? transformCategoriesData(filteredCategoryTree) : null;
+    showSidebar && filteredCategoryTree
+      ? transformCategoriesData(filteredCategoryTree)
+      : null;
 
   const displayedPosts = useMemo(() => {
     if (!searchTerm || searchTerm.trim() === '') {
@@ -172,8 +182,8 @@ const PostsGrid = ({
   const activeFilters = filteredYearOptions ? (
     <>
       {isLoadingYears && category !== 'all' ? (
-        <FilterButtonsSkeleton 
-          variant='dark' 
+        <FilterButtonsSkeleton
+          variant='dark'
           className='w-full pl-side md:pl-0 lg:w-fit'
           count={3}
         />
@@ -241,7 +251,9 @@ const PostsGrid = ({
                   mobileOnly={isMobile}
                   forPosts={true}
                   accordionValue={isMobile ? mobileAccordionValue : undefined}
-                  onAccordionValueChange={isMobile ? setMobileAccordionValue : undefined}
+                  onAccordionValueChange={
+                    isMobile ? setMobileAccordionValue : undefined
+                  }
                 />
               ) : null}
             </>
@@ -307,7 +319,9 @@ const PostsGrid = ({
                 mobileOnly={isMobile}
                 forPosts={true}
                 accordionValue={isMobile ? mobileAccordionValue : undefined}
-                onAccordionValueChange={isMobile ? setMobileAccordionValue : undefined}
+                onAccordionValueChange={
+                  isMobile ? setMobileAccordionValue : undefined
+                }
               />
             ) : null}
           </>
@@ -341,7 +355,10 @@ const PostsGrid = ({
         <div className='col-span-full mt-12 flex justify-center'>
           {isFetchingNextPage ? (
             <p className='text-light-blue'>Loading more posts...</p>
-          ) : !isMobile && hasNextPage && !isFiltering ? (
+          ) : !isMobile &&
+            hasNextPage &&
+            !isFiltering &&
+            displayedPosts.length > 0 ? (
             <UnderlinedButton
               onClick={handleLoadMore}
               disabled={isFetchingNextPage}
