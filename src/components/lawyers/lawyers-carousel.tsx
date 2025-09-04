@@ -21,7 +21,7 @@ const LawyersCarousel = ({
         containScroll: 'trimSnaps',
       }}
     >
-      <CarouselContent className='ml-0 pl-[calc(var(--padding-side)-20px)] 2xl:pl-[calc(var(--padding-side)-32px)] lg:has-[.toBlur:hover]:[&_.toBlur]:blur-xxs'>
+      <CarouselContent className='ml-0 pl-[calc(var(--padding-side)-20px)] 2xl:pl-[calc(var(--padding-side)-32px)]'>
         <AnimatePresence mode='wait'>
           {lawyers.map((lawyer) => (
             <CarouselItem
@@ -29,10 +29,7 @@ const LawyersCarousel = ({
               className='basis-[23%] pl-5 2xl:pl-8 '
             >
               <AnimateInView key={lawyer.name} className='w-fit' duration={0.2}>
-                <LawyerCard
-                  lawyer={lawyer}
-                  className='toBlur hover:!blur-none transition-blur duration-300'
-                />
+                <LawyerCard lawyer={lawyer} />
               </AnimateInView>
             </CarouselItem>
           ))}
