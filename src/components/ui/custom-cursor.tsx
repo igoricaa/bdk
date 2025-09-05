@@ -12,12 +12,8 @@ const CustomCursor = () => {
         <Cursor
           follow
           center={{ x: 0.5, y: 0.5 }}
-          className='flex items-center justify-center min-w-17 min-h-17 max-w-17 max-h-17 p-4 rounded-full! bg-light-blue/90! backdrop-blur-sm'
-        >
-          <span className='text-white text-sm text-center leading-none'>
-            {zone === 'lawyers-card' ? 'View profile' : 'Read more'}
-          </span>
-        </Cursor>
+          className='flex items-center justify-center min-w-12 min-h-12 max-w-12 max-h-12 p-4 rounded-full! bg-light-blue/90! backdrop-blur-sm'
+        ></Cursor>
       )}
     </AnimatePresence>
   );

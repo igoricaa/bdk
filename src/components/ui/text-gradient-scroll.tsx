@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useRef } from 'react';
+import React, { createContext, useContext, useMemo, useRef } from 'react';
 import { useScroll, useTransform, motion, MotionValue } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 
@@ -53,9 +53,22 @@ function TextGradientScroll({
   textOpacity = 'soft',
 }: TextGradientScrollType) {
   const ref = useRef<HTMLParagraphElement>(null);
+  // Reach 1 when bottom is 150px above viewport center
+  const endContainerPoint = useMemo(() => {
+    if (typeof window === 'undefined') return '50vh';
+    const px = Math.max(0, window.innerHeight / 2 - 150);
+    return `${px}px`;
+  }, []);
+
+  const offsets = useMemo<[string, string]>(
+    () => ['-200px center', `end ${endContainerPoint}`],
+    [endContainerPoint]
+  );
+
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['start center', 'end center'],
+    // Cast to satisfy Motion's narrow template literal types
+    offset: offsets as unknown as any[],
   });
 
   const words = text.split(' ');
