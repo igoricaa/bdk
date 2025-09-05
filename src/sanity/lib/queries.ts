@@ -199,7 +199,7 @@ export const LAWYERS_BY_CATEGORY_QUERY = defineQuery(`{
 }`);
 
 export const SERVICES_QUERY = defineQuery(`{
-  "industries": *[_type == "industry"]{
+  "industries": *[_type == "industry"] | order(lower(title) asc){
     title,
     slug,
     illustration{
@@ -208,7 +208,7 @@ export const SERVICES_QUERY = defineQuery(`{
       mobile
     }
   },
-  "practices": *[_type == "practice"]{
+  "practices": *[_type == "practice"] | order(lower(title) asc){
     title,
     slug,
     illustration{
@@ -217,7 +217,7 @@ export const SERVICES_QUERY = defineQuery(`{
       mobile
     }
   },
-  "foreignDesks": *[_type == "foreignDesk"]{
+  "foreignDesks": *[_type == "foreignDesk"] | order(lower(title) asc){
     title,
     slug,
     illustration{

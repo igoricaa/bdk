@@ -225,7 +225,6 @@ export default function SubscriptionForm({
   });
 
   function onSubmit(values: SubscriptionFormValues) {
-    console.log('Form Submitted:', JSON.stringify(values, null, 2));
     alert('Form submitted! Check the console for the form data.');
   }
 
