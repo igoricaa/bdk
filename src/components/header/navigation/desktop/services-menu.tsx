@@ -26,7 +26,7 @@ const ServicesMenu = ({
 }) => {
   const pathname = usePathname();
   const [activeService, setActiveService] = useState<NavigationRoute>({
-    label: 'Services',
+    label: 'Expertise',
     href: '',
     illustration: {
       mobile: servicesRoute.illustration?.mobile,
@@ -38,12 +38,21 @@ const ServicesMenu = ({
       pathname.startsWith('/practices') ||
       pathname.startsWith('/industries') ||
       pathname.startsWith('/foreign-desks') ||
-      pathname.startsWith('/services')
+      pathname.startsWith('/expertise')
     );
   };
 
+  const hasForeignDesks = Boolean(
+    servicesRoute.subRoutes?.find(
+      (sub) =>
+        sub.label === 'Foreign Desks' &&
+        Array.isArray(sub.subRoutes) &&
+        sub.subRoutes.length > 0
+    )
+  );
+
   return (
-    <NavigationMenuItem value='Services'>
+    <NavigationMenuItem value='Expertise'>
       <NavigationMenuTrigger
         className={cn(
           navMenuTriggerClasses,
@@ -53,7 +62,14 @@ const ServicesMenu = ({
         {servicesRoute.label}
       </NavigationMenuTrigger>
       <NavigationMenuContent className='fixed! left-1/2 -translate-x-1/2 top-24! mt-0! bg-white'>
-        <div className='grid gap-5 min-w-7xl w-7xl lg:grid-cols-[270px_1fr_1fr_1fr_180px] h-full'>
+        <div
+          className={cn(
+            'grid gap-5 min-w-7xl w-7xl h-full',
+            hasForeignDesks
+              ? 'lg:grid-cols-[270px_1fr_1fr_1fr_180px]'
+              : 'lg:grid-cols-[270px_1fr_1fr_1fr]'
+          )}
+        >
           {/* Column 1: Featured Illustration */}
           <div className='row-span-3'>
             <NavigationMenuLink asChild>
@@ -65,7 +81,7 @@ const ServicesMenu = ({
                   <div className='mb-4 bg-dark-blue aspect-[231/256] rounded-bl-[70px] overflow-hidden'>
                     <Image
                       src={urlFor(activeService.illustration?.mobile).url()}
-                      alt='Services'
+                      alt='Expertise'
                       width={231}
                       height={256}
                       className='w-full h-full object-contain'

@@ -129,11 +129,11 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
             ])
         ),
       S.listItem()
-        .title('Services')
+        .title('Expertise')
         .icon(FileIcon)
         .child(
           S.list()
-            .title('Services')
+            .title('Expertise')
             .items([
               S.listItem()
                 .title('Practices')

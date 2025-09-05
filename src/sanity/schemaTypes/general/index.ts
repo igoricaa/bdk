@@ -11,7 +11,7 @@ export const generalInfoType = defineType({
     },
     {
       name: 'services',
-      title: 'Services Category Illustrations',
+      title: 'Expertise Category Illustrations',
     },
     {
       name: 'posts',
@@ -71,16 +71,16 @@ export const generalInfoType = defineType({
     }),
     defineField({
       name: 'servicesCategoryIllustrations',
-      title: 'Services Category Illustrations',
+      title: 'Expertise Category Illustrations',
       type: 'object',
       description: 'General illustrations for each service category',
       group: 'services',
       fields: [
         defineField({
           name: 'servicesIllustration',
-          title: 'Services (General)',
+          title: 'Expertise (General)',
           type: 'image',
-          description: 'General illustration for the overall services category',
+          description: 'General illustration for the overall expertise category',
           validation: (rule) => rule.required(),
         }),
         defineField({
@@ -106,7 +106,7 @@ export const generalInfoType = defineType({
         }),
       ],
       validation: (rule) =>
-        rule.required().error('Services category illustrations are required'),
+        rule.required().error('Expertise category illustrations are required'),
     }),
     defineField({
       name: 'postCategoriesIllustrations',
@@ -200,8 +200,8 @@ export const generalInfoType = defineType({
         ? countriesCount.length
         : 0;
       const hasServicesIllustrations = servicesIllustrations
-        ? '✓ Services illustrations'
-        : '✗ No services illustrations';
+        ? '✓ Expertise illustrations'
+        : '✗ No expertise illustrations';
 
       return {
         title: title || 'General Information',

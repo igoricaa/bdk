@@ -121,12 +121,11 @@ const LawyerPage = async ({
             <BackToButton
               href='/people'
               text='Back to People'
-              variant='dark'
               className='hidden xl:flex ml-auto 2xl:translate-x-[calc((100vw-2*(var(--padding-side)))/12)]'
             />
             <div className='xl:mt-18 2xl:mt-43'>
               <h2 className='text-dark-blue text-2xl sm:text-3xl 2xl:text-4xl'>
-                Background
+                About
               </h2>
               <PortableText
                 value={lawyer.bio as PortableTextBlock[]}

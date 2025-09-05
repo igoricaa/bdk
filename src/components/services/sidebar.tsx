@@ -33,7 +33,7 @@ const Sidebar = ({
   return (
     <GenericSidebar
       sections={sections}
-      mobileTitle={currentService?.title || 'Services'}
+      mobileTitle={currentService?.title || 'Expertise'}
       className={className}
       mobileOnly={mobileOnly}
     />

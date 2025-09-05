@@ -25,12 +25,12 @@ const DesktopNavigation = async ({
         viewport={false}
         className='hidden lg:flex'
         // value='About Us'
-        // value='Services'
+        // value='Expertise'
         // value='BDKnowledge'
       >
         <NavigationMenuList className='gap-5 justify-start'>
           {navigationRoutes.map((route) => {
-            if (route.label === 'Services') {
+            if (route.label === 'Expertise') {
               return <ServicesMenu key={route.label} servicesRoute={route} />;
             }
             if (route.label === 'BDKnowledge') {

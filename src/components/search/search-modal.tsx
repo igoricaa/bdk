@@ -131,7 +131,7 @@ const SearchResultsDropdown = ({
   }, [results]);
 
   const hasResults = Object.keys(groupedResults).length > 0;
-  const groupOrder = ['People', 'Services', 'Posts'];
+  const groupOrder = ['People', 'Expertise', 'Posts'];
 
   return (
     <motion.div

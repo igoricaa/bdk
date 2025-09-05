@@ -17,7 +17,7 @@ const ServicesSection = ({
   >['servicesCategoryIllustrations'];
 }) => {
   const [activeService, setActiveService] = useState({
-    title: 'Services',
+    title: 'Expertise',
     illustration: {
       mobile: servicesCategoryIllustrations.servicesIllustration,
     },

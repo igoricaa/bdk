@@ -100,7 +100,11 @@ const FooterHeading = ({ children }: { children: React.ReactNode }) => {
 const FooterSocial = ({ social }: { social: Social }) => {
   return (
     <li key={social.name}>
-      <TransitionLink href={social.link} className='flex items-center gap-2.5'>
+      <Link
+        href={social.link}
+        className='flex items-center gap-2.5'
+        target='_blank'
+      >
         <SocialBgIcon
           socialName={social.name}
           socialIcon={social.icons.iconDark}
@@ -108,7 +112,7 @@ const FooterSocial = ({ social }: { social: Social }) => {
         <span className='hidden md:block text-light-blue text-xs xl:text-sm 2xl:text-lg whitespace-nowrap'>
           Follow us on {social.name}
         </span>
-      </TransitionLink>
+      </Link>
     </li>
   );
 };
@@ -189,7 +193,7 @@ const MobileLinks = ({
             Junior Associates
           </FooterLink>
         </MobileAccordionItem>
-        <MobileAccordionItem title='Services'>
+        <MobileAccordionItem title='Expertise'>
           <FooterLink
             href='/practices/banking-and-finance'
             pageName='Practices'
@@ -299,7 +303,7 @@ const DesktopLinks = ({
         </ul>
       </div>
       <div>
-        <FooterHeading>Services</FooterHeading>
+        <FooterHeading>Expertise</FooterHeading>
         <ul className='flex flex-col gap-y-6 mt-6 lg:has-[li:hover]:[&>li]:opacity-40'>
           <FooterLink
             href='/practices/banking-and-finance'

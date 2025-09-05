@@ -26,7 +26,7 @@ const FeaturedPostsCarousel = ({
       }}
       plugins={[
         Autoplay({
-          delay: 300000,
+          delay: 4000,
         }),
       ]}
     >

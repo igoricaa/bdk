@@ -73,7 +73,7 @@ export const getHeaderData = async (): Promise<{
       href: '/people',
     },
     {
-      label: 'Services',
+      label: 'Expertise',
       illustration: {
         mobile: generalInfo?.servicesCategoryIllustrations
           .servicesIllustration as NonNullable<
@@ -113,22 +113,26 @@ export const getHeaderData = async (): Promise<{
             },
           })),
         },
-        {
-          label: 'Foreign Desks',
-          illustration: {
-            mobile: generalInfo?.servicesCategoryIllustrations
-              .foreignDesksIllustration as NonNullable<
-              GENERAL_INFO_QUERYResult['generalInfo']
-            >['servicesCategoryIllustrations']['foreignDesksIllustration'],
-          },
-          subRoutes: foreignDesks.map((foreignDesk) => ({
-            label: foreignDesk.title,
-            href: `/foreign-desks/${foreignDesk.slug.current}`,
-            illustration: {
-              mobile: foreignDesk.illustration?.mobile,
-            },
-          })),
-        },
+        ...((foreignDesks && foreignDesks.length > 0)
+          ? [
+              {
+                label: 'Foreign Desks',
+                illustration: {
+                  mobile: generalInfo?.servicesCategoryIllustrations
+                    .foreignDesksIllustration as NonNullable<
+                    GENERAL_INFO_QUERYResult['generalInfo']
+                  >['servicesCategoryIllustrations']['foreignDesksIllustration'],
+                },
+                subRoutes: foreignDesks.map((foreignDesk) => ({
+                  label: foreignDesk.title,
+                  href: `/foreign-desks/${foreignDesk.slug.current}`,
+                  illustration: {
+                    mobile: foreignDesk.illustration?.mobile,
+                  },
+                })),
+              } as SubRoutesRoute,
+            ]
+          : []),
       ],
     },
     {
