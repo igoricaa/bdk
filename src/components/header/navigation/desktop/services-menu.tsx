@@ -87,17 +87,20 @@ const ServicesMenu = ({
 
             if (!practicesSection?.subRoutes) return null;
 
+            const items = practicesSection.subRoutes;
+            const midIndex = Math.ceil(items.length / 2);
+
             return (
               <>
                 <ServiceSection
                   setActiveItem={setActiveService}
                   sectionLabel='Practices'
-                  subRoutes={practicesSection.subRoutes.slice(0, 6)}
+                  subRoutes={items.slice(0, midIndex)}
                 />
 
                 <ServiceSection
                   setActiveItem={setActiveService}
-                  subRoutes={practicesSection.subRoutes.slice(6, 12)}
+                  subRoutes={items.slice(midIndex)}
                 />
               </>
             );
