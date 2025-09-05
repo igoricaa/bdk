@@ -24,10 +24,11 @@ export const aboutUsHeroSectionType = defineType({
     defineField({
       name: 'mainDescription',
       title: 'Main Description',
-      type: 'text',
+      type: 'blockContent',
       description:
         'Main description text that will be displayed in hero section',
-      validation: (rule) => rule.required(),
+      validation: (rule) =>
+        rule.required().error('Main description is required'),
     }),
     defineField({
       name: 'secondaryDescription',

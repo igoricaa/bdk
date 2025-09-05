@@ -6,6 +6,7 @@ import {
   getAboutUsPageData,
   getGeneralInfoData,
 } from '@/src/sanity/lib/cached-queries';
+import { PortableTextBlock } from 'next-sanity';
 
 const AboutUsPage = async () => {
   const [aboutUsPage, generalInfo] = await Promise.all([
@@ -26,7 +27,9 @@ const AboutUsPage = async () => {
           subtitle={aboutUsPageData?.hero.subtitle || ''}
           heading={aboutUsPageData?.hero.heading || ''}
           image={aboutUsPageData?.hero.backgroundImage || ''}
-          highlightedText={aboutUsPageData?.hero.mainDescription || ''}
+          highlightedText={
+            (aboutUsPageData?.hero.mainDescription as PortableTextBlock[]) || ''
+          }
           description={aboutUsPageData?.hero.secondaryDescription || ''}
           className='px-side'
         />
