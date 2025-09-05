@@ -441,7 +441,7 @@ export const LAWYER_QUERY = defineQuery(`{
     _type == "post" 
     && status == "publish"
     && references(*[_type=="category" && name=="Newsroom"]._id)
-    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0
+    && count(authors[@->type == "lawyer" && @->lawyer._ref == *[_type == "lawyer" && slug.current == $slug][0]._id]) > 0
   ] | order(date desc)[0...4]{
     title,
     slug,
@@ -451,7 +451,7 @@ export const LAWYER_QUERY = defineQuery(`{
     _type == "post" 
     && status == "publish"
     && references(*[_type=="category" && name=="Blog"]._id)
-    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0
+    && count(authors[@->type == "lawyer" && @->lawyer._ref == *[_type == "lawyer" && slug.current == $slug][0]._id]) > 0
   ] | order(date desc)[0...4]{
     title,
     slug,
@@ -461,7 +461,7 @@ export const LAWYER_QUERY = defineQuery(`{
     _type == "post" 
     && status == "publish"
     && references(*[_type=="category" && name=="Insights"]._id)
-    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0
+    && count(authors[@->type == "lawyer" && @->lawyer._ref == *[_type == "lawyer" && slug.current == $slug][0]._id]) > 0
   ] | order(date desc)[0...4]{
     title,
     slug,
@@ -471,7 +471,7 @@ export const LAWYER_QUERY = defineQuery(`{
     _type == "post" 
     && status == "publish"
     && references(*[_type=="category" && name=="Publications"]._id)
-    && count(authors[]->{type, lawyer}[type == "lawyer" && lawyer._ref == ^.^.^._id]) > 0
+    && count(authors[@->type == "lawyer" && @->lawyer._ref == *[_type == "lawyer" && slug.current == $slug][0]._id]) > 0
   ] | order(date desc)[0...4]{
     title,
     slug,
