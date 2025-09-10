@@ -33,7 +33,6 @@ const LawyerPage = async ({
 
   const {
     lawyer,
-    sameCategoryLawyers,
     categoryInfo,
     newsroomPosts,
     blogPosts,
@@ -45,16 +44,7 @@ const LawyerPage = async ({
     return <div>Lawyer not found</div>;
   }
 
-  const orderedCategoryLawyers = categoryInfo?.orderedLawyers
-    ? categoryInfo.orderedLawyers
-        .map((orderedLawyer: any) =>
-          sameCategoryLawyers?.find(
-            (lawyer: any) =>
-              lawyer?.slug?.current === orderedLawyer?.slug?.current
-          )
-        )
-        .filter(Boolean)
-    : sameCategoryLawyers || [];
+  const orderedCategoryLawyers = categoryInfo?.orderedLawyers;
 
   const hasTeamMembers =
     orderedCategoryLawyers && orderedCategoryLawyers.length > 0;

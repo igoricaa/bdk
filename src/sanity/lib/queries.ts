@@ -419,23 +419,19 @@ export const GENERAL_INFO_QUERY = defineQuery(`{
 
 export const LAWYER_QUERY = defineQuery(`{
   "lawyer": *[_type == "lawyer" && slug.current == $slug && (!defined(isVisible) || isVisible == true)][0],
-  "sameCategoryLawyers": *[_type == "lawyer" && category._ref == *[_type == "lawyer" && slug.current == $slug && (!defined(isVisible) || isVisible == true)][0].category._ref && slug.current != $slug && (!defined(isVisible) || isVisible == true)]{
-    _id,
-    name,
-    title,
-    picture,
-    slug,
-    contactInfo {
-      linkedin
-    }
-  },
   "categoryInfo": *[_type == "lawyerCategory" && _id == *[_type == "lawyer" && slug.current == $slug && (!defined(isVisible) || isVisible == true)][0].category._ref][0]{
     _id,
     title,
-    "orderedLawyers": orderedLawyers[]->{
+    "orderedLawyers": orderedLawyers[!defined(isVisible) || isVisible == true]->{ 
       _id,
-      slug
-    }[!defined(isVisible) || isVisible == true]
+      name,
+      title,
+      picture,
+      slug,
+      contactInfo {
+        linkedin
+      },
+    }
   },
   "newsroomPosts": *[
     _type == "post" 
