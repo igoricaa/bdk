@@ -39,6 +39,33 @@ export const serviceBaseFields = [
     validation: (rule) => rule.required(),
   }),
   defineField({
+    name: 'relatedExpertise',
+    title: 'Related Expertise',
+    type: 'array',
+    of: [
+      {
+        type: 'reference',
+        to: [
+          { type: 'practice' },
+          { type: 'industry' },
+          { type: 'foreignDesk' },
+        ],
+        options: {
+          filter: ({ document }) => {
+            return {
+              filter: '_id != $currentId',
+              params: {
+                currentId: document._id,
+              },
+            };
+          },
+        },
+      },
+    ],
+    description:
+      'Select related services from practices, industries, or foreign desks',
+  }),
+  defineField({
     name: 'illustration',
     title: 'Illustration',
     type: 'illustration',

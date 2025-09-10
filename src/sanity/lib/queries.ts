@@ -235,6 +235,7 @@ export const SERVICE_QUERY = defineQuery(`{
     title,
     slug,
     description,
+    relatedExpertise,
     illustration{
       desktop,
       tablet,
