@@ -13,17 +13,11 @@ import { AnimateOnLoad } from '../animations/animate-on-load';
 interface ServicePageProps {
   serviceType: 'practice' | 'industry' | 'foreign-desk';
   currentService: ServiceData;
-  practices: Array<{ title: string; slug: { current: string } }>;
-  industries: Array<{ title: string; slug: { current: string } }>;
-  foreignDesks: Array<{ title: string; slug: { current: string } }>;
 }
 
 const ServicePage = ({
   serviceType,
   currentService,
-  practices,
-  industries,
-  foreignDesks,
 }: ServicePageProps) => {
   if (!currentService) {
     return <div>No {serviceType} found</div>;
@@ -90,9 +84,6 @@ const ServicePage = ({
 
       <Sidebar
         currentService={currentService}
-        practices={practices}
-        industries={industries}
-        foreignDesks={foreignDesks}
         serviceType={serviceType}
         mobileOnly={true}
         className='-ml-0! w-screen px-side xl:hidden'
@@ -100,9 +91,6 @@ const ServicePage = ({
 
       <SimpleServiceContentSection
         currentService={currentService}
-        practices={practices}
-        industries={industries}
-        foreignDesks={foreignDesks}
         serviceType={serviceType}
       />
 

@@ -8,6 +8,73 @@ import ServicesIcon from '@/src/components/ui/icons/services-icon';
 import IndustriesIcon from '@/src/components/ui/icons/industries-icon';
 import ForeignDesksIcon from '@/src/components/ui/icons/foreign-desks-icon';
 
+// Transform related expertise to SidebarSection[]
+export function transformRelatedExpertise({
+  relatedExpertise,
+  currentServiceType,
+}: {
+  relatedExpertise: Array<{
+    _type: string;
+    title: string;
+    slug: { current: string };
+  }>;
+  currentServiceType: 'practice' | 'industry' | 'foreign-desk';
+}): SidebarSection[] {
+  // Group related expertise by type
+  const practices = relatedExpertise.filter((item) => item._type === 'practice');
+  const industries = relatedExpertise.filter((item) => item._type === 'industry');
+  const foreignDesks = relatedExpertise.filter((item) => item._type === 'foreignDesk');
+
+  const sections: SidebarSection[] = [];
+
+  if (practices.length > 0) {
+    sections.push({
+      id: 'practice',
+      title: 'Related Practices',
+      icon: ServicesIcon,
+      items: practices.map((practice) => ({
+        id: practice.slug.current,
+        title: practice.title,
+        slug: practice.slug.current,
+      })),
+      basePath: '/practices',
+      defaultOpen: currentServiceType === 'practice',
+    });
+  }
+
+  if (industries.length > 0) {
+    sections.push({
+      id: 'industry',
+      title: 'Related Industries',
+      icon: IndustriesIcon,
+      items: industries.map((industry) => ({
+        id: industry.slug.current,
+        title: industry.title,
+        slug: industry.slug.current,
+      })),
+      basePath: '/industries',
+      defaultOpen: currentServiceType === 'industry',
+    });
+  }
+
+  if (foreignDesks.length > 0) {
+    sections.push({
+      id: 'foreign-desk',
+      title: 'Related Foreign Desks',
+      icon: ForeignDesksIcon,
+      items: foreignDesks.map((desk) => ({
+        id: desk.slug.current,
+        title: desk.title,
+        slug: desk.slug.current,
+      })),
+      basePath: '/foreign-desks',
+      defaultOpen: currentServiceType === 'foreign-desk',
+    });
+  }
+
+  return sections;
+}
+
 // Transform services data (practices, industries, foreign desks) to SidebarSection[]
 export function transformServicesData({
   practices,

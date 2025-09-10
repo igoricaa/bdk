@@ -6,17 +6,11 @@ import { FOREIGN_DESK_QUERYResult } from '@/sanity.types';
 
 interface SimpleServiceContentSectionProps {
   currentService: ServiceData;
-  practices: Array<{ title: string; slug: { current: string } }>;
-  industries: Array<{ title: string; slug: { current: string } }>;
-  foreignDesks: Array<{ title: string; slug: { current: string } }>;
   serviceType: 'practice' | 'industry' | 'foreign-desk';
 }
 
 const SimpleServiceContentSection = ({
   currentService,
-  practices,
-  industries,
-  foreignDesks,
   serviceType,
 }: SimpleServiceContentSectionProps) => {
   if (!currentService) {
@@ -27,9 +21,6 @@ const SimpleServiceContentSection = ({
     <section className='px-side pt-0 pb-28 md:pb-39 xl:pt-38 xl:pb-21 2xl:pt-44 2xl:pb-40 relative xl:flex xl:gap-x-18 2xl:gap-x-34'>
       <Sidebar
         currentService={currentService}
-        practices={practices}
-        industries={industries}
-        foreignDesks={foreignDesks}
         serviceType={serviceType}
         className='hidden xl:block h-fit px-side xl:p-4 2xl:px-5 2xl:py-7 '
       />

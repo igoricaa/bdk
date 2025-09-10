@@ -1,14 +1,9 @@
 import GenericSidebar from '@/src/components/ui/generic-sidebar';
 import { ServiceData } from '@/src/types/service';
-import { transformServicesData } from '@/src/lib/utils/sidebar-transformers';
+import { transformRelatedExpertise } from '@/src/lib/utils/sidebar-transformers';
 
 interface SidebarProps {
   currentService: ServiceData;
-  practices: Array<{ title: string; slug: { current: string } }>;
-  industries: Array<{ title: string; slug: { current: string } }>;
-  foreignDesks:
-    | Array<{ title: string; slug: { current: string } }>
-    | Array<{ title: string; slug: { current: string } }>;
   className?: string;
   serviceType: 'practice' | 'industry' | 'foreign-desk';
   mobileOnly?: boolean;
@@ -16,17 +11,21 @@ interface SidebarProps {
 
 const Sidebar = ({
   currentService,
-  practices,
-  industries,
-  foreignDesks,
   serviceType,
   className,
   mobileOnly,
 }: SidebarProps) => {
-  const sections = transformServicesData({
-    practices,
-    industries,
-    foreignDesks,
+  // Filter out unexpanded references and only use expanded ones
+  const expandedRelatedExpertise = (currentService.relatedExpertise || [])
+    .filter((item: any) => item && typeof item === 'object' && 'title' in item && 'slug' in item)
+    .map((item: any) => ({
+      _type: item._type,
+      title: item.title,
+      slug: { current: item.slug?.current || item.slug }
+    }));
+
+  const sections = transformRelatedExpertise({
+    relatedExpertise: expandedRelatedExpertise,
     currentServiceType: serviceType,
   });
 

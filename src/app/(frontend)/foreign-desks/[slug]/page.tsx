@@ -18,13 +18,9 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  const [serviceResult, servicesResult] = await Promise.all([
-    getForeignDeskPageData(slug),
-    getServicesData(),
-  ]);
+  const serviceResult = await getForeignDeskPageData(slug);
 
   const { currentForeignDesk } = serviceResult;
-  const { practices, industries, foreignDesks } = servicesResult;
 
   if (!currentForeignDesk) {
     return <div>Foreign desk not found</div>;
@@ -34,9 +30,6 @@ export default async function Page({
     <ServicePage
       serviceType='foreign-desk'
       currentService={currentForeignDesk}
-      practices={practices}
-      industries={industries}
-      foreignDesks={foreignDesks}
     />
   );
 }

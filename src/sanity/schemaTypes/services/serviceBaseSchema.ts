@@ -78,8 +78,6 @@ export const serviceBaseFields = [
     title: 'Lawyers',
     type: 'array',
     of: [{ type: 'reference', to: [{ type: 'lawyer' }] }],
-    validation: (rule) =>
-      rule.required().min(1).error('At least one lawyer must be assigned'),
   }),
   defineField({
     name: 'publications',

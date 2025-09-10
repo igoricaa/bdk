@@ -2643,7 +2643,7 @@ export type SERVICES_QUERYResult = {
   }>;
 };
 // Variable: SERVICE_QUERY
-// Query: {  "currentService": *[_type == $type && slug.current == $slug][0]{    _id,    _type,    title,    slug,    description,    relatedExpertise,    illustration{      desktop,      tablet,      mobile    },    testimonials[]{      text,      author    },    publications,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo,      isVisible    },    newsroom[]->{      _id,      title,      slug,      date,    },    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },  },}
+// Query: {  "currentService": *[_type == $type && slug.current == $slug][0]{    _id,    _type,    title,    slug,    description,    relatedExpertise[]->{      _id,      _type,      title,      slug    },    illustration{      desktop,      tablet,      mobile    },    testimonials[]{      text,      author    },    publications,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo,      isVisible    },    newsroom[]->{      _id,      title,      slug,      date,    },    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },  },}
 export type SERVICE_QUERYResult = {
   currentService: {
     _id: string;
@@ -2919,20 +2919,20 @@ export type SERVICE_QUERYResult = {
       }>;
     } | null;
     relatedExpertise: Array<{
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "foreignDesk";
+      _id: string;
+      _type: "foreignDesk";
+      title: string;
+      slug: Slug;
     } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "industry";
+      _id: string;
+      _type: "industry";
+      title: string;
+      slug: Slug;
     } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "practice";
+      _id: string;
+      _type: "practice";
+      title: string;
+      slug: Slug;
     }> | null;
     illustration: {
       desktop: {
@@ -3110,20 +3110,20 @@ export type SERVICE_QUERYResult = {
       _key: string;
     }>;
     relatedExpertise: Array<{
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "foreignDesk";
+      _id: string;
+      _type: "foreignDesk";
+      title: string;
+      slug: Slug;
     } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "industry";
+      _id: string;
+      _type: "industry";
+      title: string;
+      slug: Slug;
     } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "practice";
+      _id: string;
+      _type: "practice";
+      title: string;
+      slug: Slug;
     }> | null;
     illustration: {
       desktop: {
@@ -3415,20 +3415,20 @@ export type SERVICE_QUERYResult = {
       _key: string;
     }>;
     relatedExpertise: Array<{
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "foreignDesk";
+      _id: string;
+      _type: "foreignDesk";
+      title: string;
+      slug: Slug;
     } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "industry";
+      _id: string;
+      _type: "industry";
+      title: string;
+      slug: Slug;
     } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "practice";
+      _id: string;
+      _type: "practice";
+      title: string;
+      slug: Slug;
     }> | null;
     illustration: {
       desktop: {
@@ -4501,7 +4501,7 @@ declare module "@sanity/client" {
     "{\n  \"lawyers\": *[_type == \"lawyer\" && (!defined(isVisible) || isVisible == true)]{\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug,\n      order,\n      orderedLawyers[]->{\n        _id,\n        slug\n      }\n    },\n    contactInfo\n  }\n}": LAWYERS_QUERYResult;
     "{\n  \"categories\": *[_type == \"lawyerCategory\"] | order(order asc) {\n    _id,\n    title,\n    slug,\n    order,\n    \"orderedLawyers\": orderedLawyers[]->{ \n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo {\n        linkedin\n      },\n      isVisible\n    }\n  }\n}": LAWYERS_BY_CATEGORY_QUERYResult;
     "{\n  \"industries\": *[_type == \"industry\"] | order(lower(title) asc){\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"practices\": *[_type == \"practice\"] | order(lower(title) asc){\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"foreignDesks\": *[_type == \"foreignDesk\"] | order(lower(title) asc){\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  }\n}": SERVICES_QUERYResult;
-    "{\n  \"currentService\": *[_type == $type && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    description,\n    relatedExpertise,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    },\n    testimonials[]{\n      text,\n      author\n    },\n    publications,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo,\n      isVisible\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n}": SERVICE_QUERYResult;
+    "{\n  \"currentService\": *[_type == $type && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    description,\n    relatedExpertise[]->{\n      _id,\n      _type,\n      title,\n      slug\n    },\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    },\n    testimonials[]{\n      text,\n      author\n    },\n    publications,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo,\n      isVisible\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n}": SERVICE_QUERYResult;
     "{\n  \"currentForeignDesk\": *[_type == \"foreignDesk\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo,\n      isVisible\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n}": FOREIGN_DESK_QUERYResult;
     "*[_type == \"author\"] {\n    slug,\n}": AUTHORS_QUERYResult;
     "*[_type == \"post\" && status == \"publish\"]{\n  slug\n}": POSTS_QUERY_WITH_SLUGSResult;

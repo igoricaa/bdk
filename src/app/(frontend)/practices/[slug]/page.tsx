@@ -18,25 +18,13 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  const [serviceResult, servicesResult] = await Promise.all([
-    getServicePageData('practice', slug),
-    getServicesData(),
-  ]);
+  const serviceResult = await getServicePageData('practice', slug);
 
   const { currentService } = serviceResult;
-  const { practices, industries, foreignDesks } = servicesResult;
 
   if (!currentService) {
     return <div>Practice not found</div>;
   }
 
-  return (
-    <ServicePage
-      serviceType='practice'
-      currentService={currentService}
-      practices={practices}
-      industries={industries}
-      foreignDesks={foreignDesks}
-    />
-  );
+  return <ServicePage serviceType='practice' currentService={currentService} />;
 }
