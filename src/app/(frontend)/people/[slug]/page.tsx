@@ -127,7 +127,7 @@ const LawyerPage = async ({
               lawyer.areasOfExpertise.items.length > 0 && (
                 <div className='mt-12 sm:mt-18 xl:mt-22 2xl:mt-28'>
                   <h2 className='text-dark-blue text-2xl sm:text-3xl 2xl:text-4xl'>
-                    {lawyer.areasOfExpertise.title || 'Areas of Expertise'}
+                    Areas of Expertise
                   </h2>
                   <ul className='mt-8 xl:mt-10 2xl:mt-15'>
                     {lawyer.areasOfExpertise.items.map(

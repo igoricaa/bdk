@@ -9618,13 +9618,6 @@
         "value": {
           "type": "object",
           "attributes": {
-            "title": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string"
-              },
-              "optional": true
-            },
             "items": {
               "type": "objectAttribute",
               "value": {

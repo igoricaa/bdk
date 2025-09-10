@@ -105,12 +105,6 @@ export const lawyerType = defineType({
       type: 'object',
       fields: [
         defineField({
-          name: 'title',
-          title: 'Section Title',
-          type: 'string',
-          placeholder: 'Areas of expertise',
-        }),
-        defineField({
           name: 'items',
           title: 'Expertise Areas',
           type: 'array',
@@ -123,7 +117,8 @@ export const lawyerType = defineType({
       name: 'isVisible',
       title: 'Display in Public Listings',
       type: 'boolean',
-      description: 'When unchecked, this lawyer will not appear in team listings, people page, or have their own lawyer page. They can still appear as authors on posts.',
+      description:
+        'When unchecked, this lawyer will not appear in team listings, people page, or have their own lawyer page. They can still appear as authors on posts.',
       initialValue: true,
     }),
     defineField({

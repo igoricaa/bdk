@@ -1414,7 +1414,6 @@ export type Lawyer = {
     _key: string;
   } & ExternalImage>;
   areasOfExpertise?: {
-    title?: string;
     items?: Array<string>;
   };
   isVisible?: boolean;
@@ -1985,7 +1984,6 @@ export type LAWYER_SEARCH_QUERYResult = Array<{
     linkedin: string | null;
   } | null;
   areasOfExpertise: {
-    title?: string;
     items?: Array<string>;
   } | null;
 }>;
@@ -2486,7 +2484,6 @@ export type LAWYERS_QUERYResult = {
       linkedin?: string;
     } | null;
     areasOfExpertise: {
-      title?: string;
       items?: Array<string>;
     } | null;
   }>;
@@ -2522,7 +2519,6 @@ export type LAWYERS_BY_CATEGORY_QUERYResult = {
       } | null;
       isVisible: boolean | null;
       areasOfExpertise: {
-        title?: string;
         items?: Array<string>;
       } | null;
     }> | null;
@@ -4258,7 +4254,6 @@ export type LAWYER_QUERYResult = {
       _key: string;
     }>;
     areasOfExpertise?: {
-      title?: string;
       items?: Array<string>;
     };
     isVisible?: boolean;
