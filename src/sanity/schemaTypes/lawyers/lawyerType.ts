@@ -100,6 +100,26 @@ export const lawyerType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'areasOfExpertise',
+      title: 'Areas of Expertise',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'title',
+          title: 'Section Title',
+          type: 'string',
+          placeholder: 'Areas of expertise',
+        }),
+        defineField({
+          name: 'items',
+          title: 'Expertise Areas',
+          type: 'array',
+          of: [{ type: 'string' }],
+          description: 'List of areas where this lawyer has expertise',
+        }),
+      ],
+    }),
+    defineField({
       name: 'isVisible',
       title: 'Display in Public Listings',
       type: 'boolean',

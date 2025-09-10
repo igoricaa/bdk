@@ -174,7 +174,8 @@ export const LAWYERS_QUERY = defineQuery(`{
         slug
       }
     },
-    contactInfo
+    contactInfo,
+    areasOfExpertise
   }
 }`);
 
@@ -193,7 +194,8 @@ export const LAWYERS_BY_CATEGORY_QUERY = defineQuery(`{
       contactInfo {
         linkedin
       },
-      isVisible
+      isVisible,
+      areasOfExpertise
     }
   }
 }`);

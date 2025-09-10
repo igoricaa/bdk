@@ -12,7 +12,8 @@ const LAWYER_SEARCH_QUERY = groq`
     slug,
     contactInfo {
       linkedin
-    }
+    },
+    areasOfExpertise
   }
 `;
 

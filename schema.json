@@ -8031,7 +8031,7 @@
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "publications": {
         "type": "objectAttribute",
@@ -8731,7 +8731,7 @@
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "publications": {
         "type": "objectAttribute",
@@ -9612,6 +9612,32 @@
           }
         },
         "optional": false
+      },
+      "areasOfExpertise": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "title": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
+            },
+            "items": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "array",
+                "of": {
+                  "type": "string"
+                }
+              },
+              "optional": true
+            }
+          }
+        },
+        "optional": true
       },
       "isVisible": {
         "type": "objectAttribute",

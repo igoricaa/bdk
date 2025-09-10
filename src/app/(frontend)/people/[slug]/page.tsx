@@ -122,26 +122,34 @@ const LawyerPage = async ({
                 className='mt-8 xl:mt-10 2xl:mt-15'
               />
             </div>
-            <div className='mt-12 sm:mt-18 xl:mt-22 2xl:mt-28'>
-              <h2 className='text-dark-blue text-2xl sm:text-3xl 2xl:text-4xl'>
-                Areas of Expertise
-              </h2>
-              <ul className='mt-8 xl:mt-10 2xl:mt-15'>
-                {/* {lawyer.areasOfExpertise?.map((expertise, index) => (
-                  <li
-                    key={expertise._id}
-                    className={cn(
-                      'flex justify-between items-center border-t border-grey-text pt-2.5 pb-9 2xl:pb-12'
+            {lawyer.areasOfExpertise &&
+              lawyer.areasOfExpertise.items &&
+              lawyer.areasOfExpertise.items.length > 0 && (
+                <div className='mt-12 sm:mt-18 xl:mt-22 2xl:mt-28'>
+                  <h2 className='text-dark-blue text-2xl sm:text-3xl 2xl:text-4xl'>
+                    {lawyer.areasOfExpertise.title || 'Areas of Expertise'}
+                  </h2>
+                  <ul className='mt-8 xl:mt-10 2xl:mt-15'>
+                    {lawyer.areasOfExpertise.items.map(
+                      (expertise: string, index: number) => (
+                        <li
+                          key={index}
+                          className={cn(
+                            'flex justify-between items-center border-t border-grey-text pt-2.5 pb-9 2xl:pb-12'
+                          )}
+                        >
+                          <p className='text-dark-blue text-lg 2xl:text-2xl'>
+                            {expertise}
+                          </p>
+                          <span className='text-light-blue'>
+                            {String(index + 1).padStart(2, '0')}
+                          </span>
+                        </li>
+                      )
                     )}
-                  >
-                    <p className='text-dark-blue text-lg 2xl:text-2xl'>
-                      {expertise.title}
-                    </p>
-                    <span className='text-light-blue'>0{index + 1}</span>
-                  </li>
-                ))} */}
-              </ul>
-            </div>
+                  </ul>
+                </div>
+              )}
             {lawyer.testimonials && lawyer.testimonials.length > 0 && (
               <div className='flex flex-col mt-20 gap-13 sm:mt-18 xl:mt-22 2xl:mt-28 xl:gap-10 2xl:gap-15'>
                 <h2 className='text-dark-blue text-3xl'>Mentions</h2>
