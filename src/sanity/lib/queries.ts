@@ -260,12 +260,6 @@ export const SERVICE_QUERY = defineQuery(`{
       contactInfo,
       isVisible
     },
-    newsroom[]->{
-      _id,
-      title,
-      slug,
-      date,
-    },
     "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{
       _id,
       title,

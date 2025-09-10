@@ -23,12 +23,6 @@ const ServicePage = ({
     return <div>No {serviceType} found</div>;
   }
 
-  const newsroomPosts = (
-    currentService.newsroom && currentService.newsroom.length > 0
-      ? currentService.newsroom
-      : []
-  ).filter((post) => post.title && post.date) as Post[];
-
   const blogPosts = (
     currentService.latestBlogPosts && currentService.latestBlogPosts.length > 0
       ? currentService.latestBlogPosts
@@ -42,7 +36,6 @@ const ServicePage = ({
   ).filter((post) => post.title && post.date) as Post[];
 
   const hasAnyPosts =
-    (newsroomPosts && newsroomPosts.length > 0) ||
     (blogPosts && blogPosts.length > 0) ||
     (insightsPosts && insightsPosts.length > 0);
 
@@ -107,7 +100,6 @@ const ServicePage = ({
 
       <RelatedPostsSection
         title='Related posts'
-        newsroomPosts={newsroomPosts}
         blogPosts={blogPosts}
         insightsPosts={insightsPosts}
         underColor={postsUnderColor}
