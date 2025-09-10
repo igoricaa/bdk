@@ -135,7 +135,7 @@ const LawyerPage = async ({
                         <li
                           key={index}
                           className={cn(
-                            'flex justify-between items-center border-t border-grey-random/50 pt-2.5 pb-9 2xl:pb-12'
+                            'flex justify-between items-start border-t border-grey-random/50 pt-2.5 pb-9 2xl:pb-12'
                           )}
                         >
                           <p className='text-dark-blue text-lg 2xl:text-2xl'>
