@@ -1183,13 +1183,6 @@ export type Industry = {
     _key: string;
     [internalGroqTypeReferenceTo]?: "category";
   }>;
-  newsroom?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "post";
-  }>;
   latestBlogPosts?: Array<{
     _ref: string;
     _type: "reference";
@@ -1283,13 +1276,6 @@ export type Practice = {
     _weak?: boolean;
     _key: string;
     [internalGroqTypeReferenceTo]?: "category";
-  }>;
-  newsroom?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "post";
   }>;
   latestBlogPosts?: Array<{
     _ref: string;

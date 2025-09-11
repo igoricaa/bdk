@@ -96,24 +96,6 @@ export const serviceBaseFields = [
     description: 'Select the Publications category and its child categories',
   }),
   defineField({
-    name: 'newsroom',
-    title: 'Newsroom',
-    type: 'array',
-    of: [
-      {
-        type: 'reference',
-        to: [{ type: 'post' }],
-        options: {
-          filter:
-            'count(categories[_ref in *[_type=="category" && name=="Newsroom"]._id]) > 0',
-        },
-      },
-    ],
-    group: 'relatedPosts',
-    description: 'Select up to 4 specific posts for the newsroom section',
-    validation: (rule) => rule.max(4).error('Maximum 4 newsroom posts allowed'),
-  }),
-  defineField({
     name: 'latestBlogPosts',
     title: 'Latest Blog Posts',
     type: 'array',
