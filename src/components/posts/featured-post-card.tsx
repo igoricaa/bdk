@@ -41,7 +41,7 @@ const FeaturedPostCard = ({
       key={post._id}
       className={cn('flex gap-18 md:gap-6 xl:gap-32 3xl:gap-51', className)}
     >
-      <div className='pb-19 md:pb-8 xl:pb-37 3xl:pb-50'>
+      <div className='pb-19 md:pb-8 xl:pb-20'>
         <h2 className='text-sm text-white bg-dark-blue flex items-center justify-center h-7.5 2xl:h-10 px-4 2xl:px-5 rounded-[500px] w-fit'>
           Featured Posts
         </h2>

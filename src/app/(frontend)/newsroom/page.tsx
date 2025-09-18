@@ -29,7 +29,9 @@ const NewsroomPage = async () => {
       <AnimateOnLoad>
         <FeaturedPostsSection
           featuredPosts={featuredPosts as Post[]}
-          className='mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35 '
+          // mt-7.5 md:mt-11 xl:mt-18 2xl:mt-35
+          // pt-7.5 md:pt-11 xl:pt-18 2xl:pt-35
+          className='pt-7.5 md:pt-11 xl:pt-0 xl:h-[calc(100vh-5rem)] xl:max-h-[calc(100vh-5rem)]'
         />
       </AnimateOnLoad>
 

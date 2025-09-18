@@ -11,7 +11,8 @@ const FeaturedPostsSection = ({
 }) => {
   return (
     <section
-      className={cn('pb-19 md:pb-21 xl:pb-30 2xl:pb-41', className)}
+    // pb-19 md:pb-21 xl:pb-30 2xl:pb-41
+      className={cn('pb-19 xl:pb-0 flex flex-col justify-center', className)}
     >
       <FeaturedPostsCarousel featuredPosts={featuredPosts as Post[]} />
     </section>
