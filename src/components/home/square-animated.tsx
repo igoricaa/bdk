@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import img1 from '@/public/hero-1.png';
+import img1 from '@/public/hero-1.jpeg';
 import img2 from '@/public/hero-2.png';
 import { motion, useInView } from 'motion/react';
 import { useRef } from 'react';
