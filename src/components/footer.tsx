@@ -213,7 +213,7 @@ const MobileLinks = ({
           <FooterLink href='/digital-watch' pageName='Digital Watch'>
             Digital Watch
           </FooterLink>
-          <FooterLink href='/insights'>Insight</FooterLink>
+          <FooterLink href='/insights'>Insights</FooterLink>
           <FooterLink href='/publications'>Publications</FooterLink>
         </MobileAccordionItem>
       </Accordion>

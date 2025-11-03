@@ -8033,6 +8033,13 @@
         },
         "optional": true
       },
+      "contactEmail": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "publications": {
         "type": "objectAttribute",
         "value": {
@@ -8686,6 +8693,13 @@
               }
             }
           }
+        },
+        "optional": true
+      },
+      "contactEmail": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
         },
         "optional": true
       },

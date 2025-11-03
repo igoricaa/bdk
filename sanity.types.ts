@@ -1176,6 +1176,7 @@ export type Industry = {
     _key: string;
     [internalGroqTypeReferenceTo]?: "lawyer";
   }>;
+  contactEmail?: string;
   publications?: Array<{
     _ref: string;
     _type: "reference";
@@ -1270,6 +1271,7 @@ export type Practice = {
     _key: string;
     [internalGroqTypeReferenceTo]?: "lawyer";
   }>;
+  contactEmail?: string;
   publications?: Array<{
     _ref: string;
     _type: "reference";

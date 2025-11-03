@@ -80,6 +80,11 @@ export const serviceBaseFields = [
     of: [{ type: 'reference', to: [{ type: 'lawyer' }] }],
   }),
   defineField({
+    name: 'contactEmail',
+    title: 'Contact Email',
+    type: 'email',
+  }),
+  defineField({
     name: 'publications',
     title: 'Publications',
     type: 'array',

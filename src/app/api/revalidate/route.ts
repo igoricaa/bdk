@@ -14,6 +14,8 @@ interface RevalidateBody {
   // For posts, we might get category info
   categorySlug?: string;
   oldCategorySlug?: string;
+  // For locale-specific content (blinkdraft, subscriptionForm)
+  locale?: string;
 }
 
 export async function POST(req: NextRequest) {
@@ -52,15 +54,24 @@ export async function POST(req: NextRequest) {
 
     // Revalidate broad, list-based tags
     const listTags: Record<string, string[]> = {
-      post: ['posts', 'global-featured-posts'],
+      // Posts & Content (Webhook 1)
+      post: ['posts', 'global-featured-posts', 'home-page-data'],
+      category: ['categories', 'posts'],
       author: ['authors'],
-      category: ['categories', 'posts'], // Changing a category name should re-fetch post lists
+
+      // People & Legal Team (Webhook 2)
       lawyer: ['lawyers', 'people-page-data'],
       lawyerCategory: ['lawyer-categories', 'lawyers'],
+
+      // Services & Business (Webhook 3)
       practice: ['practices', 'services', 'home-page-data'],
       industry: ['industries', 'services', 'home-page-data'],
       foreignDesk: ['foreign-desks', 'services'],
-      testimonial: ['testimonials'],
+
+      // Site Config & References (Webhook 4)
+      country: ['general-info'], // Referenced in generalInfo.countries[], affects footer on all pages
+      openPosition: ['career-page-data'], // Referenced in careerPage.hero.openPositionsSection.openPositions[]
+      subscriptionForm: ['blinkdraft'], // Locale-specific subscription forms
     };
 
     if (listTags[_type]) {
@@ -70,6 +81,14 @@ export async function POST(req: NextRequest) {
     // Revalidate specific, slug-based tags
     if (slug) {
       tagsToRevalidate.push(`${_type}-${slug}`);
+    }
+
+    // Handle locale-specific content (for Blinkdraft and subscription forms)
+    if (_type === 'blinkdraft' || _type === 'subscriptionForm') {
+      const locale = body.locale; // From webhook projection
+      if (locale) {
+        tagsToRevalidate.push(`${_type}-${locale}`);
+      }
     }
 
     // Handle special revalidation for posts changing categories
@@ -90,10 +109,13 @@ export async function POST(req: NextRequest) {
       peoplePage: 'people-page-data',
       aboutUsPage: 'about-us-page-data',
       careerPage: 'career-page-data',
-      blinkdraft: 'blinkdraft', // Note: Type name might be 'blinkdraft' not 'blinkdraftPage'
+      blinkdraft: 'blinkdraft',
       generalInfo: 'general-info',
       privacyNotice: 'privacy-notice',
       cookiePolicy: 'cookie-policy',
+      // Reference documents that affect singleton pages
+      country: 'general-info', // Triggers footer update on all pages
+      openPosition: 'career-page-data', // Triggers career page update
     };
 
     if (singletonTags[_type]) {
