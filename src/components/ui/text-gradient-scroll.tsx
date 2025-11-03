@@ -56,7 +56,7 @@ function TextGradientScroll({
   // Reach 1 when bottom is 150px above viewport center
   const endContainerPoint = useMemo(() => {
     if (typeof window === 'undefined') return '50vh';
-    const px = Math.max(0, window.innerHeight / 2 - 150);
+    const px = Math.max(0, window.innerHeight / 2 + 150);
     return `${px}px`;
   }, []);
 
