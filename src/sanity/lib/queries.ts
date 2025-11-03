@@ -531,6 +531,7 @@ export const GLOBAL_FEATURED_POSTS_QUERY = defineQuery(`
   *[_type == "post" && status == "publish" && ($slug == "all" || $slug == null || references(*[_type=="category" && slug.current == $slug]._id))] | order(date desc)[0...3] {
     _id,
     title,
+    content,
     slug,
     excerpt,
     featuredMedia,

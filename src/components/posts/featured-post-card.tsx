@@ -7,22 +7,6 @@ import { TransitionLink } from '@/src/components/transition-link';
 import ArrowUpRight from '@/src/components/ui/arrow-up-right';
 import { cn } from '@/src/lib/utils';
 
-const placeholderExcerpt: PortableTextBlock[] = [
-  {
-    _type: 'block',
-    _key: 'placeholder',
-    style: 'normal',
-    markDefs: [],
-    children: [
-      {
-        _type: 'span',
-        _key: 'placeholder-span',
-        text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
-        marks: [],
-      },
-    ],
-  },
-];
 const FeaturedPostCard = ({
   post,
   index,
@@ -65,8 +49,11 @@ const FeaturedPostCard = ({
         </TransitionLink>
 
         <PortableText
-          value={(post.excerpt as PortableTextBlock[]) || placeholderExcerpt}
-          className='mt-6 md:mt-7.5 2xl:mt-10 text-grey-text xl:text-lg 2xl:text-2xl'
+          value={(post.excerpt as PortableTextBlock[]) || post.content}
+          className={cn(
+            'mt-6 md:mt-7.5 2xl:mt-10 text-grey-text xl:text-lg 2xl:text-2xl',
+            !post.excerpt && 'line-clamp-5 xl:line-clamp-6'
+          )}
         />
 
         <TransitionLink

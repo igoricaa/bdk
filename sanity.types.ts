@@ -4143,10 +4143,43 @@ export type CATEGORIES_BY_YEAR_QUERYResult = Array<{
   slug: Slug;
 }>;
 // Variable: GLOBAL_FEATURED_POSTS_QUERY
-// Query: *[_type == "post" && status == "publish" && ($slug == "all" || $slug == null || references(*[_type=="category" && slug.current == $slug]._id))] | order(date desc)[0...3] {    _id,    title,    slug,    excerpt,    featuredMedia,  }
+// Query: *[_type == "post" && status == "publish" && ($slug == "all" || $slug == null || references(*[_type=="category" && slug.current == $slug]._id))] | order(date desc)[0...3] {    _id,    title,    content,    slug,    excerpt,    featuredMedia,  }
 export type GLOBAL_FEATURED_POSTS_QUERYResult = Array<{
   _id: string;
   title: string;
+  content: Array<{
+    _key: string;
+  } & ExternalImage | {
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "highlighted" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }>;
   slug: Slug;
   excerpt: Array<{
     _key: string;
@@ -4261,7 +4294,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"post\" && status == \"publish\" && references(*[_type==\"category\" && slug.current == $slug]._id)].date | order(@ desc)\n": YEARS_BY_CATEGORY_QUERYResult;
     "{\n  \"rootCategory\": *[_type == \"category\" && slug.current == $categorySlug][0]{\n    _id,\n    name,\n    slug,\n    \"postCount\": count(*[_type == \"post\" && status == \"publish\" && references(^._id)])\n  },\n  \"allCategories\": *[\n    _type == \"category\" \n    && count(*[_type == \"post\" && status == \"publish\" && references(^._id)]) > 0\n  ]{\n    _id,\n    name,\n    slug,\n    \"parentRefs\": parent[]._ref,\n    \"postCount\": count(*[_type == \"post\" && status == \"publish\" && references(^._id)]),\n    \"hasChildren\": count(*[_type == \"category\" && references(^._id) && count(*[_type == \"post\" && status == \"publish\" && references(^._id)]) > 0]) > 0\n  } | order(name asc)\n}": NESTED_CATEGORIES_QUERYResult;
     "\n  *[_type == \"category\" && count(*[_type == \"post\" && status == \"publish\" && references(^._id) && string(date) match $year + \"*\"]) > 0] {\n    _id,\n    name,\n    slug\n  } | order(name asc)\n": CATEGORIES_BY_YEAR_QUERYResult;
-    "\n  *[_type == \"post\" && status == \"publish\" && ($slug == \"all\" || $slug == null || references(*[_type==\"category\" && slug.current == $slug]._id))] | order(date desc)[0...3] {\n    _id,\n    title,\n    slug,\n    excerpt,\n    featuredMedia,\n  }\n": GLOBAL_FEATURED_POSTS_QUERYResult;
+    "\n  *[_type == \"post\" && status == \"publish\" && ($slug == \"all\" || $slug == null || references(*[_type==\"category\" && slug.current == $slug]._id))] | order(date desc)[0...3] {\n    _id,\n    title,\n    content,\n    slug,\n    excerpt,\n    featuredMedia,\n  }\n": GLOBAL_FEATURED_POSTS_QUERYResult;
     "\n  *[ \n    _type == \"post\"\n    && status == \"publish\"\n    // This part filters by category.\n    // If $categorySlug is \"all\" or null, this condition is effectively ignored.\n    // Otherwise, it checks if the post references the specified category.\n    && ($categorySlug == \"all\" || $categorySlug == null || references(*[_type==\"category\" && slug.current == $categorySlug]._id))\n    \n    // This part filters by year.\n    // If $year is null, this condition is ignored.\n    // Otherwise, it checks if the post's date starts with the given year string (e.g., \"2023-\").\n    && ($year == null || $year == \"all\" || string(date) match $year + \"*\")\n\n    // This part filters by author.\n    // If $authorId is null, this condition is ignored.\n    // Otherwise, it checks if the post references the specified author.\n    && ($authorId == null || $authorId == \"all\" || references(*[_type==\"author\" && _id == $authorId]._id))\n  ] | order(date desc)[$start...$end] {\n    _id,\n    title,\n    slug,\n    date,\n    featuredMedia,\n    categories[]->{\n      _id,\n      name,\n      slug\n    },\n    authors[]->{\n      _id,\n      name,\n      slug\n    }\n  }\n": PAGINATED_FILTERED_POSTS_QUERYResult;
     "\n  count(*[\n    _type == \"post\"\n    && status == \"publish\"\n    && ($categorySlug == \"all\" || $categorySlug == null || references(*[_type==\"category\" && slug.current == $categorySlug]._id))\n    && ($year == null || $year == \"all\" || string(date) match $year + \"*\")\n    && ($authorId == null || $authorId == \"all\" || references(*[_type==\"author\" && _id == $authorId]._id))\n  ])\n": PAGINATED_FILTERED_POSTS_COUNT_QUERYResult;
   }

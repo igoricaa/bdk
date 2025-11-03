@@ -50,6 +50,10 @@ _type in ['post', 'category', 'author']
   "categorySlug": select(
     _type == "post" => categories[0]->slug.current,
     _type == "category" => slug.current
+  ),
+  "categories": select(
+    _type == "post" => categories[]._ref,
+    null
   )
 }
 ```
