@@ -1,14 +1,18 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { updateClient as client } from '@/src/sanity/lib/client';
+import { type NextRequest, NextResponse } from 'next/server';
+import { updateCategoriesForPost } from '@/src/lib/utils/category-count';
 
+/**
+ * Update category counts for a specific post
+ * Expects { postId: string } in request body
+ */
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { postId } = body;
 
-    console.log('Received postId:', postId);
+    console.log('📝 Received category count update request for postId:', postId);
 
-    // Basic validation for postId
+    // Validate postId
     if (typeof postId !== 'string' || postId.trim() === '') {
       return NextResponse.json(
         {
@@ -19,66 +23,33 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Fetch the post and its category references
-    const post = await client.fetch<{
-      categories?: { _ref: string }[];
-    } | null>(
-      `*[_type == "post" && _id == $postId][0]{ 'categories': categories[]{'_ref'} }`,
-      { postId }
-    );
+    // Update categories using utility function
+    const results = await updateCategoriesForPost(postId);
 
-    if (!post) {
-      return NextResponse.json(
-        { success: false, error: `Post with ID ${postId} not found` },
-        { status: 404 }
-      );
-    }
-
-    const categoryRefs = post.categories?.map((cat) => cat._ref) ?? [];
-
-    if (categoryRefs.length === 0) {
-      console.log(`Post ${postId} has no categories. No counts to update.`);
+    if (results.length === 0) {
       return NextResponse.json({
         success: true,
-        message: 'Post has no categories to update',
+        message: 'Post has no categories or was not found',
+        updatedCategories: 0,
       });
     }
 
-    console.log(`Updating counts for categories: ${categoryRefs.join(', ')}`);
+    return NextResponse.json({
+      success: true,
+      message: `Updated ${results.length} categories`,
+      updatedCategories: results.length,
+      results,
+    });
+  } catch (error: any) {
+    console.error('❌ Error updating category counts for post:', error);
 
-    // For each category referenced by the post, count posts referencing it and update the count
-    await Promise.all(
-      categoryRefs.map(async (categoryId: string) => {
-        // Fetch the count for this specific category
-        const count = await client.fetch<number>(
-          `count(*[_type == "post" && references($catId)])`,
-          { catId: categoryId }
-        );
+    // Return detailed error in development, generic in production
+    const errorMessage = process.env.NODE_ENV === 'development'
+      ? error.message
+      : 'Internal server error';
 
-        // Fetching categoryExists is slightly redundant now as we got the ID from a valid post reference,
-        // but it's a good safeguard if referential integrity isn't guaranteed.
-        const categoryExists = await client.fetch<boolean>(
-          `defined(*[_type == "category" && _id == $catId][0])`,
-          { catId: categoryId }
-        );
-
-        if (categoryExists) {
-          await client.patch(categoryId).set({ count }).commit();
-          console.log(`Updated count for category ${categoryId} to ${count}`);
-        } else {
-          // Optionally log or handle cases where a referenced ID might somehow not exist
-          console.warn(
-            `Category with ID ${categoryId} referenced by post ${postId} not found. Skipping update.`
-          );
-        }
-      })
-    );
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Error updating post counts:', error); // Log the full error
     return NextResponse.json(
-      { success: false, error: 'Internal server error' }, // Keep generic error message for client
+      { success: false, error: errorMessage },
       { status: 500 }
     );
   }

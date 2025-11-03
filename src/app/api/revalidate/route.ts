@@ -3,6 +3,7 @@
 import { revalidateTag } from 'next/cache';
 import { type NextRequest, NextResponse } from 'next/server';
 import { parseBody } from 'next-sanity/webhook';
+import { updateCategoriesForPost } from '@/src/lib/utils/category-count';
 
 // Get the secret from environment variables
 const SANITY_WEBHOOK_SECRET = process.env.SANITY_WEBHOOK_SECRET;
@@ -10,6 +11,7 @@ const SANITY_WEBHOOK_SECRET = process.env.SANITY_WEBHOOK_SECRET;
 // Define the expected payload structure from our webhooks
 interface RevalidateBody {
   _type: string;
+  _id?: string; // Document ID for category count updates
   slug?: string;
   // For posts, we might get category info
   categorySlug?: string;
@@ -133,6 +135,17 @@ export async function POST(req: NextRequest) {
     uniqueTags.forEach((tag) => {
       revalidateTag(tag);
     });
+
+    // 4. Update category counts for posts (async, doesn't block response)
+    if (_type === 'post' && body._id) {
+      // Don't await - let this run in background
+      updateCategoriesForPost(body._id).catch((error) => {
+        console.error(
+          `Failed to update category counts for post ${body._id}:`,
+          error
+        );
+      });
+    }
 
     return NextResponse.json({
       revalidated: true,

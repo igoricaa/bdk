@@ -45,6 +45,7 @@ _type in ['post', 'category', 'author']
 ```groq
 {
   "_type": _type,
+  "_id": _id,
   "slug": slug.current,
   "categorySlug": select(
     _type == "post" => categories[0]->slug.current,
