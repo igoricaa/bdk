@@ -25,6 +25,9 @@ import { buttonVariants } from '@/src/components/ui/button';
 import { AnimatedText } from '@/src/components/ui/animated-text';
 import ArrowUpRight from '@/src/components/ui/arrow-up-right';
 import { AnimateOnLoad } from '@/src/components/animations/animate-on-load';
+import Section from '@/src/components/ui/section';
+import UnderlinedButton from '@/src/components/ui/buttons/underlined-button';
+import SectionHeader from '@/src/components/ui/section-header/section-header';
 
 // Helper function to find the root category (category without parent)
 function findRootCategory(
@@ -155,36 +158,47 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
     currentPost.content as PortableTextBlock[]
   );
 
-  const newsroomPosts =
-    relatedPosts
-      ?.filter((post: any) =>
-        post.categories?.some((cat: any) =>
-          cat.name?.toLowerCase().includes('newsroom')
-        )
-      )
-      .slice(0, 4) || [];
+  const mainCategory = findRootCategory(currentPost.categories);
 
-  const blogPosts =
-    relatedPosts
-      ?.filter((post: any) =>
-        post.categories?.some(
-          (cat: any) =>
-            cat.name?.toLowerCase().includes('blog') ||
-            cat.name?.toLowerCase().includes('latest')
-        )
-      )
-      .slice(0, 4) || [];
+  // const newsroomPosts =
+  //   relatedPosts
+  //     ?.filter((post: any) =>
+  //       post.categories?.some((cat: any) =>
+  //         cat.name?.toLowerCase().includes('newsroom')
+  //       )
+  //     )
+  //     .slice(0, 4) || [];
 
-  const insightsPosts =
-    relatedPosts
-      ?.filter((post: any) =>
-        post.categories?.some(
-          (cat: any) =>
-            cat.name?.toLowerCase().includes('insight') ||
-            cat.name?.toLowerCase().includes('bdk')
-        )
-      )
-      .slice(0, 4) || [];
+  // const publicationsPosts =
+  //   relatedPosts
+  //     ?.filter((post: any) =>
+  //       post.categories?.some((cat: any) =>
+  //         cat.name?.toLowerCase().includes('publications')
+  //       )
+  //     )
+  //     .slice(0, 4) || [];
+
+  // const blogPosts =
+  //   relatedPosts
+  //     ?.filter((post: any) =>
+  //       post.categories?.some(
+  //         (cat: any) =>
+  //           cat.name?.toLowerCase().includes('blog') ||
+  //           cat.name?.toLowerCase().includes('latest')
+  //       )
+  //     )
+  //     .slice(0, 4) || [];
+
+  // const insightsPosts =
+  //   relatedPosts
+  //     ?.filter((post: any) =>
+  //       post.categories?.some(
+  //         (cat: any) =>
+  //           cat.name?.toLowerCase().includes('insight') ||
+  //           cat.name?.toLowerCase().includes('bdk')
+  //       )
+  //     )
+  //     .slice(0, 4) || [];
 
   return (
     <main className='pt-header'>
@@ -193,8 +207,8 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
           <div className='order-2 md:hidden xl:flex xl:order-1 xl:col-span-2 xl:sticky xl:top-26 2xl:top-35 xl:self-start'>
             <div className='flex xl:flex-col justify-end xl:justify-start'>
               <BackToButton
-                href={`/${findRootCategory(currentPost.categories).slug.current}`}
-                text={`Back to ${findRootCategory(currentPost.categories).name}`}
+                href={`/${mainCategory.slug.current}`}
+                text={`Back to ${mainCategory.name}`}
                 className='hidden md:flex'
               />
 
@@ -270,12 +284,54 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
         </article>
       </div>
 
-      <RelatedPostsSection
+      <Section variant='dark'>
+        <SectionHeader heading={`Related posts`} />
+
+        <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 xl:gap-9 mt-8 xl:mt-11 2xl:mt-17'>
+          {relatedPosts.slice(0, 4).map((post, index) => (
+            <article
+              key={index}
+              className={cn(
+                'bg-white/5 rounded-br-[2.5rem] md:rounded-br-[50px] h-77 md:h-88 xl:h-77 2xl:h-103 hover:rounded-none transition-all duration-300',
+                index === 3 && 'hidden sm:max-xl:block'
+              )}
+            >
+              <TransitionLink
+                href={`/${post.slug.current}`}
+                pageName={post.title}
+                className='block h-full py-8 pl-4 pr-12 md:py-9 md:pl-5 md:pr-4 xl:py-8 xl:pl-5 xl:pr-13 2xl:py-10 2xl:pl-6 2xl:pr-18 group'
+              >
+                <div className='flex flex-col justify-between h-full'>
+                  <div>
+                    <p className='text-sm 2xl:text-base text-light-blue'>
+                      {formatDate(post.date)}
+                    </p>
+                    <h3 className='text-2xl 2xl:text-[2rem] mt-5'>
+                      {post.title}
+                    </h3>
+                  </div>
+                  <ArrowUpRight />
+                </div>
+              </TransitionLink>
+            </article>
+          ))}
+        </div>
+
+        <UnderlinedButton
+          href={mainCategory.slug.current}
+          className='mx-auto mt-12 2xl:mt-30'
+        >
+          View All Posts
+        </UnderlinedButton>
+      </Section>
+
+      {/* <RelatedPostsSection
         title='Related posts'
         newsroomPosts={newsroomPosts}
         blogPosts={blogPosts}
         insightsPosts={insightsPosts}
-      />
+        publications={publicationsPosts}
+      /> */}
     </main>
   );
 };
