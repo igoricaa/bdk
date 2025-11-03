@@ -1,4 +1,4 @@
-import { updateClient as client } from '@/src/sanity/lib/client';
+import { writeClient as client } from '@/src/sanity/lib/client';
 
 /**
  * Update the post count for a specific category
