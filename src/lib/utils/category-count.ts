@@ -49,9 +49,19 @@ export async function updateCategoryCount(
   categoryId: string
 ): Promise<number> {
   try {
-    // Count all posts that reference this category
+    // Count all published posts that reference this category directly
+    // OR reference any child category of this category
     const count = await client.fetch<number>(
-      `count(*[_type == "post" && references($catId)])`,
+      `count(*[
+        _type == "post"
+        && status == "publish"
+        && (
+          references($catId)
+          || count((categories[]._ref)[
+            @ in *[_type == "category" && references($catId)]._id
+          ]) > 0
+        )
+      ])`,
       { catId: categoryId }
     );
 
@@ -61,7 +71,10 @@ export async function updateCategoryCount(
     console.log(`✓ Updated count for category ${categoryId}: ${count} posts`);
     return count;
   } catch (error) {
-    console.error(`✗ Failed to update count for category ${categoryId}:`, error);
+    console.error(
+      `✗ Failed to update count for category ${categoryId}:`,
+      error
+    );
     throw error;
   }
 }
@@ -77,36 +90,65 @@ export async function updateCategoriesForPost(
   categoryRefsFromWebhook?: string[]
 ): Promise<Array<{ id: string; count: number }>> {
   try {
-    let categoryRefs: string[] = [];
+    let newCategoryRefs: string[] = [];
+    let oldCategoryRefs: string[] = [];
 
-    // Try to use webhook categories first (works for all cases including deletion)
-    if (categoryRefsFromWebhook && categoryRefsFromWebhook.length > 0) {
-      categoryRefs = categoryRefsFromWebhook;
-      console.log(
-        `✓ Using ${categoryRefs.length} category refs from webhook for post ${postId}`
-      );
-    } else {
-      // Fallback: Fetch the post and its category references
-      const post = await client.fetch<{
-        categories?: string[];
-      } | null>(
-        `*[_type == "post" && _id == $postId][0]{ 'categories': categories[]._ref }`,
-        { postId }
-      );
+    // Always try to fetch old categories from the database first
+    // This is needed for updates to know which categories to recalculate
+    const oldPost = await client.fetch<{
+      categories?: string[];
+    } | null>(
+      `*[_type == "post" && _id == $postId][0]{ 'categories': categories[]._ref }`,
+      { postId }
+    );
 
-      if (!post) {
-        console.warn(
-          `⚠ Post ${postId} not found and no category refs provided, skipping category count update`
-        );
-        return [];
-      }
-
-      categoryRefs = post.categories ?? [];
+    if (oldPost && oldPost.categories) {
+      oldCategoryRefs = oldPost.categories;
     }
 
-    if (categoryRefs.length === 0) {
-      console.log(`ℹ Post ${postId} has no categories`);
+    // Get new categories from webhook (or use old ones as fallback)
+    if (categoryRefsFromWebhook && categoryRefsFromWebhook.length > 0) {
+      newCategoryRefs = categoryRefsFromWebhook;
+      console.log(
+        `✓ Received ${newCategoryRefs.length} category refs from webhook for post ${postId}`
+      );
+    } else {
+      newCategoryRefs = oldCategoryRefs;
+    }
+
+    // If this is a deletion, oldPost won't exist but webhook will have categories
+    if (!oldPost && (!categoryRefsFromWebhook || categoryRefsFromWebhook.length === 0)) {
+      console.warn(
+        `⚠ Post ${postId} not found and no category refs provided, skipping category count update`
+      );
       return [];
+    }
+
+    // Merge old and new categories to update ALL affected categories
+    // This ensures both old (being removed) and new (being added) get recalculated
+    const allAffectedCategoryRefs = new Set<string>([
+      ...newCategoryRefs,
+      ...oldCategoryRefs,
+    ]);
+
+    const categoryRefs = Array.from(allAffectedCategoryRefs);
+
+    if (categoryRefs.length === 0) {
+      console.log(`ℹ Post ${postId} has no categories (old or new)`);
+      return [];
+    }
+
+    // Log what's happening for debugging
+    if (oldCategoryRefs.length > 0 && newCategoryRefs.length > 0) {
+      const removed = oldCategoryRefs.filter(id => !newCategoryRefs.includes(id));
+      const added = newCategoryRefs.filter(id => !oldCategoryRefs.includes(id));
+
+      if (removed.length > 0 || added.length > 0) {
+        console.log(`  - Old categories: ${oldCategoryRefs.length}`);
+        console.log(`  - New categories: ${newCategoryRefs.length}`);
+        if (removed.length > 0) console.log(`  - Removed: ${removed.length}`);
+        if (added.length > 0) console.log(`  - Added: ${added.length}`);
+      }
     }
 
     // Get all parent categories recursively for each direct category
@@ -121,7 +163,7 @@ export async function updateCategoriesForPost(
     const parentCount = allCategoriesToUpdate.length - categoryRefs.length;
 
     console.log(
-      `⟳ Updating counts for ${categoryRefs.length} direct categories${parentCount > 0 ? ` + ${parentCount} parent categories` : ''} from post ${postId}`
+      `⟳ Updating counts for ${categoryRefs.length} affected categories${parentCount > 0 ? ` + ${parentCount} parent categories` : ''} from post ${postId}`
     );
 
     // Update all categories (direct + parents) in parallel
@@ -133,7 +175,7 @@ export async function updateCategoriesForPost(
     );
 
     console.log(
-      `✓ Successfully updated ${results.length} category counts (${categoryRefs.length} direct${parentCount > 0 ? ` + ${parentCount} parents` : ''})`
+      `✓ Successfully updated ${results.length} category counts (${categoryRefs.length} affected${parentCount > 0 ? ` + ${parentCount} parents` : ''})`
     );
     return results;
   } catch (error) {
