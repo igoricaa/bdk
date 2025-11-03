@@ -29,26 +29,40 @@ export async function updateCategoryCount(
 /**
  * Update counts for all categories referenced by a specific post
  * @param postId - The _id of the post document
+ * @param categoryRefsFromWebhook - Optional category refs from webhook (for delete/create/update)
  * @returns Array of updated category IDs and their new counts
  */
 export async function updateCategoriesForPost(
-  postId: string
+  postId: string,
+  categoryRefsFromWebhook?: string[]
 ): Promise<Array<{ id: string; count: number }>> {
   try {
-    // Fetch the post and its category references
-    const post = await client.fetch<{
-      categories?: { _ref: string }[];
-    } | null>(
-      `*[_type == "post" && _id == $postId][0]{ 'categories': categories[]{'_ref'} }`,
-      { postId }
-    );
+    let categoryRefs: string[] = [];
 
-    if (!post) {
-      console.warn(`⚠ Post ${postId} not found, skipping category count update`);
-      return [];
+    // Try to use webhook categories first (works for all cases including deletion)
+    if (categoryRefsFromWebhook && categoryRefsFromWebhook.length > 0) {
+      categoryRefs = categoryRefsFromWebhook;
+      console.log(
+        `✓ Using ${categoryRefs.length} category refs from webhook for post ${postId}`
+      );
+    } else {
+      // Fallback: Fetch the post and its category references
+      const post = await client.fetch<{
+        categories?: string[];
+      } | null>(
+        `*[_type == "post" && _id == $postId][0]{ 'categories': categories[]._ref }`,
+        { postId }
+      );
+
+      if (!post) {
+        console.warn(
+          `⚠ Post ${postId} not found and no category refs provided, skipping category count update`
+        );
+        return [];
+      }
+
+      categoryRefs = post.categories ?? [];
     }
-
-    const categoryRefs = post.categories?.map((cat) => cat._ref) ?? [];
 
     if (categoryRefs.length === 0) {
       console.log(`ℹ Post ${postId} has no categories`);

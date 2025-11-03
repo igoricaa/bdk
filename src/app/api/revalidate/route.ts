@@ -18,6 +18,8 @@ interface RevalidateBody {
   oldCategorySlug?: string;
   // For locale-specific content (blinkdraft, subscriptionForm)
   locale?: string;
+  // For post category count updates (create/update/delete)
+  categories?: string[];
 }
 
 export async function POST(req: NextRequest) {
@@ -139,7 +141,7 @@ export async function POST(req: NextRequest) {
     // 4. Update category counts for posts (async, doesn't block response)
     if (_type === 'post' && body._id) {
       // Don't await - let this run in background
-      updateCategoriesForPost(body._id).catch((error) => {
+      updateCategoriesForPost(body._id, body.categories).catch((error) => {
         console.error(
           `Failed to update category counts for post ${body._id}:`,
           error
