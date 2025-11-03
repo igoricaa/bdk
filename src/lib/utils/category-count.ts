@@ -1,6 +1,46 @@
 import { writeClient as client } from '@/src/sanity/lib/client';
 
 /**
+ * Recursively fetch all parent category IDs for a given category
+ * @param categoryId - The category ID to get parents for
+ * @param visited - Set of already visited category IDs (prevents infinite loops)
+ * @returns Array of all parent category IDs (deduplicated)
+ */
+async function getAllParentCategoryIds(
+  categoryId: string,
+  visited: Set<string> = new Set()
+): Promise<string[]> {
+  // Prevent infinite loops in circular references
+  if (visited.has(categoryId)) {
+    return [];
+  }
+  visited.add(categoryId);
+
+  // Fetch parent refs for this category
+  const category = await client.fetch<{
+    parent?: { _ref: string }[];
+  } | null>(
+    `*[_type == "category" && _id == $catId][0]{ 'parent': parent[]{ _ref } }`,
+    { catId: categoryId }
+  );
+
+  if (!category || !category.parent || category.parent.length === 0) {
+    return []; // No parents
+  }
+
+  const parentIds = category.parent.map((p) => p._ref);
+  const allParentIds: string[] = [...parentIds];
+
+  // Recursively get parents of parents
+  for (const parentId of parentIds) {
+    const grandparentIds = await getAllParentCategoryIds(parentId, visited);
+    allParentIds.push(...grandparentIds);
+  }
+
+  return allParentIds;
+}
+
+/**
  * Update the post count for a specific category
  * @param categoryId - The _id of the category document
  * @returns The updated count value
@@ -27,7 +67,7 @@ export async function updateCategoryCount(
 }
 
 /**
- * Update counts for all categories referenced by a specific post
+ * Update counts for all categories referenced by a specific post (including parent categories)
  * @param postId - The _id of the post document
  * @param categoryRefsFromWebhook - Optional category refs from webhook (for delete/create/update)
  * @returns Array of updated category IDs and their new counts
@@ -69,19 +109,32 @@ export async function updateCategoriesForPost(
       return [];
     }
 
+    // Get all parent categories recursively for each direct category
+    const allCategoryIds = new Set<string>(categoryRefs);
+
+    for (const catId of categoryRefs) {
+      const parentIds = await getAllParentCategoryIds(catId);
+      parentIds.forEach((id) => allCategoryIds.add(id));
+    }
+
+    const allCategoriesToUpdate = Array.from(allCategoryIds);
+    const parentCount = allCategoriesToUpdate.length - categoryRefs.length;
+
     console.log(
-      `⟳ Updating counts for ${categoryRefs.length} categories from post ${postId}`
+      `⟳ Updating counts for ${categoryRefs.length} direct categories${parentCount > 0 ? ` + ${parentCount} parent categories` : ''} from post ${postId}`
     );
 
-    // Update all categories in parallel
+    // Update all categories (direct + parents) in parallel
     const results = await Promise.all(
-      categoryRefs.map(async (categoryId: string) => {
+      allCategoriesToUpdate.map(async (categoryId: string) => {
         const count = await updateCategoryCount(categoryId);
         return { id: categoryId, count };
       })
     );
 
-    console.log(`✓ Successfully updated ${results.length} category counts`);
+    console.log(
+      `✓ Successfully updated ${results.length} category counts (${categoryRefs.length} direct${parentCount > 0 ? ` + ${parentCount} parents` : ''})`
+    );
     return results;
   } catch (error) {
     console.error(
