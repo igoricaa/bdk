@@ -28,8 +28,8 @@ export default async function Page({
   }
 
   const relatedPosts = await getServiceRelatedPosts(
-    currentForeignDesk.latestBlogPostsRefs || [],
-    currentForeignDesk.bdkInsightsRefs || []
+    currentForeignDesk.latestBlogPostsRefs,
+    currentForeignDesk.bdkInsightsRefs
   );
 
   return (

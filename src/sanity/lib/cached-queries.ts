@@ -303,12 +303,15 @@ export const getBlinkdraftSubscriptionFormData = async (
 };
 
 export const getServiceRelatedPosts = async (
-  latestBlogPostsRefs: string[],
-  bdkInsightsRefs: string[]
+  latestBlogPostsRefs: string[] | null,
+  bdkInsightsRefs: string[] | null
 ): Promise<SERVICE_RELATED_POSTS_QUERYResult> => {
   return await sanityFetch({
     query: SERVICE_RELATED_POSTS_QUERY,
-    params: { latestBlogPostsRefs, bdkInsightsRefs },
+    params: {
+      latestBlogPostsRefs: latestBlogPostsRefs || [],
+      bdkInsightsRefs: bdkInsightsRefs || []
+    },
     tags: ['posts'],
   });
 };

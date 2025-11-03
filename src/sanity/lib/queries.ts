@@ -291,13 +291,13 @@ export const FOREIGN_DESK_QUERY = defineQuery(`{
 }`);
 
 export const SERVICE_RELATED_POSTS_QUERY = defineQuery(`{
-  "latestBlogPosts": *[_type == "post" && status == "publish" && _id in $latestBlogPostsRefs] | order(date desc)[0...4]{
+  "latestBlogPosts": *[_type == "post" && status == "publish" && count((categories[]._ref)[@ in $latestBlogPostsRefs]) > 0] | order(date desc)[0...4]{
     _id,
     title,
     slug,
     date,
   },
-  "bdkInsights": *[_type == "post" && status == "publish" && _id in $bdkInsightsRefs] | order(date desc)[0...4]{
+  "bdkInsights": *[_type == "post" && status == "publish" && count((categories[]._ref)[@ in $bdkInsightsRefs]) > 0] | order(date desc)[0...4]{
     _id,
     title,
     slug,
