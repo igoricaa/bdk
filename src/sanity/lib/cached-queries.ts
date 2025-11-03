@@ -26,6 +26,7 @@ import {
   PRIVACY_NOTICE_QUERY,
   COOKIE_POLICY_QUERY,
   BLINKDRAFT_SUBSCRIPTION_FORM_QUERY,
+  SERVICE_RELATED_POSTS_QUERY,
 } from './queries';
 import type {
   GENERAL_INFO_QUERYResult,
@@ -53,6 +54,7 @@ import type {
   PRIVACY_NOTICE_QUERYResult,
   COOKIE_POLICY_QUERYResult,
   BLINKDRAFT_SUBSCRIPTION_FORM_QUERYResult,
+  SERVICE_RELATED_POSTS_QUERYResult,
 } from '@/sanity.types';
 
 // --- Singleton Page Data ---
@@ -297,5 +299,16 @@ export const getBlinkdraftSubscriptionFormData = async (
     query: BLINKDRAFT_SUBSCRIPTION_FORM_QUERY,
     params: { locale },
     tags: ['blinkdraft', `subscriptionForm-${locale}`],
+  });
+};
+
+export const getServiceRelatedPosts = async (
+  latestBlogPostsRefs: string[],
+  bdkInsightsRefs: string[]
+): Promise<SERVICE_RELATED_POSTS_QUERYResult> => {
+  return await sanityFetch({
+    query: SERVICE_RELATED_POSTS_QUERY,
+    params: { latestBlogPostsRefs, bdkInsightsRefs },
+    tags: ['posts'],
   });
 };

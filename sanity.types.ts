@@ -2643,7 +2643,7 @@ export type SERVICES_QUERYResult = {
   }>;
 };
 // Variable: SERVICE_QUERY
-// Query: {  "currentService": *[_type == $type && slug.current == $slug][0]{    _id,    _type,    title,    slug,    description,    relatedExpertise[]->{      _id,      _type,      title,      slug    },    illustration{      desktop,      tablet,      mobile    },    testimonials[]{      text,      author    },    publications,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo,      isVisible    },    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },  },}
+// Query: {  "currentService": *[_type == $type && slug.current == $slug][0]{    _id,    _type,    title,    slug,    description,    relatedExpertise[]->{      _id,      _type,      title,      slug    },    illustration{      desktop,      tablet,      mobile    },    testimonials[]{      text,      author    },    publications,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo,      isVisible    },    "latestBlogPostsRefs": latestBlogPosts[]._ref,    "bdkInsightsRefs": bdkInsights[]._ref,  },}
 export type SERVICE_QUERYResult = {
   currentService: {
     _id: string;
@@ -2656,18 +2656,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "author";
@@ -2679,18 +2669,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "blinkdraft";
@@ -2702,18 +2682,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "careerPage";
@@ -2725,18 +2695,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "category";
@@ -2748,18 +2708,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "cookiePolicy";
@@ -2771,18 +2721,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "country";
@@ -2826,18 +2766,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "foreignDesk";
@@ -2998,18 +2928,8 @@ export type SERVICE_QUERYResult = {
       } | null;
       isVisible: boolean | null;
     }>;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: Array<string> | null;
   } | {
     _id: string;
     _type: "generalInfo";
@@ -3021,18 +2941,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "homePage";
@@ -3044,18 +2954,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "industry";
@@ -3184,18 +3084,8 @@ export type SERVICE_QUERYResult = {
       } | null;
       isVisible: boolean | null;
     }> | null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: Array<string> | null;
+    bdkInsightsRefs: Array<string> | null;
   } | {
     _id: string;
     _type: "lawyer";
@@ -3210,18 +3100,8 @@ export type SERVICE_QUERYResult = {
     }> | null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "lawyerCategory";
@@ -3233,18 +3113,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "mux.videoAsset";
@@ -3256,18 +3126,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "openPosition";
@@ -3279,18 +3139,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "peoplePage";
@@ -3302,18 +3152,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "post";
@@ -3337,18 +3177,8 @@ export type SERVICE_QUERYResult = {
       };
     } | null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "practice";
@@ -3477,18 +3307,8 @@ export type SERVICE_QUERYResult = {
       } | null;
       isVisible: boolean | null;
     }> | null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: Array<string> | null;
+    bdkInsightsRefs: Array<string> | null;
   } | {
     _id: string;
     _type: "privacyNotice";
@@ -3500,18 +3320,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "sanity.fileAsset";
@@ -3523,18 +3333,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "sanity.imageAsset";
@@ -3546,18 +3346,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "subscriptionForm";
@@ -3569,18 +3359,8 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | {
     _id: string;
     _type: "translation.metadata";
@@ -3592,22 +3372,12 @@ export type SERVICE_QUERYResult = {
     testimonials: null;
     publications: null;
     lawyers: null;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: null;
   } | null;
 };
 // Variable: FOREIGN_DESK_QUERY
-// Query: {  "currentForeignDesk": *[_type == "foreignDesk" && slug.current == $slug][0]{    ...,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo,      isVisible    },    newsroom[]->{      _id,      title,      slug,      date,    },    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{      _id,      title,      slug,      date,    },  },}
+// Query: {  "currentForeignDesk": *[_type == "foreignDesk" && slug.current == $slug][0]{    ...,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo,      isVisible    },    newsroom[]->{      _id,      title,      slug,      date,    },    "latestBlogPostsRefs": latestBlogPosts[]._ref,    "bdkInsightsRefs": bdkInsights[]._ref,  },}
 export type FOREIGN_DESK_QUERYResult = {
   currentForeignDesk: {
     _id: string;
@@ -3747,19 +3517,32 @@ export type FOREIGN_DESK_QUERYResult = {
       _key: string;
       [internalGroqTypeReferenceTo]?: "category";
     }>;
-    bdkInsights: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
+    bdkInsights?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "category";
     }>;
-    latestBlogPosts: Array<{
-      _id: string;
-      title: string;
-      slug: Slug;
-      date: string;
-    }>;
+    latestBlogPostsRefs: null;
+    bdkInsightsRefs: Array<string> | null;
   } | null;
+};
+// Variable: SERVICE_RELATED_POSTS_QUERY
+// Query: {  "latestBlogPosts": *[_type == "post" && status == "publish" && _id in $latestBlogPostsRefs] | order(date desc)[0...4]{    _id,    title,    slug,    date,  },  "bdkInsights": *[_type == "post" && status == "publish" && _id in $bdkInsightsRefs] | order(date desc)[0...4]{    _id,    title,    slug,    date,  },}
+export type SERVICE_RELATED_POSTS_QUERYResult = {
+  latestBlogPosts: Array<{
+    _id: string;
+    title: string;
+    slug: Slug;
+    date: string;
+  }>;
+  bdkInsights: Array<{
+    _id: string;
+    title: string;
+    slug: Slug;
+    date: string;
+  }>;
 };
 // Variable: AUTHORS_QUERY
 // Query: *[_type == "author"] {    slug,}
@@ -4466,8 +4249,9 @@ declare module "@sanity/client" {
     "{\n  \"lawyers\": *[_type == \"lawyer\" && (!defined(isVisible) || isVisible == true)]{\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug,\n      order,\n      orderedLawyers[]->{\n        _id,\n        slug\n      }\n    },\n    contactInfo,\n    areasOfExpertise\n  }\n}": LAWYERS_QUERYResult;
     "{\n  \"categories\": *[_type == \"lawyerCategory\"] | order(order asc) {\n    _id,\n    title,\n    slug,\n    order,\n    \"orderedLawyers\": orderedLawyers[]->{ \n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo {\n        linkedin\n      },\n      isVisible,\n      areasOfExpertise\n    }\n  }\n}": LAWYERS_BY_CATEGORY_QUERYResult;
     "{\n  \"industries\": *[_type == \"industry\"] | order(lower(title) asc){\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"practices\": *[_type == \"practice\"] | order(lower(title) asc){\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"foreignDesks\": *[_type == \"foreignDesk\"] | order(lower(title) asc){\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  }\n}": SERVICES_QUERYResult;
-    "{\n  \"currentService\": *[_type == $type && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    description,\n    relatedExpertise[]->{\n      _id,\n      _type,\n      title,\n      slug\n    },\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    },\n    testimonials[]{\n      text,\n      author\n    },\n    publications,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo,\n      isVisible\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n}": SERVICE_QUERYResult;
-    "{\n  \"currentForeignDesk\": *[_type == \"foreignDesk\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo,\n      isVisible\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPosts\": *[_type == \"post\" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"bdkInsights\": *[_type == \"post\" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{\n      _id,\n      title,\n      slug,\n      date,\n    },\n  },\n}": FOREIGN_DESK_QUERYResult;
+    "{\n  \"currentService\": *[_type == $type && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    description,\n    relatedExpertise[]->{\n      _id,\n      _type,\n      title,\n      slug\n    },\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    },\n    testimonials[]{\n      text,\n      author\n    },\n    publications,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo,\n      isVisible\n    },\n    \"latestBlogPostsRefs\": latestBlogPosts[]._ref,\n    \"bdkInsightsRefs\": bdkInsights[]._ref,\n  },\n}": SERVICE_QUERYResult;
+    "{\n  \"currentForeignDesk\": *[_type == \"foreignDesk\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo,\n      isVisible\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPostsRefs\": latestBlogPosts[]._ref,\n    \"bdkInsightsRefs\": bdkInsights[]._ref,\n  },\n}": FOREIGN_DESK_QUERYResult;
+    "{\n  \"latestBlogPosts\": *[_type == \"post\" && status == \"publish\" && _id in $latestBlogPostsRefs] | order(date desc)[0...4]{\n    _id,\n    title,\n    slug,\n    date,\n  },\n  \"bdkInsights\": *[_type == \"post\" && status == \"publish\" && _id in $bdkInsightsRefs] | order(date desc)[0...4]{\n    _id,\n    title,\n    slug,\n    date,\n  },\n}": SERVICE_RELATED_POSTS_QUERYResult;
     "*[_type == \"author\"] {\n    slug,\n}": AUTHORS_QUERYResult;
     "*[_type == \"post\" && status == \"publish\"]{\n  slug\n}": POSTS_QUERY_WITH_SLUGSResult;
     "{\n    \"currentPost\": *[_type == \"post\" && slug.current == $slug && status == \"publish\"][0]{\n      _id,\n      title,\n      slug,\n      date,\n      modified,\n      status,\n      content,\n      excerpt,\n      featuredMedia,\n      \"publication\": {\n        \"externalUrl\": publications.url,\n        \"downloadUrl\": publications.download.asset->url\n      },\n      authors[]->{\n        _id,\n        type,\n        name,\n        slug,\n        lawyer->{\n          name,\n          title,\n          picture,\n          slug\n        },\n      },\n      categories[]->{\n        _id,\n        name,\n        slug,\n        \"parentCategories\": parent[]->{\n          _id,\n          name,\n          slug,\n          \"parentCategories\": parent[]->{\n            _id,\n            name,\n            slug\n          }\n        }\n      }\n    },\n    \"previousPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date < *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0]{\n      title,\n      slug\n    },\n    \"nextPost\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && date > *[_type == \"post\" && slug.current == $slug][0].date\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date asc)[0]{\n      title,\n      slug\n    },\n    \"relatedPosts\": *[\n      _type == \"post\" \n      && status == \"publish\" \n      && slug.current != $slug\n      && references(*[_type==\"category\" && _id in *[_type == \"post\" && slug.current == $slug][0].categories[]._ref]._id)\n    ] | order(date desc)[0...12]{\n      title,\n      slug,\n      date,\n      categories[]->{\n        _id,\n        name,\n        slug\n      }\n    }\n  }": POST_QUERYResult;

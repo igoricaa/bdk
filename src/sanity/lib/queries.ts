@@ -262,18 +262,8 @@ export const SERVICE_QUERY = defineQuery(`{
       contactInfo,
       isVisible
     },
-    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{
-      _id,
-      title,
-      slug,
-      date,
-    },
-    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{
-      _id,
-      title,
-      slug,
-      date,
-    },
+    "latestBlogPostsRefs": latestBlogPosts[]._ref,
+    "bdkInsightsRefs": bdkInsights[]._ref,
   },
 }`);
 
@@ -295,18 +285,23 @@ export const FOREIGN_DESK_QUERY = defineQuery(`{
       slug,
       date,
     },
-    "latestBlogPosts": *[_type == "post" && references(^.latestBlogPosts[]._ref)] | order(date desc)[0...4]{
-      _id,
-      title,
-      slug,
-      date,
-    },
-    "bdkInsights": *[_type == "post" && references(^.bdkInsights[]._ref)] | order(date desc)[0...4]{
-      _id,
-      title,
-      slug,
-      date,
-    },
+    "latestBlogPostsRefs": latestBlogPosts[]._ref,
+    "bdkInsightsRefs": bdkInsights[]._ref,
+  },
+}`);
+
+export const SERVICE_RELATED_POSTS_QUERY = defineQuery(`{
+  "latestBlogPosts": *[_type == "post" && status == "publish" && _id in $latestBlogPostsRefs] | order(date desc)[0...4]{
+    _id,
+    title,
+    slug,
+    date,
+  },
+  "bdkInsights": *[_type == "post" && status == "publish" && _id in $bdkInsightsRefs] | order(date desc)[0...4]{
+    _id,
+    title,
+    slug,
+    date,
   },
 }`);
 

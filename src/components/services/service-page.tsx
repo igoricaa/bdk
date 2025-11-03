@@ -1,4 +1,4 @@
-import { Lawyer, Post, SERVICE_QUERYResult } from '@/sanity.types';
+import { Lawyer, Slug, SERVICE_QUERYResult, SERVICE_RELATED_POSTS_QUERYResult } from '@/sanity.types';
 import { ServiceData } from '@/src/types/service';
 import ServiceHeroSection from './service-hero-section';
 import SimpleServiceContentSection from './simple-service-content-section';
@@ -13,27 +13,51 @@ import { AnimateOnLoad } from '../animations/animate-on-load';
 interface ServicePageProps {
   serviceType: 'practice' | 'industry' | 'foreign-desk';
   currentService: ServiceData;
+  relatedPosts?: SERVICE_RELATED_POSTS_QUERYResult;
+}
+
+interface RelatedPost {
+  title: string;
+  slug: Slug;
+  date: string;
 }
 
 const ServicePage = ({
   serviceType,
   currentService,
+  relatedPosts,
 }: ServicePageProps) => {
   if (!currentService) {
     return <div>No {serviceType} found</div>;
   }
 
-  const blogPosts = (
-    currentService.latestBlogPosts && currentService.latestBlogPosts.length > 0
-      ? currentService.latestBlogPosts
+  const blogPosts: RelatedPost[] = (
+    relatedPosts?.latestBlogPosts && relatedPosts.latestBlogPosts.length > 0
+      ? relatedPosts.latestBlogPosts
       : []
-  ).filter((post) => post.title && post.date) as Post[];
+  )
+    .filter((post): post is NonNullable<typeof post> =>
+      Boolean(post.title && post.date && post.slug)
+    )
+    .map(post => ({
+      title: post.title!,
+      slug: post.slug!,
+      date: post.date!,
+    }));
 
-  const insightsPosts = (
-    currentService.bdkInsights && currentService.bdkInsights.length > 0
-      ? currentService.bdkInsights
+  const insightsPosts: RelatedPost[] = (
+    relatedPosts?.bdkInsights && relatedPosts.bdkInsights.length > 0
+      ? relatedPosts.bdkInsights
       : []
-  ).filter((post) => post.title && post.date) as Post[];
+  )
+    .filter((post): post is NonNullable<typeof post> =>
+      Boolean(post.title && post.date && post.slug)
+    )
+    .map(post => ({
+      title: post.title!,
+      slug: post.slug!,
+      date: post.date!,
+    }));
 
   const hasAnyPosts =
     (blogPosts && blogPosts.length > 0) ||

@@ -1,6 +1,7 @@
 import ServicePage from '@/src/components/services/service-page';
 import {
   getServicePageData,
+  getServiceRelatedPosts,
   getServicesData,
 } from '@/src/sanity/lib/cached-queries';
 
@@ -26,5 +27,16 @@ export default async function Page({
     return <div>Practice not found</div>;
   }
 
-  return <ServicePage serviceType='practice' currentService={currentService} />;
+  const relatedPosts = await getServiceRelatedPosts(
+    currentService.latestBlogPostsRefs || [],
+    currentService.bdkInsightsRefs || []
+  );
+
+  return (
+    <ServicePage
+      serviceType='practice'
+      currentService={currentService}
+      relatedPosts={relatedPosts}
+    />
+  );
 }

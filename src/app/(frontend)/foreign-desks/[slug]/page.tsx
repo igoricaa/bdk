@@ -1,6 +1,7 @@
 import ServicePage from '@/src/components/services/service-page';
 import {
   getForeignDeskPageData,
+  getServiceRelatedPosts,
   getServicesData,
 } from '@/src/sanity/lib/cached-queries';
 
@@ -26,10 +27,16 @@ export default async function Page({
     return <div>Foreign desk not found</div>;
   }
 
+  const relatedPosts = await getServiceRelatedPosts(
+    currentForeignDesk.latestBlogPostsRefs || [],
+    currentForeignDesk.bdkInsightsRefs || []
+  );
+
   return (
     <ServicePage
       serviceType='foreign-desk'
       currentService={currentForeignDesk}
+      relatedPosts={relatedPosts}
     />
   );
 }
