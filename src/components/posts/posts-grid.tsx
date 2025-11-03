@@ -352,9 +352,11 @@ const PostsGrid = ({
           )}
         </section>
 
-        <div className='col-span-full mt-12 flex justify-center'>
+        <div className='col-span-full mt-12 flex justify-center items-end'>
           {isFetchingNextPage ? (
-            <p className='text-light-blue'>Loading more posts...</p>
+            <p className='text-light-blue xl:text-lg py-2.5'>
+              Loading more posts...
+            </p>
           ) : !isMobile &&
             hasNextPage &&
             !isFiltering &&
