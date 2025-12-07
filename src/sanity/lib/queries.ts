@@ -1,4 +1,4 @@
-import { defineQuery } from 'next-sanity';
+import { defineQuery } from "next-sanity";
 
 export const HOME_PAGE_QUERY = defineQuery(`{
   "homePage": *[_type == "homePage"][0],
@@ -260,7 +260,8 @@ export const SERVICE_QUERY = defineQuery(`{
       picture,
       slug,
       contactInfo,
-      isVisible
+      isVisible,
+      areasOfExpertise
     },
     "latestBlogPostsRefs": latestBlogPosts[]._ref,
     "bdkInsightsRefs": bdkInsights[]._ref,
@@ -310,7 +311,7 @@ export const AUTHORS_QUERY = defineQuery(`*[_type == "author"] {
 }`);
 
 export const POSTS_QUERY_WITH_SLUGS =
-  defineQuery(`*[_type == "post" && status == "publish"]{
+	defineQuery(`*[_type == "post" && status == "publish"]{
   slug
 }`);
 

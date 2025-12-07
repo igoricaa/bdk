@@ -2643,7 +2643,7 @@ export type SERVICES_QUERYResult = {
   }>;
 };
 // Variable: SERVICE_QUERY
-// Query: {  "currentService": *[_type == $type && slug.current == $slug][0]{    _id,    _type,    title,    slug,    description,    relatedExpertise[]->{      _id,      _type,      title,      slug    },    illustration{      desktop,      tablet,      mobile    },    testimonials[]{      text,      author    },    publications,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo,      isVisible    },    "latestBlogPostsRefs": latestBlogPosts[]._ref,    "bdkInsightsRefs": bdkInsights[]._ref,  },}
+// Query: {  "currentService": *[_type == $type && slug.current == $slug][0]{    _id,    _type,    title,    slug,    description,    relatedExpertise[]->{      _id,      _type,      title,      slug    },    illustration{      desktop,      tablet,      mobile    },    testimonials[]{      text,      author    },    publications,    lawyers[]->{      _id,      name,      title,      picture,      slug,      contactInfo,      isVisible,      areasOfExpertise    },    "latestBlogPostsRefs": latestBlogPosts[]._ref,    "bdkInsightsRefs": bdkInsights[]._ref,  },}
 export type SERVICE_QUERYResult = {
   currentService: {
     _id: string;
@@ -2927,6 +2927,9 @@ export type SERVICE_QUERYResult = {
         linkedin?: string;
       } | null;
       isVisible: boolean | null;
+      areasOfExpertise: {
+        items?: Array<string>;
+      } | null;
     }>;
     latestBlogPostsRefs: null;
     bdkInsightsRefs: Array<string> | null;
@@ -3083,6 +3086,9 @@ export type SERVICE_QUERYResult = {
         linkedin?: string;
       } | null;
       isVisible: boolean | null;
+      areasOfExpertise: {
+        items?: Array<string>;
+      } | null;
     }> | null;
     latestBlogPostsRefs: Array<string> | null;
     bdkInsightsRefs: Array<string> | null;
@@ -3306,6 +3312,9 @@ export type SERVICE_QUERYResult = {
         linkedin?: string;
       } | null;
       isVisible: boolean | null;
+      areasOfExpertise: {
+        items?: Array<string>;
+      } | null;
     }> | null;
     latestBlogPostsRefs: Array<string> | null;
     bdkInsightsRefs: Array<string> | null;
@@ -4282,7 +4291,7 @@ declare module "@sanity/client" {
     "{\n  \"lawyers\": *[_type == \"lawyer\" && (!defined(isVisible) || isVisible == true)]{\n    name,\n    title,\n    picture,\n    slug,\n    category->{\n      _id,\n      title,\n      slug,\n      order,\n      orderedLawyers[]->{\n        _id,\n        slug\n      }\n    },\n    contactInfo,\n    areasOfExpertise\n  }\n}": LAWYERS_QUERYResult;
     "{\n  \"categories\": *[_type == \"lawyerCategory\"] | order(order asc) {\n    _id,\n    title,\n    slug,\n    order,\n    \"orderedLawyers\": orderedLawyers[]->{ \n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo {\n        linkedin\n      },\n      isVisible,\n      areasOfExpertise\n    }\n  }\n}": LAWYERS_BY_CATEGORY_QUERYResult;
     "{\n  \"industries\": *[_type == \"industry\"] | order(lower(title) asc){\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"practices\": *[_type == \"practice\"] | order(lower(title) asc){\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  },\n  \"foreignDesks\": *[_type == \"foreignDesk\"] | order(lower(title) asc){\n    title,\n    slug,\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    }\n  }\n}": SERVICES_QUERYResult;
-    "{\n  \"currentService\": *[_type == $type && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    description,\n    relatedExpertise[]->{\n      _id,\n      _type,\n      title,\n      slug\n    },\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    },\n    testimonials[]{\n      text,\n      author\n    },\n    publications,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo,\n      isVisible\n    },\n    \"latestBlogPostsRefs\": latestBlogPosts[]._ref,\n    \"bdkInsightsRefs\": bdkInsights[]._ref,\n  },\n}": SERVICE_QUERYResult;
+    "{\n  \"currentService\": *[_type == $type && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    description,\n    relatedExpertise[]->{\n      _id,\n      _type,\n      title,\n      slug\n    },\n    illustration{\n      desktop,\n      tablet,\n      mobile\n    },\n    testimonials[]{\n      text,\n      author\n    },\n    publications,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo,\n      isVisible,\n      areasOfExpertise\n    },\n    \"latestBlogPostsRefs\": latestBlogPosts[]._ref,\n    \"bdkInsightsRefs\": bdkInsights[]._ref,\n  },\n}": SERVICE_QUERYResult;
     "{\n  \"currentForeignDesk\": *[_type == \"foreignDesk\" && slug.current == $slug][0]{\n    ...,\n    lawyers[]->{\n      _id,\n      name,\n      title,\n      picture,\n      slug,\n      contactInfo,\n      isVisible\n    },\n    newsroom[]->{\n      _id,\n      title,\n      slug,\n      date,\n    },\n    \"latestBlogPostsRefs\": latestBlogPosts[]._ref,\n    \"bdkInsightsRefs\": bdkInsights[]._ref,\n  },\n}": FOREIGN_DESK_QUERYResult;
     "{\n  \"latestBlogPosts\": *[_type == \"post\" && status == \"publish\" && count((categories[]._ref)[@ in $latestBlogPostsRefs]) > 0] | order(date desc)[0...4]{\n    _id,\n    title,\n    slug,\n    date,\n  },\n  \"bdkInsights\": *[_type == \"post\" && status == \"publish\" && count((categories[]._ref)[@ in $bdkInsightsRefs]) > 0] | order(date desc)[0...4]{\n    _id,\n    title,\n    slug,\n    date,\n  },\n}": SERVICE_RELATED_POSTS_QUERYResult;
     "*[_type == \"author\"] {\n    slug,\n}": AUTHORS_QUERYResult;

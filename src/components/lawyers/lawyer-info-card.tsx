@@ -49,6 +49,29 @@ const LawyerInfoCard = ({ lawyer }: { lawyer: Lawyer }) => {
 							{lawyer.contactInfo?.email}
 						</a>
 					</p>
+					{lawyer.areasOfExpertise?.items?.length && (
+						<>
+							<p className="2xl:text-lg mt-4">
+								{lawyer.areasOfExpertise?.items?.length > 1
+									? "Areas of Expertise:"
+									: "Area of Expertise:"}{" "}
+								{/* <span className="text-light-blue">
+								{lawyer.areasOfExpertise?.items?.join(" | ")}
+							</span> */}
+							</p>
+							<ul className="mt-2 flex gap-1.5">
+								{lawyer.areasOfExpertise?.items?.map((item, index) => (
+									<li key={item} className="flex items-center gap-1.5">
+										<p className="text-light-blue text-lg">{item}</p>
+										{index <
+											(lawyer.areasOfExpertise?.items?.length ?? 0) - 1 && (
+											<span className="text-light-blue text-lg">|</span>
+										)}
+									</li>
+								))}
+							</ul>
+						</>
+					)}
 				</div>
 
 				<TransitionLink
