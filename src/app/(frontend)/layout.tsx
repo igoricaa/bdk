@@ -11,7 +11,6 @@ import { Suspense } from "react";
 import BackToTop from "@/src/components/ui/back-to-top";
 import SplashScreen from "@/src/components/splash-screen/splash-screen";
 import { TransitionProvider } from "@/src/components/transition-link";
-import CustomCursor from "@/src/components/ui/custom-cursor";
 import { PageTransitionWrapper } from "@/src/components/home/PageTransitionWrapper";
 import { AppProvider } from "@/src/components/splash-screen/app-ready-provider";
 import { ReactTempus } from "tempus/react";
@@ -63,7 +62,7 @@ export default function RootLayout({
 									<SplashScreen />
 									<Header />
 									<PageTransitionWrapper>
-										<CustomCursor />
+										{/* <CustomCursor /> */}
 										{children}
 										<Footer />
 										<Suspense>

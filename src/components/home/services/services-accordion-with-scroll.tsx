@@ -110,7 +110,7 @@ const ServicesAccordionItem = ({
 							key={item.title}
 							onMouseEnter={() => setActiveService(item)}
 							className="transition-opacity duration-300 hover:!opacity-100"
-							// data-cursor-zone='services-accordion'
+							data-cursor-zone="services-accordion"
 						>
 							<TransitionLink
 								href={`/${slug}/${item.slug.current}`}

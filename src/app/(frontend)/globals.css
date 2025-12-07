@@ -302,7 +302,7 @@
   .no-scroll {
     overflow: hidden !important;
   }
-/* 
+  /* 
   .no-cursor,
   .no-cursor * {
     cursor: none !important;
@@ -335,7 +335,7 @@
   }
 }
 
-body:has([data-cursor-zone]:hover) * {
+/* body:has([data-cursor-zone]:hover) * {
   cursor: none;
 }
 
@@ -345,4 +345,4 @@ body:has([data-cursor-zone]:hover) * {
 
 [data-cursor-zone='exempt'] * {
   cursor: pointer !important;
-}
+} */
