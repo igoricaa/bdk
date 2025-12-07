@@ -80,11 +80,9 @@ export default Footer;
 const FooterLink = ({
 	children,
 	href,
-	pageName,
 }: {
 	children: React.ReactNode;
 	href: string;
-	pageName?: string;
 }) => {
 	return (
 		<li className="text-grey-text text-base xl:text-sm 2xl:text-lg duration-300 transition-[opacity_color] hover:text-light-blue hover:opacity-100!">
@@ -177,42 +175,25 @@ const MobileLinks = ({
 					<FooterLink href="/career">Career</FooterLink>
 				</MobileAccordionItem>
 				<MobileAccordionItem title="People">
-					<FooterLink href="/people#partners" pageName="Partners & Counsels">
-						Partners & Counsels
-					</FooterLink>
-					<FooterLink href="/people#attorneys" pageName="Attorneys at Law">
-						Attorneys at Law
-					</FooterLink>
-					<FooterLink href="/people#consultants" pageName="Consultants">
-						Consultants
-					</FooterLink>
-					<FooterLink
-						href="/people#juniorAssociates"
-						pageName="Junior Associates"
-					>
+					<FooterLink href="/people#partners">Partners & Counsels</FooterLink>
+					<FooterLink href="/people#attorneys">Attorneys at Law</FooterLink>
+					<FooterLink href="/people#consultants">Consultants</FooterLink>
+					<FooterLink href="/people#juniorAssociates">
 						Junior Associates
 					</FooterLink>
 				</MobileAccordionItem>
 				<MobileAccordionItem title="Expertise">
-					<FooterLink
-						href="/practices/banking-and-finance"
-						pageName="Practices"
-					>
+					<FooterLink href="/practices/banking-and-finance">
 						Practices
 					</FooterLink>
-					<FooterLink
-						href="/industries/energy-and-natural-resources"
-						pageName="Industries"
-					>
+					<FooterLink href="/industries/energy-and-natural-resources">
 						Industries
 					</FooterLink>
 				</MobileAccordionItem>
 				<MobileAccordionItem title="Newsroom">
 					<FooterLink href="/bdknowledge">BDKnowledge</FooterLink>
 					<FooterLink href="/blog">Blog</FooterLink>
-					<FooterLink href="/digital-watch" pageName="Digital Watch">
-						Digital Watch
-					</FooterLink>
+					<FooterLink href="/digital-watch">Digital Watch</FooterLink>
 					<FooterLink href="/insights">Insights</FooterLink>
 					<FooterLink href="/publications">Publications</FooterLink>
 				</MobileAccordionItem>
@@ -285,19 +266,10 @@ const DesktopLinks = ({
 			<div>
 				<FooterHeading>People</FooterHeading>
 				<ul className="flex flex-col gap-y-6 mt-6 lg:has-[li:hover]:[&>li]:opacity-40">
-					<FooterLink href="/people#partners" pageName="Partners & Counsels">
-						Partners & Counsels
-					</FooterLink>
-					<FooterLink href="/people#attorneys" pageName="Attorneys at Law">
-						Attorneys at Law
-					</FooterLink>
-					<FooterLink href="/people#consultants" pageName="Consultants">
-						Consultants
-					</FooterLink>
-					<FooterLink
-						href="/people#juniorAssociates"
-						pageName="Junior Associates"
-					>
+					<FooterLink href="/people#partners">Partners & Counsels</FooterLink>
+					<FooterLink href="/people#attorneys">Attorneys at Law</FooterLink>
+					<FooterLink href="/people#consultants">Consultants</FooterLink>
+					<FooterLink href="/people#juniorAssociates">
 						Junior Associates
 					</FooterLink>
 				</ul>
@@ -305,16 +277,10 @@ const DesktopLinks = ({
 			<div>
 				<FooterHeading>Expertise</FooterHeading>
 				<ul className="flex flex-col gap-y-6 mt-6 lg:has-[li:hover]:[&>li]:opacity-40">
-					<FooterLink
-						href="/practices/banking-and-finance"
-						pageName="Practices"
-					>
+					<FooterLink href="/practices/banking-and-finance">
 						Practices
 					</FooterLink>
-					<FooterLink
-						href="/industries/energy-and-natural-resources"
-						pageName="Industries"
-					>
+					<FooterLink href="/industries/energy-and-natural-resources">
 						Industries
 					</FooterLink>
 				</ul>
@@ -324,10 +290,8 @@ const DesktopLinks = ({
 				<ul className="flex flex-col gap-y-6 mt-6 lg:has-[li:hover]:[&>li]:opacity-40">
 					<FooterLink href="/bdknowledge">BDKnowledge</FooterLink>
 					<FooterLink href="/blog">Blog</FooterLink>
-					<FooterLink href="/digital-watch" pageName="Digital Watch">
-						Digital Watch
-					</FooterLink>
-					<FooterLink href="/insights">Insight</FooterLink>
+					<FooterLink href="/digital-watch">Digital Watch</FooterLink>
+					<FooterLink href="/insights">Insights</FooterLink>
 					<FooterLink href="/publications">Publications</FooterLink>
 				</ul>
 			</div>

@@ -107,7 +107,7 @@ export const FloatingImage = ({
 				src={urlFor(image).url()}
 				alt="BDK Advokati - Hero Image"
 				priority
-				quality={100}
+				quality={80}
 				width={544}
 				height={544}
 				className="h-full w-full object-cover"

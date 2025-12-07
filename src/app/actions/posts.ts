@@ -63,8 +63,8 @@ export const fetchFilteredPosts = createSafeActionClient()
 	.schema(fetchFilteredPostsSchema)
 	.action(async ({ parsedInput: { categorySlug, year, page, authorId } }) => {
 		try {
-			const start = page === 0 ? 0 : 0 + page * POSTS_PER_PAGE;
-			const end = start + POSTS_PER_PAGE;
+			const start = page === 0 ? 0 : page * POSTS_PER_PAGE;
+			const end = start + POSTS_PER_PAGE - 1;
 
 			const queryParams = {
 				categorySlug: categorySlug === "all" ? "all" : categorySlug,

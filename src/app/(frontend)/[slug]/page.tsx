@@ -12,7 +12,6 @@ import {
 	cn,
 	formatDate,
 } from "@/src/lib/utils";
-import RelatedPostsSection from "@/src/components/services/related-posts-section";
 import ShareButtons from "@/src/components/posts/share-buttons";
 import BackToButton from "@/src/components/ui/buttons/back-to-button";
 import { ScrollProgress } from "@/src/components/ui/scroll-progress";
@@ -70,6 +69,7 @@ function findRootCategory(
 export async function generateStaticParams() {
 	const posts: POSTS_QUERY_WITH_SLUGSResult = await sanityFetch({
 		query: POSTS_QUERY_WITH_SLUGS,
+		tags: ["posts"],
 	});
 	return posts.map((post: { slug: { current: string } }) => ({
 		slug: post.slug.current,
@@ -86,6 +86,7 @@ export async function generateMetadata({
 	const { currentPost } = await sanityFetch({
 		query: POST_QUERY,
 		params: { slug },
+		tags: ["posts", `post-${slug}`, "categories", "authors"],
 	});
 
 	if (!currentPost) {
@@ -505,7 +506,7 @@ const PostHeader = ({
 								width={1600}
 								height={1197}
 								priority
-								quality={100}
+								quality={80}
 								className="w-full h-full object-cover"
 							/>
 						) : (
@@ -515,7 +516,7 @@ const PostHeader = ({
 								width={1600}
 								height={1197}
 								priority
-								quality={100}
+								quality={80}
 								className="w-full h-full object-cover"
 							/>
 						)}
