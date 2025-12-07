@@ -38,20 +38,9 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
 	const pathname = usePathname();
 	const router = useRouter();
 
-	const toggleScroll = (value: boolean) => {
-		const body = document.body as HTMLElement;
-		body.style.overflow = value ? "hidden" : "";
-		if (value) {
-			body.setAttribute("data-lenis-prevent", "true");
-		} else {
-			body.removeAttribute("data-lenis-prevent");
-		}
-	};
-
 	useEffect(() => {
 		if (isTransitioning) {
 			setIsTransitioning(false);
-			toggleScroll(false);
 		}
 	}, [pathname]);
 
@@ -59,7 +48,6 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
 		if (pathname === href) return;
 
 		setIsTransitioning(true);
-		toggleScroll(true);
 
 		setTimeout(() => {
 			router.push(href);
