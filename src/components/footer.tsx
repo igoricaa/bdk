@@ -94,7 +94,7 @@ const FooterLink = ({
 };
 
 const FooterHeading = ({ children }: { children: React.ReactNode }) => {
-	return <h2 className="text-sm 2xl:text-lg font-light">{children}</h2>;
+	return <h2 className="text-sm 2xl:text-lg">{children}</h2>;
 };
 
 const FooterSocial = ({ social }: { social: Social }) => {

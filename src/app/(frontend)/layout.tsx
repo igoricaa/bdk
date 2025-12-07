@@ -17,7 +17,7 @@ import { ReactTempus } from "tempus/react";
 
 const dmSans = DM_Sans({
 	subsets: ["latin"],
-	weight: ["300", "400", "500", "600", "700"],
+	weight: ["400", "500", "600", "700"],
 	style: ["normal", "italic"],
 	variable: "--font-dm-sans",
 });
