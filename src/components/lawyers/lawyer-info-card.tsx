@@ -8,7 +8,7 @@ const LawyerInfoCard = ({ lawyer }: { lawyer: Lawyer }) => {
 	return (
 		<article
 			key={lawyer._id}
-			className="col-span-full xl:col-span-1 flex flex-col md:flex-row gap-4 md:gap-9 bg-light-blue-bg/5 rounded-[1.25rem] pt-3.5 pb-5 px-side md:px-4 md:py-5.25 xl:p-4 2xl:p-7.5"
+			className="col-span-full xl:col-span-1 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-9 bg-light-blue-bg/5 rounded-[1.25rem] pt-3.5 pb-5 px-side md:px-4 md:py-5.25 xl:p-4 2xl:p-7.5"
 		>
 			<TransitionLink
 				href={`/people/${lawyer.slug.current}`}
@@ -54,19 +54,12 @@ const LawyerInfoCard = ({ lawyer }: { lawyer: Lawyer }) => {
 							<p className="2xl:text-lg mt-4">
 								{lawyer.areasOfExpertise?.items?.length > 1
 									? "Areas of Expertise:"
-									: "Area of Expertise:"}{" "}
-								{/* <span className="text-light-blue">
-								{lawyer.areasOfExpertise?.items?.join(" | ")}
-							</span> */}
+									: "Area of Expertise:"}
 							</p>
-							<ul className="mt-2 flex gap-1.5">
-								{lawyer.areasOfExpertise?.items?.map((item, index) => (
-									<li key={item} className="flex items-center gap-1.5">
-										<p className="text-light-blue text-lg">{item}</p>
-										{index <
-											(lawyer.areasOfExpertise?.items?.length ?? 0) - 1 && (
-											<span className="text-light-blue text-lg">|</span>
-										)}
+							<ul className="mt-2 flex flex-col gap-1.5 list-disc pl-4">
+								{lawyer.areasOfExpertise?.items?.map((item) => (
+									<li key={item} className="list-marker-blue">
+										<p className="text-light-blue">{item}</p>
 									</li>
 								))}
 							</ul>

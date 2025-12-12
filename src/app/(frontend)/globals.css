@@ -315,6 +315,10 @@
   .text-shadow-light-blue-hover {
     text-shadow: 0px 1.25rem var(--color-light-blue);
   }
+
+  .list-marker-blue::marker {
+    color: hsl(var(--light-blue));
+  }
 }
 
 #home,
